@@ -358,6 +358,331 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-04 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 15,
+    "positive_cnt": 2,
+    "negative_cnt": 4
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-04",
+      "end": "2026-03-07"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "AE150400034",
+      "cnt": 4
+    },
+    {
+      "cns_emp_cd": "CE240100027",
+      "cnt": 4
+    },
+    {
+      "cns_emp_cd": "AE050820001",
+      "cnt": 4
+    },
+    {
+      "cns_emp_cd": "CE231100004",
+      "cnt": 1
+    },
+    {
+      "cns_emp_cd": "CE250600004",
+      "cnt": 1
+    },
+    {
+      "cns_emp_cd": "CE231000036",
+      "cnt": 1
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "ADW",
+      "raw_cnt": 15
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "보강상담",
+      "cnt": 2
+    },
+    {
+      "text": "시간표 상담",
+      "cnt": 2
+    },
+    {
+      "text": "서고력수학 대호반이동에대해",
+      "cnt": 1
+    },
+    {
+      "text": "수업상담",
+      "cnt": 1
+    },
+    {
+      "text": "영재모의고사 상담",
+      "cnt": 1
+    },
+    {
+      "text": "시간표 변동 안내",
+      "cnt": 1
+    },
+    {
+      "text": "보강상담-부재중",
+      "cnt": 1
+    },
+    {
+      "text": "3월 시간표 변경-전화 받지 않음",
+      "cnt": 1
+    },
+    {
+      "text": "교과상담",
+      "cnt": 1
+    },
+    {
+      "text": "수시상담 - 학습태도와 정답률 좋아짐",
+      "cnt": 1
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "상담드림",
+      "cnt": 6,
+      "icon": "📌",
+      "desc": "ADW 상담 내용 주요 키워드"
+    },
+    {
+      "text": "진도",
+      "cnt": 4,
+      "icon": "📌",
+      "desc": "ADW 상담 내용 주요 키워드"
+    },
+    {
+      "text": "많이",
+      "cnt": 4,
+      "icon": "📌",
+      "desc": "ADW 상담 내용 주요 키워드"
+    },
+    {
+      "text": "3월",
+      "cnt": 3,
+      "icon": "📌",
+      "desc": "ADW 상담 내용 주요 키워드"
+    },
+    {
+      "text": "토요일",
+      "cnt": 3,
+      "icon": "📌",
+      "desc": "ADW 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [
+    {
+      "text": "힘들어함",
+      "cnt": 2,
+      "icon": "😔"
+    },
+    {
+      "text": "학습 어려움",
+      "cnt": 1,
+      "icon": "😓"
+    }
+  ],
+  "req_keyword_summary": [
+    {
+      "text": "긍정적 피드백",
+      "cnt": 2,
+      "icon": "👍"
+    },
+    {
+      "text": "보강",
+      "cnt": 2,
+      "icon": "📅"
+    }
+  ],
+  "emp_by_cmp": {
+    "ADW": [
+      {
+        "cns_emp_cd": "AE150400034",
+        "cnt": 4
+      },
+      {
+        "cns_emp_cd": "CE240100027",
+        "cnt": 4
+      },
+      {
+        "cns_emp_cd": "AE050820001",
+        "cnt": 4
+      },
+      {
+        "cns_emp_cd": "CE231100004",
+        "cnt": 1
+      },
+      {
+        "cns_emp_cd": "CE250600004",
+        "cnt": 1
+      },
+      {
+        "cns_emp_cd": "CE231000036",
+        "cnt": 1
+      }
+    ]
+  },
+  "by_cmp": {
+    "ADW": {
+      "period": {
+        "start": "2026-02-04",
+        "end": "2026-03-07"
+      },
+      "titles": [
+        {
+          "text": "보강상담",
+          "cnt": 2
+        },
+        {
+          "text": "시간표 상담",
+          "cnt": 2
+        },
+        {
+          "text": "서고력수학 대호반이동에대해",
+          "cnt": 1
+        },
+        {
+          "text": "수업상담",
+          "cnt": 1
+        },
+        {
+          "text": "영재모의고사 상담",
+          "cnt": 1
+        },
+        {
+          "text": "시간표 변동 안내",
+          "cnt": 1
+        },
+        {
+          "text": "보강상담-부재중",
+          "cnt": 1
+        },
+        {
+          "text": "3월 시간표 변경-전화 받지 않음",
+          "cnt": 1
+        },
+        {
+          "text": "교과상담",
+          "cnt": 1
+        },
+        {
+          "text": "수시상담 - 학습태도와 정답률 좋아짐",
+          "cnt": 1
+        }
+      ],
+      "tokens": [
+        {
+          "text": "상담드림",
+          "cnt": 6
+        },
+        {
+          "text": "진도",
+          "cnt": 4
+        },
+        {
+          "text": "많이",
+          "cnt": 4
+        },
+        {
+          "text": "3월",
+          "cnt": 3
+        },
+        {
+          "text": "토요일",
+          "cnt": 3
+        },
+        {
+          "text": "힘들어",
+          "cnt": 3
+        },
+        {
+          "text": "하심",
+          "cnt": 2
+        },
+        {
+          "text": "수업",
+          "cnt": 2
+        }
+      ],
+      "total_cnt": 15,
+      "positive_cnt": 2,
+      "negative_cnt": 4,
+      "req_keyword_detail": [
+        {
+          "text": "상담드림",
+          "cnt": 6,
+          "icon": "📌",
+          "desc": "ADW 상담 내용 주요 키워드"
+        },
+        {
+          "text": "진도",
+          "cnt": 4,
+          "icon": "📌",
+          "desc": "ADW 상담 내용 주요 키워드"
+        },
+        {
+          "text": "많이",
+          "cnt": 4,
+          "icon": "📌",
+          "desc": "ADW 상담 내용 주요 키워드"
+        },
+        {
+          "text": "3월",
+          "cnt": 3,
+          "icon": "📌",
+          "desc": "ADW 상담 내용 주요 키워드"
+        },
+        {
+          "text": "토요일",
+          "cnt": 3,
+          "icon": "📌",
+          "desc": "ADW 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "긍정적 피드백",
+          "cnt": 2,
+          "icon": "👍"
+        },
+        {
+          "text": "보강",
+          "cnt": 2,
+          "icon": "📅"
+        }
+      ],
+      "negative_feedback": [
+        {
+          "text": "힘들어함",
+          "cnt": 2,
+          "icon": "😔"
+        },
+        {
+          "text": "학습 어려움",
+          "cnt": 1,
+          "icon": "😓"
+        }
+      ]
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

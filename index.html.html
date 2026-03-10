@@ -1,0 +1,1317 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <title>상담 AI 리포트</title>
+  <style>
+    :root{
+      --bg:#f5f7fa;
+      --panel:#ffffff;
+      --text:#1a1d21;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+      --accent:#6366f1;
+      --accent-light:#eef2ff;
+      --success:#10b981;
+      --warning:#f59e0b;
+      --danger:#ef4444;
+      --shadow: 0 1px 3px rgba(0,0,0,.08);
+      --radius: 16px;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans KR", sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: var(--bg);
+      color:var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .wrap{max-width: 480px; margin: 0 auto; padding: 0 16px 32px; min-height: 100%;}
+
+    /* Header */
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 10;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topLeft{display:flex; align-items:center; gap:12px;}
+    .backBtn{
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: none;
+      background: var(--panel);
+      color: var(--text);
+      cursor: pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size: 16px;
+      box-shadow: var(--shadow);
+    }
+    .topTitle{
+      font-size: 17px;
+      font-weight: 700;
+    }
+    .linkBtn{
+      background: transparent;
+      border: none;
+      padding: 8px 0;
+      color: var(--accent);
+      font-size: 13px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    /* Filters */
+    .filterRow{
+      display:flex;
+      flex-wrap: wrap;
+      gap:8px;
+      margin: 16px 0;
+    }
+    select{
+      flex: 1;
+      min-width: 100px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color: var(--text);
+      padding: 10px 12px;
+      outline: none;
+      font-size: 12px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+    }
+    select:focus{
+      border-color: var(--accent);
+    }
+
+    /* Cards */
+    .card{
+      background: var(--panel);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .introCard{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+    }
+    .introIcon{
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-shrink: 0;
+      font-size: 18px;
+      color: white;
+    }
+    .introText{
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .periodRow{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      margin-bottom: 12px;
+    }
+    .periodIcon{font-size: 18px;}
+    .periodTitle{font-size: 16px; font-weight: 700;}
+
+    .summaryText{
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .sectionHeader{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      margin-bottom: 12px;
+    }
+    .sectionIcon{font-size: 18px;}
+    .sectionTitle{font-size: 15px; font-weight: 700;}
+
+    .sectionIntro{
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+
+    ul{margin: 0; padding-left: 0; list-style: none;}
+    li{
+      padding: 10px 12px;
+      background: var(--bg);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    li:hover{
+      background: var(--accent-light);
+      transform: translateX(4px);
+    }
+    li:last-child{margin-bottom: 0;}
+    li b{font-weight: 600; color: var(--text);}
+    li .cnt{color: var(--accent); font-weight: 600; margin-left: 4px;}
+
+    .subTitle{
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      margin: 16px 0 10px;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .keywordGrid{
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .keywordItem{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 12px;
+      background: var(--bg);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .keywordItem:hover{
+      background: var(--accent-light);
+      transform: translateX(4px);
+    }
+    .keywordIcon{font-size: 16px;}
+    .keywordText{font-size: 12px; color: var(--text);}
+    .keywordCnt{font-size: 12px; color: var(--accent); font-weight: 600; margin-left: auto;}
+
+    .statRow{
+      display:flex;
+      gap:8px;
+      margin-top: 12px;
+    }
+    .statBox{
+      flex:1;
+      padding: 12px;
+      background: var(--accent-light);
+      border-radius: 10px;
+      text-align: center;
+    }
+    .statBox.danger{background: #fef2f2;}
+    .statBox.danger .statNum{color: var(--danger);}
+    .statNum{font-size: 18px; font-weight: 700; color: var(--accent);}
+    .statLabel{font-size: 10px; color: var(--muted); margin-top: 2px;}
+
+    .keywordDetailItem{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      padding: 12px;
+      background: var(--bg);
+      border-radius: 10px;
+      margin-bottom: 8px;
+    }
+    .keywordDetailItem:last-child{margin-bottom: 0;}
+    .keywordDetailIcon{font-size: 18px; flex-shrink: 0;}
+    .keywordDetailContent{flex:1;}
+    .keywordDetailTitle{font-weight: 600; font-size: 13px; display: flex; justify-content: space-between;}
+    .keywordDetailDesc{font-size: 11px; color: var(--muted); margin-top: 2px;}
+
+    .empGrid{
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .empItem{
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+      padding: 8px 10px;
+      background: var(--bg);
+      border-radius: 8px;
+      font-size: 11px;
+    }
+    .empItem .empCode{font-weight: 500; color: var(--text);}
+    .empItem .empCnt{color: var(--accent); font-weight: 600;}
+
+    .chatControls{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      margin-bottom: 10px;
+    }
+    .chatControls select{
+      flex:1;
+      min-width: 0;
+    }
+    .miniBtn{
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 12px;
+      color: var(--text);
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+    .chatList{
+      max-height: 220px;
+      overflow:auto;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px;
+      background: var(--bg);
+      margin-bottom: 10px;
+    }
+    .chatItem{
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+    .chatItem:last-child{margin-bottom: 0;}
+    .chatMeta{
+      font-size: 10px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .chatComposer{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .chatComposer input{
+      flex:1;
+      min-width: 0;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color: var(--text);
+      padding: 10px 12px;
+      font-size: 12px;
+      outline: none;
+    }
+
+    .footer{
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+
+    .statNum{
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .statBox.danger .statNum{
+      color: var(--danger);
+    }
+
+    /* 팝업 모달 */
+    .modal{
+      display: none !important;
+      position: fixed !important;
+      z-index: 9999 !important;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      overflow: auto;
+    }
+    .modal.active{
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content{
+      background-color: var(--panel);
+      padding: 24px;
+      border-radius: var(--radius);
+      max-width: 95vw;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      position: relative;
+      z-index: 10000;
+    }
+    .modal-header{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--line);
+    }
+    .modal-title{
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .modal-close{
+      background: transparent;
+      border: none;
+      font-size: 32px;
+      cursor: pointer;
+      color: var(--muted);
+      padding: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+    .modal-close:hover{
+      color: var(--text);
+      background: var(--bg);
+      border-radius: 8px;
+    }
+    .data-table{
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .data-table th{
+      background: var(--accent-light);
+      padding: 12px 10px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 2px solid var(--accent);
+      color: var(--accent);
+    }
+    .data-table td{
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--line);
+    }
+    .data-table tr:hover{
+      background: var(--bg);
+    }
+    .data-table tbody tr:last-child td{
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="topLeft">
+        <button class="backBtn" title="뒤로">←</button>
+        <div class="topTitle">상담 AI 리포트</div>
+      </div>
+      <button class="linkBtn" type="button">지난 리포트</button>
+    </div>
+
+    <!-- 필터 영역 -->
+    <div class="filterRow">
+      <select id="cmpSelect" aria-label="cmp_cd 선택"></select>
+      <select id="empSelect" aria-label="상담사 선택"></select>
+      <select id="weekSelect" aria-label="주간 선택"></select>
+    </div>
+
+    <!-- 소개 카드 -->
+    <section class="card">
+      <div class="introCard">
+        <div class="introIcon">✦</div>
+        <div class="introText">
+          AI가 지난 기간의 상담 데이터를 분석해 주요 현황을 한눈에 요약했어요. 상담 유형과 내용 키워드를 확인해 보세요!
+        </div>
+      </div>
+    </section>
+
+    <!-- 학생 상담 현황 섹션 -->
+    <section class="card" aria-label="학생 상담 현황">
+      <div class="sectionHeader">
+        <div class="sectionIcon">👨‍🎓</div>
+        <div class="sectionTitle">학생 상담 현황</div>
+      </div>
+      <div class="sectionIntro">2026년 2월 강의 등록 학생 중 상담 진행 현황을 요약했어요.</div>
+      <div class="statRow" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="statBox" style="background: linear-gradient(135deg, #eef2ff, #f5f7fa);">
+          <div class="statNum" id="totalStudents" style="color: var(--accent);">0</div>
+          <div class="statLabel">수강 학생수</div>
+        </div>
+        <div class="statBox">
+          <div class="statNum" id="studentConcurrent">0</div>
+          <div class="statLabel">상담완료</div>
+          <div class="statLabel" id="studentConcurrentRate" style="font-size: 11px; color: var(--accent); margin-top: 4px;">0%</div>
+        </div>
+        <div class="statBox danger">
+          <div class="statNum" id="studentNotCounseled">0</div>
+          <div class="statLabel">미상담</div>
+          <div class="statLabel" id="studentNotCounseledRate" style="font-size: 11px; color: var(--danger); margin-top: 4px;">0%</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 한줄 요약 -->
+    <section class="card" aria-label="한줄 요약">
+      <div class="periodRow">
+        <div class="periodIcon">📅</div>
+        <div class="periodTitle"><span id="periodText">—</span> 한줄 요약</div>
+      </div>
+      <div id="oneLineSummary" class="summaryText"></div>
+      <div class="statRow">
+        <div class="statBox">
+          <div class="statNum" id="totalCnt">0</div>
+          <div class="statLabel">상담 입력</div>
+          <div class="statLabel" id="totalCntRate" style="font-size: 11px; color: var(--accent); margin-top: 4px;">0%</div>
+        </div>
+        <div class="statBox">
+          <div class="statNum" id="positiveCnt">0</div>
+          <div class="statLabel">긍정 키워드</div>
+          <div class="statLabel" id="positiveCntRate" style="font-size: 11px; color: var(--accent); margin-top: 4px;">0%</div>
+        </div>
+        <div class="statBox danger">
+          <div class="statNum" id="negativeCnt">0</div>
+          <div class="statLabel">부정 키워드</div>
+          <div class="statLabel" id="negativeCntRate" style="font-size: 11px; color: var(--danger); margin-top: 4px;">0%</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- cns_st 분석 섹션 -->
+    <section class="card" aria-label="상담 제목 현황">
+      <div class="sectionHeader">
+        <div class="sectionIcon">📋</div>
+        <div class="sectionTitle">상담 제목 분석</div>
+      </div>
+      <div class="sectionIntro">안녕하세요! 😊 이번 기간에 등록된 상담 제목을 분석했어요. 어떤 유형의 상담이 많이 진행되었는지 확인해 보세요.</div>
+      <div class="subTitle">• 주요 상담 제목 TOP 5</div>
+      <ul id="cnsStList"></ul>
+    </section>
+
+    <!-- cns_req_ct 분석 섹션 -->
+    <section class="card" aria-label="상담 내용 분석">
+      <div class="sectionHeader">
+        <div class="sectionIcon">💬</div>
+        <div class="sectionTitle">상담 내용 분석</div>
+      </div>
+      <div class="sectionIntro">상담 내용(cns_req_ct)을 키워드로 상세 분석했어요! 😊 학부모님께 전달된 내용들과 학생들의 학습 상황을 파악해 보세요.</div>
+      
+      <div class="subTitle">• 주요 키워드 TOP 5</div>
+      <div id="reqTop5"></div>
+
+      <div class="subTitle">• 피드백 유형별 현황</div>
+      <div class="keywordGrid" id="keywordGrid"></div>
+
+      <div class="subTitle">• 주의가 필요한 항목 ⚠️</div>
+      <div class="keywordGrid" id="negativeGrid"></div>
+    </section>
+
+    <!-- 상담사별 현황 섹션 -->
+    <section class="card" aria-label="상담사별 현황">
+      <div class="sectionHeader">
+        <div class="sectionIcon">👤</div>
+        <div class="sectionTitle">상담사별 현황</div>
+      </div>
+      <div class="sectionIntro">선택한 cmp_cd 기준으로 상담사(cns_emp_cd)별 상담 건수를 확인해 보세요.</div>
+      <div class="empGrid" id="empGrid"></div>
+    </section>
+
+    <div class="footer">
+      상담 데이터 기반 AI 분석 리포트<br>
+      데이터 기준: <span id="dataRange">2026-02-01 ~</span>
+    </div>
+  </div>
+
+
+
+  <script>
+    // 데이터 인라인 포함
+    window.AI_REPORT_DATA = {
+  meta: {
+    generated_at: "2026-02-20",
+    filter_start: "2026-02-01 00:00:00",
+    source: "db_square.tb_counsel + db_square.tb_counsel_employ",
+    total_cnt: 13056,
+    positive_cnt: 3269,
+    negative_cnt: 321,
+    notes: [
+      "DB 연결 상태에 따라 데이터는 재생성될 수 있습니다.",
+      "개인정보/원문 텍스트는 포함하지 않고 집계만 포함합니다."
+    ]
+  },
+  student_counsel_status: {
+    counseled: 2554,
+    not_counseled: 3811
+  },
+  weeks: [
+    { week_num: "all", label: "전체 (02.01~02.20)", start: "2026-02-01", end: "2026-02-20" },
+    { week_num: "6", label: "1주차 (02.02~02.08)", start: "2026-02-02", end: "2026-02-08" },
+    { week_num: "7", label: "2주차 (02.09~02.15)", start: "2026-02-09", end: "2026-02-15" },
+    { week_num: "8", label: "3주차 (02.18~02.20)", start: "2026-02-18", end: "2026-02-20" }
+  ],
+  emp_index: [
+    { cns_emp_cd: "AE110800042", cnt: 364 },
+    { cns_emp_cd: "CE211000023", cnt: 233 },
+    { cns_emp_cd: "AE121200118", cnt: 214 },
+    { cns_emp_cd: "CE250500015", cnt: 194 },
+    { cns_emp_cd: "BE110900002", cnt: 179 },
+    { cns_emp_cd: "AE070507005", cnt: 177 },
+    { cns_emp_cd: "AE100400008", cnt: 176 },
+    { cns_emp_cd: "CE250500032", cnt: 166 },
+    { cns_emp_cd: "AE110200038", cnt: 134 },
+    { cns_emp_cd: "CE220300015", cnt: 133 },
+    { cns_emp_cd: "AE100300086", cnt: 130 },
+    { cns_emp_cd: "CE230100051", cnt: 127 },
+    { cns_emp_cd: "AE020738028", cnt: 127 },
+    { cns_emp_cd: "AE170200012", cnt: 121 },
+    { cns_emp_cd: "CE220300058", cnt: 114 },
+    { cns_emp_cd: "CE230300058", cnt: 103 },
+    { cns_emp_cd: "CE240100032", cnt: 97 },
+    { cns_emp_cd: "CE250600040", cnt: 95 },
+    { cns_emp_cd: "CE210700051", cnt: 90 },
+    { cns_emp_cd: "AE060107004", cnt: 90 }
+  ],
+  cmp_index: [
+    { cmp_cd: "AAA", raw_cnt: 934 },
+    { cmp_cd: "AAT", raw_cnt: 889 },
+    { cmp_cd: "BFH", raw_cnt: 673 },
+    { cmp_cd: "ACV", raw_cnt: 562 },
+    { cmp_cd: "ADH", raw_cnt: 557 },
+    { cmp_cd: "AAY", raw_cnt: 528 },
+    { cmp_cd: "ACQ", raw_cnt: 470 },
+    { cmp_cd: "ACN", raw_cnt: 451 },
+    { cmp_cd: "ACS", raw_cnt: 420 },
+    { cmp_cd: "AKC", raw_cnt: 415 },
+    { cmp_cd: "AEP", raw_cnt: 394 },
+    { cmp_cd: "AAM", raw_cnt: 374 },
+    { cmp_cd: "AFN", raw_cnt: 372 },
+    { cmp_cd: "AFJ", raw_cnt: 341 },
+    { cmp_cd: "BFU", raw_cnt: 339 },
+    { cmp_cd: "AHN", raw_cnt: 307 },
+    { cmp_cd: "AER", raw_cnt: 282 },
+    { cmp_cd: "ACC", raw_cnt: 267 },
+    { cmp_cd: "AAQ", raw_cnt: 236 },
+    { cmp_cd: "ABN", raw_cnt: 235 }
+  ],
+  cns_st_summary: [
+    { text: "2월 상담", cnt: 339 },
+    { text: "정기상담", cnt: 229 },
+    { text: "2월 정기상담", cnt: 202 },
+    { text: "상담", cnt: 166 },
+    { text: "1월 정기상담", cnt: 140 },
+    { text: "2월 학습상담", cnt: 130 },
+    { text: "1월 상담", cnt: 116 },
+    { text: "2월상담", cnt: 102 },
+    { text: "형성평가", cnt: 97 },
+    { text: "부재", cnt: 86 }
+  ],
+  req_keyword_detail: [
+    { text: "수업", cnt: 4918, icon: "📚", desc: "수업 진행 및 내용 관련" },
+    { text: "말씀드림", cnt: 1291, icon: "💬", desc: "학부모 안내 및 전달" },
+    { text: "안내", cnt: 820, icon: "📢", desc: "공지 및 안내사항" },
+    { text: "보강", cnt: 362, icon: "📅", desc: "보강 수업 관련" },
+    { text: "스케줄/시간", cnt: 224, icon: "⏰", desc: "시간표 및 일정 조율" },
+    { text: "이해도", cnt: 198, icon: "💡", desc: "학습 이해도 평가" },
+    { text: "평가", cnt: 182, icon: "📝", desc: "시험 및 평가 관련" },
+    { text: "실험 수업", cnt: 105, icon: "🔬", desc: "실험 및 실습 수업" },
+    { text: "숙제/과제", cnt: 97, icon: "✏️", desc: "과제 및 숙제 관련" },
+    { text: "칭찬", cnt: 68, icon: "🌟", desc: "학생 칭찬 피드백" }
+  ],
+  negative_feedback: [
+    { text: "학습 어려움", cnt: 1310, icon: "😓" },
+    { text: "결석", cnt: 801, icon: "🚫" },
+    { text: "힘들어함", cnt: 405, icon: "😔" },
+    { text: "불만/싫어함", cnt: 206, icon: "😤" },
+    { text: "휴회", cnt: 195, icon: "⏸️" },
+    { text: "그만두기/퇴원", cnt: 126, icon: "⚠️" }
+  ],
+  req_keyword_summary: [
+    { text: "긍정적 피드백", cnt: 3269, icon: "👍" },
+    { text: "결석/부재", cnt: 1045, icon: "📞" },
+    { text: "보강", cnt: 744, icon: "📅" },
+    { text: "어려움", cnt: 436, icon: "😓" },
+    { text: "칭찬", cnt: 328, icon: "🌟" },
+    { text: "만점/100점", cnt: 293, icon: "💯" },
+    { text: "휴회/그만두기", cnt: 289, icon: "⚠️" }
+  ],
+  emp_by_cmp: {
+    AAA: [
+      { cns_emp_cd: "CE211000023", cnt: 233 },
+      { cns_emp_cd: "AE121200118", cnt: 214 },
+      { cns_emp_cd: "AE070507005", cnt: 177 },
+      { cns_emp_cd: "CE251000004", cnt: 39 },
+      { cns_emp_cd: "CE240600002", cnt: 35 }
+    ],
+    AAT: [
+      { cns_emp_cd: "AE110800042", cnt: 355 },
+      { cns_emp_cd: "CE250600040", cnt: 95 },
+      { cns_emp_cd: "BE170200008", cnt: 58 },
+      { cns_emp_cd: "AE100300036", cnt: 58 },
+      { cns_emp_cd: "CE240900001", cnt: 55 }
+    ],
+    BFH: [
+      { cns_emp_cd: "BE110900002", cnt: 179 },
+      { cns_emp_cd: "CE220300015", cnt: 133 },
+      { cns_emp_cd: "CE220500019", cnt: 84 },
+      { cns_emp_cd: "CE240600011", cnt: 76 },
+      { cns_emp_cd: "CE231200012", cnt: 75 }
+    ],
+    ACV: [
+      { cns_emp_cd: "CE250500015", cnt: 194 },
+      { cns_emp_cd: "CE230100051", cnt: 127 },
+      { cns_emp_cd: "CE260200004", cnt: 61 },
+      { cns_emp_cd: "AE151100059", cnt: 42 },
+      { cns_emp_cd: "CE250300034", cnt: 34 }
+    ],
+    ADH: [
+      { cns_emp_cd: "AE060501001", cnt: 64 },
+      { cns_emp_cd: "CE250900005", cnt: 40 },
+      { cns_emp_cd: "CE250800007", cnt: 35 },
+      { cns_emp_cd: "AE181100022", cnt: 34 },
+      { cns_emp_cd: "AE130500033", cnt: 33 }
+    ],
+    AAY: [
+      { cns_emp_cd: "CE250200007", cnt: 50 },
+      { cns_emp_cd: "AE181000019", cnt: 44 },
+      { cns_emp_cd: "AE090500078", cnt: 44 },
+      { cns_emp_cd: "AE111200065", cnt: 41 },
+      { cns_emp_cd: "AE141000017", cnt: 41 }
+    ],
+    ACQ: [
+      { cns_emp_cd: "AE100300086", cnt: 130 },
+      { cns_emp_cd: "AE020738028", cnt: 127 },
+      { cns_emp_cd: "CE240700019", cnt: 67 },
+      { cns_emp_cd: "AE080900076", cnt: 44 },
+      { cns_emp_cd: "CE210800032", cnt: 36 }
+    ],
+    ACN: [
+      { cns_emp_cd: "AE060107004", cnt: 90 },
+      { cns_emp_cd: "CE250900010", cnt: 47 },
+      { cns_emp_cd: "AE161200011", cnt: 45 },
+      { cns_emp_cd: "AE160700031", cnt: 44 },
+      { cns_emp_cd: "CE250300005", cnt: 43 }
+    ],
+    ACS: [
+      { cns_emp_cd: "AE170400014", cnt: 84 },
+      { cns_emp_cd: "AE100200032", cnt: 65 },
+      { cns_emp_cd: "AE110200015", cnt: 58 },
+      { cns_emp_cd: "AE101200006", cnt: 41 },
+      { cns_emp_cd: "AE160800013", cnt: 29 }
+    ],
+    AKC: [
+      { cns_emp_cd: "CE250500032", cnt: 166 },
+      { cns_emp_cd: "CE240100032", cnt: 97 },
+      { cns_emp_cd: "CE240700017", cnt: 42 },
+      { cns_emp_cd: "CE220200045", cnt: 27 },
+      { cns_emp_cd: "CE210800044", cnt: 27 }
+    ]
+  },
+  by_cmp: {
+    AAA: {
+      period: { start: "2026-02-01", end: "2026-02-20" },
+      titles: [
+        { text: "2월 정기", cnt: 38 },
+        { text: "첫 수업 전", cnt: 11 },
+        { text: "2월정기상담", cnt: 10 },
+        { text: "[2월 정기] ", cnt: 7 },
+        { text: "[3월 과학 신규]", cnt: 7 }
+      ],
+      tokens: [
+        { text: "수업", cnt: 164 },
+        { text: "결석", cnt: 69 },
+        { text: "하심", cnt: 64 },
+        { text: "부탁드립니다", cnt: 56 },
+        { text: "3월", cnt: 55 },
+        { text: "수신", cnt: 53 },
+        { text: "운영팀", cnt: 53 },
+        { text: "참조", cnt: 53 }
+      ]
+    },
+    AAT: {
+      period: { start: "2026-02-01", end: "2026-02-20" },
+      titles: [
+        { text: "1월상담", cnt: 90 },
+        { text: "1월 상담", cnt: 58 },
+        { text: "과학대회 설명회 참석", cnt: 49 },
+        { text: "부재", cnt: 39 },
+        { text: "오징어 특강 문자발송", cnt: 16 }
+      ],
+      tokens: [
+        { text: "수업", cnt: 148 },
+        { text: "안내", cnt: 101 },
+        { text: "말씀드림", cnt: 84 },
+        { text: "2026년", cnt: 78 },
+        { text: "하고", cnt: 64 },
+        { text: "특강", cnt: 62 },
+        { text: "많이", cnt: 60 },
+        { text: "시간", cnt: 58 }
+      ]
+    },
+    BFH: {
+      period: { start: "2026-02-01", end: "2026-02-20" },
+      titles: [
+        { text: "GD LV 8-3-2", cnt: 42 },
+        { text: "GD LV 8-3-3", cnt: 40 },
+        { text: "CS 1-3-2", cnt: 38 },
+        { text: "CS 5-3-3", cnt: 38 },
+        { text: "CS 1-3-3", cnt: 35 }
+      ],
+      tokens: [
+        { text: "있다", cnt: 185 },
+        { text: "스스로", cnt: 183 },
+        { text: "있는", cnt: 141 },
+        { text: "교사가", cnt: 110 },
+        { text: "유아", cnt: 109 },
+        { text: "이끌어", cnt: 102 },
+        { text: "주면", cnt: 102 },
+        { text: "와이키즈", cnt: 98 }
+      ]
+    },
+    ACV: {
+      period: { start: "2026-02-01", end: "2026-02-20" },
+      titles: [
+        { text: "2월 정기상담", cnt: 36 },
+        { text: "1월 정기상담", cnt: 25 },
+        { text: "2차 문자발송 ", cnt: 17 },
+        { text: "2월 정기상담 / 교사변동", cnt: 7 },
+        { text: "온라인 무진 예약 / 부재 / 문자", cnt: 7 }
+      ],
+      tokens: [
+        { text: "수업", cnt: 63 },
+        { text: "있음", cnt: 42 },
+        { text: "드림", cnt: 33 },
+        { text: "2월", cnt: 29 },
+        { text: "말씀드림", cnt: 29 },
+        { text: "전화", cnt: 23 },
+        { text: "대한", cnt: 22 },
+        { text: "결석", cnt: 21 }
+      ]
+    },
+    ADH: {
+      period: { start: "2026-02-01", end: "2026-02-20" },
+      titles: [
+        { text: "2월 상담", cnt: 161 },
+        { text: "2월 학습상담", cnt: 129 },
+        { text: "1월 상담", cnt: 29 },
+        { text: "2월 학습 상담", cnt: 23 },
+        { text: "2월상담", cnt: 23 }
+      ],
+      tokens: [
+        { text: "말씀드림", cnt: 191 },
+        { text: "수업", cnt: 143 },
+        { text: "하심", cnt: 141 },
+        { text: "하고", cnt: 98 },
+        { text: "전함", cnt: 97 },
+        { text: "많이", cnt: 82 },
+        { text: "너무", cnt: 81 },
+        { text: "수업을", cnt: 79 }
+      ]
+    },
+    AAY: {
+      period: { start: "2026-02-01", end: "2026-02-20" },
+      titles: [
+        { text: "2월 ", cnt: 98 },
+        { text: "2월 상담", cnt: 74 },
+        { text: "1월", cnt: 56 },
+        { text: "2월상담", cnt: 45 },
+        { text: "학습상담", cnt: 32 }
+      ],
+      tokens: [
+        { text: "수업", cnt: 155 },
+        { text: "말씀드림", cnt: 146 },
+        { text: "하심", cnt: 121 },
+        { text: "안내", cnt: 85 },
+        { text: "수업을", cnt: 80 },
+        { text: "오늘", cnt: 62 },
+        { text: "전함", cnt: 61 },
+        { text: "하는", cnt: 59 }
+      ]
+    },
+    ACQ: {
+      period: { start: "2026-02-01", end: "2026-02-20" },
+      titles: [
+        { text: "1월 정기상담", cnt: 22 },
+        { text: "온라인진단-부재", cnt: 15 },
+        { text: "2월 정기상담", cnt: 13 },
+        { text: "2월 정기", cnt: 9 },
+        { text: "[진단결과]수학입회X", cnt: 8 }
+      ],
+      tokens: [
+        { text: "하심", cnt: 43 },
+        { text: "안내", cnt: 37 },
+        { text: "있다고", cnt: 29 },
+        { text: "수업", cnt: 28 },
+        { text: "수학은", cnt: 27 },
+        { text: "수학", cnt: 25 },
+        { text: "상담", cnt: 24 },
+        { text: "안내드림", cnt: 24 }
+      ]
+    },
+    ACN: {
+      period: { start: "2026-02-01", end: "2026-02-20" },
+      titles: [
+        { text: "정기상담", cnt: 33 },
+        { text: "2월정기상담", cnt: 22 },
+        { text: "1월 수업/평가 상담/설 연휴 안내", cnt: 10 },
+        { text: "1월평가상담", cnt: 8 },
+        { text: "1월 수업 상담/설 연휴 안내", cnt: 6 }
+      ],
+      tokens: [
+        { text: "하심", cnt: 132 },
+        { text: "수업", cnt: 67 },
+        { text: "많이", cnt: 51 },
+        { text: "드림", cnt: 46 },
+        { text: "대해", cnt: 43 },
+        { text: "말씀", cnt: 42 },
+        { text: "안내", cnt: 39 },
+        { text: "말씀드림", cnt: 35 }
+      ]
+    },
+    ACS: {
+      period: { start: "2026-02-01", end: "2026-02-20" },
+      titles: [
+        { text: "1월 정기상담", cnt: 39 },
+        { text: "1월 정기", cnt: 27 },
+        { text: "2월 정기상담", cnt: 21 },
+        { text: "2주차 결석", cnt: 17 },
+        { text: "결석 건", cnt: 15 }
+      ],
+      tokens: [
+        { text: "말씀드림", cnt: 159 },
+        { text: "수업", cnt: 97 },
+        { text: "하심", cnt: 85 },
+        { text: "어머니께서", cnt: 53 },
+        { text: "와이즈만", cnt: 46 },
+        { text: "대해", cnt: 42 },
+        { text: "오늘", cnt: 40 },
+        { text: "다시", cnt: 39 }
+      ]
+    },
+    AEP: {
+      period: { start: "2026-02-01", end: "2026-02-20" },
+      titles: [
+        { text: "2. 정기상담", cnt: 25 },
+        { text: "2.정기상담", cnt: 20 },
+        { text: "자계수업", cnt: 20 },
+        { text: "2. 형성평가 후 정기상담", cnt: 14 },
+        { text: "2. 정기상담 -  뉴올림 2권 형성평가 결과지와 함께 상담진행", cnt: 8 }
+      ],
+      tokens: [
+        { text: "말씀드림", cnt: 139 },
+        { text: "형성평가", cnt: 89 },
+        { text: "수업", cnt: 79 },
+        { text: "하심", cnt: 65 },
+        { text: "수업시간에", cnt: 64 },
+        { text: "결과", cnt: 57 },
+        { text: "1월", cnt: 46 },
+        { text: "상담드림", cnt: 46 }
+      ]
+    }
+  }
+};
+
+    (function(){
+      const data = window.AI_REPORT_DATA;
+      if (!data) throw new Error('AI_REPORT_DATA not found');
+
+      const $ = (sel) => document.querySelector(sel);
+
+      const cmpSelect = $('#cmpSelect');
+      const empSelect = $('#empSelect');
+      const weekSelect = $('#weekSelect');
+      const periodText = $('#periodText');
+      const oneLineSummary = $('#oneLineSummary');
+      const totalCnt = $('#totalCnt');
+      const positiveCnt = $('#positiveCnt');
+      const negativeCnt = $('#negativeCnt');
+      const totalCntRate = $('#totalCntRate');
+      const positiveCntRate = $('#positiveCntRate');
+      const negativeCntRate = $('#negativeCntRate');
+      const cnsStList = $('#cnsStList');
+      const reqTop5 = $('#reqTop5');
+      const keywordGrid = $('#keywordGrid');
+      const negativeGrid = $('#negativeGrid');
+      const empGrid = $('#empGrid');
+      const dataRange = $('#dataRange');
+      const sessionSelect = $('#sessionSelect');
+      const newSessionBtn = $('#newSessionBtn');
+      const chatList = $('#chatList');
+      const chatInput = $('#chatInput');
+      const chatSaveBtn = $('#chatSaveBtn');
+
+      const SESSIONS_STORAGE_KEY = 'ai_report_sessions_v1';
+      let sessions = [];
+      let activeSessionId = null;
+
+      function fmt(n){
+        const v = Number(n);
+        return Number.isFinite(v) ? v.toLocaleString('ko-KR') : String(n);
+      }
+
+      function fmtDateMMDD(isoDate){
+        if (!isoDate) return '—';
+        const m = String(isoDate).slice(5,7);
+        const d = String(isoDate).slice(8,10);
+        return `${m}.${d}`;
+      }
+
+      function isMeaningfulToken(text){
+        const t = String(text || '').trim();
+        if (!t) return false;
+        return !/(이다|입니다|드림)$/.test(t);
+      }
+
+      function buildOneLineSummary(cmp, byCmp, empCd, totalCounselCount, positiveCount, negativeCount){
+        const titles = (byCmp.titles || []).map(x => x.text).filter(isMeaningfulToken).slice(0,2);
+        const tokens = (byCmp.tokens || []).map(x => x.text).filter(isMeaningfulToken).slice(0,3);
+
+        const titlePart = titles.length ? `'${titles.join("', '")}' 제목의 상담이 주로 진행되었고` : '다양한 유형의 상담이 진행되었고';
+        const tokenPart = tokens.length ? `상담 내용에서는 '${tokens.join("', '")}' 키워드가 자주 언급되었습니다.` : '다양한 주제가 논의되었습니다.';
+        const empPart = empCd && empCd !== 'all' ? `선택한 상담사(${empCd}) 기준으로 ` : '';
+
+        return `${empPart}${titlePart}, ${tokenPart} 상담 입력 ${fmt(totalCounselCount)}건, 긍정 키워드 ${fmt(positiveCount)}건, 부정 키워드 ${fmt(negativeCount)}건입니다.`;
+      }
+
+      function render(cmp, weekNum, empCd = 'all'){
+        const byCmp = (data.by_cmp && data.by_cmp[cmp]) ? data.by_cmp[cmp] : (data.by_cmp_week && data.by_cmp_week[cmp] ? data.by_cmp_week[cmp].all : null);
+        const idxRow = data.cmp_index.find(x => x.cmp_cd === cmp);
+        const empByCmp = data.emp_by_cmp[cmp] || [];
+        const selectedEmpRow = empCd !== 'all' ? empByCmp.find(x => x.cns_emp_cd === empCd) : null;
+
+        if (!byCmp) {
+          oneLineSummary.textContent = '선택한 조건의 데이터가 없습니다.';
+          totalCnt.textContent = '0';
+          positiveCnt.textContent = '0';
+          negativeCnt.textContent = '0';
+          if (totalCntRate) totalCntRate.textContent = '0%';
+          if (positiveCntRate) positiveCntRate.textContent = '0%';
+          if (negativeCntRate) negativeCntRate.textContent = '0%';
+          cnsStList.innerHTML = '<li><b>데이터 없음</b><span class="cnt">0건</span></li>';
+          reqTop5.innerHTML = '<div class="keywordDetailItem"><div class="keywordDetailContent"><div class="keywordDetailDesc">데이터 없음</div></div></div>';
+          keywordGrid.innerHTML = '<div class="keywordItem"><span class="keywordText">데이터 없음</span><span class="keywordCnt">0</span></div>';
+          negativeGrid.innerHTML = '<div class="keywordItem"><span class="keywordText">데이터 없음</span><span class="keywordCnt">0</span></div>';
+          empGrid.innerHTML = '<div class="empItem" style="grid-column: span 2; justify-content: center; color: var(--muted);">데이터 없음</div>';
+          return;
+        }
+
+        // 기간 표시
+        const weekInfo = data.weeks.find(w => w.week_num === weekNum) || data.weeks[0];
+        periodText.textContent = `${fmtDateMMDD(weekInfo.start)} ~ ${fmtDateMMDD(weekInfo.end)}`;
+        dataRange.textContent = `${weekInfo.start} ~ ${weekInfo.end}`;
+
+        const weekData = data.by_cmp_week && data.by_cmp_week[cmp] ? data.by_cmp_week[cmp][weekNum] : null;
+        const summarySource = weekData || byCmp;
+        const empWeekData = data.emp_by_cmp_week && data.emp_by_cmp_week[cmp] ? data.emp_by_cmp_week[cmp][weekNum] : null;
+        const selectedEmpWeekRow = empCd !== 'all' && empWeekData ? empWeekData.find(x => x.cns_emp_cd === empCd) : null;
+
+        const totalCounselCount = selectedEmpWeekRow ? selectedEmpWeekRow.cnt : (summarySource.total_cnt || (idxRow ? idxRow.raw_cnt : 0));
+        const positiveBase = selectedEmpWeekRow ? (selectedEmpWeekRow.positive || 0) : (summarySource.positive_cnt || data.meta.positive_cnt || 0);
+        const negativeBase = selectedEmpWeekRow ? (selectedEmpWeekRow.negative || 0) : (summarySource.negative_cnt || data.meta.negative_cnt || 0);
+        const feedbackTotal = positiveBase + negativeBase;
+
+        // 한줄 요약
+        oneLineSummary.textContent = buildOneLineSummary(cmp, summarySource, empCd, totalCounselCount, positiveBase, negativeBase);
+
+        // 통계
+        totalCnt.textContent = fmt(totalCounselCount);
+        positiveCnt.textContent = fmt(positiveBase);
+        negativeCnt.textContent = fmt(negativeBase);
+        if (totalCntRate) totalCntRate.textContent = '100%';
+        if (positiveCntRate) positiveCntRate.textContent = feedbackTotal > 0 ? `${((positiveBase / feedbackTotal) * 100).toFixed(1)}%` : '0%';
+        if (negativeCntRate) negativeCntRate.textContent = feedbackTotal > 0 ? `${((negativeBase / feedbackTotal) * 100).toFixed(1)}%` : '0%';
+
+        // 학생 상담 현황
+        const studentConcurrent = document.getElementById('studentConcurrent');
+        const studentNotCounseled = document.getElementById('studentNotCounseled');
+        const studentConcurrentRate = document.getElementById('studentConcurrentRate');
+        const studentNotCounseledRate = document.getElementById('studentNotCounseledRate');
+        const totalStudents = document.getElementById('totalStudents');
+        
+        const counseled = Number(data.student_counsel_status?.counseled || 0);
+        const notCounseled = Number(data.student_counsel_status?.not_counseled || 0);
+        const total = counseled + notCounseled;
+        
+        if (studentConcurrent) studentConcurrent.textContent = fmt(counseled);
+        if (studentNotCounseled) studentNotCounseled.textContent = fmt(notCounseled);
+        if (totalStudents) totalStudents.textContent = fmt(total);
+        
+        if (studentConcurrentRate) studentConcurrentRate.textContent = total > 0 ? ((counseled / total * 100).toFixed(1) + '%') : '0%';
+        if (studentNotCounseledRate) studentNotCounseledRate.textContent = total > 0 ? ((notCounseled / total * 100).toFixed(1) + '%') : '0%';
+
+        // cns_st 목록
+        const titleSource = summarySource.titles || [];
+        cnsStList.innerHTML = titleSource.filter(t => isMeaningfulToken(t.text)).slice(0, 5).map(t =>
+          `<li style="cursor:pointer;"><b>${escapeHtml(t.text)}</b><span class="cnt">${fmt(t.cnt)}건</span></li>`
+        ).join('');
+
+        // cns_req_ct TOP 5 (상세)
+        const keywordDetailSource = (summarySource.req_keyword_detail || data.req_keyword_detail || []);
+        const top5 = keywordDetailSource.filter(t => isMeaningfulToken(t.text)).slice(0,5);
+        reqTop5.innerHTML = top5.map(t => 
+          `<div class="keywordDetailItem">
+            <span class="keywordDetailIcon">${t.icon || '📌'}</span>
+            <div class="keywordDetailContent">
+              <div class="keywordDetailTitle">
+                <span>${escapeHtml(t.text)}</span>
+                <span class="cnt">${fmt(t.cnt)}회</span>
+              </div>
+              <div class="keywordDetailDesc">${escapeHtml(t.desc || '')}</div>
+            </div>
+          </div>`
+        ).join('');
+
+        // 피드백 유형별 키워드
+        const keywordSummarySource = (summarySource.req_keyword_summary || data.req_keyword_summary || []);
+        keywordGrid.innerHTML = keywordSummarySource.filter(k => isMeaningfulToken(k.text)).slice(0, 4).map(k =>
+          `<div class="keywordItem">
+            <span class="keywordIcon">${k.icon || '📌'}</span>
+            <span class="keywordText">${escapeHtml(k.text)}</span>
+            <span class="keywordCnt">${fmt(k.cnt)}</span>
+          </div>`
+        ).join('');
+
+        // 부정 피드백 (주의 필요)
+        const negativeSource = (summarySource.negative_feedback || data.negative_feedback || []);
+        negativeGrid.innerHTML = negativeSource.filter(k => isMeaningfulToken(k.text)).slice(0, 4).map(k =>
+          `<div class="keywordItem">
+            <span class="keywordIcon">${k.icon || '⚠️'}</span>
+            <span class="keywordText">${escapeHtml(k.text)}</span>
+            <span class="keywordCnt">${fmt(k.cnt)}</span>
+          </div>`
+        ).join('');
+
+        // 상담사별 현황
+        const empData = selectedEmpWeekRow ? [selectedEmpWeekRow] : (empWeekData || empByCmp);
+        empGrid.innerHTML = empData.slice(0, 6).map(e =>
+          `<div class="empItem">
+            <span class="empCode">${escapeHtml(e.cns_emp_cd)}</span>
+            <span class="empCnt">${fmt(e.cnt)}건</span>
+          </div>`
+        ).join('') || '<div class="empItem" style="grid-column: span 2; justify-content: center; color: var(--muted);">데이터 없음</div>';
+      }
+
+      function rebuildEmpSelect(cmp){
+        const empData = (data.emp_by_cmp && data.emp_by_cmp[cmp]) ? data.emp_by_cmp[cmp] : [];
+        empSelect.innerHTML = '<option value="all">전체 상담사</option>' + empData.map(x =>
+          `<option value="${x.cns_emp_cd}">${x.cns_emp_cd} (${fmt(x.cnt)})</option>`
+        ).join('');
+      }
+
+      function escapeHtml(s){
+        return String(s)
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;')
+          .replaceAll('"', '&quot;')
+          .replaceAll("'", '&#39;');
+      }
+
+      function safeJsonParse(text, fallback){
+        try {
+          return JSON.parse(text);
+        } catch {
+          return fallback;
+        }
+      }
+
+      function formatDateTime(iso){
+        const d = new Date(iso);
+        if (Number.isNaN(d.getTime())) return '시간 미상';
+        return d.toLocaleString('ko-KR', { hour12: false });
+      }
+
+      function getActiveSession(){
+        return sessions.find(s => s.id === activeSessionId) || null;
+      }
+
+      function saveSessions(){
+        localStorage.setItem(SESSIONS_STORAGE_KEY, JSON.stringify(sessions));
+      }
+
+      function createSession(title){
+        const createdAt = new Date().toISOString();
+        const session = {
+          id: `s_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+          title: title || `세션 ${sessions.length + 1}`,
+          createdAt,
+          messages: []
+        };
+        sessions.unshift(session);
+        activeSessionId = session.id;
+        saveSessions();
+        return session;
+      }
+
+      function ensureSessionState(){
+        const raw = localStorage.getItem(SESSIONS_STORAGE_KEY);
+        const parsed = raw ? safeJsonParse(raw, []) : [];
+        sessions = Array.isArray(parsed) ? parsed.filter(x => x && x.id && Array.isArray(x.messages)) : [];
+
+        if (!sessions.length){
+          createSession('기본 세션');
+          return;
+        }
+
+        activeSessionId = sessions[0].id;
+      }
+
+      function renderSessions(){
+        if (!sessionSelect || !chatList) return;
+
+        if (!sessions.length){
+          createSession('기본 세션');
+        }
+
+        sessionSelect.innerHTML = sessions.map(s =>
+          `<option value="${escapeHtml(s.id)}">${escapeHtml(s.title)} (${s.messages.length})</option>`
+        ).join('');
+        sessionSelect.value = activeSessionId;
+
+        const active = getActiveSession();
+        if (!active){
+          chatList.innerHTML = '<div class="chatMeta">세션을 찾을 수 없습니다.</div>';
+          return;
+        }
+
+        if (!active.messages.length){
+          chatList.innerHTML = '<div class="chatMeta">아직 저장된 대화가 없습니다.</div>';
+          return;
+        }
+
+        chatList.innerHTML = active.messages.map((m, idx) =>
+          `<div class="chatItem">
+            <div class="chatMeta">#${idx + 1} · ${escapeHtml(formatDateTime(m.createdAt))}</div>
+            <div>${escapeHtml(m.text)}</div>
+          </div>`
+        ).join('');
+        chatList.scrollTop = chatList.scrollHeight;
+      }
+
+      function addChatMessage(text){
+        const active = getActiveSession() || createSession('기본 세션');
+        active.messages.push({
+          id: `m_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+          text,
+          createdAt: new Date().toISOString()
+        });
+        if (active.messages.length > 200){
+          active.messages = active.messages.slice(-200);
+        }
+        saveSessions();
+        renderSessions();
+      }
+
+      // (팝업 기능 삭제됨)
+
+      // cmp_cd 선택 초기화
+      const availableCmpSet = new Set(Object.keys(data.by_cmp_week || data.by_cmp || {}));
+      const cmpList = (data.cmp_index || [])
+        .filter(x => availableCmpSet.has(x.cmp_cd))
+        .slice()
+        .sort((a,b) => (b.raw_cnt||0) - (a.raw_cnt||0));
+      cmpSelect.innerHTML = cmpList.map(x => 
+        `<option value="${x.cmp_cd}">${x.cmp_cd} (${fmt(x.raw_cnt)}건)</option>`
+      ).join('');
+
+      // cns_emp_cd 선택 초기화
+      const defaultCmp = cmpList.length ? cmpList[0].cmp_cd : null;
+      if (defaultCmp) {
+        rebuildEmpSelect(defaultCmp);
+      } else {
+        empSelect.innerHTML = '<option value="all">전체 상담사</option>';
+      }
+
+      // 주간 선택 초기화
+      weekSelect.innerHTML = (data.weeks || []).map(w =>
+        `<option value="${w.week_num}">${w.label}</option>`
+      ).join('');
+
+      const defaultWeek = data.weeks && data.weeks.length ? data.weeks[0].week_num : 'all';
+
+      ensureSessionState();
+      renderSessions();
+
+      // render 호출
+      if (defaultCmp){
+        cmpSelect.value = defaultCmp;
+        empSelect.value = 'all';
+        weekSelect.value = defaultWeek;
+        render(defaultCmp, defaultWeek, 'all');
+      }
+
+      cmpSelect.addEventListener('change', () => {
+        rebuildEmpSelect(cmpSelect.value);
+        empSelect.value = 'all';
+        render(cmpSelect.value, weekSelect.value, empSelect.value);
+      });
+      empSelect.addEventListener('change', () => {
+        render(cmpSelect.value, weekSelect.value, empSelect.value);
+      });
+      weekSelect.addEventListener('change', () => {
+        render(cmpSelect.value, weekSelect.value, empSelect.value);
+      });
+
+      if (newSessionBtn){
+        newSessionBtn.addEventListener('click', () => {
+          createSession(`세션 ${sessions.length + 1}`);
+          renderSessions();
+        });
+      }
+
+      if (sessionSelect){
+        sessionSelect.addEventListener('change', () => {
+          activeSessionId = sessionSelect.value;
+          renderSessions();
+        });
+      }
+
+      if (chatSaveBtn){
+        chatSaveBtn.addEventListener('click', () => {
+          const text = (chatInput && chatInput.value ? chatInput.value.trim() : '');
+          if (!text) return;
+          addChatMessage(text);
+          chatInput.value = '';
+          chatInput.focus();
+        });
+      }
+
+      if (chatInput){
+        chatInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter'){
+            e.preventDefault();
+            chatSaveBtn && chatSaveBtn.click();
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

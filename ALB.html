@@ -358,6 +358,371 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-03 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 113,
+    "positive_cnt": 23,
+    "negative_cnt": 20
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-03",
+      "end": "2026-03-06"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "AE200700015",
+      "cnt": 51
+    },
+    {
+      "cns_emp_cd": "CE241100046",
+      "cnt": 24
+    },
+    {
+      "cns_emp_cd": "CE250200043",
+      "cnt": 11
+    },
+    {
+      "cns_emp_cd": "CE260100036",
+      "cnt": 11
+    },
+    {
+      "cns_emp_cd": "CE250800026",
+      "cnt": 9
+    },
+    {
+      "cns_emp_cd": "CE201200017",
+      "cnt": 3
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "ALB",
+      "raw_cnt": 113
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "2월 정기 상담",
+      "cnt": 30
+    },
+    {
+      "text": "2월 정기상담",
+      "cnt": 17
+    },
+    {
+      "text": "교사변동 안내전화/부재",
+      "cnt": 6
+    },
+    {
+      "text": "3월 수강료 미납안내 문자발송",
+      "cnt": 5
+    },
+    {
+      "text": "교사변경 상담완료",
+      "cnt": 4
+    },
+    {
+      "text": "교사변동 안내완료",
+      "cnt": 4
+    },
+    {
+      "text": "2/22(일)과탐토 특강 결석",
+      "cnt": 2
+    },
+    {
+      "text": "보강 상담(부재중)",
+      "cnt": 1
+    },
+    {
+      "text": "교사변경 상담전화 부재 ~ 2회",
+      "cnt": 1
+    },
+    {
+      "text": "반이동해야할 수도 있음/(금)4:10수업 고민 중",
+      "cnt": 1
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "수업",
+      "cnt": 48,
+      "icon": "📌",
+      "desc": "ALB 상담 내용 주요 키워드"
+    },
+    {
+      "text": "화학",
+      "cnt": 22,
+      "icon": "📌",
+      "desc": "ALB 상담 내용 주요 키워드"
+    },
+    {
+      "text": "학습",
+      "cnt": 21,
+      "icon": "📌",
+      "desc": "ALB 상담 내용 주요 키워드"
+    },
+    {
+      "text": "하심",
+      "cnt": 19,
+      "icon": "📌",
+      "desc": "ALB 상담 내용 주요 키워드"
+    },
+    {
+      "text": "상담",
+      "cnt": 19,
+      "icon": "📌",
+      "desc": "ALB 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [
+    {
+      "text": "결석",
+      "cnt": 5,
+      "icon": "🚫"
+    },
+    {
+      "text": "힘들어함",
+      "cnt": 2,
+      "icon": "😔"
+    },
+    {
+      "text": "학습 어려움",
+      "cnt": 11,
+      "icon": "😓"
+    },
+    {
+      "text": "휴회",
+      "cnt": 1,
+      "icon": "⏸️"
+    }
+  ],
+  "req_keyword_summary": [
+    {
+      "text": "긍정적 피드백",
+      "cnt": 23,
+      "icon": "👍"
+    },
+    {
+      "text": "만점/100점",
+      "cnt": 5,
+      "icon": "💯"
+    },
+    {
+      "text": "결석/부재",
+      "cnt": 5,
+      "icon": "📞"
+    },
+    {
+      "text": "보강",
+      "cnt": 9,
+      "icon": "📅"
+    }
+  ],
+  "emp_by_cmp": {
+    "ALB": [
+      {
+        "cns_emp_cd": "AE200700015",
+        "cnt": 51
+      },
+      {
+        "cns_emp_cd": "CE241100046",
+        "cnt": 24
+      },
+      {
+        "cns_emp_cd": "CE250200043",
+        "cnt": 11
+      },
+      {
+        "cns_emp_cd": "CE260100036",
+        "cnt": 11
+      },
+      {
+        "cns_emp_cd": "CE250800026",
+        "cnt": 9
+      },
+      {
+        "cns_emp_cd": "CE201200017",
+        "cnt": 3
+      }
+    ]
+  },
+  "by_cmp": {
+    "ALB": {
+      "period": {
+        "start": "2026-02-03",
+        "end": "2026-03-06"
+      },
+      "titles": [
+        {
+          "text": "2월 정기 상담",
+          "cnt": 30
+        },
+        {
+          "text": "2월 정기상담",
+          "cnt": 17
+        },
+        {
+          "text": "교사변동 안내전화/부재",
+          "cnt": 6
+        },
+        {
+          "text": "3월 수강료 미납안내 문자발송",
+          "cnt": 5
+        },
+        {
+          "text": "교사변경 상담완료",
+          "cnt": 4
+        },
+        {
+          "text": "교사변동 안내완료",
+          "cnt": 4
+        },
+        {
+          "text": "2/22(일)과탐토 특강 결석",
+          "cnt": 2
+        },
+        {
+          "text": "보강 상담(부재중)",
+          "cnt": 1
+        },
+        {
+          "text": "교사변경 상담전화 부재 ~ 2회",
+          "cnt": 1
+        },
+        {
+          "text": "반이동해야할 수도 있음/(금)4:10수업 고민 중",
+          "cnt": 1
+        }
+      ],
+      "tokens": [
+        {
+          "text": "수업",
+          "cnt": 48
+        },
+        {
+          "text": "화학",
+          "cnt": 22
+        },
+        {
+          "text": "학습",
+          "cnt": 21
+        },
+        {
+          "text": "하심",
+          "cnt": 19
+        },
+        {
+          "text": "상담",
+          "cnt": 19
+        },
+        {
+          "text": "과학",
+          "cnt": 16
+        },
+        {
+          "text": "또한",
+          "cnt": 15
+        },
+        {
+          "text": "2권",
+          "cnt": 13
+        }
+      ],
+      "total_cnt": 113,
+      "positive_cnt": 23,
+      "negative_cnt": 20,
+      "req_keyword_detail": [
+        {
+          "text": "수업",
+          "cnt": 48,
+          "icon": "📌",
+          "desc": "ALB 상담 내용 주요 키워드"
+        },
+        {
+          "text": "화학",
+          "cnt": 22,
+          "icon": "📌",
+          "desc": "ALB 상담 내용 주요 키워드"
+        },
+        {
+          "text": "학습",
+          "cnt": 21,
+          "icon": "📌",
+          "desc": "ALB 상담 내용 주요 키워드"
+        },
+        {
+          "text": "하심",
+          "cnt": 19,
+          "icon": "📌",
+          "desc": "ALB 상담 내용 주요 키워드"
+        },
+        {
+          "text": "상담",
+          "cnt": 19,
+          "icon": "📌",
+          "desc": "ALB 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "긍정적 피드백",
+          "cnt": 23,
+          "icon": "👍"
+        },
+        {
+          "text": "만점/100점",
+          "cnt": 5,
+          "icon": "💯"
+        },
+        {
+          "text": "결석/부재",
+          "cnt": 5,
+          "icon": "📞"
+        },
+        {
+          "text": "보강",
+          "cnt": 9,
+          "icon": "📅"
+        }
+      ],
+      "negative_feedback": [
+        {
+          "text": "결석",
+          "cnt": 5,
+          "icon": "🚫"
+        },
+        {
+          "text": "힘들어함",
+          "cnt": 2,
+          "icon": "😔"
+        },
+        {
+          "text": "학습 어려움",
+          "cnt": 11,
+          "icon": "😓"
+        },
+        {
+          "text": "휴회",
+          "cnt": 1,
+          "icon": "⏸️"
+        }
+      ]
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

@@ -358,6 +358,391 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-01 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 177,
+    "positive_cnt": 43,
+    "negative_cnt": 32
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-01",
+      "end": "2026-03-08"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "CE250500015",
+      "cnt": 55
+    },
+    {
+      "cns_emp_cd": "CE230100051",
+      "cnt": 29
+    },
+    {
+      "cns_emp_cd": "CE250300034",
+      "cnt": 16
+    },
+    {
+      "cns_emp_cd": "CE250800021",
+      "cnt": 15
+    },
+    {
+      "cns_emp_cd": "CE251200001",
+      "cnt": 11
+    },
+    {
+      "cns_emp_cd": "CE251100028",
+      "cnt": 10
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "ACV",
+      "raw_cnt": 177
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "2월 정기상담",
+      "cnt": 28
+    },
+    {
+      "text": "1월 정기상담",
+      "cnt": 10
+    },
+    {
+      "text": "2월 정기상담 / 교사변동",
+      "cnt": 7
+    },
+    {
+      "text": "정기 상담",
+      "cnt": 3
+    },
+    {
+      "text": "2월 정기상담 / 교사변동 / 부재",
+      "cnt": 3
+    },
+    {
+      "text": "2월 정기 상담",
+      "cnt": 3
+    },
+    {
+      "text": "금일 개별하원",
+      "cnt": 2
+    },
+    {
+      "text": "미등원 전화 / 부재 / 문자",
+      "cnt": 2
+    },
+    {
+      "text": "2월2주차 결석_개인보강 신청",
+      "cnt": 2
+    },
+    {
+      "text": "2월11일 (수) 결강에대한 보강 2월 27일(금) 4시~6시",
+      "cnt": 2
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "수업",
+      "cnt": 36,
+      "icon": "📌",
+      "desc": "ACV 상담 내용 주요 키워드"
+    },
+    {
+      "text": "말씀드림",
+      "cnt": 29,
+      "icon": "📌",
+      "desc": "ACV 상담 내용 주요 키워드"
+    },
+    {
+      "text": "있음",
+      "cnt": 27,
+      "icon": "📌",
+      "desc": "ACV 상담 내용 주요 키워드"
+    },
+    {
+      "text": "많이",
+      "cnt": 23,
+      "icon": "📌",
+      "desc": "ACV 상담 내용 주요 키워드"
+    },
+    {
+      "text": "드림",
+      "cnt": 22,
+      "icon": "📌",
+      "desc": "ACV 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [
+    {
+      "text": "결석",
+      "cnt": 6,
+      "icon": "🚫"
+    },
+    {
+      "text": "힘들어함",
+      "cnt": 1,
+      "icon": "😔"
+    },
+    {
+      "text": "학습 어려움",
+      "cnt": 3,
+      "icon": "😓"
+    },
+    {
+      "text": "불만/싫어함",
+      "cnt": 1,
+      "icon": "😤"
+    },
+    {
+      "text": "휴회",
+      "cnt": 3,
+      "icon": "⏸️"
+    }
+  ],
+  "req_keyword_summary": [
+    {
+      "text": "긍정적 피드백",
+      "cnt": 43,
+      "icon": "👍"
+    },
+    {
+      "text": "칭찬",
+      "cnt": 15,
+      "icon": "🌟"
+    },
+    {
+      "text": "만점/100점",
+      "cnt": 2,
+      "icon": "💯"
+    },
+    {
+      "text": "결석/부재",
+      "cnt": 11,
+      "icon": "📞"
+    },
+    {
+      "text": "보강",
+      "cnt": 14,
+      "icon": "📅"
+    }
+  ],
+  "emp_by_cmp": {
+    "ACV": [
+      {
+        "cns_emp_cd": "CE250500015",
+        "cnt": 55
+      },
+      {
+        "cns_emp_cd": "CE230100051",
+        "cnt": 29
+      },
+      {
+        "cns_emp_cd": "CE250300034",
+        "cnt": 16
+      },
+      {
+        "cns_emp_cd": "CE250800021",
+        "cnt": 15
+      },
+      {
+        "cns_emp_cd": "CE251200001",
+        "cnt": 11
+      },
+      {
+        "cns_emp_cd": "CE251100028",
+        "cnt": 10
+      }
+    ]
+  },
+  "by_cmp": {
+    "ACV": {
+      "period": {
+        "start": "2026-02-01",
+        "end": "2026-03-08"
+      },
+      "titles": [
+        {
+          "text": "2월 정기상담",
+          "cnt": 28
+        },
+        {
+          "text": "1월 정기상담",
+          "cnt": 10
+        },
+        {
+          "text": "2월 정기상담 / 교사변동",
+          "cnt": 7
+        },
+        {
+          "text": "정기 상담",
+          "cnt": 3
+        },
+        {
+          "text": "2월 정기상담 / 교사변동 / 부재",
+          "cnt": 3
+        },
+        {
+          "text": "2월 정기 상담",
+          "cnt": 3
+        },
+        {
+          "text": "금일 개별하원",
+          "cnt": 2
+        },
+        {
+          "text": "미등원 전화 / 부재 / 문자",
+          "cnt": 2
+        },
+        {
+          "text": "2월2주차 결석_개인보강 신청",
+          "cnt": 2
+        },
+        {
+          "text": "2월11일 (수) 결강에대한 보강 2월 27일(금) 4시~6시",
+          "cnt": 2
+        }
+      ],
+      "tokens": [
+        {
+          "text": "수업",
+          "cnt": 36
+        },
+        {
+          "text": "말씀드림",
+          "cnt": 29
+        },
+        {
+          "text": "있음",
+          "cnt": 27
+        },
+        {
+          "text": "많이",
+          "cnt": 23
+        },
+        {
+          "text": "드림",
+          "cnt": 22
+        },
+        {
+          "text": "진행하고",
+          "cnt": 18
+        },
+        {
+          "text": "수업시간에",
+          "cnt": 15
+        },
+        {
+          "text": "말씀",
+          "cnt": 13
+        }
+      ],
+      "total_cnt": 177,
+      "positive_cnt": 43,
+      "negative_cnt": 32,
+      "req_keyword_detail": [
+        {
+          "text": "수업",
+          "cnt": 36,
+          "icon": "📌",
+          "desc": "ACV 상담 내용 주요 키워드"
+        },
+        {
+          "text": "말씀드림",
+          "cnt": 29,
+          "icon": "📌",
+          "desc": "ACV 상담 내용 주요 키워드"
+        },
+        {
+          "text": "있음",
+          "cnt": 27,
+          "icon": "📌",
+          "desc": "ACV 상담 내용 주요 키워드"
+        },
+        {
+          "text": "많이",
+          "cnt": 23,
+          "icon": "📌",
+          "desc": "ACV 상담 내용 주요 키워드"
+        },
+        {
+          "text": "드림",
+          "cnt": 22,
+          "icon": "📌",
+          "desc": "ACV 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "긍정적 피드백",
+          "cnt": 43,
+          "icon": "👍"
+        },
+        {
+          "text": "칭찬",
+          "cnt": 15,
+          "icon": "🌟"
+        },
+        {
+          "text": "만점/100점",
+          "cnt": 2,
+          "icon": "💯"
+        },
+        {
+          "text": "결석/부재",
+          "cnt": 11,
+          "icon": "📞"
+        },
+        {
+          "text": "보강",
+          "cnt": 14,
+          "icon": "📅"
+        }
+      ],
+      "negative_feedback": [
+        {
+          "text": "결석",
+          "cnt": 6,
+          "icon": "🚫"
+        },
+        {
+          "text": "힘들어함",
+          "cnt": 1,
+          "icon": "😔"
+        },
+        {
+          "text": "학습 어려움",
+          "cnt": 3,
+          "icon": "😓"
+        },
+        {
+          "text": "불만/싫어함",
+          "cnt": 1,
+          "icon": "😤"
+        },
+        {
+          "text": "휴회",
+          "cnt": 3,
+          "icon": "⏸️"
+        }
+      ]
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

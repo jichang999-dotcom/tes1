@@ -358,6 +358,80 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-23 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 1,
+    "positive_cnt": 0,
+    "negative_cnt": 0
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-23",
+      "end": "2026-02-23"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "CE210200038",
+      "cnt": 1
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "AFA",
+      "raw_cnt": 1
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "ㅁㄴㅇ",
+      "cnt": 1
+    }
+  ],
+  "req_keyword_detail": [],
+  "negative_feedback": [],
+  "req_keyword_summary": [],
+  "emp_by_cmp": {
+    "AFA": [
+      {
+        "cns_emp_cd": "CE210200038",
+        "cnt": 1
+      }
+    ]
+  },
+  "by_cmp": {
+    "AFA": {
+      "period": {
+        "start": "2026-02-23",
+        "end": "2026-02-23"
+      },
+      "titles": [
+        {
+          "text": "ㅁㄴㅇ",
+          "cnt": 1
+        }
+      ],
+      "tokens": [],
+      "total_cnt": 1,
+      "positive_cnt": 0,
+      "negative_cnt": 0,
+      "req_keyword_detail": [],
+      "req_keyword_summary": [],
+      "negative_feedback": []
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

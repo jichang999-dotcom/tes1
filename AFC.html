@@ -358,6 +358,333 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-01 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 18,
+    "positive_cnt": 9,
+    "negative_cnt": 10
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-01",
+      "end": "2026-03-07"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "CE260100044",
+      "cnt": 4
+    },
+    {
+      "cns_emp_cd": "CE250500026",
+      "cnt": 4
+    },
+    {
+      "cns_emp_cd": "CE241100037",
+      "cnt": 4
+    },
+    {
+      "cns_emp_cd": "CE240200011",
+      "cnt": 3
+    },
+    {
+      "cns_emp_cd": "AE110200060",
+      "cnt": 3
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "AFC",
+      "raw_cnt": 18
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "수업 상담",
+      "cnt": 6
+    },
+    {
+      "text": "평가 상담",
+      "cnt": 3
+    },
+    {
+      "text": "첫 수업 상담",
+      "cnt": 2
+    },
+    {
+      "text": "첫 수업 상담(부재중)",
+      "cnt": 1
+    },
+    {
+      "text": "수업 면담",
+      "cnt": 1
+    },
+    {
+      "text": "첫 수업 상담 (부재중)",
+      "cnt": 1
+    },
+    {
+      "text": "생물 2권, 물리2권 성취도 평가 상담",
+      "cnt": 1
+    },
+    {
+      "text": "휴원 후 3월 복회 상담 (부재 중 문자)",
+      "cnt": 1
+    },
+    {
+      "text": "물리 2권 성취도 평가 상담",
+      "cnt": 1
+    },
+    {
+      "text": "월평가 상담",
+      "cnt": 1
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "말씀드림",
+      "cnt": 12,
+      "icon": "📌",
+      "desc": "AFC 상담 내용 주요 키워드"
+    },
+    {
+      "text": "안내함",
+      "cnt": 11,
+      "icon": "📌",
+      "desc": "AFC 상담 내용 주요 키워드"
+    },
+    {
+      "text": "수업",
+      "cnt": 8,
+      "icon": "📌",
+      "desc": "AFC 상담 내용 주요 키워드"
+    },
+    {
+      "text": "아이가",
+      "cnt": 7,
+      "icon": "📌",
+      "desc": "AFC 상담 내용 주요 키워드"
+    },
+    {
+      "text": "다시",
+      "cnt": 6,
+      "icon": "📌",
+      "desc": "AFC 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [
+    {
+      "text": "결석",
+      "cnt": 1,
+      "icon": "🚫"
+    },
+    {
+      "text": "학습 어려움",
+      "cnt": 4,
+      "icon": "😓"
+    }
+  ],
+  "req_keyword_summary": [
+    {
+      "text": "긍정적 피드백",
+      "cnt": 9,
+      "icon": "👍"
+    },
+    {
+      "text": "결석/부재",
+      "cnt": 4,
+      "icon": "📞"
+    },
+    {
+      "text": "보강",
+      "cnt": 1,
+      "icon": "📅"
+    }
+  ],
+  "emp_by_cmp": {
+    "AFC": [
+      {
+        "cns_emp_cd": "CE260100044",
+        "cnt": 4
+      },
+      {
+        "cns_emp_cd": "CE250500026",
+        "cnt": 4
+      },
+      {
+        "cns_emp_cd": "CE241100037",
+        "cnt": 4
+      },
+      {
+        "cns_emp_cd": "CE240200011",
+        "cnt": 3
+      },
+      {
+        "cns_emp_cd": "AE110200060",
+        "cnt": 3
+      }
+    ]
+  },
+  "by_cmp": {
+    "AFC": {
+      "period": {
+        "start": "2026-02-01",
+        "end": "2026-03-07"
+      },
+      "titles": [
+        {
+          "text": "수업 상담",
+          "cnt": 6
+        },
+        {
+          "text": "평가 상담",
+          "cnt": 3
+        },
+        {
+          "text": "첫 수업 상담",
+          "cnt": 2
+        },
+        {
+          "text": "첫 수업 상담(부재중)",
+          "cnt": 1
+        },
+        {
+          "text": "수업 면담",
+          "cnt": 1
+        },
+        {
+          "text": "첫 수업 상담 (부재중)",
+          "cnt": 1
+        },
+        {
+          "text": "생물 2권, 물리2권 성취도 평가 상담",
+          "cnt": 1
+        },
+        {
+          "text": "휴원 후 3월 복회 상담 (부재 중 문자)",
+          "cnt": 1
+        },
+        {
+          "text": "물리 2권 성취도 평가 상담",
+          "cnt": 1
+        },
+        {
+          "text": "월평가 상담",
+          "cnt": 1
+        }
+      ],
+      "tokens": [
+        {
+          "text": "말씀드림",
+          "cnt": 12
+        },
+        {
+          "text": "안내함",
+          "cnt": 11
+        },
+        {
+          "text": "수업",
+          "cnt": 8
+        },
+        {
+          "text": "아이가",
+          "cnt": 7
+        },
+        {
+          "text": "다시",
+          "cnt": 6
+        },
+        {
+          "text": "문제",
+          "cnt": 6
+        },
+        {
+          "text": "있다고",
+          "cnt": 5
+        },
+        {
+          "text": "고2",
+          "cnt": 4
+        }
+      ],
+      "total_cnt": 18,
+      "positive_cnt": 9,
+      "negative_cnt": 10,
+      "req_keyword_detail": [
+        {
+          "text": "말씀드림",
+          "cnt": 12,
+          "icon": "📌",
+          "desc": "AFC 상담 내용 주요 키워드"
+        },
+        {
+          "text": "안내함",
+          "cnt": 11,
+          "icon": "📌",
+          "desc": "AFC 상담 내용 주요 키워드"
+        },
+        {
+          "text": "수업",
+          "cnt": 8,
+          "icon": "📌",
+          "desc": "AFC 상담 내용 주요 키워드"
+        },
+        {
+          "text": "아이가",
+          "cnt": 7,
+          "icon": "📌",
+          "desc": "AFC 상담 내용 주요 키워드"
+        },
+        {
+          "text": "다시",
+          "cnt": 6,
+          "icon": "📌",
+          "desc": "AFC 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "긍정적 피드백",
+          "cnt": 9,
+          "icon": "👍"
+        },
+        {
+          "text": "결석/부재",
+          "cnt": 4,
+          "icon": "📞"
+        },
+        {
+          "text": "보강",
+          "cnt": 1,
+          "icon": "📅"
+        }
+      ],
+      "negative_feedback": [
+        {
+          "text": "결석",
+          "cnt": 1,
+          "icon": "🚫"
+        },
+        {
+          "text": "학습 어려움",
+          "cnt": 4,
+          "icon": "😓"
+        }
+      ]
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

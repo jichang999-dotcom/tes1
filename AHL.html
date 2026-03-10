@@ -358,6 +358,199 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-14 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 1,
+    "positive_cnt": 1,
+    "negative_cnt": 1
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-14",
+      "end": "2026-02-14"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "AE070227001",
+      "cnt": 1
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "AHL",
+      "raw_cnt": 1
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "고등화학,수시상담",
+      "cnt": 1
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "과고",
+      "cnt": 3,
+      "icon": "📌",
+      "desc": "AHL 상담 내용 주요 키워드"
+    },
+    {
+      "text": "했음",
+      "cnt": 2,
+      "icon": "📌",
+      "desc": "AHL 상담 내용 주요 키워드"
+    },
+    {
+      "text": "외고도",
+      "cnt": 2,
+      "icon": "📌",
+      "desc": "AHL 상담 내용 주요 키워드"
+    },
+    {
+      "text": "하심",
+      "cnt": 2,
+      "icon": "📌",
+      "desc": "AHL 상담 내용 주요 키워드"
+    },
+    {
+      "text": "어려워하는데",
+      "cnt": 1,
+      "icon": "📌",
+      "desc": "AHL 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [
+    {
+      "text": "학습 어려움",
+      "cnt": 1,
+      "icon": "😓"
+    }
+  ],
+  "req_keyword_summary": [
+    {
+      "text": "긍정적 피드백",
+      "cnt": 1,
+      "icon": "👍"
+    }
+  ],
+  "emp_by_cmp": {
+    "AHL": [
+      {
+        "cns_emp_cd": "AE070227001",
+        "cnt": 1
+      }
+    ]
+  },
+  "by_cmp": {
+    "AHL": {
+      "period": {
+        "start": "2026-02-14",
+        "end": "2026-02-14"
+      },
+      "titles": [
+        {
+          "text": "고등화학,수시상담",
+          "cnt": 1
+        }
+      ],
+      "tokens": [
+        {
+          "text": "과고",
+          "cnt": 3
+        },
+        {
+          "text": "했음",
+          "cnt": 2
+        },
+        {
+          "text": "외고도",
+          "cnt": 2
+        },
+        {
+          "text": "하심",
+          "cnt": 2
+        },
+        {
+          "text": "어려워하는데",
+          "cnt": 1
+        },
+        {
+          "text": "처음보다는",
+          "cnt": 1
+        },
+        {
+          "text": "조금씩",
+          "cnt": 1
+        },
+        {
+          "text": "나아지고",
+          "cnt": 1
+        }
+      ],
+      "total_cnt": 1,
+      "positive_cnt": 1,
+      "negative_cnt": 1,
+      "req_keyword_detail": [
+        {
+          "text": "과고",
+          "cnt": 3,
+          "icon": "📌",
+          "desc": "AHL 상담 내용 주요 키워드"
+        },
+        {
+          "text": "했음",
+          "cnt": 2,
+          "icon": "📌",
+          "desc": "AHL 상담 내용 주요 키워드"
+        },
+        {
+          "text": "외고도",
+          "cnt": 2,
+          "icon": "📌",
+          "desc": "AHL 상담 내용 주요 키워드"
+        },
+        {
+          "text": "하심",
+          "cnt": 2,
+          "icon": "📌",
+          "desc": "AHL 상담 내용 주요 키워드"
+        },
+        {
+          "text": "어려워하는데",
+          "cnt": 1,
+          "icon": "📌",
+          "desc": "AHL 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "긍정적 피드백",
+          "cnt": 1,
+          "icon": "👍"
+        }
+      ],
+      "negative_feedback": [
+        {
+          "text": "학습 어려움",
+          "cnt": 1,
+          "icon": "😓"
+        }
+      ]
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

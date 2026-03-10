@@ -358,6 +358,315 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-07 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 12,
+    "positive_cnt": 8,
+    "negative_cnt": 5
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-07",
+      "end": "2026-03-06"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "AE050709002",
+      "cnt": 5
+    },
+    {
+      "cns_emp_cd": "CE240600001",
+      "cnt": 4
+    },
+    {
+      "cns_emp_cd": "CE260300006",
+      "cnt": 2
+    },
+    {
+      "cns_emp_cd": "CE250800009",
+      "cnt": 1
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "ABJ",
+      "raw_cnt": 12
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "특강 첫수업 상담",
+      "cnt": 2
+    },
+    {
+      "text": "3월부터 월요일 시간이 안됨",
+      "cnt": 1
+    },
+    {
+      "text": "How반 승급으로 반이동 되어서 상담(오경진)",
+      "cnt": 1
+    },
+    {
+      "text": "첫수업 상담",
+      "cnt": 1
+    },
+    {
+      "text": "첫주인사",
+      "cnt": 1
+    },
+    {
+      "text": "첫수업상담",
+      "cnt": 1
+    },
+    {
+      "text": "휴회방지상담",
+      "cnt": 1
+    },
+    {
+      "text": "휴회",
+      "cnt": 1
+    },
+    {
+      "text": "2월 4주차 교과 합류",
+      "cnt": 1
+    },
+    {
+      "text": "수강료 안내",
+      "cnt": 1
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "말씀드림",
+      "cnt": 12,
+      "icon": "📌",
+      "desc": "ABJ 상담 내용 주요 키워드"
+    },
+    {
+      "text": "수업을",
+      "cnt": 4,
+      "icon": "📌",
+      "desc": "ABJ 상담 내용 주요 키워드"
+    },
+    {
+      "text": "많이",
+      "cnt": 4,
+      "icon": "📌",
+      "desc": "ABJ 상담 내용 주요 키워드"
+    },
+    {
+      "text": "문제푸는",
+      "cnt": 4,
+      "icon": "📌",
+      "desc": "ABJ 상담 내용 주요 키워드"
+    },
+    {
+      "text": "좋겠다고",
+      "cnt": 3,
+      "icon": "📌",
+      "desc": "ABJ 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [
+    {
+      "text": "학습 어려움",
+      "cnt": 1,
+      "icon": "😓"
+    },
+    {
+      "text": "불만/싫어함",
+      "cnt": 2,
+      "icon": "😤"
+    },
+    {
+      "text": "휴회",
+      "cnt": 1,
+      "icon": "⏸️"
+    }
+  ],
+  "req_keyword_summary": [
+    {
+      "text": "긍정적 피드백",
+      "cnt": 8,
+      "icon": "👍"
+    }
+  ],
+  "emp_by_cmp": {
+    "ABJ": [
+      {
+        "cns_emp_cd": "AE050709002",
+        "cnt": 5
+      },
+      {
+        "cns_emp_cd": "CE240600001",
+        "cnt": 4
+      },
+      {
+        "cns_emp_cd": "CE260300006",
+        "cnt": 2
+      },
+      {
+        "cns_emp_cd": "CE250800009",
+        "cnt": 1
+      }
+    ]
+  },
+  "by_cmp": {
+    "ABJ": {
+      "period": {
+        "start": "2026-02-07",
+        "end": "2026-03-06"
+      },
+      "titles": [
+        {
+          "text": "특강 첫수업 상담",
+          "cnt": 2
+        },
+        {
+          "text": "3월부터 월요일 시간이 안됨",
+          "cnt": 1
+        },
+        {
+          "text": "How반 승급으로 반이동 되어서 상담(오경진)",
+          "cnt": 1
+        },
+        {
+          "text": "첫수업 상담",
+          "cnt": 1
+        },
+        {
+          "text": "첫주인사",
+          "cnt": 1
+        },
+        {
+          "text": "첫수업상담",
+          "cnt": 1
+        },
+        {
+          "text": "휴회방지상담",
+          "cnt": 1
+        },
+        {
+          "text": "휴회",
+          "cnt": 1
+        },
+        {
+          "text": "2월 4주차 교과 합류",
+          "cnt": 1
+        },
+        {
+          "text": "수강료 안내",
+          "cnt": 1
+        }
+      ],
+      "tokens": [
+        {
+          "text": "말씀드림",
+          "cnt": 12
+        },
+        {
+          "text": "수업을",
+          "cnt": 4
+        },
+        {
+          "text": "많이",
+          "cnt": 4
+        },
+        {
+          "text": "문제푸는",
+          "cnt": 4
+        },
+        {
+          "text": "좋겠다고",
+          "cnt": 3
+        },
+        {
+          "text": "다른",
+          "cnt": 3
+        },
+        {
+          "text": "선생님이",
+          "cnt": 3
+        },
+        {
+          "text": "나쁘지",
+          "cnt": 3
+        }
+      ],
+      "total_cnt": 12,
+      "positive_cnt": 8,
+      "negative_cnt": 5,
+      "req_keyword_detail": [
+        {
+          "text": "말씀드림",
+          "cnt": 12,
+          "icon": "📌",
+          "desc": "ABJ 상담 내용 주요 키워드"
+        },
+        {
+          "text": "수업을",
+          "cnt": 4,
+          "icon": "📌",
+          "desc": "ABJ 상담 내용 주요 키워드"
+        },
+        {
+          "text": "많이",
+          "cnt": 4,
+          "icon": "📌",
+          "desc": "ABJ 상담 내용 주요 키워드"
+        },
+        {
+          "text": "문제푸는",
+          "cnt": 4,
+          "icon": "📌",
+          "desc": "ABJ 상담 내용 주요 키워드"
+        },
+        {
+          "text": "좋겠다고",
+          "cnt": 3,
+          "icon": "📌",
+          "desc": "ABJ 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "긍정적 피드백",
+          "cnt": 8,
+          "icon": "👍"
+        }
+      ],
+      "negative_feedback": [
+        {
+          "text": "학습 어려움",
+          "cnt": 1,
+          "icon": "😓"
+        },
+        {
+          "text": "불만/싫어함",
+          "cnt": 2,
+          "icon": "😤"
+        },
+        {
+          "text": "휴회",
+          "cnt": 1,
+          "icon": "⏸️"
+        }
+      ]
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

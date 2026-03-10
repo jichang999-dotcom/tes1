@@ -358,6 +358,217 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-11 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 4,
+    "positive_cnt": 2,
+    "negative_cnt": 3
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-11",
+      "end": "2026-02-24"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "AE070507001",
+      "cnt": 4
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "ADD",
+      "raw_cnt": 4
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "영재특강(과학)",
+      "cnt": 2
+    },
+    {
+      "text": "특강(과학)",
+      "cnt": 2
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "전함",
+      "cnt": 4,
+      "icon": "📌",
+      "desc": "ADD 상담 내용 주요 키워드"
+    },
+    {
+      "text": "하심",
+      "cnt": 4,
+      "icon": "📌",
+      "desc": "ADD 상담 내용 주요 키워드"
+    },
+    {
+      "text": "수업을",
+      "cnt": 4,
+      "icon": "📌",
+      "desc": "ADD 상담 내용 주요 키워드"
+    },
+    {
+      "text": "특강",
+      "cnt": 4,
+      "icon": "📌",
+      "desc": "ADD 상담 내용 주요 키워드"
+    },
+    {
+      "text": "되지",
+      "cnt": 4,
+      "icon": "📌",
+      "desc": "ADD 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [
+    {
+      "text": "힘들어함",
+      "cnt": 2,
+      "icon": "😔"
+    },
+    {
+      "text": "학습 어려움",
+      "cnt": 3,
+      "icon": "😓"
+    }
+  ],
+  "req_keyword_summary": [
+    {
+      "text": "긍정적 피드백",
+      "cnt": 2,
+      "icon": "👍"
+    }
+  ],
+  "emp_by_cmp": {
+    "ADD": [
+      {
+        "cns_emp_cd": "AE070507001",
+        "cnt": 4
+      }
+    ]
+  },
+  "by_cmp": {
+    "ADD": {
+      "period": {
+        "start": "2026-02-11",
+        "end": "2026-02-24"
+      },
+      "titles": [
+        {
+          "text": "영재특강(과학)",
+          "cnt": 2
+        },
+        {
+          "text": "특강(과학)",
+          "cnt": 2
+        }
+      ],
+      "tokens": [
+        {
+          "text": "전함",
+          "cnt": 4
+        },
+        {
+          "text": "하심",
+          "cnt": 4
+        },
+        {
+          "text": "수업을",
+          "cnt": 4
+        },
+        {
+          "text": "특강",
+          "cnt": 4
+        },
+        {
+          "text": "되지",
+          "cnt": 4
+        },
+        {
+          "text": "같다고",
+          "cnt": 4
+        },
+        {
+          "text": "문제",
+          "cnt": 4
+        },
+        {
+          "text": "문제들을",
+          "cnt": 4
+        }
+      ],
+      "total_cnt": 4,
+      "positive_cnt": 2,
+      "negative_cnt": 3,
+      "req_keyword_detail": [
+        {
+          "text": "전함",
+          "cnt": 4,
+          "icon": "📌",
+          "desc": "ADD 상담 내용 주요 키워드"
+        },
+        {
+          "text": "하심",
+          "cnt": 4,
+          "icon": "📌",
+          "desc": "ADD 상담 내용 주요 키워드"
+        },
+        {
+          "text": "수업을",
+          "cnt": 4,
+          "icon": "📌",
+          "desc": "ADD 상담 내용 주요 키워드"
+        },
+        {
+          "text": "특강",
+          "cnt": 4,
+          "icon": "📌",
+          "desc": "ADD 상담 내용 주요 키워드"
+        },
+        {
+          "text": "되지",
+          "cnt": 4,
+          "icon": "📌",
+          "desc": "ADD 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "긍정적 피드백",
+          "cnt": 2,
+          "icon": "👍"
+        }
+      ],
+      "negative_feedback": [
+        {
+          "text": "힘들어함",
+          "cnt": 2,
+          "icon": "😔"
+        },
+        {
+          "text": "학습 어려움",
+          "cnt": 3,
+          "icon": "😓"
+        }
+      ]
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

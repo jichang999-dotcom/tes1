@@ -358,6 +358,333 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-01 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 10,
+    "positive_cnt": 4,
+    "negative_cnt": 3
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-01",
+      "end": "2026-03-05"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "AE060107004",
+      "cnt": 6
+    },
+    {
+      "cns_emp_cd": "CE241100049",
+      "cnt": 1
+    },
+    {
+      "cns_emp_cd": "AE161200011",
+      "cnt": 1
+    },
+    {
+      "cns_emp_cd": "AE160700031",
+      "cnt": 1
+    },
+    {
+      "cns_emp_cd": "CE210400031",
+      "cnt": 1
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "ACN",
+      "raw_cnt": 10
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "상담 불통, 문자",
+      "cnt": 1
+    },
+    {
+      "text": "평가결과/공통수학 1,2 마무리/실력 정석 사용",
+      "cnt": 1
+    },
+    {
+      "text": "사고력수학권유",
+      "cnt": 1
+    },
+    {
+      "text": "2월 수업/평가 상담-부재->문자 드림",
+      "cnt": 1
+    },
+    {
+      "text": "1월 수업/평가 상담-부재->문자 드림",
+      "cnt": 1
+    },
+    {
+      "text": "1월 수업/평가 상담/설 연휴 안내/시간표 관련",
+      "cnt": 1
+    },
+    {
+      "text": "3-1교과 특강 수업 안내-수강 신청/1주차 보강-3/3(화) 7:00",
+      "cnt": 1
+    },
+    {
+      "text": "첫 수업 전 상담",
+      "cnt": 1
+    },
+    {
+      "text": "정기상담",
+      "cnt": 1
+    },
+    {
+      "text": "1월 수업/평가 상담/설 연휴 안내-부재->문자 드림",
+      "cnt": 1
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "하심",
+      "cnt": 8,
+      "icon": "📌",
+      "desc": "ACN 상담 내용 주요 키워드"
+    },
+    {
+      "text": "과학",
+      "cnt": 4,
+      "icon": "📌",
+      "desc": "ACN 상담 내용 주요 키워드"
+    },
+    {
+      "text": "수업",
+      "cnt": 4,
+      "icon": "📌",
+      "desc": "ACN 상담 내용 주요 키워드"
+    },
+    {
+      "text": "일정",
+      "cnt": 4,
+      "icon": "📌",
+      "desc": "ACN 상담 내용 주요 키워드"
+    },
+    {
+      "text": "와이즈만",
+      "cnt": 3,
+      "icon": "📌",
+      "desc": "ACN 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [
+    {
+      "text": "힘들어함",
+      "cnt": 1,
+      "icon": "😔"
+    },
+    {
+      "text": "학습 어려움",
+      "cnt": 1,
+      "icon": "😓"
+    }
+  ],
+  "req_keyword_summary": [
+    {
+      "text": "긍정적 피드백",
+      "cnt": 4,
+      "icon": "👍"
+    },
+    {
+      "text": "칭찬",
+      "cnt": 1,
+      "icon": "🌟"
+    },
+    {
+      "text": "보강",
+      "cnt": 1,
+      "icon": "📅"
+    }
+  ],
+  "emp_by_cmp": {
+    "ACN": [
+      {
+        "cns_emp_cd": "AE060107004",
+        "cnt": 6
+      },
+      {
+        "cns_emp_cd": "CE241100049",
+        "cnt": 1
+      },
+      {
+        "cns_emp_cd": "AE161200011",
+        "cnt": 1
+      },
+      {
+        "cns_emp_cd": "AE160700031",
+        "cnt": 1
+      },
+      {
+        "cns_emp_cd": "CE210400031",
+        "cnt": 1
+      }
+    ]
+  },
+  "by_cmp": {
+    "ACN": {
+      "period": {
+        "start": "2026-02-01",
+        "end": "2026-03-05"
+      },
+      "titles": [
+        {
+          "text": "상담 불통, 문자",
+          "cnt": 1
+        },
+        {
+          "text": "평가결과/공통수학 1,2 마무리/실력 정석 사용",
+          "cnt": 1
+        },
+        {
+          "text": "사고력수학권유",
+          "cnt": 1
+        },
+        {
+          "text": "2월 수업/평가 상담-부재->문자 드림",
+          "cnt": 1
+        },
+        {
+          "text": "1월 수업/평가 상담-부재->문자 드림",
+          "cnt": 1
+        },
+        {
+          "text": "1월 수업/평가 상담/설 연휴 안내/시간표 관련",
+          "cnt": 1
+        },
+        {
+          "text": "3-1교과 특강 수업 안내-수강 신청/1주차 보강-3/3(화) 7:00",
+          "cnt": 1
+        },
+        {
+          "text": "첫 수업 전 상담",
+          "cnt": 1
+        },
+        {
+          "text": "정기상담",
+          "cnt": 1
+        },
+        {
+          "text": "1월 수업/평가 상담/설 연휴 안내-부재->문자 드림",
+          "cnt": 1
+        }
+      ],
+      "tokens": [
+        {
+          "text": "하심",
+          "cnt": 8
+        },
+        {
+          "text": "과학",
+          "cnt": 4
+        },
+        {
+          "text": "수업",
+          "cnt": 4
+        },
+        {
+          "text": "일정",
+          "cnt": 4
+        },
+        {
+          "text": "와이즈만",
+          "cnt": 3
+        },
+        {
+          "text": "2월",
+          "cnt": 3
+        },
+        {
+          "text": "내용",
+          "cnt": 3
+        },
+        {
+          "text": "안내",
+          "cnt": 3
+        }
+      ],
+      "total_cnt": 10,
+      "positive_cnt": 4,
+      "negative_cnt": 3,
+      "req_keyword_detail": [
+        {
+          "text": "하심",
+          "cnt": 8,
+          "icon": "📌",
+          "desc": "ACN 상담 내용 주요 키워드"
+        },
+        {
+          "text": "과학",
+          "cnt": 4,
+          "icon": "📌",
+          "desc": "ACN 상담 내용 주요 키워드"
+        },
+        {
+          "text": "수업",
+          "cnt": 4,
+          "icon": "📌",
+          "desc": "ACN 상담 내용 주요 키워드"
+        },
+        {
+          "text": "일정",
+          "cnt": 4,
+          "icon": "📌",
+          "desc": "ACN 상담 내용 주요 키워드"
+        },
+        {
+          "text": "와이즈만",
+          "cnt": 3,
+          "icon": "📌",
+          "desc": "ACN 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "긍정적 피드백",
+          "cnt": 4,
+          "icon": "👍"
+        },
+        {
+          "text": "칭찬",
+          "cnt": 1,
+          "icon": "🌟"
+        },
+        {
+          "text": "보강",
+          "cnt": 1,
+          "icon": "📅"
+        }
+      ],
+      "negative_feedback": [
+        {
+          "text": "힘들어함",
+          "cnt": 1,
+          "icon": "😔"
+        },
+        {
+          "text": "학습 어려움",
+          "cnt": 1,
+          "icon": "😓"
+        }
+      ]
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

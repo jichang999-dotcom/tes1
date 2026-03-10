@@ -358,6 +358,261 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-03 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 5,
+    "positive_cnt": 4,
+    "negative_cnt": 2
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-03",
+      "end": "2026-02-26"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "CE250300022",
+      "cnt": 3
+    },
+    {
+      "cns_emp_cd": "CE221000035",
+      "cnt": 2
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "AKX",
+      "raw_cnt": 5
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "일반 상담",
+      "cnt": 2
+    },
+    {
+      "text": "마지막인사 (+홍서진)",
+      "cnt": 1
+    },
+    {
+      "text": "결석",
+      "cnt": 1
+    },
+    {
+      "text": "마지막인사(+김서후)",
+      "cnt": 1
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "이제",
+      "cnt": 3,
+      "icon": "📌",
+      "desc": "AKX 상담 내용 주요 키워드"
+    },
+    {
+      "text": "과학이",
+      "cnt": 3,
+      "icon": "📌",
+      "desc": "AKX 상담 내용 주요 키워드"
+    },
+    {
+      "text": "점점",
+      "cnt": 2,
+      "icon": "📌",
+      "desc": "AKX 상담 내용 주요 키워드"
+    },
+    {
+      "text": "바뀌어",
+      "cnt": 2,
+      "icon": "📌",
+      "desc": "AKX 상담 내용 주요 키워드"
+    },
+    {
+      "text": "어머님",
+      "cnt": 2,
+      "icon": "📌",
+      "desc": "AKX 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [
+    {
+      "text": "결석",
+      "cnt": 1,
+      "icon": "🚫"
+    },
+    {
+      "text": "불만/싫어함",
+      "cnt": 1,
+      "icon": "😤"
+    }
+  ],
+  "req_keyword_summary": [
+    {
+      "text": "긍정적 피드백",
+      "cnt": 4,
+      "icon": "👍"
+    },
+    {
+      "text": "결석/부재",
+      "cnt": 1,
+      "icon": "📞"
+    },
+    {
+      "text": "보강",
+      "cnt": 1,
+      "icon": "📅"
+    }
+  ],
+  "emp_by_cmp": {
+    "AKX": [
+      {
+        "cns_emp_cd": "CE250300022",
+        "cnt": 3
+      },
+      {
+        "cns_emp_cd": "CE221000035",
+        "cnt": 2
+      }
+    ]
+  },
+  "by_cmp": {
+    "AKX": {
+      "period": {
+        "start": "2026-02-03",
+        "end": "2026-02-26"
+      },
+      "titles": [
+        {
+          "text": "일반 상담",
+          "cnt": 2
+        },
+        {
+          "text": "마지막인사 (+홍서진)",
+          "cnt": 1
+        },
+        {
+          "text": "결석",
+          "cnt": 1
+        },
+        {
+          "text": "마지막인사(+김서후)",
+          "cnt": 1
+        }
+      ],
+      "tokens": [
+        {
+          "text": "이제",
+          "cnt": 3
+        },
+        {
+          "text": "과학이",
+          "cnt": 3
+        },
+        {
+          "text": "점점",
+          "cnt": 2
+        },
+        {
+          "text": "바뀌어",
+          "cnt": 2
+        },
+        {
+          "text": "어머님",
+          "cnt": 2
+        },
+        {
+          "text": "전달",
+          "cnt": 2
+        },
+        {
+          "text": "드렸습니다",
+          "cnt": 2
+        },
+        {
+          "text": "이야기",
+          "cnt": 2
+        }
+      ],
+      "total_cnt": 5,
+      "positive_cnt": 4,
+      "negative_cnt": 2,
+      "req_keyword_detail": [
+        {
+          "text": "이제",
+          "cnt": 3,
+          "icon": "📌",
+          "desc": "AKX 상담 내용 주요 키워드"
+        },
+        {
+          "text": "과학이",
+          "cnt": 3,
+          "icon": "📌",
+          "desc": "AKX 상담 내용 주요 키워드"
+        },
+        {
+          "text": "점점",
+          "cnt": 2,
+          "icon": "📌",
+          "desc": "AKX 상담 내용 주요 키워드"
+        },
+        {
+          "text": "바뀌어",
+          "cnt": 2,
+          "icon": "📌",
+          "desc": "AKX 상담 내용 주요 키워드"
+        },
+        {
+          "text": "어머님",
+          "cnt": 2,
+          "icon": "📌",
+          "desc": "AKX 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "긍정적 피드백",
+          "cnt": 4,
+          "icon": "👍"
+        },
+        {
+          "text": "결석/부재",
+          "cnt": 1,
+          "icon": "📞"
+        },
+        {
+          "text": "보강",
+          "cnt": 1,
+          "icon": "📅"
+        }
+      ],
+      "negative_feedback": [
+        {
+          "text": "결석",
+          "cnt": 1,
+          "icon": "🚫"
+        },
+        {
+          "text": "불만/싫어함",
+          "cnt": 1,
+          "icon": "😤"
+        }
+      ]
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

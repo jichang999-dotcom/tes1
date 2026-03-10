@@ -358,6 +358,291 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-03 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 23,
+    "positive_cnt": 15,
+    "negative_cnt": 20
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-03",
+      "end": "2026-02-20"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "CE240800007",
+      "cnt": 9
+    },
+    {
+      "cns_emp_cd": "CE230200027",
+      "cnt": 7
+    },
+    {
+      "cns_emp_cd": "CE241200013",
+      "cnt": 5
+    },
+    {
+      "cns_emp_cd": "CE220100043",
+      "cnt": 2
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "CBL",
+      "raw_cnt": 23
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "2월 정기상담",
+      "cnt": 22
+    },
+    {
+      "text": "올림피아드 첫수업후 상담",
+      "cnt": 1
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "말씀드림",
+      "cnt": 23,
+      "icon": "📌",
+      "desc": "CBL 상담 내용 주요 키워드"
+    },
+    {
+      "text": "많이",
+      "cnt": 22,
+      "icon": "📌",
+      "desc": "CBL 상담 내용 주요 키워드"
+    },
+    {
+      "text": "하심",
+      "cnt": 15,
+      "icon": "📌",
+      "desc": "CBL 상담 내용 주요 키워드"
+    },
+    {
+      "text": "조금",
+      "cnt": 12,
+      "icon": "📌",
+      "desc": "CBL 상담 내용 주요 키워드"
+    },
+    {
+      "text": "혼자",
+      "cnt": 11,
+      "icon": "📌",
+      "desc": "CBL 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [
+    {
+      "text": "결석",
+      "cnt": 1,
+      "icon": "🚫"
+    },
+    {
+      "text": "힘들어함",
+      "cnt": 6,
+      "icon": "😔"
+    },
+    {
+      "text": "학습 어려움",
+      "cnt": 13,
+      "icon": "😓"
+    },
+    {
+      "text": "불만/싫어함",
+      "cnt": 7,
+      "icon": "😤"
+    },
+    {
+      "text": "그만두기/퇴원",
+      "cnt": 1,
+      "icon": "⚠️"
+    }
+  ],
+  "req_keyword_summary": [
+    {
+      "text": "긍정적 피드백",
+      "cnt": 15,
+      "icon": "👍"
+    },
+    {
+      "text": "결석/부재",
+      "cnt": 1,
+      "icon": "📞"
+    },
+    {
+      "text": "보강",
+      "cnt": 3,
+      "icon": "📅"
+    }
+  ],
+  "emp_by_cmp": {
+    "CBL": [
+      {
+        "cns_emp_cd": "CE240800007",
+        "cnt": 9
+      },
+      {
+        "cns_emp_cd": "CE230200027",
+        "cnt": 7
+      },
+      {
+        "cns_emp_cd": "CE241200013",
+        "cnt": 5
+      },
+      {
+        "cns_emp_cd": "CE220100043",
+        "cnt": 2
+      }
+    ]
+  },
+  "by_cmp": {
+    "CBL": {
+      "period": {
+        "start": "2026-02-03",
+        "end": "2026-02-20"
+      },
+      "titles": [
+        {
+          "text": "2월 정기상담",
+          "cnt": 22
+        },
+        {
+          "text": "올림피아드 첫수업후 상담",
+          "cnt": 1
+        }
+      ],
+      "tokens": [
+        {
+          "text": "말씀드림",
+          "cnt": 23
+        },
+        {
+          "text": "많이",
+          "cnt": 22
+        },
+        {
+          "text": "하심",
+          "cnt": 15
+        },
+        {
+          "text": "조금",
+          "cnt": 12
+        },
+        {
+          "text": "혼자",
+          "cnt": 11
+        },
+        {
+          "text": "같다고",
+          "cnt": 10
+        },
+        {
+          "text": "문제",
+          "cnt": 9
+        },
+        {
+          "text": "있음",
+          "cnt": 8
+        }
+      ],
+      "total_cnt": 23,
+      "positive_cnt": 15,
+      "negative_cnt": 20,
+      "req_keyword_detail": [
+        {
+          "text": "말씀드림",
+          "cnt": 23,
+          "icon": "📌",
+          "desc": "CBL 상담 내용 주요 키워드"
+        },
+        {
+          "text": "많이",
+          "cnt": 22,
+          "icon": "📌",
+          "desc": "CBL 상담 내용 주요 키워드"
+        },
+        {
+          "text": "하심",
+          "cnt": 15,
+          "icon": "📌",
+          "desc": "CBL 상담 내용 주요 키워드"
+        },
+        {
+          "text": "조금",
+          "cnt": 12,
+          "icon": "📌",
+          "desc": "CBL 상담 내용 주요 키워드"
+        },
+        {
+          "text": "혼자",
+          "cnt": 11,
+          "icon": "📌",
+          "desc": "CBL 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "긍정적 피드백",
+          "cnt": 15,
+          "icon": "👍"
+        },
+        {
+          "text": "결석/부재",
+          "cnt": 1,
+          "icon": "📞"
+        },
+        {
+          "text": "보강",
+          "cnt": 3,
+          "icon": "📅"
+        }
+      ],
+      "negative_feedback": [
+        {
+          "text": "결석",
+          "cnt": 1,
+          "icon": "🚫"
+        },
+        {
+          "text": "힘들어함",
+          "cnt": 6,
+          "icon": "😔"
+        },
+        {
+          "text": "학습 어려움",
+          "cnt": 13,
+          "icon": "😓"
+        },
+        {
+          "text": "불만/싫어함",
+          "cnt": 7,
+          "icon": "😤"
+        },
+        {
+          "text": "그만두기/퇴원",
+          "cnt": 1,
+          "icon": "⚠️"
+        }
+      ]
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

@@ -358,6 +358,183 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-04 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 3,
+    "positive_cnt": 0,
+    "negative_cnt": 0
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-04",
+      "end": "2026-02-26"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "AE100700050",
+      "cnt": 3
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "AAV",
+      "raw_cnt": 3
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "일반상담",
+      "cnt": 2
+    },
+    {
+      "text": "수업",
+      "cnt": 1
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "상담",
+      "cnt": 2,
+      "icon": "📌",
+      "desc": "AAV 상담 내용 주요 키워드"
+    },
+    {
+      "text": "부분이",
+      "cnt": 2,
+      "icon": "📌",
+      "desc": "AAV 상담 내용 주요 키워드"
+    },
+    {
+      "text": "점수대가",
+      "cnt": 2,
+      "icon": "📌",
+      "desc": "AAV 상담 내용 주요 키워드"
+    },
+    {
+      "text": "낮고",
+      "cnt": 2,
+      "icon": "📌",
+      "desc": "AAV 상담 내용 주요 키워드"
+    },
+    {
+      "text": "전함",
+      "cnt": 2,
+      "icon": "📌",
+      "desc": "AAV 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [],
+  "req_keyword_summary": [],
+  "emp_by_cmp": {
+    "AAV": [
+      {
+        "cns_emp_cd": "AE100700050",
+        "cnt": 3
+      }
+    ]
+  },
+  "by_cmp": {
+    "AAV": {
+      "period": {
+        "start": "2026-02-04",
+        "end": "2026-02-26"
+      },
+      "titles": [
+        {
+          "text": "일반상담",
+          "cnt": 2
+        },
+        {
+          "text": "수업",
+          "cnt": 1
+        }
+      ],
+      "tokens": [
+        {
+          "text": "상담",
+          "cnt": 2
+        },
+        {
+          "text": "부분이",
+          "cnt": 2
+        },
+        {
+          "text": "점수대가",
+          "cnt": 2
+        },
+        {
+          "text": "낮고",
+          "cnt": 2
+        },
+        {
+          "text": "전함",
+          "cnt": 2
+        },
+        {
+          "text": "수업",
+          "cnt": 2
+        },
+        {
+          "text": "3월수업",
+          "cnt": 1
+        },
+        {
+          "text": "부분",
+          "cnt": 1
+        }
+      ],
+      "total_cnt": 3,
+      "positive_cnt": 0,
+      "negative_cnt": 0,
+      "req_keyword_detail": [
+        {
+          "text": "상담",
+          "cnt": 2,
+          "icon": "📌",
+          "desc": "AAV 상담 내용 주요 키워드"
+        },
+        {
+          "text": "부분이",
+          "cnt": 2,
+          "icon": "📌",
+          "desc": "AAV 상담 내용 주요 키워드"
+        },
+        {
+          "text": "점수대가",
+          "cnt": 2,
+          "icon": "📌",
+          "desc": "AAV 상담 내용 주요 키워드"
+        },
+        {
+          "text": "낮고",
+          "cnt": 2,
+          "icon": "📌",
+          "desc": "AAV 상담 내용 주요 키워드"
+        },
+        {
+          "text": "전함",
+          "cnt": 2,
+          "icon": "📌",
+          "desc": "AAV 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [],
+      "negative_feedback": []
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

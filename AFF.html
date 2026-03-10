@@ -358,6 +358,331 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-03 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 20,
+    "positive_cnt": 2,
+    "negative_cnt": 5
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-03",
+      "end": "2026-03-05"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "CE250200022",
+      "cnt": 11
+    },
+    {
+      "cns_emp_cd": "AE141100039",
+      "cnt": 3
+    },
+    {
+      "cns_emp_cd": "CE201200012",
+      "cnt": 2
+    },
+    {
+      "cns_emp_cd": "AE070124005",
+      "cnt": 2
+    },
+    {
+      "cns_emp_cd": "AE131200068",
+      "cnt": 1
+    },
+    {
+      "cns_emp_cd": "CE210100037",
+      "cnt": 1
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "AFF",
+      "raw_cnt": 20
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "성남고 배정.",
+      "cnt": 1
+    },
+    {
+      "text": "결석예정_원장님",
+      "cnt": 1
+    },
+    {
+      "text": "[2월 정기상담] 부재중 17:50",
+      "cnt": 1
+    },
+    {
+      "text": "2/9-2/13 여행으로 보강문의_방특은 이월처리",
+      "cnt": 1
+    },
+    {
+      "text": "과학합류원하심_과학한적없음_가능한반확인후콜백드려야함",
+      "cnt": 1
+    },
+    {
+      "text": "[2월 정기상담] 부재중 17:30",
+      "cnt": 1
+    },
+    {
+      "text": "수학사고력과 입시상담문의_윤팀장님 연결",
+      "cnt": 1
+    },
+    {
+      "text": "3월부터토요일로가시거나화요하이탑고민중/확인전화부재중",
+      "cnt": 1
+    },
+    {
+      "text": "보강시간문의_처음에 9시반얘기하시고 끊으시며11시30분 이야기하셨다고_9시30분으로",
+      "cnt": 1
+    },
+    {
+      "text": "반이동 상담-부재 6:21",
+      "cnt": 1
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "과고반에서",
+      "cnt": 3,
+      "icon": "📌",
+      "desc": "AFF 상담 내용 주요 키워드"
+    },
+    {
+      "text": "마무리",
+      "cnt": 3,
+      "icon": "📌",
+      "desc": "AFF 상담 내용 주요 키워드"
+    },
+    {
+      "text": "이야기하였음",
+      "cnt": 3,
+      "icon": "📌",
+      "desc": "AFF 상담 내용 주요 키워드"
+    },
+    {
+      "text": "부재중",
+      "cnt": 2,
+      "icon": "📌",
+      "desc": "AFF 상담 내용 주요 키워드"
+    },
+    {
+      "text": "수업",
+      "cnt": 2,
+      "icon": "📌",
+      "desc": "AFF 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [
+    {
+      "text": "결석",
+      "cnt": 1,
+      "icon": "🚫"
+    }
+  ],
+  "req_keyword_summary": [
+    {
+      "text": "긍정적 피드백",
+      "cnt": 2,
+      "icon": "👍"
+    },
+    {
+      "text": "결석/부재",
+      "cnt": 3,
+      "icon": "📞"
+    },
+    {
+      "text": "보강",
+      "cnt": 3,
+      "icon": "📅"
+    }
+  ],
+  "emp_by_cmp": {
+    "AFF": [
+      {
+        "cns_emp_cd": "CE250200022",
+        "cnt": 11
+      },
+      {
+        "cns_emp_cd": "AE141100039",
+        "cnt": 3
+      },
+      {
+        "cns_emp_cd": "CE201200012",
+        "cnt": 2
+      },
+      {
+        "cns_emp_cd": "AE070124005",
+        "cnt": 2
+      },
+      {
+        "cns_emp_cd": "AE131200068",
+        "cnt": 1
+      },
+      {
+        "cns_emp_cd": "CE210100037",
+        "cnt": 1
+      }
+    ]
+  },
+  "by_cmp": {
+    "AFF": {
+      "period": {
+        "start": "2026-02-03",
+        "end": "2026-03-05"
+      },
+      "titles": [
+        {
+          "text": "성남고 배정.",
+          "cnt": 1
+        },
+        {
+          "text": "결석예정_원장님",
+          "cnt": 1
+        },
+        {
+          "text": "[2월 정기상담] 부재중 17:50",
+          "cnt": 1
+        },
+        {
+          "text": "2/9-2/13 여행으로 보강문의_방특은 이월처리",
+          "cnt": 1
+        },
+        {
+          "text": "과학합류원하심_과학한적없음_가능한반확인후콜백드려야함",
+          "cnt": 1
+        },
+        {
+          "text": "[2월 정기상담] 부재중 17:30",
+          "cnt": 1
+        },
+        {
+          "text": "수학사고력과 입시상담문의_윤팀장님 연결",
+          "cnt": 1
+        },
+        {
+          "text": "3월부터토요일로가시거나화요하이탑고민중/확인전화부재중",
+          "cnt": 1
+        },
+        {
+          "text": "보강시간문의_처음에 9시반얘기하시고 끊으시며11시30분 이야기하셨다고_9시30분으로",
+          "cnt": 1
+        },
+        {
+          "text": "반이동 상담-부재 6:21",
+          "cnt": 1
+        }
+      ],
+      "tokens": [
+        {
+          "text": "과고반에서",
+          "cnt": 3
+        },
+        {
+          "text": "마무리",
+          "cnt": 3
+        },
+        {
+          "text": "이야기하였음",
+          "cnt": 3
+        },
+        {
+          "text": "부재중",
+          "cnt": 2
+        },
+        {
+          "text": "수업",
+          "cnt": 2
+        },
+        {
+          "text": "어머님",
+          "cnt": 2
+        },
+        {
+          "text": "세페이드",
+          "cnt": 2
+        },
+        {
+          "text": "5F를",
+          "cnt": 2
+        }
+      ],
+      "total_cnt": 20,
+      "positive_cnt": 2,
+      "negative_cnt": 5,
+      "req_keyword_detail": [
+        {
+          "text": "과고반에서",
+          "cnt": 3,
+          "icon": "📌",
+          "desc": "AFF 상담 내용 주요 키워드"
+        },
+        {
+          "text": "마무리",
+          "cnt": 3,
+          "icon": "📌",
+          "desc": "AFF 상담 내용 주요 키워드"
+        },
+        {
+          "text": "이야기하였음",
+          "cnt": 3,
+          "icon": "📌",
+          "desc": "AFF 상담 내용 주요 키워드"
+        },
+        {
+          "text": "부재중",
+          "cnt": 2,
+          "icon": "📌",
+          "desc": "AFF 상담 내용 주요 키워드"
+        },
+        {
+          "text": "수업",
+          "cnt": 2,
+          "icon": "📌",
+          "desc": "AFF 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "긍정적 피드백",
+          "cnt": 2,
+          "icon": "👍"
+        },
+        {
+          "text": "결석/부재",
+          "cnt": 3,
+          "icon": "📞"
+        },
+        {
+          "text": "보강",
+          "cnt": 3,
+          "icon": "📅"
+        }
+      ],
+      "negative_feedback": [
+        {
+          "text": "결석",
+          "cnt": 1,
+          "icon": "🚫"
+        }
+      ]
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

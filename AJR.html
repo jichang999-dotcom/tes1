@@ -358,6 +358,351 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-02 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 24,
+    "positive_cnt": 9,
+    "negative_cnt": 17
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-02",
+      "end": "2026-03-06"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "CE260100025",
+      "cnt": 6
+    },
+    {
+      "cns_emp_cd": "AE181200036",
+      "cnt": 5
+    },
+    {
+      "cns_emp_cd": "CE250900006",
+      "cnt": 3
+    },
+    {
+      "cns_emp_cd": "CE230700003",
+      "cnt": 3
+    },
+    {
+      "cns_emp_cd": "CE241200012",
+      "cnt": 3
+    },
+    {
+      "cns_emp_cd": "CE240600029",
+      "cnt": 3
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "AJR",
+      "raw_cnt": 24
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "2월 정기상담",
+      "cnt": 5
+    },
+    {
+      "text": "2월 3일 결석",
+      "cnt": 2
+    },
+    {
+      "text": "2월 정기",
+      "cnt": 2
+    },
+    {
+      "text": "1월 정기 상담(부재)",
+      "cnt": 1
+    },
+    {
+      "text": "2월 상담",
+      "cnt": 1
+    },
+    {
+      "text": "2월 정기 / 부재",
+      "cnt": 1
+    },
+    {
+      "text": "수학선생님변동, 일요특강, 성적표상담",
+      "cnt": 1
+    },
+    {
+      "text": "2월 정기 / 25일(수) 17:00 보강",
+      "cnt": 1
+    },
+    {
+      "text": "부재",
+      "cnt": 1
+    },
+    {
+      "text": "1월 정기",
+      "cnt": 1
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "말씀",
+      "cnt": 22,
+      "icon": "📌",
+      "desc": "AJR 상담 내용 주요 키워드"
+    },
+    {
+      "text": "드림",
+      "cnt": 18,
+      "icon": "📌",
+      "desc": "AJR 상담 내용 주요 키워드"
+    },
+    {
+      "text": "학생이",
+      "cnt": 16,
+      "icon": "📌",
+      "desc": "AJR 상담 내용 주요 키워드"
+    },
+    {
+      "text": "어머니께서",
+      "cnt": 12,
+      "icon": "📌",
+      "desc": "AJR 상담 내용 주요 키워드"
+    },
+    {
+      "text": "안내",
+      "cnt": 9,
+      "icon": "📌",
+      "desc": "AJR 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [
+    {
+      "text": "결석",
+      "cnt": 3,
+      "icon": "🚫"
+    },
+    {
+      "text": "힘들어함",
+      "cnt": 1,
+      "icon": "😔"
+    },
+    {
+      "text": "학습 어려움",
+      "cnt": 6,
+      "icon": "😓"
+    }
+  ],
+  "req_keyword_summary": [
+    {
+      "text": "긍정적 피드백",
+      "cnt": 9,
+      "icon": "👍"
+    },
+    {
+      "text": "결석/부재",
+      "cnt": 4,
+      "icon": "📞"
+    },
+    {
+      "text": "보강",
+      "cnt": 2,
+      "icon": "📅"
+    }
+  ],
+  "emp_by_cmp": {
+    "AJR": [
+      {
+        "cns_emp_cd": "CE260100025",
+        "cnt": 6
+      },
+      {
+        "cns_emp_cd": "AE181200036",
+        "cnt": 5
+      },
+      {
+        "cns_emp_cd": "CE250900006",
+        "cnt": 3
+      },
+      {
+        "cns_emp_cd": "CE230700003",
+        "cnt": 3
+      },
+      {
+        "cns_emp_cd": "CE241200012",
+        "cnt": 3
+      },
+      {
+        "cns_emp_cd": "CE240600029",
+        "cnt": 3
+      }
+    ]
+  },
+  "by_cmp": {
+    "AJR": {
+      "period": {
+        "start": "2026-02-02",
+        "end": "2026-03-06"
+      },
+      "titles": [
+        {
+          "text": "2월 정기상담",
+          "cnt": 5
+        },
+        {
+          "text": "2월 3일 결석",
+          "cnt": 2
+        },
+        {
+          "text": "2월 정기",
+          "cnt": 2
+        },
+        {
+          "text": "1월 정기 상담(부재)",
+          "cnt": 1
+        },
+        {
+          "text": "2월 상담",
+          "cnt": 1
+        },
+        {
+          "text": "2월 정기 / 부재",
+          "cnt": 1
+        },
+        {
+          "text": "수학선생님변동, 일요특강, 성적표상담",
+          "cnt": 1
+        },
+        {
+          "text": "2월 정기 / 25일(수) 17:00 보강",
+          "cnt": 1
+        },
+        {
+          "text": "부재",
+          "cnt": 1
+        },
+        {
+          "text": "1월 정기",
+          "cnt": 1
+        }
+      ],
+      "tokens": [
+        {
+          "text": "말씀",
+          "cnt": 22
+        },
+        {
+          "text": "드림",
+          "cnt": 18
+        },
+        {
+          "text": "학생이",
+          "cnt": 16
+        },
+        {
+          "text": "어머니께서",
+          "cnt": 12
+        },
+        {
+          "text": "안내",
+          "cnt": 9
+        },
+        {
+          "text": "있다고",
+          "cnt": 7
+        },
+        {
+          "text": "많이",
+          "cnt": 7
+        },
+        {
+          "text": "너무",
+          "cnt": 6
+        }
+      ],
+      "total_cnt": 24,
+      "positive_cnt": 9,
+      "negative_cnt": 17,
+      "req_keyword_detail": [
+        {
+          "text": "말씀",
+          "cnt": 22,
+          "icon": "📌",
+          "desc": "AJR 상담 내용 주요 키워드"
+        },
+        {
+          "text": "드림",
+          "cnt": 18,
+          "icon": "📌",
+          "desc": "AJR 상담 내용 주요 키워드"
+        },
+        {
+          "text": "학생이",
+          "cnt": 16,
+          "icon": "📌",
+          "desc": "AJR 상담 내용 주요 키워드"
+        },
+        {
+          "text": "어머니께서",
+          "cnt": 12,
+          "icon": "📌",
+          "desc": "AJR 상담 내용 주요 키워드"
+        },
+        {
+          "text": "안내",
+          "cnt": 9,
+          "icon": "📌",
+          "desc": "AJR 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "긍정적 피드백",
+          "cnt": 9,
+          "icon": "👍"
+        },
+        {
+          "text": "결석/부재",
+          "cnt": 4,
+          "icon": "📞"
+        },
+        {
+          "text": "보강",
+          "cnt": 2,
+          "icon": "📅"
+        }
+      ],
+      "negative_feedback": [
+        {
+          "text": "결석",
+          "cnt": 3,
+          "icon": "🚫"
+        },
+        {
+          "text": "힘들어함",
+          "cnt": 1,
+          "icon": "😔"
+        },
+        {
+          "text": "학습 어려움",
+          "cnt": 6,
+          "icon": "😓"
+        }
+      ]
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

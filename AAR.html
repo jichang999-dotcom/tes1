@@ -358,6 +358,391 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-03 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 64,
+    "positive_cnt": 37,
+    "negative_cnt": 33
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-03",
+      "end": "2026-03-07"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "AE120800021",
+      "cnt": 30
+    },
+    {
+      "cns_emp_cd": "CE230800028",
+      "cnt": 8
+    },
+    {
+      "cns_emp_cd": "CE220800023",
+      "cnt": 5
+    },
+    {
+      "cns_emp_cd": "CE230800021",
+      "cnt": 5
+    },
+    {
+      "cns_emp_cd": "CE251100022",
+      "cnt": 5
+    },
+    {
+      "cns_emp_cd": "AE110600036",
+      "cnt": 4
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "AAR",
+      "raw_cnt": 64
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "수업 상담",
+      "cnt": 14
+    },
+    {
+      "text": "화학 1단원 상담",
+      "cnt": 12
+    },
+    {
+      "text": "중학교 1학년 마무리 상담",
+      "cnt": 8
+    },
+    {
+      "text": "형성평가 결과 안내 및 수업 상담",
+      "cnt": 5
+    },
+    {
+      "text": "정기상담",
+      "cnt": 4
+    },
+    {
+      "text": "화학 1단원 상담(부재)",
+      "cnt": 2
+    },
+    {
+      "text": "첫수업상담",
+      "cnt": 2
+    },
+    {
+      "text": "수업상담",
+      "cnt": 2
+    },
+    {
+      "text": "중학교 1학년 마무리상담",
+      "cnt": 2
+    },
+    {
+      "text": "생명과학 1단원 상담 (부재)",
+      "cnt": 1
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "있음",
+      "cnt": 22,
+      "icon": "📌",
+      "desc": "AAR 상담 내용 주요 키워드"
+    },
+    {
+      "text": "많이",
+      "cnt": 20,
+      "icon": "📌",
+      "desc": "AAR 상담 내용 주요 키워드"
+    },
+    {
+      "text": "수업",
+      "cnt": 18,
+      "icon": "📌",
+      "desc": "AAR 상담 내용 주요 키워드"
+    },
+    {
+      "text": "성적안내",
+      "cnt": 16,
+      "icon": "📌",
+      "desc": "AAR 상담 내용 주요 키워드"
+    },
+    {
+      "text": "말씀드림",
+      "cnt": 16,
+      "icon": "📌",
+      "desc": "AAR 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [
+    {
+      "text": "결석",
+      "cnt": 1,
+      "icon": "🚫"
+    },
+    {
+      "text": "힘들어함",
+      "cnt": 7,
+      "icon": "😔"
+    },
+    {
+      "text": "학습 어려움",
+      "cnt": 18,
+      "icon": "😓"
+    },
+    {
+      "text": "불만/싫어함",
+      "cnt": 4,
+      "icon": "😤"
+    },
+    {
+      "text": "그만두기/퇴원",
+      "cnt": 1,
+      "icon": "⚠️"
+    }
+  ],
+  "req_keyword_summary": [
+    {
+      "text": "긍정적 피드백",
+      "cnt": 37,
+      "icon": "👍"
+    },
+    {
+      "text": "칭찬",
+      "cnt": 4,
+      "icon": "🌟"
+    },
+    {
+      "text": "만점/100점",
+      "cnt": 3,
+      "icon": "💯"
+    },
+    {
+      "text": "결석/부재",
+      "cnt": 1,
+      "icon": "📞"
+    },
+    {
+      "text": "보강",
+      "cnt": 3,
+      "icon": "📅"
+    }
+  ],
+  "emp_by_cmp": {
+    "AAR": [
+      {
+        "cns_emp_cd": "AE120800021",
+        "cnt": 30
+      },
+      {
+        "cns_emp_cd": "CE230800028",
+        "cnt": 8
+      },
+      {
+        "cns_emp_cd": "CE220800023",
+        "cnt": 5
+      },
+      {
+        "cns_emp_cd": "CE230800021",
+        "cnt": 5
+      },
+      {
+        "cns_emp_cd": "CE251100022",
+        "cnt": 5
+      },
+      {
+        "cns_emp_cd": "AE110600036",
+        "cnt": 4
+      }
+    ]
+  },
+  "by_cmp": {
+    "AAR": {
+      "period": {
+        "start": "2026-02-03",
+        "end": "2026-03-07"
+      },
+      "titles": [
+        {
+          "text": "수업 상담",
+          "cnt": 14
+        },
+        {
+          "text": "화학 1단원 상담",
+          "cnt": 12
+        },
+        {
+          "text": "중학교 1학년 마무리 상담",
+          "cnt": 8
+        },
+        {
+          "text": "형성평가 결과 안내 및 수업 상담",
+          "cnt": 5
+        },
+        {
+          "text": "정기상담",
+          "cnt": 4
+        },
+        {
+          "text": "화학 1단원 상담(부재)",
+          "cnt": 2
+        },
+        {
+          "text": "첫수업상담",
+          "cnt": 2
+        },
+        {
+          "text": "수업상담",
+          "cnt": 2
+        },
+        {
+          "text": "중학교 1학년 마무리상담",
+          "cnt": 2
+        },
+        {
+          "text": "생명과학 1단원 상담 (부재)",
+          "cnt": 1
+        }
+      ],
+      "tokens": [
+        {
+          "text": "있음",
+          "cnt": 22
+        },
+        {
+          "text": "많이",
+          "cnt": 20
+        },
+        {
+          "text": "수업",
+          "cnt": 18
+        },
+        {
+          "text": "성적안내",
+          "cnt": 16
+        },
+        {
+          "text": "말씀드림",
+          "cnt": 16
+        },
+        {
+          "text": "아이가",
+          "cnt": 13
+        },
+        {
+          "text": "열심히",
+          "cnt": 10
+        },
+        {
+          "text": "말씀하심",
+          "cnt": 10
+        }
+      ],
+      "total_cnt": 64,
+      "positive_cnt": 37,
+      "negative_cnt": 33,
+      "req_keyword_detail": [
+        {
+          "text": "있음",
+          "cnt": 22,
+          "icon": "📌",
+          "desc": "AAR 상담 내용 주요 키워드"
+        },
+        {
+          "text": "많이",
+          "cnt": 20,
+          "icon": "📌",
+          "desc": "AAR 상담 내용 주요 키워드"
+        },
+        {
+          "text": "수업",
+          "cnt": 18,
+          "icon": "📌",
+          "desc": "AAR 상담 내용 주요 키워드"
+        },
+        {
+          "text": "성적안내",
+          "cnt": 16,
+          "icon": "📌",
+          "desc": "AAR 상담 내용 주요 키워드"
+        },
+        {
+          "text": "말씀드림",
+          "cnt": 16,
+          "icon": "📌",
+          "desc": "AAR 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "긍정적 피드백",
+          "cnt": 37,
+          "icon": "👍"
+        },
+        {
+          "text": "칭찬",
+          "cnt": 4,
+          "icon": "🌟"
+        },
+        {
+          "text": "만점/100점",
+          "cnt": 3,
+          "icon": "💯"
+        },
+        {
+          "text": "결석/부재",
+          "cnt": 1,
+          "icon": "📞"
+        },
+        {
+          "text": "보강",
+          "cnt": 3,
+          "icon": "📅"
+        }
+      ],
+      "negative_feedback": [
+        {
+          "text": "결석",
+          "cnt": 1,
+          "icon": "🚫"
+        },
+        {
+          "text": "힘들어함",
+          "cnt": 7,
+          "icon": "😔"
+        },
+        {
+          "text": "학습 어려움",
+          "cnt": 18,
+          "icon": "😓"
+        },
+        {
+          "text": "불만/싫어함",
+          "cnt": 4,
+          "icon": "😤"
+        },
+        {
+          "text": "그만두기/퇴원",
+          "cnt": 1,
+          "icon": "⚠️"
+        }
+      ]
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

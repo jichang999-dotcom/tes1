@@ -358,6 +358,391 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-01 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 269,
+    "positive_cnt": 44,
+    "negative_cnt": 60
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-01",
+      "end": "2026-03-07"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "CE211000023",
+      "cnt": 75
+    },
+    {
+      "cns_emp_cd": "AE121200118",
+      "cnt": 49
+    },
+    {
+      "cns_emp_cd": "AE070507005",
+      "cnt": 46
+    },
+    {
+      "cns_emp_cd": "CE250600011",
+      "cnt": 14
+    },
+    {
+      "cns_emp_cd": "CE251000004",
+      "cnt": 13
+    },
+    {
+      "cns_emp_cd": "CE260100026",
+      "cnt": 10
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "AAA",
+      "raw_cnt": 269
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "2월 정기",
+      "cnt": 19
+    },
+    {
+      "text": "2월 정기상담",
+      "cnt": 8
+    },
+    {
+      "text": "2월정기상담",
+      "cnt": 7
+    },
+    {
+      "text": "방학특강상담",
+      "cnt": 3
+    },
+    {
+      "text": "2월 정기상담 - 반이동 안내",
+      "cnt": 3
+    },
+    {
+      "text": "[2월 정기]",
+      "cnt": 3
+    },
+    {
+      "text": "이사: 반포자이 128동",
+      "cnt": 2
+    },
+    {
+      "text": "[3월 과학 신규]",
+      "cnt": 2
+    },
+    {
+      "text": "2/24, 26(화, 목) 4학년 과학 교과특강 신청",
+      "cnt": 2
+    },
+    {
+      "text": "승급 상담 및 2월 정기",
+      "cnt": 2
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "수업",
+      "cnt": 55,
+      "icon": "📌",
+      "desc": "AAA 상담 내용 주요 키워드"
+    },
+    {
+      "text": "말씀드림",
+      "cnt": 41,
+      "icon": "📌",
+      "desc": "AAA 상담 내용 주요 키워드"
+    },
+    {
+      "text": "하심",
+      "cnt": 37,
+      "icon": "📌",
+      "desc": "AAA 상담 내용 주요 키워드"
+    },
+    {
+      "text": "부탁드립니다",
+      "cnt": 30,
+      "icon": "📌",
+      "desc": "AAA 상담 내용 주요 키워드"
+    },
+    {
+      "text": "안내드림",
+      "cnt": 29,
+      "icon": "📌",
+      "desc": "AAA 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [
+    {
+      "text": "결석",
+      "cnt": 25,
+      "icon": "🚫"
+    },
+    {
+      "text": "힘들어함",
+      "cnt": 3,
+      "icon": "😔"
+    },
+    {
+      "text": "학습 어려움",
+      "cnt": 16,
+      "icon": "😓"
+    },
+    {
+      "text": "불만/싫어함",
+      "cnt": 2,
+      "icon": "😤"
+    },
+    {
+      "text": "휴회",
+      "cnt": 5,
+      "icon": "⏸️"
+    }
+  ],
+  "req_keyword_summary": [
+    {
+      "text": "긍정적 피드백",
+      "cnt": 44,
+      "icon": "👍"
+    },
+    {
+      "text": "칭찬",
+      "cnt": 5,
+      "icon": "🌟"
+    },
+    {
+      "text": "만점/100점",
+      "cnt": 1,
+      "icon": "💯"
+    },
+    {
+      "text": "결석/부재",
+      "cnt": 33,
+      "icon": "📞"
+    },
+    {
+      "text": "보강",
+      "cnt": 24,
+      "icon": "📅"
+    }
+  ],
+  "emp_by_cmp": {
+    "AAA": [
+      {
+        "cns_emp_cd": "CE211000023",
+        "cnt": 75
+      },
+      {
+        "cns_emp_cd": "AE121200118",
+        "cnt": 49
+      },
+      {
+        "cns_emp_cd": "AE070507005",
+        "cnt": 46
+      },
+      {
+        "cns_emp_cd": "CE250600011",
+        "cnt": 14
+      },
+      {
+        "cns_emp_cd": "CE251000004",
+        "cnt": 13
+      },
+      {
+        "cns_emp_cd": "CE260100026",
+        "cnt": 10
+      }
+    ]
+  },
+  "by_cmp": {
+    "AAA": {
+      "period": {
+        "start": "2026-02-01",
+        "end": "2026-03-07"
+      },
+      "titles": [
+        {
+          "text": "2월 정기",
+          "cnt": 19
+        },
+        {
+          "text": "2월 정기상담",
+          "cnt": 8
+        },
+        {
+          "text": "2월정기상담",
+          "cnt": 7
+        },
+        {
+          "text": "방학특강상담",
+          "cnt": 3
+        },
+        {
+          "text": "2월 정기상담 - 반이동 안내",
+          "cnt": 3
+        },
+        {
+          "text": "[2월 정기]",
+          "cnt": 3
+        },
+        {
+          "text": "이사: 반포자이 128동",
+          "cnt": 2
+        },
+        {
+          "text": "[3월 과학 신규]",
+          "cnt": 2
+        },
+        {
+          "text": "2/24, 26(화, 목) 4학년 과학 교과특강 신청",
+          "cnt": 2
+        },
+        {
+          "text": "승급 상담 및 2월 정기",
+          "cnt": 2
+        }
+      ],
+      "tokens": [
+        {
+          "text": "수업",
+          "cnt": 55
+        },
+        {
+          "text": "말씀드림",
+          "cnt": 41
+        },
+        {
+          "text": "하심",
+          "cnt": 37
+        },
+        {
+          "text": "부탁드립니다",
+          "cnt": 30
+        },
+        {
+          "text": "안내드림",
+          "cnt": 29
+        },
+        {
+          "text": "결석",
+          "cnt": 28
+        },
+        {
+          "text": "감사합니다",
+          "cnt": 27
+        },
+        {
+          "text": "셔틀",
+          "cnt": 24
+        }
+      ],
+      "total_cnt": 269,
+      "positive_cnt": 44,
+      "negative_cnt": 60,
+      "req_keyword_detail": [
+        {
+          "text": "수업",
+          "cnt": 55,
+          "icon": "📌",
+          "desc": "AAA 상담 내용 주요 키워드"
+        },
+        {
+          "text": "말씀드림",
+          "cnt": 41,
+          "icon": "📌",
+          "desc": "AAA 상담 내용 주요 키워드"
+        },
+        {
+          "text": "하심",
+          "cnt": 37,
+          "icon": "📌",
+          "desc": "AAA 상담 내용 주요 키워드"
+        },
+        {
+          "text": "부탁드립니다",
+          "cnt": 30,
+          "icon": "📌",
+          "desc": "AAA 상담 내용 주요 키워드"
+        },
+        {
+          "text": "안내드림",
+          "cnt": 29,
+          "icon": "📌",
+          "desc": "AAA 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "긍정적 피드백",
+          "cnt": 44,
+          "icon": "👍"
+        },
+        {
+          "text": "칭찬",
+          "cnt": 5,
+          "icon": "🌟"
+        },
+        {
+          "text": "만점/100점",
+          "cnt": 1,
+          "icon": "💯"
+        },
+        {
+          "text": "결석/부재",
+          "cnt": 33,
+          "icon": "📞"
+        },
+        {
+          "text": "보강",
+          "cnt": 24,
+          "icon": "📅"
+        }
+      ],
+      "negative_feedback": [
+        {
+          "text": "결석",
+          "cnt": 25,
+          "icon": "🚫"
+        },
+        {
+          "text": "힘들어함",
+          "cnt": 3,
+          "icon": "😔"
+        },
+        {
+          "text": "학습 어려움",
+          "cnt": 16,
+          "icon": "😓"
+        },
+        {
+          "text": "불만/싫어함",
+          "cnt": 2,
+          "icon": "😤"
+        },
+        {
+          "text": "휴회",
+          "cnt": 5,
+          "icon": "⏸️"
+        }
+      ]
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

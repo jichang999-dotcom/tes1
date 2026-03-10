@@ -358,6 +358,401 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-02 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 261,
+    "positive_cnt": 106,
+    "negative_cnt": 126
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-02",
+      "end": "2026-03-09"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "AE141100011",
+      "cnt": 36
+    },
+    {
+      "cns_emp_cd": "CE211100041",
+      "cnt": 25
+    },
+    {
+      "cns_emp_cd": "CE221200023",
+      "cnt": 23
+    },
+    {
+      "cns_emp_cd": "AE120100001",
+      "cnt": 19
+    },
+    {
+      "cns_emp_cd": "BE181000007",
+      "cnt": 16
+    },
+    {
+      "cns_emp_cd": "CE240600016",
+      "cnt": 15
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "AHN",
+      "raw_cnt": 261
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "성적 상담",
+      "cnt": 37
+    },
+    {
+      "text": "수업상담",
+      "cnt": 36
+    },
+    {
+      "text": "학습상담.",
+      "cnt": 12
+    },
+    {
+      "text": "상담",
+      "cnt": 12
+    },
+    {
+      "text": "문자발송",
+      "cnt": 11
+    },
+    {
+      "text": "형성평가",
+      "cnt": 11
+    },
+    {
+      "text": "수업 상담",
+      "cnt": 7
+    },
+    {
+      "text": "학습상담",
+      "cnt": 7
+    },
+    {
+      "text": "교과 상담",
+      "cnt": 6
+    },
+    {
+      "text": "형성평가후 상담",
+      "cnt": 6
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "말씀드림",
+      "cnt": 109,
+      "icon": "📌",
+      "desc": "AHN 상담 내용 주요 키워드"
+    },
+    {
+      "text": "많이",
+      "cnt": 61,
+      "icon": "📌",
+      "desc": "AHN 상담 내용 주요 키워드"
+    },
+    {
+      "text": "하심",
+      "cnt": 52,
+      "icon": "📌",
+      "desc": "AHN 상담 내용 주요 키워드"
+    },
+    {
+      "text": "너무",
+      "cnt": 40,
+      "icon": "📌",
+      "desc": "AHN 상담 내용 주요 키워드"
+    },
+    {
+      "text": "안내",
+      "cnt": 38,
+      "icon": "📌",
+      "desc": "AHN 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [
+    {
+      "text": "결석",
+      "cnt": 18,
+      "icon": "🚫"
+    },
+    {
+      "text": "힘들어함",
+      "cnt": 21,
+      "icon": "😔"
+    },
+    {
+      "text": "학습 어려움",
+      "cnt": 34,
+      "icon": "😓"
+    },
+    {
+      "text": "불만/싫어함",
+      "cnt": 5,
+      "icon": "😤"
+    },
+    {
+      "text": "휴회",
+      "cnt": 2,
+      "icon": "⏸️"
+    },
+    {
+      "text": "그만두기/퇴원",
+      "cnt": 1,
+      "icon": "⚠️"
+    }
+  ],
+  "req_keyword_summary": [
+    {
+      "text": "긍정적 피드백",
+      "cnt": 106,
+      "icon": "👍"
+    },
+    {
+      "text": "칭찬",
+      "cnt": 15,
+      "icon": "🌟"
+    },
+    {
+      "text": "만점/100점",
+      "cnt": 5,
+      "icon": "💯"
+    },
+    {
+      "text": "결석/부재",
+      "cnt": 20,
+      "icon": "📞"
+    },
+    {
+      "text": "보강",
+      "cnt": 22,
+      "icon": "📅"
+    }
+  ],
+  "emp_by_cmp": {
+    "AHN": [
+      {
+        "cns_emp_cd": "AE141100011",
+        "cnt": 36
+      },
+      {
+        "cns_emp_cd": "CE211100041",
+        "cnt": 25
+      },
+      {
+        "cns_emp_cd": "CE221200023",
+        "cnt": 23
+      },
+      {
+        "cns_emp_cd": "AE120100001",
+        "cnt": 19
+      },
+      {
+        "cns_emp_cd": "BE181000007",
+        "cnt": 16
+      },
+      {
+        "cns_emp_cd": "CE240600016",
+        "cnt": 15
+      }
+    ]
+  },
+  "by_cmp": {
+    "AHN": {
+      "period": {
+        "start": "2026-02-02",
+        "end": "2026-03-09"
+      },
+      "titles": [
+        {
+          "text": "성적 상담",
+          "cnt": 37
+        },
+        {
+          "text": "수업상담",
+          "cnt": 36
+        },
+        {
+          "text": "학습상담.",
+          "cnt": 12
+        },
+        {
+          "text": "상담",
+          "cnt": 12
+        },
+        {
+          "text": "문자발송",
+          "cnt": 11
+        },
+        {
+          "text": "형성평가",
+          "cnt": 11
+        },
+        {
+          "text": "수업 상담",
+          "cnt": 7
+        },
+        {
+          "text": "학습상담",
+          "cnt": 7
+        },
+        {
+          "text": "교과 상담",
+          "cnt": 6
+        },
+        {
+          "text": "형성평가후 상담",
+          "cnt": 6
+        }
+      ],
+      "tokens": [
+        {
+          "text": "말씀드림",
+          "cnt": 109
+        },
+        {
+          "text": "많이",
+          "cnt": 61
+        },
+        {
+          "text": "하심",
+          "cnt": 52
+        },
+        {
+          "text": "너무",
+          "cnt": 40
+        },
+        {
+          "text": "안내",
+          "cnt": 38
+        },
+        {
+          "text": "부분이",
+          "cnt": 36
+        },
+        {
+          "text": "평가",
+          "cnt": 35
+        },
+        {
+          "text": "수업",
+          "cnt": 33
+        }
+      ],
+      "total_cnt": 261,
+      "positive_cnt": 106,
+      "negative_cnt": 126,
+      "req_keyword_detail": [
+        {
+          "text": "말씀드림",
+          "cnt": 109,
+          "icon": "📌",
+          "desc": "AHN 상담 내용 주요 키워드"
+        },
+        {
+          "text": "많이",
+          "cnt": 61,
+          "icon": "📌",
+          "desc": "AHN 상담 내용 주요 키워드"
+        },
+        {
+          "text": "하심",
+          "cnt": 52,
+          "icon": "📌",
+          "desc": "AHN 상담 내용 주요 키워드"
+        },
+        {
+          "text": "너무",
+          "cnt": 40,
+          "icon": "📌",
+          "desc": "AHN 상담 내용 주요 키워드"
+        },
+        {
+          "text": "안내",
+          "cnt": 38,
+          "icon": "📌",
+          "desc": "AHN 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "긍정적 피드백",
+          "cnt": 106,
+          "icon": "👍"
+        },
+        {
+          "text": "칭찬",
+          "cnt": 15,
+          "icon": "🌟"
+        },
+        {
+          "text": "만점/100점",
+          "cnt": 5,
+          "icon": "💯"
+        },
+        {
+          "text": "결석/부재",
+          "cnt": 20,
+          "icon": "📞"
+        },
+        {
+          "text": "보강",
+          "cnt": 22,
+          "icon": "📅"
+        }
+      ],
+      "negative_feedback": [
+        {
+          "text": "결석",
+          "cnt": 18,
+          "icon": "🚫"
+        },
+        {
+          "text": "힘들어함",
+          "cnt": 21,
+          "icon": "😔"
+        },
+        {
+          "text": "학습 어려움",
+          "cnt": 34,
+          "icon": "😓"
+        },
+        {
+          "text": "불만/싫어함",
+          "cnt": 5,
+          "icon": "😤"
+        },
+        {
+          "text": "휴회",
+          "cnt": 2,
+          "icon": "⏸️"
+        },
+        {
+          "text": "그만두기/퇴원",
+          "cnt": 1,
+          "icon": "⚠️"
+        }
+      ]
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

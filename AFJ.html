@@ -358,6 +358,391 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-01 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 99,
+    "positive_cnt": 22,
+    "negative_cnt": 37
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-01",
+      "end": "2026-03-07"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "CE231200023",
+      "cnt": 14
+    },
+    {
+      "cns_emp_cd": "CE210700051",
+      "cnt": 13
+    },
+    {
+      "cns_emp_cd": "CE230700008",
+      "cnt": 12
+    },
+    {
+      "cns_emp_cd": "CE250900016",
+      "cnt": 12
+    },
+    {
+      "cns_emp_cd": "CE230300029",
+      "cnt": 10
+    },
+    {
+      "cns_emp_cd": "AE040102001",
+      "cnt": 9
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "AFJ",
+      "raw_cnt": 99
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "상담",
+      "cnt": 8
+    },
+    {
+      "text": "학습상담",
+      "cnt": 4
+    },
+    {
+      "text": "수업 상담",
+      "cnt": 4
+    },
+    {
+      "text": "월상담",
+      "cnt": 4
+    },
+    {
+      "text": "2월 교사변동 안내 완료 (명성->주미T)",
+      "cnt": 3
+    },
+    {
+      "text": "사고력 형성평가 결과 상담",
+      "cnt": 3
+    },
+    {
+      "text": "어머니 상담",
+      "cnt": 2
+    },
+    {
+      "text": "세페이드 10강 영상개인보강",
+      "cnt": 2
+    },
+    {
+      "text": "수업상담",
+      "cnt": 2
+    },
+    {
+      "text": "담당T 변경 안내",
+      "cnt": 2
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "안내",
+      "cnt": 28,
+      "icon": "📌",
+      "desc": "AFJ 상담 내용 주요 키워드"
+    },
+    {
+      "text": "수업",
+      "cnt": 26,
+      "icon": "📌",
+      "desc": "AFJ 상담 내용 주요 키워드"
+    },
+    {
+      "text": "말씀드림",
+      "cnt": 20,
+      "icon": "📌",
+      "desc": "AFJ 상담 내용 주요 키워드"
+    },
+    {
+      "text": "보강",
+      "cnt": 19,
+      "icon": "📌",
+      "desc": "AFJ 상담 내용 주요 키워드"
+    },
+    {
+      "text": "하심",
+      "cnt": 18,
+      "icon": "📌",
+      "desc": "AFJ 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [
+    {
+      "text": "결석",
+      "cnt": 16,
+      "icon": "🚫"
+    },
+    {
+      "text": "힘들어함",
+      "cnt": 6,
+      "icon": "😔"
+    },
+    {
+      "text": "학습 어려움",
+      "cnt": 4,
+      "icon": "😓"
+    },
+    {
+      "text": "불만/싫어함",
+      "cnt": 4,
+      "icon": "😤"
+    },
+    {
+      "text": "휴회",
+      "cnt": 2,
+      "icon": "⏸️"
+    }
+  ],
+  "req_keyword_summary": [
+    {
+      "text": "긍정적 피드백",
+      "cnt": 22,
+      "icon": "👍"
+    },
+    {
+      "text": "칭찬",
+      "cnt": 3,
+      "icon": "🌟"
+    },
+    {
+      "text": "만점/100점",
+      "cnt": 2,
+      "icon": "💯"
+    },
+    {
+      "text": "결석/부재",
+      "cnt": 18,
+      "icon": "📞"
+    },
+    {
+      "text": "보강",
+      "cnt": 22,
+      "icon": "📅"
+    }
+  ],
+  "emp_by_cmp": {
+    "AFJ": [
+      {
+        "cns_emp_cd": "CE231200023",
+        "cnt": 14
+      },
+      {
+        "cns_emp_cd": "CE210700051",
+        "cnt": 13
+      },
+      {
+        "cns_emp_cd": "CE230700008",
+        "cnt": 12
+      },
+      {
+        "cns_emp_cd": "CE250900016",
+        "cnt": 12
+      },
+      {
+        "cns_emp_cd": "CE230300029",
+        "cnt": 10
+      },
+      {
+        "cns_emp_cd": "AE040102001",
+        "cnt": 9
+      }
+    ]
+  },
+  "by_cmp": {
+    "AFJ": {
+      "period": {
+        "start": "2026-02-01",
+        "end": "2026-03-07"
+      },
+      "titles": [
+        {
+          "text": "상담",
+          "cnt": 8
+        },
+        {
+          "text": "학습상담",
+          "cnt": 4
+        },
+        {
+          "text": "수업 상담",
+          "cnt": 4
+        },
+        {
+          "text": "월상담",
+          "cnt": 4
+        },
+        {
+          "text": "2월 교사변동 안내 완료 (명성->주미T)",
+          "cnt": 3
+        },
+        {
+          "text": "사고력 형성평가 결과 상담",
+          "cnt": 3
+        },
+        {
+          "text": "어머니 상담",
+          "cnt": 2
+        },
+        {
+          "text": "세페이드 10강 영상개인보강",
+          "cnt": 2
+        },
+        {
+          "text": "수업상담",
+          "cnt": 2
+        },
+        {
+          "text": "담당T 변경 안내",
+          "cnt": 2
+        }
+      ],
+      "tokens": [
+        {
+          "text": "안내",
+          "cnt": 28
+        },
+        {
+          "text": "수업",
+          "cnt": 26
+        },
+        {
+          "text": "말씀드림",
+          "cnt": 20
+        },
+        {
+          "text": "보강",
+          "cnt": 19
+        },
+        {
+          "text": "하심",
+          "cnt": 18
+        },
+        {
+          "text": "합니다",
+          "cnt": 15
+        },
+        {
+          "text": "17",
+          "cnt": 14
+        },
+        {
+          "text": "20",
+          "cnt": 14
+        }
+      ],
+      "total_cnt": 99,
+      "positive_cnt": 22,
+      "negative_cnt": 37,
+      "req_keyword_detail": [
+        {
+          "text": "안내",
+          "cnt": 28,
+          "icon": "📌",
+          "desc": "AFJ 상담 내용 주요 키워드"
+        },
+        {
+          "text": "수업",
+          "cnt": 26,
+          "icon": "📌",
+          "desc": "AFJ 상담 내용 주요 키워드"
+        },
+        {
+          "text": "말씀드림",
+          "cnt": 20,
+          "icon": "📌",
+          "desc": "AFJ 상담 내용 주요 키워드"
+        },
+        {
+          "text": "보강",
+          "cnt": 19,
+          "icon": "📌",
+          "desc": "AFJ 상담 내용 주요 키워드"
+        },
+        {
+          "text": "하심",
+          "cnt": 18,
+          "icon": "📌",
+          "desc": "AFJ 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "긍정적 피드백",
+          "cnt": 22,
+          "icon": "👍"
+        },
+        {
+          "text": "칭찬",
+          "cnt": 3,
+          "icon": "🌟"
+        },
+        {
+          "text": "만점/100점",
+          "cnt": 2,
+          "icon": "💯"
+        },
+        {
+          "text": "결석/부재",
+          "cnt": 18,
+          "icon": "📞"
+        },
+        {
+          "text": "보강",
+          "cnt": 22,
+          "icon": "📅"
+        }
+      ],
+      "negative_feedback": [
+        {
+          "text": "결석",
+          "cnt": 16,
+          "icon": "🚫"
+        },
+        {
+          "text": "힘들어함",
+          "cnt": 6,
+          "icon": "😔"
+        },
+        {
+          "text": "학습 어려움",
+          "cnt": 4,
+          "icon": "😓"
+        },
+        {
+          "text": "불만/싫어함",
+          "cnt": 4,
+          "icon": "😤"
+        },
+        {
+          "text": "휴회",
+          "cnt": 2,
+          "icon": "⏸️"
+        }
+      ]
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

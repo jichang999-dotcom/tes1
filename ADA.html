@@ -358,6 +358,303 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-03 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 13,
+    "positive_cnt": 8,
+    "negative_cnt": 9
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-03",
+      "end": "2026-02-26"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "AE190100038",
+      "cnt": 5
+    },
+    {
+      "cns_emp_cd": "CE210100023",
+      "cnt": 4
+    },
+    {
+      "cns_emp_cd": "CE250600014",
+      "cnt": 3
+    },
+    {
+      "cns_emp_cd": "CE230200037",
+      "cnt": 1
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "ADA",
+      "raw_cnt": 13
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "학습",
+      "cnt": 5
+    },
+    {
+      "text": "학습상담",
+      "cnt": 3
+    },
+    {
+      "text": "형성평가/학습",
+      "cnt": 2
+    },
+    {
+      "text": "PPT",
+      "cnt": 1
+    },
+    {
+      "text": "보강 부재중 문자",
+      "cnt": 1
+    },
+    {
+      "text": "청강 수업 안내 문자",
+      "cnt": 1
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "말씀",
+      "cnt": 13,
+      "icon": "📌",
+      "desc": "ADA 상담 내용 주요 키워드"
+    },
+    {
+      "text": "드림",
+      "cnt": 12,
+      "icon": "📌",
+      "desc": "ADA 상담 내용 주요 키워드"
+    },
+    {
+      "text": "그래서",
+      "cnt": 11,
+      "icon": "📌",
+      "desc": "ADA 상담 내용 주요 키워드"
+    },
+    {
+      "text": "있다고",
+      "cnt": 10,
+      "icon": "📌",
+      "desc": "ADA 상담 내용 주요 키워드"
+    },
+    {
+      "text": "20",
+      "cnt": 9,
+      "icon": "📌",
+      "desc": "ADA 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [
+    {
+      "text": "결석",
+      "cnt": 3,
+      "icon": "🚫"
+    },
+    {
+      "text": "학습 어려움",
+      "cnt": 4,
+      "icon": "😓"
+    }
+  ],
+  "req_keyword_summary": [
+    {
+      "text": "긍정적 피드백",
+      "cnt": 8,
+      "icon": "👍"
+    },
+    {
+      "text": "칭찬",
+      "cnt": 3,
+      "icon": "🌟"
+    },
+    {
+      "text": "결석/부재",
+      "cnt": 3,
+      "icon": "📞"
+    },
+    {
+      "text": "보강",
+      "cnt": 1,
+      "icon": "📅"
+    }
+  ],
+  "emp_by_cmp": {
+    "ADA": [
+      {
+        "cns_emp_cd": "AE190100038",
+        "cnt": 5
+      },
+      {
+        "cns_emp_cd": "CE210100023",
+        "cnt": 4
+      },
+      {
+        "cns_emp_cd": "CE250600014",
+        "cnt": 3
+      },
+      {
+        "cns_emp_cd": "CE230200037",
+        "cnt": 1
+      }
+    ]
+  },
+  "by_cmp": {
+    "ADA": {
+      "period": {
+        "start": "2026-02-03",
+        "end": "2026-02-26"
+      },
+      "titles": [
+        {
+          "text": "학습",
+          "cnt": 5
+        },
+        {
+          "text": "학습상담",
+          "cnt": 3
+        },
+        {
+          "text": "형성평가/학습",
+          "cnt": 2
+        },
+        {
+          "text": "PPT",
+          "cnt": 1
+        },
+        {
+          "text": "보강 부재중 문자",
+          "cnt": 1
+        },
+        {
+          "text": "청강 수업 안내 문자",
+          "cnt": 1
+        }
+      ],
+      "tokens": [
+        {
+          "text": "말씀",
+          "cnt": 13
+        },
+        {
+          "text": "드림",
+          "cnt": 12
+        },
+        {
+          "text": "그래서",
+          "cnt": 11
+        },
+        {
+          "text": "있다고",
+          "cnt": 10
+        },
+        {
+          "text": "20",
+          "cnt": 9
+        },
+        {
+          "text": "하심",
+          "cnt": 9
+        },
+        {
+          "text": "전함",
+          "cnt": 9
+        },
+        {
+          "text": "너무",
+          "cnt": 7
+        }
+      ],
+      "total_cnt": 13,
+      "positive_cnt": 8,
+      "negative_cnt": 9,
+      "req_keyword_detail": [
+        {
+          "text": "말씀",
+          "cnt": 13,
+          "icon": "📌",
+          "desc": "ADA 상담 내용 주요 키워드"
+        },
+        {
+          "text": "드림",
+          "cnt": 12,
+          "icon": "📌",
+          "desc": "ADA 상담 내용 주요 키워드"
+        },
+        {
+          "text": "그래서",
+          "cnt": 11,
+          "icon": "📌",
+          "desc": "ADA 상담 내용 주요 키워드"
+        },
+        {
+          "text": "있다고",
+          "cnt": 10,
+          "icon": "📌",
+          "desc": "ADA 상담 내용 주요 키워드"
+        },
+        {
+          "text": "20",
+          "cnt": 9,
+          "icon": "📌",
+          "desc": "ADA 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "긍정적 피드백",
+          "cnt": 8,
+          "icon": "👍"
+        },
+        {
+          "text": "칭찬",
+          "cnt": 3,
+          "icon": "🌟"
+        },
+        {
+          "text": "결석/부재",
+          "cnt": 3,
+          "icon": "📞"
+        },
+        {
+          "text": "보강",
+          "cnt": 1,
+          "icon": "📅"
+        }
+      ],
+      "negative_feedback": [
+        {
+          "text": "결석",
+          "cnt": 3,
+          "icon": "🚫"
+        },
+        {
+          "text": "학습 어려움",
+          "cnt": 4,
+          "icon": "😓"
+        }
+      ]
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

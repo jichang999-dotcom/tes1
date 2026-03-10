@@ -358,6 +358,195 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-18 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 3,
+    "positive_cnt": 2,
+    "negative_cnt": 0
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-18",
+      "end": "2026-02-18"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "CE230300058",
+      "cnt": 3
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "CBF",
+      "raw_cnt": 3
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "10월 관찰평가",
+      "cnt": 2
+    },
+    {
+      "text": "11월 관찰평가",
+      "cnt": 1
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "스스로",
+      "cnt": 9,
+      "icon": "📌",
+      "desc": "CBF 상담 내용 주요 키워드"
+    },
+    {
+      "text": "탐구",
+      "cnt": 5,
+      "icon": "📌",
+      "desc": "CBF 상담 내용 주요 키워드"
+    },
+    {
+      "text": "활동에서",
+      "cnt": 4,
+      "icon": "📌",
+      "desc": "CBF 상담 내용 주요 키워드"
+    },
+    {
+      "text": "실험",
+      "cnt": 4,
+      "icon": "📌",
+      "desc": "CBF 상담 내용 주요 키워드"
+    },
+    {
+      "text": "매우",
+      "cnt": 4,
+      "icon": "📌",
+      "desc": "CBF 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [],
+  "req_keyword_summary": [
+    {
+      "text": "긍정적 피드백",
+      "cnt": 2,
+      "icon": "👍"
+    }
+  ],
+  "emp_by_cmp": {
+    "CBF": [
+      {
+        "cns_emp_cd": "CE230300058",
+        "cnt": 3
+      }
+    ]
+  },
+  "by_cmp": {
+    "CBF": {
+      "period": {
+        "start": "2026-02-18",
+        "end": "2026-02-18"
+      },
+      "titles": [
+        {
+          "text": "10월 관찰평가",
+          "cnt": 2
+        },
+        {
+          "text": "11월 관찰평가",
+          "cnt": 1
+        }
+      ],
+      "tokens": [
+        {
+          "text": "스스로",
+          "cnt": 9
+        },
+        {
+          "text": "탐구",
+          "cnt": 5
+        },
+        {
+          "text": "활동에서",
+          "cnt": 4
+        },
+        {
+          "text": "실험",
+          "cnt": 4
+        },
+        {
+          "text": "매우",
+          "cnt": 4
+        },
+        {
+          "text": "관찰평가지",
+          "cnt": 3
+        },
+        {
+          "text": "보내드립니다",
+          "cnt": 3
+        },
+        {
+          "text": "바탕으로",
+          "cnt": 3
+        }
+      ],
+      "total_cnt": 3,
+      "positive_cnt": 2,
+      "negative_cnt": 0,
+      "req_keyword_detail": [
+        {
+          "text": "스스로",
+          "cnt": 9,
+          "icon": "📌",
+          "desc": "CBF 상담 내용 주요 키워드"
+        },
+        {
+          "text": "탐구",
+          "cnt": 5,
+          "icon": "📌",
+          "desc": "CBF 상담 내용 주요 키워드"
+        },
+        {
+          "text": "활동에서",
+          "cnt": 4,
+          "icon": "📌",
+          "desc": "CBF 상담 내용 주요 키워드"
+        },
+        {
+          "text": "실험",
+          "cnt": 4,
+          "icon": "📌",
+          "desc": "CBF 상담 내용 주요 키워드"
+        },
+        {
+          "text": "매우",
+          "cnt": 4,
+          "icon": "📌",
+          "desc": "CBF 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "긍정적 피드백",
+          "cnt": 2,
+          "icon": "👍"
+        }
+      ],
+      "negative_feedback": []
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

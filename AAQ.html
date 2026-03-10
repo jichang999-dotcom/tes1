@@ -358,6 +358,401 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-03 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 35,
+    "positive_cnt": 13,
+    "negative_cnt": 10
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-03",
+      "end": "2026-03-03"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "CE230300051",
+      "cnt": 7
+    },
+    {
+      "cns_emp_cd": "AE050305003",
+      "cnt": 6
+    },
+    {
+      "cns_emp_cd": "AE111100051",
+      "cnt": 5
+    },
+    {
+      "cns_emp_cd": "AE171100006",
+      "cnt": 4
+    },
+    {
+      "cns_emp_cd": "CE241200004",
+      "cnt": 4
+    },
+    {
+      "cns_emp_cd": "AE151000006",
+      "cnt": 3
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "AAQ",
+      "raw_cnt": 35
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "2/4 설명회 신청",
+      "cnt": 2
+    },
+    {
+      "text": "정기상담 & 보강관련 전화- 통화안됨",
+      "cnt": 1
+    },
+    {
+      "text": "영재고 특별 수업-수/과, 현금(영수증 처리 안함)으로 수납",
+      "cnt": 1
+    },
+    {
+      "text": "결석보강 상담-통화안됨",
+      "cnt": 1
+    },
+    {
+      "text": "정기상담",
+      "cnt": 1
+    },
+    {
+      "text": "발명특강/과제 안내",
+      "cnt": 1
+    },
+    {
+      "text": "진단검사 상담",
+      "cnt": 1
+    },
+    {
+      "text": "형성평가 결과안내",
+      "cnt": 1
+    },
+    {
+      "text": "형성평가 결과 안내",
+      "cnt": 1
+    },
+    {
+      "text": "1주차 보강/보강안함",
+      "cnt": 1
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "아이가",
+      "cnt": 10,
+      "icon": "📌",
+      "desc": "AAQ 상담 내용 주요 키워드"
+    },
+    {
+      "text": "많이",
+      "cnt": 8,
+      "icon": "📌",
+      "desc": "AAQ 상담 내용 주요 키워드"
+    },
+    {
+      "text": "있음",
+      "cnt": 6,
+      "icon": "📌",
+      "desc": "AAQ 상담 내용 주요 키워드"
+    },
+    {
+      "text": "있다고",
+      "cnt": 5,
+      "icon": "📌",
+      "desc": "AAQ 상담 내용 주요 키워드"
+    },
+    {
+      "text": "잘하고",
+      "cnt": 5,
+      "icon": "📌",
+      "desc": "AAQ 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [
+    {
+      "text": "결석",
+      "cnt": 1,
+      "icon": "🚫"
+    },
+    {
+      "text": "힘들어함",
+      "cnt": 2,
+      "icon": "😔"
+    },
+    {
+      "text": "학습 어려움",
+      "cnt": 3,
+      "icon": "😓"
+    },
+    {
+      "text": "불만/싫어함",
+      "cnt": 2,
+      "icon": "😤"
+    },
+    {
+      "text": "휴회",
+      "cnt": 1,
+      "icon": "⏸️"
+    },
+    {
+      "text": "그만두기/퇴원",
+      "cnt": 1,
+      "icon": "⚠️"
+    }
+  ],
+  "req_keyword_summary": [
+    {
+      "text": "긍정적 피드백",
+      "cnt": 13,
+      "icon": "👍"
+    },
+    {
+      "text": "칭찬",
+      "cnt": 2,
+      "icon": "🌟"
+    },
+    {
+      "text": "만점/100점",
+      "cnt": 2,
+      "icon": "💯"
+    },
+    {
+      "text": "결석/부재",
+      "cnt": 1,
+      "icon": "📞"
+    },
+    {
+      "text": "보강",
+      "cnt": 3,
+      "icon": "📅"
+    }
+  ],
+  "emp_by_cmp": {
+    "AAQ": [
+      {
+        "cns_emp_cd": "CE230300051",
+        "cnt": 7
+      },
+      {
+        "cns_emp_cd": "AE050305003",
+        "cnt": 6
+      },
+      {
+        "cns_emp_cd": "AE111100051",
+        "cnt": 5
+      },
+      {
+        "cns_emp_cd": "AE171100006",
+        "cnt": 4
+      },
+      {
+        "cns_emp_cd": "CE241200004",
+        "cnt": 4
+      },
+      {
+        "cns_emp_cd": "AE151000006",
+        "cnt": 3
+      }
+    ]
+  },
+  "by_cmp": {
+    "AAQ": {
+      "period": {
+        "start": "2026-02-03",
+        "end": "2026-03-03"
+      },
+      "titles": [
+        {
+          "text": "2/4 설명회 신청",
+          "cnt": 2
+        },
+        {
+          "text": "정기상담 & 보강관련 전화- 통화안됨",
+          "cnt": 1
+        },
+        {
+          "text": "영재고 특별 수업-수/과, 현금(영수증 처리 안함)으로 수납",
+          "cnt": 1
+        },
+        {
+          "text": "결석보강 상담-통화안됨",
+          "cnt": 1
+        },
+        {
+          "text": "정기상담",
+          "cnt": 1
+        },
+        {
+          "text": "발명특강/과제 안내",
+          "cnt": 1
+        },
+        {
+          "text": "진단검사 상담",
+          "cnt": 1
+        },
+        {
+          "text": "형성평가 결과안내",
+          "cnt": 1
+        },
+        {
+          "text": "형성평가 결과 안내",
+          "cnt": 1
+        },
+        {
+          "text": "1주차 보강/보강안함",
+          "cnt": 1
+        }
+      ],
+      "tokens": [
+        {
+          "text": "아이가",
+          "cnt": 10
+        },
+        {
+          "text": "많이",
+          "cnt": 8
+        },
+        {
+          "text": "있음",
+          "cnt": 6
+        },
+        {
+          "text": "있다고",
+          "cnt": 5
+        },
+        {
+          "text": "잘하고",
+          "cnt": 5
+        },
+        {
+          "text": "수업",
+          "cnt": 4
+        },
+        {
+          "text": "다른",
+          "cnt": 4
+        },
+        {
+          "text": "이야기",
+          "cnt": 4
+        }
+      ],
+      "total_cnt": 35,
+      "positive_cnt": 13,
+      "negative_cnt": 10,
+      "req_keyword_detail": [
+        {
+          "text": "아이가",
+          "cnt": 10,
+          "icon": "📌",
+          "desc": "AAQ 상담 내용 주요 키워드"
+        },
+        {
+          "text": "많이",
+          "cnt": 8,
+          "icon": "📌",
+          "desc": "AAQ 상담 내용 주요 키워드"
+        },
+        {
+          "text": "있음",
+          "cnt": 6,
+          "icon": "📌",
+          "desc": "AAQ 상담 내용 주요 키워드"
+        },
+        {
+          "text": "있다고",
+          "cnt": 5,
+          "icon": "📌",
+          "desc": "AAQ 상담 내용 주요 키워드"
+        },
+        {
+          "text": "잘하고",
+          "cnt": 5,
+          "icon": "📌",
+          "desc": "AAQ 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "긍정적 피드백",
+          "cnt": 13,
+          "icon": "👍"
+        },
+        {
+          "text": "칭찬",
+          "cnt": 2,
+          "icon": "🌟"
+        },
+        {
+          "text": "만점/100점",
+          "cnt": 2,
+          "icon": "💯"
+        },
+        {
+          "text": "결석/부재",
+          "cnt": 1,
+          "icon": "📞"
+        },
+        {
+          "text": "보강",
+          "cnt": 3,
+          "icon": "📅"
+        }
+      ],
+      "negative_feedback": [
+        {
+          "text": "결석",
+          "cnt": 1,
+          "icon": "🚫"
+        },
+        {
+          "text": "힘들어함",
+          "cnt": 2,
+          "icon": "😔"
+        },
+        {
+          "text": "학습 어려움",
+          "cnt": 3,
+          "icon": "😓"
+        },
+        {
+          "text": "불만/싫어함",
+          "cnt": 2,
+          "icon": "😤"
+        },
+        {
+          "text": "휴회",
+          "cnt": 1,
+          "icon": "⏸️"
+        },
+        {
+          "text": "그만두기/퇴원",
+          "cnt": 1,
+          "icon": "⚠️"
+        }
+      ]
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

@@ -358,6 +358,335 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-02 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 16,
+    "positive_cnt": 5,
+    "negative_cnt": 9
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-02",
+      "end": "2026-03-05"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "CE230200034",
+      "cnt": 6
+    },
+    {
+      "cns_emp_cd": "CE251200053",
+      "cnt": 6
+    },
+    {
+      "cns_emp_cd": "AE181100010",
+      "cnt": 2
+    },
+    {
+      "cns_emp_cd": "AE120800027",
+      "cnt": 2
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "AKS",
+      "raw_cnt": 16
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "보강상담",
+      "cnt": 4
+    },
+    {
+      "text": "형성평가(1월) 및 정기상담",
+      "cnt": 2
+    },
+    {
+      "text": "형셩평가",
+      "cnt": 2
+    },
+    {
+      "text": "교사 교체 안내",
+      "cnt": 1
+    },
+    {
+      "text": "교사교체안내-부재",
+      "cnt": 1
+    },
+    {
+      "text": "형성평가(1월)상담 및 정기상담",
+      "cnt": 1
+    },
+    {
+      "text": "교사 교체 안내함.",
+      "cnt": 1
+    },
+    {
+      "text": "3월 스케줄변경문의-부재",
+      "cnt": 1
+    },
+    {
+      "text": "3월 스케줄",
+      "cnt": 1
+    },
+    {
+      "text": "전화 요청(교과 1개월 휴회)",
+      "cnt": 1
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "하심",
+      "cnt": 12,
+      "icon": "📌",
+      "desc": "AKS 상담 내용 주요 키워드"
+    },
+    {
+      "text": "이야기",
+      "cnt": 9,
+      "icon": "📌",
+      "desc": "AKS 상담 내용 주요 키워드"
+    },
+    {
+      "text": "많이",
+      "cnt": 8,
+      "icon": "📌",
+      "desc": "AKS 상담 내용 주요 키워드"
+    },
+    {
+      "text": "말씀드림",
+      "cnt": 8,
+      "icon": "📌",
+      "desc": "AKS 상담 내용 주요 키워드"
+    },
+    {
+      "text": "했다고",
+      "cnt": 6,
+      "icon": "📌",
+      "desc": "AKS 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [
+    {
+      "text": "결석",
+      "cnt": 2,
+      "icon": "🚫"
+    },
+    {
+      "text": "힘들어함",
+      "cnt": 5,
+      "icon": "😔"
+    }
+  ],
+  "req_keyword_summary": [
+    {
+      "text": "긍정적 피드백",
+      "cnt": 5,
+      "icon": "👍"
+    },
+    {
+      "text": "칭찬",
+      "cnt": 1,
+      "icon": "🌟"
+    },
+    {
+      "text": "결석/부재",
+      "cnt": 3,
+      "icon": "📞"
+    },
+    {
+      "text": "보강",
+      "cnt": 4,
+      "icon": "📅"
+    }
+  ],
+  "emp_by_cmp": {
+    "AKS": [
+      {
+        "cns_emp_cd": "CE230200034",
+        "cnt": 6
+      },
+      {
+        "cns_emp_cd": "CE251200053",
+        "cnt": 6
+      },
+      {
+        "cns_emp_cd": "AE181100010",
+        "cnt": 2
+      },
+      {
+        "cns_emp_cd": "AE120800027",
+        "cnt": 2
+      }
+    ]
+  },
+  "by_cmp": {
+    "AKS": {
+      "period": {
+        "start": "2026-02-02",
+        "end": "2026-03-05"
+      },
+      "titles": [
+        {
+          "text": "보강상담",
+          "cnt": 4
+        },
+        {
+          "text": "형성평가(1월) 및 정기상담",
+          "cnt": 2
+        },
+        {
+          "text": "형셩평가",
+          "cnt": 2
+        },
+        {
+          "text": "교사 교체 안내",
+          "cnt": 1
+        },
+        {
+          "text": "교사교체안내-부재",
+          "cnt": 1
+        },
+        {
+          "text": "형성평가(1월)상담 및 정기상담",
+          "cnt": 1
+        },
+        {
+          "text": "교사 교체 안내함.",
+          "cnt": 1
+        },
+        {
+          "text": "3월 스케줄변경문의-부재",
+          "cnt": 1
+        },
+        {
+          "text": "3월 스케줄",
+          "cnt": 1
+        },
+        {
+          "text": "전화 요청(교과 1개월 휴회)",
+          "cnt": 1
+        }
+      ],
+      "tokens": [
+        {
+          "text": "하심",
+          "cnt": 12
+        },
+        {
+          "text": "이야기",
+          "cnt": 9
+        },
+        {
+          "text": "많이",
+          "cnt": 8
+        },
+        {
+          "text": "말씀드림",
+          "cnt": 8
+        },
+        {
+          "text": "했다고",
+          "cnt": 6
+        },
+        {
+          "text": "3월",
+          "cnt": 5
+        },
+        {
+          "text": "한다고",
+          "cnt": 5
+        },
+        {
+          "text": "조금",
+          "cnt": 4
+        }
+      ],
+      "total_cnt": 16,
+      "positive_cnt": 5,
+      "negative_cnt": 9,
+      "req_keyword_detail": [
+        {
+          "text": "하심",
+          "cnt": 12,
+          "icon": "📌",
+          "desc": "AKS 상담 내용 주요 키워드"
+        },
+        {
+          "text": "이야기",
+          "cnt": 9,
+          "icon": "📌",
+          "desc": "AKS 상담 내용 주요 키워드"
+        },
+        {
+          "text": "많이",
+          "cnt": 8,
+          "icon": "📌",
+          "desc": "AKS 상담 내용 주요 키워드"
+        },
+        {
+          "text": "말씀드림",
+          "cnt": 8,
+          "icon": "📌",
+          "desc": "AKS 상담 내용 주요 키워드"
+        },
+        {
+          "text": "했다고",
+          "cnt": 6,
+          "icon": "📌",
+          "desc": "AKS 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "긍정적 피드백",
+          "cnt": 5,
+          "icon": "👍"
+        },
+        {
+          "text": "칭찬",
+          "cnt": 1,
+          "icon": "🌟"
+        },
+        {
+          "text": "결석/부재",
+          "cnt": 3,
+          "icon": "📞"
+        },
+        {
+          "text": "보강",
+          "cnt": 4,
+          "icon": "📅"
+        }
+      ],
+      "negative_feedback": [
+        {
+          "text": "결석",
+          "cnt": 2,
+          "icon": "🚫"
+        },
+        {
+          "text": "힘들어함",
+          "cnt": 5,
+          "icon": "😔"
+        }
+      ]
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

@@ -358,6 +358,199 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-06 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 3,
+    "positive_cnt": 0,
+    "negative_cnt": 0
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-06",
+      "end": "2026-02-10"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "BE100400078",
+      "cnt": 2
+    },
+    {
+      "cns_emp_cd": "CE250200039",
+      "cnt": 1
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "BCU",
+      "raw_cnt": 3
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "매쓰캥거루 안내 - 단체접수",
+      "cnt": 1
+    },
+    {
+      "text": "출결확인 - 지각 5:21",
+      "cnt": 1
+    },
+    {
+      "text": "체험 신청",
+      "cnt": 1
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "50",
+      "cnt": 1,
+      "icon": "📌",
+      "desc": "BCU 상담 내용 주요 키워드"
+    },
+    {
+      "text": "영문이름",
+      "cnt": 1,
+      "icon": "📌",
+      "desc": "BCU 상담 내용 주요 키워드"
+    },
+    {
+      "text": "park",
+      "cnt": 1,
+      "icon": "📌",
+      "desc": "BCU 상담 내용 주요 키워드"
+    },
+    {
+      "text": "woo",
+      "cnt": 1,
+      "icon": "📌",
+      "desc": "BCU 상담 내용 주요 키워드"
+    },
+    {
+      "text": "joo",
+      "cnt": 1,
+      "icon": "📌",
+      "desc": "BCU 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [],
+  "req_keyword_summary": [],
+  "emp_by_cmp": {
+    "BCU": [
+      {
+        "cns_emp_cd": "BE100400078",
+        "cnt": 2
+      },
+      {
+        "cns_emp_cd": "CE250200039",
+        "cnt": 1
+      }
+    ]
+  },
+  "by_cmp": {
+    "BCU": {
+      "period": {
+        "start": "2026-02-06",
+        "end": "2026-02-10"
+      },
+      "titles": [
+        {
+          "text": "매쓰캥거루 안내 - 단체접수",
+          "cnt": 1
+        },
+        {
+          "text": "출결확인 - 지각 5:21",
+          "cnt": 1
+        },
+        {
+          "text": "체험 신청",
+          "cnt": 1
+        }
+      ],
+      "tokens": [
+        {
+          "text": "50",
+          "cnt": 1
+        },
+        {
+          "text": "영문이름",
+          "cnt": 1
+        },
+        {
+          "text": "park",
+          "cnt": 1
+        },
+        {
+          "text": "woo",
+          "cnt": 1
+        },
+        {
+          "text": "joo",
+          "cnt": 1
+        },
+        {
+          "text": "응시료는",
+          "cnt": 1
+        },
+        {
+          "text": "다음주에",
+          "cnt": 1
+        },
+        {
+          "text": "받기로",
+          "cnt": 1
+        }
+      ],
+      "total_cnt": 3,
+      "positive_cnt": 0,
+      "negative_cnt": 0,
+      "req_keyword_detail": [
+        {
+          "text": "50",
+          "cnt": 1,
+          "icon": "📌",
+          "desc": "BCU 상담 내용 주요 키워드"
+        },
+        {
+          "text": "영문이름",
+          "cnt": 1,
+          "icon": "📌",
+          "desc": "BCU 상담 내용 주요 키워드"
+        },
+        {
+          "text": "park",
+          "cnt": 1,
+          "icon": "📌",
+          "desc": "BCU 상담 내용 주요 키워드"
+        },
+        {
+          "text": "woo",
+          "cnt": 1,
+          "icon": "📌",
+          "desc": "BCU 상담 내용 주요 키워드"
+        },
+        {
+          "text": "joo",
+          "cnt": 1,
+          "icon": "📌",
+          "desc": "BCU 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [],
+      "negative_feedback": []
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

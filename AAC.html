@@ -358,6 +358,233 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-04 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 3,
+    "positive_cnt": 0,
+    "negative_cnt": 1
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-04",
+      "end": "2026-02-25"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "AE070122003",
+      "cnt": 2
+    },
+    {
+      "cns_emp_cd": "AE090100091",
+      "cnt": 1
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "AAC",
+      "raw_cnt": 3
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "2/11보강 관련",
+      "cnt": 1
+    },
+    {
+      "text": "3월승급안내 및 보강안내(23-27여행)",
+      "cnt": 1
+    },
+    {
+      "text": "2월 복귀",
+      "cnt": 1
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "수업",
+      "cnt": 3,
+      "icon": "📌",
+      "desc": "AAC 상담 내용 주요 키워드"
+    },
+    {
+      "text": "시작",
+      "cnt": 2,
+      "icon": "📌",
+      "desc": "AAC 상담 내용 주요 키워드"
+    },
+    {
+      "text": "해서",
+      "cnt": 2,
+      "icon": "📌",
+      "desc": "AAC 상담 내용 주요 키워드"
+    },
+    {
+      "text": "2차시에",
+      "cnt": 2,
+      "icon": "📌",
+      "desc": "AAC 상담 내용 주요 키워드"
+    },
+    {
+      "text": "보고",
+      "cnt": 2,
+      "icon": "📌",
+      "desc": "AAC 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [
+    {
+      "text": "결석",
+      "cnt": 1,
+      "icon": "🚫"
+    }
+  ],
+  "req_keyword_summary": [
+    {
+      "text": "결석/부재",
+      "cnt": 1,
+      "icon": "📞"
+    },
+    {
+      "text": "보강",
+      "cnt": 1,
+      "icon": "📅"
+    }
+  ],
+  "emp_by_cmp": {
+    "AAC": [
+      {
+        "cns_emp_cd": "AE070122003",
+        "cnt": 2
+      },
+      {
+        "cns_emp_cd": "AE090100091",
+        "cnt": 1
+      }
+    ]
+  },
+  "by_cmp": {
+    "AAC": {
+      "period": {
+        "start": "2026-02-04",
+        "end": "2026-02-25"
+      },
+      "titles": [
+        {
+          "text": "2/11보강 관련",
+          "cnt": 1
+        },
+        {
+          "text": "3월승급안내 및 보강안내(23-27여행)",
+          "cnt": 1
+        },
+        {
+          "text": "2월 복귀",
+          "cnt": 1
+        }
+      ],
+      "tokens": [
+        {
+          "text": "수업",
+          "cnt": 3
+        },
+        {
+          "text": "시작",
+          "cnt": 2
+        },
+        {
+          "text": "해서",
+          "cnt": 2
+        },
+        {
+          "text": "2차시에",
+          "cnt": 2
+        },
+        {
+          "text": "보고",
+          "cnt": 2
+        },
+        {
+          "text": "보강은",
+          "cnt": 2
+        },
+        {
+          "text": "수요일",
+          "cnt": 1
+        },
+        {
+          "text": "수강자가",
+          "cnt": 1
+        }
+      ],
+      "total_cnt": 3,
+      "positive_cnt": 0,
+      "negative_cnt": 1,
+      "req_keyword_detail": [
+        {
+          "text": "수업",
+          "cnt": 3,
+          "icon": "📌",
+          "desc": "AAC 상담 내용 주요 키워드"
+        },
+        {
+          "text": "시작",
+          "cnt": 2,
+          "icon": "📌",
+          "desc": "AAC 상담 내용 주요 키워드"
+        },
+        {
+          "text": "해서",
+          "cnt": 2,
+          "icon": "📌",
+          "desc": "AAC 상담 내용 주요 키워드"
+        },
+        {
+          "text": "2차시에",
+          "cnt": 2,
+          "icon": "📌",
+          "desc": "AAC 상담 내용 주요 키워드"
+        },
+        {
+          "text": "보고",
+          "cnt": 2,
+          "icon": "📌",
+          "desc": "AAC 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "결석/부재",
+          "cnt": 1,
+          "icon": "📞"
+        },
+        {
+          "text": "보강",
+          "cnt": 1,
+          "icon": "📅"
+        }
+      ],
+      "negative_feedback": [
+        {
+          "text": "결석",
+          "cnt": 1,
+          "icon": "🚫"
+        }
+      ]
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

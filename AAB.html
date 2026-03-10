@@ -358,6 +358,391 @@
 
   <script src="ai-report-data.js"></script>
   <script>
+window.AI_REPORT_DATA = {
+  "meta": {
+    "generated_at": "2026-03-10",
+    "filter_start": "2026-02-03 00:00:00",
+    "source": "db_square.tb_counsel",
+    "total_cnt": 57,
+    "positive_cnt": 16,
+    "negative_cnt": 16
+  },
+  "student_counsel_status": {
+    "counseled": 0,
+    "not_counseled": 0
+  },
+  "weeks": [
+    {
+      "week_num": "all",
+      "label": "전체",
+      "start": "2026-02-03",
+      "end": "2026-03-07"
+    }
+  ],
+  "emp_index": [
+    {
+      "cns_emp_cd": "AE130400013",
+      "cnt": 14
+    },
+    {
+      "cns_emp_cd": "AE051227003",
+      "cnt": 10
+    },
+    {
+      "cns_emp_cd": "AE090900054",
+      "cnt": 8
+    },
+    {
+      "cns_emp_cd": "AE021105042",
+      "cnt": 7
+    },
+    {
+      "cns_emp_cd": "AE071200076",
+      "cnt": 6
+    },
+    {
+      "cns_emp_cd": "AE120900023",
+      "cnt": 4
+    }
+  ],
+  "cmp_index": [
+    {
+      "cmp_cd": "AAB",
+      "raw_cnt": 57
+    }
+  ],
+  "cns_st_summary": [
+    {
+      "text": "상담",
+      "cnt": 13
+    },
+    {
+      "text": "정기상담(3월 하반기 안내문 발송)",
+      "cnt": 2
+    },
+    {
+      "text": "정기상담",
+      "cnt": 2
+    },
+    {
+      "text": "부재중 문자",
+      "cnt": 2
+    },
+    {
+      "text": "무료 과학 진단검사 전화상담-why",
+      "cnt": 2
+    },
+    {
+      "text": "아파서 조퇴. 부재중",
+      "cnt": 1
+    },
+    {
+      "text": "상담 - 부재중",
+      "cnt": 1
+    },
+    {
+      "text": "생활, 평가., 학기인증제",
+      "cnt": 1
+    },
+    {
+      "text": "결석 상담 - 부재중 (문자드림)",
+      "cnt": 1
+    },
+    {
+      "text": "정기상담(최상위)",
+      "cnt": 1
+    }
+  ],
+  "req_keyword_detail": [
+    {
+      "text": "말씀드림",
+      "cnt": 21,
+      "icon": "📌",
+      "desc": "AAB 상담 내용 주요 키워드"
+    },
+    {
+      "text": "수업",
+      "cnt": 13,
+      "icon": "📌",
+      "desc": "AAB 상담 내용 주요 키워드"
+    },
+    {
+      "text": "과학",
+      "cnt": 10,
+      "icon": "📌",
+      "desc": "AAB 상담 내용 주요 키워드"
+    },
+    {
+      "text": "최상위",
+      "cnt": 9,
+      "icon": "📌",
+      "desc": "AAB 상담 내용 주요 키워드"
+    },
+    {
+      "text": "같다고",
+      "cnt": 9,
+      "icon": "📌",
+      "desc": "AAB 상담 내용 주요 키워드"
+    }
+  ],
+  "negative_feedback": [
+    {
+      "text": "결석",
+      "cnt": 4,
+      "icon": "🚫"
+    },
+    {
+      "text": "힘들어함",
+      "cnt": 2,
+      "icon": "😔"
+    },
+    {
+      "text": "학습 어려움",
+      "cnt": 5,
+      "icon": "😓"
+    },
+    {
+      "text": "휴회",
+      "cnt": 1,
+      "icon": "⏸️"
+    },
+    {
+      "text": "그만두기/퇴원",
+      "cnt": 1,
+      "icon": "⚠️"
+    }
+  ],
+  "req_keyword_summary": [
+    {
+      "text": "긍정적 피드백",
+      "cnt": 16,
+      "icon": "👍"
+    },
+    {
+      "text": "칭찬",
+      "cnt": 3,
+      "icon": "🌟"
+    },
+    {
+      "text": "만점/100점",
+      "cnt": 3,
+      "icon": "💯"
+    },
+    {
+      "text": "결석/부재",
+      "cnt": 4,
+      "icon": "📞"
+    },
+    {
+      "text": "보강",
+      "cnt": 10,
+      "icon": "📅"
+    }
+  ],
+  "emp_by_cmp": {
+    "AAB": [
+      {
+        "cns_emp_cd": "AE130400013",
+        "cnt": 14
+      },
+      {
+        "cns_emp_cd": "AE051227003",
+        "cnt": 10
+      },
+      {
+        "cns_emp_cd": "AE090900054",
+        "cnt": 8
+      },
+      {
+        "cns_emp_cd": "AE021105042",
+        "cnt": 7
+      },
+      {
+        "cns_emp_cd": "AE071200076",
+        "cnt": 6
+      },
+      {
+        "cns_emp_cd": "AE120900023",
+        "cnt": 4
+      }
+    ]
+  },
+  "by_cmp": {
+    "AAB": {
+      "period": {
+        "start": "2026-02-03",
+        "end": "2026-03-07"
+      },
+      "titles": [
+        {
+          "text": "상담",
+          "cnt": 13
+        },
+        {
+          "text": "정기상담(3월 하반기 안내문 발송)",
+          "cnt": 2
+        },
+        {
+          "text": "정기상담",
+          "cnt": 2
+        },
+        {
+          "text": "부재중 문자",
+          "cnt": 2
+        },
+        {
+          "text": "무료 과학 진단검사 전화상담-why",
+          "cnt": 2
+        },
+        {
+          "text": "아파서 조퇴. 부재중",
+          "cnt": 1
+        },
+        {
+          "text": "상담 - 부재중",
+          "cnt": 1
+        },
+        {
+          "text": "생활, 평가., 학기인증제",
+          "cnt": 1
+        },
+        {
+          "text": "결석 상담 - 부재중 (문자드림)",
+          "cnt": 1
+        },
+        {
+          "text": "정기상담(최상위)",
+          "cnt": 1
+        }
+      ],
+      "tokens": [
+        {
+          "text": "말씀드림",
+          "cnt": 21
+        },
+        {
+          "text": "수업",
+          "cnt": 13
+        },
+        {
+          "text": "과학",
+          "cnt": 10
+        },
+        {
+          "text": "최상위",
+          "cnt": 9
+        },
+        {
+          "text": "같다고",
+          "cnt": 9
+        },
+        {
+          "text": "조금",
+          "cnt": 9
+        },
+        {
+          "text": "많이",
+          "cnt": 8
+        },
+        {
+          "text": "매우",
+          "cnt": 7
+        }
+      ],
+      "total_cnt": 57,
+      "positive_cnt": 16,
+      "negative_cnt": 16,
+      "req_keyword_detail": [
+        {
+          "text": "말씀드림",
+          "cnt": 21,
+          "icon": "📌",
+          "desc": "AAB 상담 내용 주요 키워드"
+        },
+        {
+          "text": "수업",
+          "cnt": 13,
+          "icon": "📌",
+          "desc": "AAB 상담 내용 주요 키워드"
+        },
+        {
+          "text": "과학",
+          "cnt": 10,
+          "icon": "📌",
+          "desc": "AAB 상담 내용 주요 키워드"
+        },
+        {
+          "text": "최상위",
+          "cnt": 9,
+          "icon": "📌",
+          "desc": "AAB 상담 내용 주요 키워드"
+        },
+        {
+          "text": "같다고",
+          "cnt": 9,
+          "icon": "📌",
+          "desc": "AAB 상담 내용 주요 키워드"
+        }
+      ],
+      "req_keyword_summary": [
+        {
+          "text": "긍정적 피드백",
+          "cnt": 16,
+          "icon": "👍"
+        },
+        {
+          "text": "칭찬",
+          "cnt": 3,
+          "icon": "🌟"
+        },
+        {
+          "text": "만점/100점",
+          "cnt": 3,
+          "icon": "💯"
+        },
+        {
+          "text": "결석/부재",
+          "cnt": 4,
+          "icon": "📞"
+        },
+        {
+          "text": "보강",
+          "cnt": 10,
+          "icon": "📅"
+        }
+      ],
+      "negative_feedback": [
+        {
+          "text": "결석",
+          "cnt": 4,
+          "icon": "🚫"
+        },
+        {
+          "text": "힘들어함",
+          "cnt": 2,
+          "icon": "😔"
+        },
+        {
+          "text": "학습 어려움",
+          "cnt": 5,
+          "icon": "😓"
+        },
+        {
+          "text": "휴회",
+          "cnt": 1,
+          "icon": "⏸️"
+        },
+        {
+          "text": "그만두기/퇴원",
+          "cnt": 1,
+          "icon": "⚠️"
+        }
+      ]
+    }
+  }
+};
+</script>
+<script>
     (function(){
       const data = window.AI_REPORT_DATA;
       if (!data) throw new Error('AI_REPORT_DATA not found');

@@ -13,8 +13,13 @@
 - 리포트 제작 관리 시트: [gid=1296826526](https://docs.google.com/spreadsheets/d/1lg75mmON79TwwzOwQCmt6l_3X8xxjj7Bze7Vz9DUcMY/edit?gid=1296826526#gid=1296826526)
 - 발송 대상자 명단 시트: [gid=435721721](https://docs.google.com/spreadsheets/d/1lg75mmON79TwwzOwQCmt6l_3X8xxjj7Bze7Vz9DUcMY/edit?gid=435721721#gid=435721721)
 - 발송 로그 기록 시트: [gid=899713549](https://docs.google.com/spreadsheets/d/1lg75mmON79TwwzOwQCmt6l_3X8xxjj7Bze7Vz9DUcMY/edit?gid=899713549#gid=899713549)
+- n8n 워크플로우 - AI Report Generator: [OLqsHdJ3oLDj7JXy](https://ctdxteam1.app.n8n.cloud/workflow/OLqsHdJ3oLDj7JXy)
+- n8n 워크플로우 - AI Report Sender: [f4WJsxwi5shTnKsn](https://ctdxteam1.app.n8n.cloud/workflow/f4WJsxwi5shTnKsn)
+- n8n 워크플로우 - AI Report Error Alert: [Z8Ys4lheaQPtLacu](https://ctdxteam1.app.n8n.cloud/workflow/Z8Ys4lheaQPtLacu)
+- GitHub 리포트 저장소: [jichang999-dotcom/tes1](https://github.com/jichang999-dotcom/tes1)
+- GitHub Pages 리포트 호스팅: [counsel-report](https://jichang999-dotcom.github.io/tes1/counsel-report/)
 
-**사용 서비스**: Google Sheets (트리거/로깅), Claude (AI HTML 업데이트), MariaDB (데이터 소스), Google Drive (HTML 저장), GitHub (HTML 호스팅), Gmail (이메일 발송)
+**사용 서비스**: Google Sheets (트리거/로깅), Claude (AI HTML 업데이트), MariaDB (데이터 소스), Google Drive (HTML 저장), GitHub (HTML 호스팅), Gmail (이메일 발송), n8n (워크플로우 자동화)
 
 ---
 
@@ -44,12 +49,12 @@
   - 업로드 경로: `counsel-report/{cmp_cd}.html` (예: counsel-report/CMP001.html)
   - 업로드 방식: **덮어쓰기** — 기존 파일이 있으면 sha 값을 조회하여 같은 파일명으로 최신 내용을 덮어씁니다. 매주 cmp_cd당 1개의 HTML 파일만 유지되며, 이전 주 리포트는 최신 리포트로 교체됩니다.
   - 인증: `GITHUB_TOKEN` 환경변수 사용
-- **링크 생성**: 업로드 완료 후 `https://jichang999-dotcom.github.io/tes1/counsel-report/{cmp_cd}.html` 형태의 cmp_cd별 배포용 리포트 링크를 생성합니다.
+- **링크 생성 및 시트 기록**: 업로드 완료 후 `https://jichang999-dotcom.github.io/tes1/counsel-report/{cmp_cd}.html` 형태의 cmp_cd별 배포용 리포트 링크를 생성합니다. 생성된 링크는 "리포트 제작" 시트의 PK 컬럼에서 A1 값을 찾고, 해당 행들 중 cmp_cd가 일치하는 행의 HTML업데이트 컬럼에 링크를 기록합니다.
 
 ### 3단계: 발송 대상자 매핑
 
-- **대상자 식별**: "리포트 제작" 시트와 "발송 대상자" 시트를 대조하여 PK 코드가 일치하는 명단을 찾습니다.
-- **링크 매칭**: GitHub에서 생성된 cmp_cd별 링크를 "발송 대상자" 시트의 cmp_cd 컬럼과 대조하여 각 대상자에게 맞는 링크를 할당합니다.
+- **대상자 식별**: "리포트 제작" 시트와 "발송 대상자" 시트를 대조하여 PK와 cmp_cd가 모두 일치하는 수신자를 매칭합니다.
+- **링크 매칭**: 매칭된 수신자에게 해당 cmp_cd의 배포 링크를 할당합니다.
 - **시트 업데이트**: 할당된 링크를 "발송 대상자" 시트에 발송링크 컬럼에 링크주소를 업데이트 합니다.
 - **수신자 정보 확보**: "발송 대상자" 시트에서 최종 발송할 이메일 주소를 추출합니다.
 

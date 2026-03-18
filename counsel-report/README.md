@@ -13,9 +13,9 @@
 - 리포트 제작 관리 시트: [gid=1296826526](https://docs.google.com/spreadsheets/d/1lg75mmON79TwwzOwQCmt6l_3X8xxjj7Bze7Vz9DUcMY/edit?gid=1296826526#gid=1296826526)
 - 발송 대상자 명단 시트: [gid=435721721](https://docs.google.com/spreadsheets/d/1lg75mmON79TwwzOwQCmt6l_3X8xxjj7Bze7Vz9DUcMY/edit?gid=435721721#gid=435721721)
 - 발송 로그 기록 시트: [gid=899713549](https://docs.google.com/spreadsheets/d/1lg75mmON79TwwzOwQCmt6l_3X8xxjj7Bze7Vz9DUcMY/edit?gid=899713549#gid=899713549)
-- n8n 워크플로우 - AI Report Generator: [OLqsHdJ3oLDj7JXy](https://ctdxteam1.app.n8n.cloud/workflow/OLqsHdJ3oLDj7JXy)
-- n8n 워크플로우 - AI Report Sender: [f4WJsxwi5shTnKsn](https://ctdxteam1.app.n8n.cloud/workflow/f4WJsxwi5shTnKsn)
-- n8n 워크플로우 - AI Report Error Alert: [Z8Ys4lheaQPtLacu](https://ctdxteam1.app.n8n.cloud/workflow/Z8Ys4lheaQPtLacu)
+- n8n 워크플로우 - AI Report Generator v2: [f2sxR2RUUHUX1N6c](https://ctdxteam1.app.n8n.cloud/workflow/f2sxR2RUUHUX1N6c)
+- n8n 워크플로우 - AI Report Sender v2: [vNaQM4zbXTKq7rPg](https://ctdxteam1.app.n8n.cloud/workflow/vNaQM4zbXTKq7rPg)
+- n8n 워크플로우 - AI Report Error Alert v2: [uaNUlOqIr0CmGFt1](https://ctdxteam1.app.n8n.cloud/workflow/uaNUlOqIr0CmGFt1)
 - GitHub 리포트 저장소: [jichang999-dotcom/tes1](https://github.com/jichang999-dotcom/tes1)
 - GitHub Pages 리포트 호스팅: [counsel-report](https://jichang999-dotcom.github.io/tes1/counsel-report/)
 

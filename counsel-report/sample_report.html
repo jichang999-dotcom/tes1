@@ -238,7 +238,7 @@ body {
   color: var(--success);
 }
 
-/* 상담사별 현황 그리드 */
+/* 교사별 현황 그리드 */
 .empGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -429,7 +429,7 @@ body {
     <table class="data-table">
       <thead>
         <tr>
-          <th>학생코드</th>
+          <th>std_nm</th>
           <th>부정 건수</th>
           <th>초과율</th>
           <th>등급</th>
@@ -494,7 +494,7 @@ body {
     <table class="data-table">
       <thead>
         <tr>
-          <th>학생코드</th>
+          <th>std_nm</th>
           <th>상담 횟수</th>
           <th>초과율</th>
           <th>주요 상담 유형</th>
@@ -535,30 +535,30 @@ body {
     </table>
   </div>
 
-  <!-- 상담사별 현황 -->
+  <!-- 교사별 현황 -->
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--accent-light);color:var(--accent);">👤</div>
-      상담사별 현황
+      교사별 현황
     </div>
     <div class="empGrid">
       <div class="empCard">
-        <div class="code">EMP-001 (김상담)</div>
+        <div class="code">김교사</div>
         <div class="detail">총 상담: 187건</div>
         <div class="detail">부정 감성: <span>45건 (24%)</span></div>
       </div>
       <div class="empCard">
-        <div class="code">EMP-002 (이상담)</div>
+        <div class="code">이교사</div>
         <div class="detail">총 상담: 203건</div>
         <div class="detail">부정 감성: <span>62건 (31%)</span></div>
       </div>
       <div class="empCard">
-        <div class="code">EMP-003 (박상담)</div>
+        <div class="code">박교사</div>
         <div class="detail">총 상담: 156건</div>
         <div class="detail">부정 감성: <span>38건 (24%)</span></div>
       </div>
       <div class="empCard">
-        <div class="code">EMP-004 (최상담)</div>
+        <div class="code">최교사</div>
         <div class="detail">총 상담: 174건</div>
         <div class="detail">부정 감성: <span>51건 (29%)</span></div>
       </div>
@@ -580,7 +580,7 @@ body {
       <thead>
         <tr>
           <th>일자</th>
-          <th>상담사</th>
+          <th>교사</th>
           <th>감성</th>
           <th>키워드</th>
         </tr>
@@ -588,31 +588,31 @@ body {
       <tbody>
         <tr>
           <td>03-14</td>
-          <td>EMP-002</td>
+          <td>이교사</td>
           <td><span class="tag danger">부정</span></td>
           <td>스트레스, 포기</td>
         </tr>
         <tr>
           <td>03-12</td>
-          <td>EMP-001</td>
+          <td>김교사</td>
           <td><span class="tag danger">부정</span></td>
           <td>우울, 무기력</td>
         </tr>
         <tr>
           <td>03-10</td>
-          <td>EMP-002</td>
+          <td>이교사</td>
           <td><span class="tag danger">부정</span></td>
           <td>불만, 갈등</td>
         </tr>
         <tr>
           <td>03-07</td>
-          <td>EMP-003</td>
+          <td>박교사</td>
           <td><span class="tag warning">주의</span></td>
           <td>불안</td>
         </tr>
         <tr>
           <td>03-03</td>
-          <td>EMP-001</td>
+          <td>김교사</td>
           <td><span class="tag danger">부정</span></td>
           <td>분노, 압박감</td>
         </tr>

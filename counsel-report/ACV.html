@@ -3,59 +3,210 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI 상담 분석 리포트 - 와이즈만 송파센터 [초등관]</title>
+<title>와이즈만 송파센터 [초등관] AI 상담 분석 리포트</title>
 <style>
 :root {
-  --bg: #f5f7fa; --card: #ffffff; --text: #1a1d21; --muted: #6b7280;
-  --border: #e5e7eb; --accent: #6366f1; --accent-light: #eef2ff;
-  --success: #10b981; --warning: #f59e0b; --danger: #ef4444;
-  --danger-light: #fef2f2; --warning-light: #fffbeb;
+  --bg: #f5f7fa;
+  --card: #ffffff;
+  --text: #1a1d21;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --accent: #6366f1;
+  --accent-light: #eef2ff;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --danger-light: #fef2f2;
+  --warning-light: #fffbeb;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans KR", sans-serif;
-  font-size: 14px; line-height: 1.6; background: var(--bg); color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  background: var(--bg);
+  color: var(--text);
 }
-.container { max-width: 480px; margin: 0 auto; padding: 0 16px 32px; }
-.topbar { position: sticky; top: 0; z-index: 100; background: var(--card); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 16px 32px;
+}
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .topbar-title { font-size: 17px; font-weight: 700; }
 .topbar-sub { font-size: 12px; color: var(--muted); }
-.card { background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 12px; border: 1px solid var(--border); }
-.card-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-.card-title .icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
-.periodRow { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--accent-light); border-radius: 8px; margin-bottom: 12px; }
+.card {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid var(--border);
+}
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-title .icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+.periodRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--accent-light);
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
 .periodRow .icon { font-size: 18px; }
 .periodRow .label { font-size: 13px; color: var(--muted); }
 .periodRow .value { font-size: 14px; font-weight: 600; }
-.statGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-.statBox { background: var(--bg); border-radius: 10px; padding: 14px 12px; text-align: center; }
-.statBox .num { font-size: 22px; font-weight: 700; color: var(--accent); }
-.statBox .num.danger { color: var(--danger); }
-.statBox .num.warning { color: var(--warning); }
-.statBox .num.success { color: var(--success); }
-.statBox .lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.compare-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 13px;
+}
+.compare-table thead th {
+  padding: 10px 8px;
+  font-weight: 600;
+  font-size: 12px;
+  text-align: center;
+}
+.compare-table thead th:first-child {
+  background: var(--bg);
+  color: var(--muted);
+  text-align: left;
+  width: 34%;
+}
+.compare-table thead th.col-d30 {
+  background: var(--accent);
+  color: #fff;
+  width: 33%;
+}
+.compare-table thead th.col-d0 {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  width: 33%;
+}
+.compare-table tbody td {
+  padding: 12px 8px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.compare-table tbody td:first-child {
+  text-align: left;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+.compare-table tbody td.val {
+  font-weight: 700;
+  font-size: 18px;
+}
+.compare-table tbody tr:last-child td { border-bottom: none; }
 .keywordList { list-style: none; }
-.keywordItem { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 8px; transition: background 0.2s, transform 0.2s; cursor: default; }
+.keywordItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 8px;
+  transition: background 0.2s, transform 0.2s;
+  cursor: default;
+}
 .keywordItem:hover { background: var(--bg); transform: translateX(4px); }
 .keywordItem .kw { display: flex; align-items: center; gap: 8px; font-size: 14px; }
 .keywordItem .cnt { font-size: 14px; font-weight: 600; color: var(--danger); }
-.bar-bg { height: 6px; background: var(--border); border-radius: 3px; margin-top: 4px; overflow: hidden; }
-.bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent), #8b5cf6); }
+.bar-bg {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--accent), #8b5cf6);
+}
 .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.data-table thead th { background: var(--accent); color: #fff; padding: 10px 8px; text-align: left; font-weight: 600; font-size: 12px; }
+.data-table thead th {
+  background: var(--accent);
+  color: #fff;
+  padding: 10px 8px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 12px;
+}
 .data-table thead th:first-child { border-radius: 8px 0 0 0; }
 .data-table thead th:last-child { border-radius: 0 8px 0 0; }
 .data-table tbody td { padding: 10px 8px; border-bottom: 1px solid var(--border); }
 .data-table tbody tr:hover { background: var(--accent-light); }
-.tag { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
 .tag.danger { background: var(--danger-light); color: var(--danger); }
 .tag.warning { background: var(--warning-light); color: var(--warning); }
 .tag.success { background: #ecfdf5; color: var(--success); }
-.alertBanner { padding: 12px 14px; border-radius: 10px; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px; font-size: 13px; }
+.tag.new {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 2px 10px;
+  border-radius: 12px;
+  animation: newPulse 2s ease-in-out infinite;
+}
+@keyframes newPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+.alertBanner {
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+}
 .alertBanner.danger { background: var(--danger-light); border: 1px solid #fecaca; }
-.alertBanner.warning { background: var(--warning-light); border: 1px solid #fde68a; }
 .alertBanner .alert-icon { font-size: 16px; }
-.footer { text-align: center; padding: 20px 0; font-size: 11px; color: var(--muted); }
+.footer {
+  text-align: center;
+  padding: 20px 0;
+  font-size: 11px;
+  color: var(--muted);
+}
 </style>
 </head>
 <body>
@@ -63,7 +214,7 @@ body {
 <div class="topbar">
   <div>
     <div class="topbar-title">와이즈만 송파센터 [초등관]</div>
-    <div class="topbar-sub">AI 상담 분석 리포트 · 2026년 2월</div>
+    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-02-22 ~ 2026-03-24</div>
   </div>
 </div>
 
@@ -79,48 +230,103 @@ body {
       <div class="icon">📅</div>
       <div>
         <div class="label">분석 기간</div>
-        <div class="value">2026.02.21 ~ 2026.03.23 (30일)</div>
+        <div class="value">2026-02-22 ~ 2026-03-24 (30일)</div>
       </div>
     </div>
-    <div class="statGrid">
-      <div class="statBox"><div class="num" style="color:var(--accent);">1,493</div><div class="lbl">총 상담 건수</div></div>
-      <div class="statBox"><div class="num danger">369</div><div class="lbl">부정 감성 건수</div></div>
-      <div class="statBox"><div class="num warning">24.7%</div><div class="lbl">부정 비율</div></div>
-      <div class="statBox"><div class="num success">495</div><div class="lbl">총 학생 수</div></div>
-    </div>
+    <!-- D-30 / D-0 누적 비교 -->
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="col-d30">D-30 누적</th>
+          <th class="col-d0">D-0 누적</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>총 상담 건수</td>
+          <td class="val" style="color:var(--accent);">1,411</td>
+          <td class="val" style="color:var(--accent);">1,411</td>
+        </tr>
+        <tr>
+          <td>부정 감성 건수</td>
+          <td class="val" style="color:var(--danger);">266</td>
+          <td class="val" style="color:var(--danger);">266</td>
+        </tr>
+        <tr>
+          <td>부정 비율</td>
+          <td class="val" style="color:var(--warning);">18.9%</td>
+          <td class="val" style="color:var(--warning);">18.9%</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
+  
   <div class="alertBanner danger">
     <div class="alert-icon">🚨</div>
     <div>
-      <strong>주의 학생 73명 감지</strong><br>
+      <strong>주의 학생 54명 감지</strong><br>
       평균 대비 부정 감성 빈도가 높은 학생이 발견되었습니다. 아래 상세 내역을 확인해주세요.
     </div>
   </div>
 
-  <!-- 부정 감성 키워드 빈도 -->
+  <!-- 부정 감성 키워드 빈도 통계 -->
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--danger-light);color:var(--danger);">💬</div>
       부정 감성 키워드 빈도
     </div>
     <ul class="keywordList">
-      <li class="keywordItem"><div class="kw">📉 학습어려움</div><div class="cnt">121건</div></li>
-      <li><div class="bar-bg"><div class="bar-fill" style="width:100%"></div></div></li>
-      <li class="keywordItem"><div class="kw">🏃 이탈/포기의사</div><div class="cnt">113건</div></li>
-      <li><div class="bar-bg"><div class="bar-fill" style="width:93%"></div></div></li>
-      <li class="keywordItem"><div class="kw">😤 스트레스/압박감</div><div class="cnt">84건</div></li>
-      <li><div class="bar-bg"><div class="bar-fill" style="width:69%"></div></div></li>
-      <li class="keywordItem"><div class="kw">😠 불만/분노</div><div class="cnt">58건</div></li>
-      <li><div class="bar-bg"><div class="bar-fill" style="width:48%"></div></div></li>
-      <li class="keywordItem"><div class="kw">😰 불안/걱정</div><div class="cnt">55건</div></li>
-      <li><div class="bar-bg"><div class="bar-fill" style="width:45%"></div></div></li>
-      <li class="keywordItem"><div class="kw">😞 우울/무기력</div><div class="cnt">50건</div></li>
-      <li><div class="bar-bg"><div class="bar-fill" style="width:41%"></div></div></li>
-      <li class="keywordItem"><div class="kw">🔄 부적응</div><div class="cnt">29건</div></li>
-      <li><div class="bar-bg"><div class="bar-fill" style="width:24%"></div></div></li>
-      <li class="keywordItem"><div class="kw">😢 대인관계갈등</div><div class="cnt">6건</div></li>
-      <li><div class="bar-bg"><div class="bar-fill" style="width:5%"></div></div></li>
+      <li class="keywordItem">
+        <div class="kw">🏃 이탈/포기 의사</div>
+        <div class="cnt">112건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:100%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">📚 학습 어려움</div>
+        <div class="cnt">56건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:50%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">😤 스트레스/압박감</div>
+        <div class="cnt">43건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:38%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">😰 불안/걱정</div>
+        <div class="cnt">39건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:35%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">😣 부적응</div>
+        <div class="cnt">29건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:26%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">😠 불만/분노</div>
+        <div class="cnt">27건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:24%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">😢 대인관계 갈등</div>
+        <div class="cnt">1건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:1%"></div></div>
+      </li>
     </ul>
   </div>
 
@@ -131,93 +337,404 @@ body {
       평균 초과 학생 리스트
     </div>
     <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">
-      와이즈만 송파센터 [초등관] 내 학생 평균 부정 건수: <strong style="color:var(--text);">0.7건</strong> — 평균 초과 학생 73명
+      와이즈만 송파센터 [초등관] 내 학생 평균 부정 건수: <strong style="color:var(--text);">1.5건</strong> — 평균 초과 학생 전체를 표시합니다.
     </p>
     <table class="data-table">
       <thead>
-        <tr><th>학생코드</th><th>부정 건수</th><th>초과율</th><th>등급</th></tr>
+        <tr>
+          <th>학생코드</th>
+          <th>부정 건수</th>
+          <th>초과율</th>
+          <th>등급</th>
+          <th>신규</th>
+        </tr>
       </thead>
       <tbody>
-        <tr><td>CS240500444</td><td><strong>6건</strong></td><td>+705%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS250205007</td><td><strong>5건</strong></td><td>+571%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS250500740</td><td><strong>5건</strong></td><td>+571%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS240701900</td><td><strong>5건</strong></td><td>+571%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS230800825</td><td><strong>4건</strong></td><td>+437%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS260202341</td><td><strong>4건</strong></td><td>+437%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS230101167</td><td><strong>4건</strong></td><td>+437%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS240400261</td><td><strong>4건</strong></td><td>+437%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS241202750</td><td><strong>4건</strong></td><td>+437%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS221103115</td><td><strong>4건</strong></td><td>+437%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS241001164</td><td><strong>4건</strong></td><td>+437%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS250206234</td><td><strong>4건</strong></td><td>+437%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS250803795</td><td><strong>3건</strong></td><td>+302%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS250500130</td><td><strong>3건</strong></td><td>+302%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS250302024</td><td><strong>3건</strong></td><td>+302%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS220302097</td><td><strong>3건</strong></td><td>+302%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS210303089</td><td><strong>3건</strong></td><td>+302%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS260201295</td><td><strong>3건</strong></td><td>+302%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS260201016</td><td><strong>3건</strong></td><td>+302%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS241100374</td><td><strong>3건</strong></td><td>+302%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS260202382</td><td><strong>3건</strong></td><td>+302%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS221200364</td><td><strong>3건</strong></td><td>+302%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS221000065</td><td><strong>3건</strong></td><td>+302%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS211203096</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS240501102</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS240203239</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS220700001</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS250300997</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS250100326</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS220300806</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS240902522</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS241203622</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS260300878</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS221201653</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS251103697</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS260206534</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS240501012</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS260302454</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS211103140</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS251100251</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS221101865</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS251201575</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS250805699</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS240500635</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS250400034</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS221200886</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS260203111</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS211203851</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS260204706</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS250803258</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS231000297</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS250200075</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>BS191200176</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS260203073</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS260202708</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS230701562</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS250201082</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS251102106</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS260206281</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS260205585</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS230901179</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS211103911</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS251102035</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS250600307</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS231200946</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS250805439</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS251103132</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS250804908</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS210400745</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS231203636</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS241200980</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS240501468</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
-        <tr><td>CS240701348</td><td><strong>2건</strong></td><td>+168%</td><td><span class="tag danger">위험</span></td></tr>
+        <tr>
+          <td>CS240501102</td>
+          <td><strong>7건</strong></td>
+          <td>+360.5%</td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS240500444</td>
+          <td><strong>6건</strong></td>
+          <td>+294.7%</td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS241001164</td>
+          <td><strong>5건</strong></td>
+          <td>+228.9%</td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS250200075</td>
+          <td><strong>4건</strong></td>
+          <td>+163.2%</td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS250205007</td>
+          <td><strong>4건</strong></td>
+          <td>+163.2%</td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS250206234</td>
+          <td><strong>4건</strong></td>
+          <td>+163.2%</td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS210303089</td>
+          <td><strong>4건</strong></td>
+          <td>+163.2%</td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS221000065</td>
+          <td><strong>4건</strong></td>
+          <td>+163.2%</td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS250600585</td>
+          <td><strong>3건</strong></td>
+          <td>+97.4%</td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS250500130</td>
+          <td><strong>3건</strong></td>
+          <td>+97.4%</td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS230600491</td>
+          <td><strong>3건</strong></td>
+          <td>+97.4%</td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS230800825</td>
+          <td><strong>3건</strong></td>
+          <td>+97.4%</td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS240200446</td>
+          <td><strong>3건</strong></td>
+          <td>+97.4%</td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS260206534</td>
+          <td><strong>3건</strong></td>
+          <td>+97.4%</td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>BS191200176</td>
+          <td><strong>3건</strong></td>
+          <td>+97.4%</td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS221103115</td>
+          <td><strong>3건</strong></td>
+          <td>+97.4%</td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS240804893</td>
+          <td><strong>3건</strong></td>
+          <td>+97.4%</td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS221200364</td>
+          <td><strong>3건</strong></td>
+          <td>+97.4%</td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS251102035</td>
+          <td><strong>3건</strong></td>
+          <td>+97.4%</td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS220401373</td>
+          <td><strong>3건</strong></td>
+          <td>+97.4%</td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS210602342</td>
+          <td><strong>3건</strong></td>
+          <td>+97.4%</td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS250802390</td>
+          <td><strong>3건</strong></td>
+          <td>+97.4%</td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS250803795</td>
+          <td><strong>3건</strong></td>
+          <td>+97.4%</td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS250300997</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS251100251</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS241202508</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS231202168</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS250501303</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS250500740</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS250400034</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS221200886</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS251201174</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS211203851</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS260204706</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS260201016</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS260100406</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS241100374</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS230701562</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS260202382</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS220101950</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS251203273</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS250302024</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS250803258</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS250805439</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS231103962</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS260101559</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS260200311</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS260202341</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS250600373</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS220400534</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS251000458</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS220700001</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS240401474</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>CS241101660</td>
+          <td><strong>2건</strong></td>
+          <td>+31.6%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
       </tbody>
     </table>
   </div>
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-03-24 09:09<br>
+    분석 모델: Claude API | 생성일: 2026-03-24 00:48<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>
 

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>분당 영재입시센터 [중등관] AI 상담 분석 리포트</title>
+<title>AI 상담 분석 리포트 - 분당 영재입시센터 [중등관]</title>
 <style>
 :root {
   --bg: #f5f7fa; --card: #ffffff; --text: #1a1d21; --muted: #6b7280;
@@ -13,75 +13,47 @@
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans KR", sans-serif;
   font-size: 14px; line-height: 1.6; background: var(--bg); color: var(--text);
 }
-.container { max-width: 900px; margin: 0 auto; padding: 0 16px 32px; }
-.topbar {
-  position: sticky; top: 0; z-index: 100; background: var(--card);
-  border-bottom: 1px solid var(--border); padding: 12px 16px;
-  display: flex; align-items: center; justify-content: space-between;
-}
+.container { max-width: 480px; margin: 0 auto; padding: 0 16px 32px; }
+.topbar { position: sticky; top: 0; z-index: 100; background: var(--card); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
 .topbar-title { font-size: 17px; font-weight: 700; }
 .topbar-sub { font-size: 12px; color: var(--muted); }
-.card {
-  background: var(--card); border-radius: 12px; padding: 16px;
-  margin-bottom: 12px; border: 1px solid var(--border);
-}
-.card-title {
-  font-size: 15px; font-weight: 700; margin-bottom: 12px;
-  display: flex; align-items: center; gap: 8px;
-}
-.card-title .icon {
-  width: 28px; height: 28px; border-radius: 8px;
-  display: flex; align-items: center; justify-content: center; font-size: 14px;
-}
-.periodRow {
-  display: flex; align-items: center; gap: 10px; padding: 10px 12px;
-  background: var(--accent-light); border-radius: 8px; margin-bottom: 12px;
-}
+.card { background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 12px; border: 1px solid var(--border); }
+.card-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.card-title .icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.periodRow { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--accent-light); border-radius: 8px; margin-bottom: 12px; }
 .periodRow .icon { font-size: 18px; }
 .periodRow .label { font-size: 13px; color: var(--muted); }
 .periodRow .value { font-size: 14px; font-weight: 600; }
 .statGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-.statBox {
-  background: var(--bg); border-radius: 10px; padding: 14px 12px; text-align: center;
-}
+.statBox { background: var(--bg); border-radius: 10px; padding: 14px 12px; text-align: center; }
 .statBox .num { font-size: 22px; font-weight: 700; color: var(--accent); }
 .statBox .num.danger { color: var(--danger); }
 .statBox .num.warning { color: var(--warning); }
+.statBox .num.success { color: var(--success); }
 .statBox .lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
 .keywordList { list-style: none; }
-.keywordItem {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 12px; border-radius: 8px;
-}
-.keywordItem:hover { background: var(--bg); }
-.keywordItem .kw { font-size: 14px; }
+.keywordItem { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 8px; transition: background 0.2s, transform 0.2s; cursor: default; }
+.keywordItem:hover { background: var(--bg); transform: translateX(4px); }
+.keywordItem .kw { display: flex; align-items: center; gap: 8px; font-size: 14px; }
 .keywordItem .cnt { font-size: 14px; font-weight: 600; color: var(--danger); }
 .bar-bg { height: 6px; background: var(--border); border-radius: 3px; margin-top: 4px; overflow: hidden; }
 .bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent), #8b5cf6); }
 .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.data-table thead th {
-  background: var(--accent); color: #fff; padding: 10px 8px;
-  text-align: left; font-weight: 600; font-size: 12px;
-}
+.data-table thead th { background: var(--accent); color: #fff; padding: 10px 8px; text-align: left; font-weight: 600; font-size: 12px; }
 .data-table thead th:first-child { border-radius: 8px 0 0 0; }
 .data-table thead th:last-child { border-radius: 0 8px 0 0; }
 .data-table tbody td { padding: 10px 8px; border-bottom: 1px solid var(--border); }
 .data-table tbody tr:hover { background: var(--accent-light); }
-.tag {
-  display: inline-block; padding: 2px 8px; border-radius: 12px;
-  font-size: 11px; font-weight: 600;
-}
+.tag { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
 .tag.danger { background: var(--danger-light); color: var(--danger); }
 .tag.warning { background: var(--warning-light); color: var(--warning); }
 .tag.success { background: #ecfdf5; color: var(--success); }
-.alertBanner {
-  padding: 12px 14px; border-radius: 10px; margin-bottom: 12px;
-  display: flex; align-items: flex-start; gap: 10px; font-size: 13px;
-}
+.alertBanner { padding: 12px 14px; border-radius: 10px; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px; font-size: 13px; }
 .alertBanner.danger { background: var(--danger-light); border: 1px solid #fecaca; }
+.alertBanner.warning { background: var(--warning-light); border: 1px solid #fde68a; }
 .alertBanner .alert-icon { font-size: 16px; }
 .footer { text-align: center; padding: 20px 0; font-size: 11px; color: var(--muted); }
 </style>
@@ -91,12 +63,13 @@ body {
 <div class="topbar">
   <div>
     <div class="topbar-title">분당 영재입시센터 [중등관]</div>
-    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-02-21 ~ 2026-03-23</div>
+    <div class="topbar-sub">AI 상담 분석 리포트 · 2026년 2월</div>
   </div>
 </div>
 
 <div class="container">
 
+  <!-- 기간 요약 -->
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:linear-gradient(135deg,var(--accent),#8b5cf6);color:#fff;">📊</div>
@@ -106,249 +79,86 @@ body {
       <div class="icon">📅</div>
       <div>
         <div class="label">분석 기간</div>
-        <div class="value">2026-02-21 ~ 2026-03-23 (30일)</div>
+        <div class="value">2026.02.21 ~ 2026.03.23 (30일)</div>
       </div>
     </div>
     <div class="statGrid">
-      <div class="statBox">
-        <div class="num">312</div>
-        <div class="lbl">총 상담 건수</div>
-      </div>
-      <div class="statBox">
-        <div class="num danger">95</div>
-        <div class="lbl">부정 감성 건수</div>
-      </div>
-      <div class="statBox">
-        <div class="num warning">30.4%</div>
-        <div class="lbl">부정 비율</div>
-      </div>
-      <div class="statBox">
-        <div class="num">22</div>
-        <div class="lbl">평균 초과 학생</div>
-      </div>
+      <div class="statBox"><div class="num" style="color:var(--accent);">312</div><div class="lbl">총 상담 건수</div></div>
+      <div class="statBox"><div class="num danger">85</div><div class="lbl">부정 감성 건수</div></div>
+      <div class="statBox"><div class="num warning">27.2%</div><div class="lbl">부정 비율</div></div>
+      <div class="statBox"><div class="num success">178</div><div class="lbl">총 학생 수</div></div>
     </div>
   </div>
 
-  
   <div class="alertBanner danger">
     <div class="alert-icon">🚨</div>
     <div>
-      <strong>주의 학생 22명 감지</strong><br>
-      평균 대비 부정 감성 빈도가 높은 학생이 발견되었습니다.
+      <strong>주의 학생 14명 감지</strong><br>
+      평균 대비 부정 감성 빈도가 높은 학생이 발견되었습니다. 아래 상세 내역을 확인해주세요.
     </div>
   </div>
 
+  <!-- 부정 감성 키워드 빈도 -->
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--danger-light);color:var(--danger);">💬</div>
       부정 감성 키워드 빈도
     </div>
     <ul class="keywordList">
-      
-      <li class="keywordItem">
-        <div class="kw">이탈/포기 의사</div>
-        <div class="cnt">50건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:100%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">학습 어려움</div>
-        <div class="cnt">28건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:56%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">불안/걱정</div>
-        <div class="cnt">11건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:22%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">스트레스/압박감</div>
-        <div class="cnt">9건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:18%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">불만/분노</div>
-        <div class="cnt">5건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:10%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">부적응</div>
-        <div class="cnt">3건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:6%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">대인관계 갈등</div>
-        <div class="cnt">2건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:4%"></div></div>
-      </li>
+      <li class="keywordItem"><div class="kw">😤 스트레스/압박감</div><div class="cnt">44건</div></li>
+      <li><div class="bar-bg"><div class="bar-fill" style="width:100%"></div></div></li>
+      <li class="keywordItem"><div class="kw">📉 학습어려움</div><div class="cnt">40건</div></li>
+      <li><div class="bar-bg"><div class="bar-fill" style="width:91%"></div></div></li>
+      <li class="keywordItem"><div class="kw">😰 불안/걱정</div><div class="cnt">15건</div></li>
+      <li><div class="bar-bg"><div class="bar-fill" style="width:34%"></div></div></li>
+      <li class="keywordItem"><div class="kw">🏃 이탈/포기의사</div><div class="cnt">8건</div></li>
+      <li><div class="bar-bg"><div class="bar-fill" style="width:18%"></div></div></li>
+      <li class="keywordItem"><div class="kw">😠 불만/분노</div><div class="cnt">5건</div></li>
+      <li><div class="bar-bg"><div class="bar-fill" style="width:11%"></div></div></li>
+      <li class="keywordItem"><div class="kw">😢 대인관계갈등</div><div class="cnt">2건</div></li>
+      <li><div class="bar-bg"><div class="bar-fill" style="width:5%"></div></div></li>
+      <li class="keywordItem"><div class="kw">😞 우울/무기력</div><div class="cnt">1건</div></li>
+      <li><div class="bar-bg"><div class="bar-fill" style="width:2%"></div></div></li>
+      <li class="keywordItem"><div class="kw">🔄 부적응</div><div class="cnt">1건</div></li>
+      <li><div class="bar-bg"><div class="bar-fill" style="width:2%"></div></div></li>
     </ul>
   </div>
 
+  <!-- 평균 초과 학생 리스트 -->
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--danger-light);color:var(--danger);">⚠️</div>
       평균 초과 학생 리스트
     </div>
     <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">
-      학생별 평균 부정 건수: <strong style="color:var(--text);">1.4건</strong> — 평균 초과 22명
+      분당 영재입시센터 [중등관] 내 학생 평균 부정 건수: <strong style="color:var(--text);">0.5건</strong> — 평균 초과 학생 14명
     </p>
-    
     <table class="data-table">
       <thead>
         <tr><th>학생코드</th><th>부정 건수</th><th>초과율</th><th>등급</th></tr>
       </thead>
       <tbody>
-        <tr>
-          <td>AS121496272</td>
-          <td><strong>4건</strong></td>
-          <td>+182.1%</td>
-          <td><span class="tag danger">위험</span></td>
-        </tr>
-        <tr>
-          <td>CS211201506</td>
-          <td><strong>3건</strong></td>
-          <td>+111.6%</td>
-          <td><span class="tag danger">위험</span></td>
-        </tr>
-        <tr>
-          <td>CS240401538</td>
-          <td><strong>3건</strong></td>
-          <td>+111.6%</td>
-          <td><span class="tag danger">위험</span></td>
-        </tr>
-        <tr>
-          <td>CS250301205</td>
-          <td><strong>3건</strong></td>
-          <td>+111.6%</td>
-          <td><span class="tag danger">위험</span></td>
-        </tr>
-        <tr>
-          <td>BS161100103</td>
-          <td><strong>3건</strong></td>
-          <td>+111.6%</td>
-          <td><span class="tag danger">위험</span></td>
-        </tr>
-        <tr>
-          <td>CS240804398</td>
-          <td><strong>2건</strong></td>
-          <td>+41.1%</td>
-          <td><span class="tag success">관심</span></td>
-        </tr>
-        <tr>
-          <td>CS250600179</td>
-          <td><strong>2건</strong></td>
-          <td>+41.1%</td>
-          <td><span class="tag success">관심</span></td>
-        </tr>
-        <tr>
-          <td>CS220701972</td>
-          <td><strong>2건</strong></td>
-          <td>+41.1%</td>
-          <td><span class="tag success">관심</span></td>
-        </tr>
-        <tr>
-          <td>CS230802168</td>
-          <td><strong>2건</strong></td>
-          <td>+41.1%</td>
-          <td><span class="tag success">관심</span></td>
-        </tr>
-        <tr>
-          <td>CS210902994</td>
-          <td><strong>2건</strong></td>
-          <td>+41.1%</td>
-          <td><span class="tag success">관심</span></td>
-        </tr>
-        <tr>
-          <td>CS220601370</td>
-          <td><strong>2건</strong></td>
-          <td>+41.1%</td>
-          <td><span class="tag success">관심</span></td>
-        </tr>
-        <tr>
-          <td>CS220204998</td>
-          <td><strong>2건</strong></td>
-          <td>+41.1%</td>
-          <td><span class="tag success">관심</span></td>
-        </tr>
-        <tr>
-          <td>CS241202570</td>
-          <td><strong>2건</strong></td>
-          <td>+41.1%</td>
-          <td><span class="tag success">관심</span></td>
-        </tr>
-        <tr>
-          <td>AS121500335</td>
-          <td><strong>2건</strong></td>
-          <td>+41.1%</td>
-          <td><span class="tag success">관심</span></td>
-        </tr>
-        <tr>
-          <td>AS121511140</td>
-          <td><strong>2건</strong></td>
-          <td>+41.1%</td>
-          <td><span class="tag success">관심</span></td>
-        </tr>
-        <tr>
-          <td>CS211002933</td>
-          <td><strong>2건</strong></td>
-          <td>+41.1%</td>
-          <td><span class="tag success">관심</span></td>
-        </tr>
-        <tr>
-          <td>CS260300397</td>
-          <td><strong>2건</strong></td>
-          <td>+41.1%</td>
-          <td><span class="tag success">관심</span></td>
-        </tr>
-        <tr>
-          <td>CS210300490</td>
-          <td><strong>2건</strong></td>
-          <td>+41.1%</td>
-          <td><span class="tag success">관심</span></td>
-        </tr>
-        <tr>
-          <td>CS210202194</td>
-          <td><strong>2건</strong></td>
-          <td>+41.1%</td>
-          <td><span class="tag success">관심</span></td>
-        </tr>
-        <tr>
-          <td>CS250301922</td>
-          <td><strong>2건</strong></td>
-          <td>+41.1%</td>
-          <td><span class="tag success">관심</span></td>
-        </tr>
-        <tr>
-          <td>CS231201550</td>
-          <td><strong>2건</strong></td>
-          <td>+41.1%</td>
-          <td><span class="tag success">관심</span></td>
-        </tr>
-        <tr>
-          <td>CS241104253</td>
-          <td><strong>2건</strong></td>
-          <td>+41.1%</td>
-          <td><span class="tag success">관심</span></td>
-        </tr></tbody>
+        <tr><td>AS121500335</td><td><strong>3건</strong></td><td>+528%</td><td><span class="tag danger">위험</span></td></tr>
+        <tr><td>AS121496272</td><td><strong>3건</strong></td><td>+528%</td><td><span class="tag danger">위험</span></td></tr>
+        <tr><td>CS220701972</td><td><strong>2건</strong></td><td>+319%</td><td><span class="tag danger">위험</span></td></tr>
+        <tr><td>CS230802168</td><td><strong>2건</strong></td><td>+319%</td><td><span class="tag danger">위험</span></td></tr>
+        <tr><td>CS220601370</td><td><strong>2건</strong></td><td>+319%</td><td><span class="tag danger">위험</span></td></tr>
+        <tr><td>CS211201506</td><td><strong>2건</strong></td><td>+319%</td><td><span class="tag danger">위험</span></td></tr>
+        <tr><td>CS220701525</td><td><strong>2건</strong></td><td>+319%</td><td><span class="tag danger">위험</span></td></tr>
+        <tr><td>CS240401538</td><td><strong>2건</strong></td><td>+319%</td><td><span class="tag danger">위험</span></td></tr>
+        <tr><td>CS221001567</td><td><strong>2건</strong></td><td>+319%</td><td><span class="tag danger">위험</span></td></tr>
+        <tr><td>CS201101028</td><td><strong>2건</strong></td><td>+319%</td><td><span class="tag danger">위험</span></td></tr>
+        <tr><td>CS231201550</td><td><strong>2건</strong></td><td>+319%</td><td><span class="tag danger">위험</span></td></tr>
+        <tr><td>CS211002933</td><td><strong>2건</strong></td><td>+319%</td><td><span class="tag danger">위험</span></td></tr>
+        <tr><td>CS230200529</td><td><strong>2건</strong></td><td>+319%</td><td><span class="tag danger">위험</span></td></tr>
+        <tr><td>CS230202462</td><td><strong>2건</strong></td><td>+319%</td><td><span class="tag danger">위험</span></td></tr>
+      </tbody>
     </table>
   </div>
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 엔진: 키워드 기반 감성 분석 | 생성일: 2026-03-23 23:33<br>
+    분석 모델: Claude API | 생성일: 2026-03-24 09:09<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>
 

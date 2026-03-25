@@ -168,12 +168,11 @@ body {
 .data-table tbody td { padding: 10px 6px; border-bottom: 1px solid var(--border); text-align: center; word-break: break-all; }
 .data-table tbody td:first-child { text-align: left; }
 .data-table tbody tr:hover { background: var(--accent-light); }
-.data-table col.col-name { width: 18%; }
-.data-table col.col-code { width: 28%; }
-.data-table col.col-count { width: 16%; }
-.data-table col.col-rate { width: 14%; }
-.data-table col.col-grade { width: 12%; }
-.data-table col.col-new { width: 12%; }
+.data-table col.col-name { width: 20%; }
+.data-table col.col-code { width: 32%; }
+.data-table col.col-count { width: 18%; }
+.data-table col.col-grade { width: 15%; }
+.data-table col.col-new { width: 15%; }
 .tag {
   display: inline-block;
   padding: 2px 8px;
@@ -253,18 +252,18 @@ body {
       <tbody>
         <tr>
           <td>총 상담 건수</td>
-          <td class="val" style="color:var(--accent);">570</td>
-          <td class="val" style="color:var(--accent);">0</td>
+          <td class="val" style="color:var(--accent);">582</td>
+          <td class="val" style="color:var(--accent);">12</td>
         </tr>
         <tr>
           <td>부정 감성 건수</td>
-          <td class="val" style="color:var(--danger);">186</td>
-          <td class="val" style="color:var(--danger);">0</td>
+          <td class="val" style="color:var(--danger);">213</td>
+          <td class="val" style="color:var(--danger);">2</td>
         </tr>
         <tr>
           <td>부정 비율</td>
-          <td class="val" style="color:var(--warning);">32.6%</td>
-          <td class="val" style="color:var(--warning);">0.0%</td>
+          <td class="val" style="color:var(--warning);">36.6%</td>
+          <td class="val" style="color:var(--warning);">16.7%</td>
         </tr>
       </tbody>
     </table>
@@ -278,39 +277,46 @@ body {
     </div>
     <ul class="keywordList">
       <li class="keywordItem">
-        <div class="kw">📚 학습 어려움</div>
-        <div class="cnt">59건</div>
+        <div class="kw">🏃 이탈/포기 의사</div>
+        <div class="cnt">78건</div>
       </li>
       <li>
         <div class="bar-bg"><div class="bar-fill" style="width:100%"></div></div>
       </li>
       <li class="keywordItem">
-        <div class="kw">🏃 이탈/포기 의사</div>
-        <div class="cnt">53건</div>
+        <div class="kw">📚 학습 어려움</div>
+        <div class="cnt">58건</div>
       </li>
       <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:90%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:74%"></div></div>
       </li>
       <li class="keywordItem">
         <div class="kw">😤 스트레스/압박감</div>
-        <div class="cnt">42건</div>
+        <div class="cnt">44건</div>
       </li>
       <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:71%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:56%"></div></div>
       </li>
       <li class="keywordItem">
         <div class="kw">😰 불안/걱정</div>
-        <div class="cnt">21건</div>
+        <div class="cnt">20건</div>
       </li>
       <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:36%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:26%"></div></div>
       </li>
       <li class="keywordItem">
         <div class="kw">😠 불만/분노</div>
         <div class="cnt">8건</div>
       </li>
       <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:14%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:10%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">😢 대인관계 갈등</div>
+        <div class="cnt">2건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:3%"></div></div>
       </li>
       <li class="keywordItem">
         <div class="kw">😣 부적응</div>
@@ -320,11 +326,11 @@ body {
         <div class="bar-bg"><div class="bar-fill" style="width:3%"></div></div>
       </li>
       <li class="keywordItem">
-        <div class="kw">😢 대인관계 갈등</div>
+        <div class="kw">😞 우울/무기력</div>
         <div class="cnt">1건</div>
       </li>
       <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:2%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:1%"></div></div>
       </li>
     </ul>
   </div>
@@ -333,8 +339,16 @@ body {
   <div class="alertBanner danger">
     <div class="alert-icon">🚨</div>
     <div>
-      <strong>위험 학생 15명 감지</strong><br>
+      <strong>위험 학생 46명 감지</strong><br>
       평균 대비 부정 감성 빈도가 높은 학생이 발견되었습니다. 아래 상세 내역을 확인해주세요.
+    </div>
+  </div>
+  
+  <div class="alertBanner" style="background:var(--accent-light);border:1px solid #c7d2fe;">
+    <div class="alert-icon">🆕</div>
+    <div>
+      <strong>신규 감지 학생 106명</strong><br>
+      이전 분석에 없던 학생이 새롭게 평균 초과 목록에 포함되었습니다.
     </div>
   </div>
 
@@ -345,14 +359,13 @@ body {
       평균 초과 학생 리스트
     </div>
     <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">
-      와이즈만 수원영통센터 내 학생 평균 부정 건수: <strong style="color:var(--text);">1.4건</strong> — 평균 초과 학생 전체를 표시합니다.
+      와이즈만 수원영통센터 내 학생 평균 부정 건수: <strong style="color:var(--text);">0.6건</strong> — 평균 초과 학생 전체를 표시합니다.
     </p>
     <table class="data-table">
       <colgroup>
         <col class="col-name">
         <col class="col-code">
         <col class="col-count">
-        <col class="col-rate">
         <col class="col-grade">
         <col class="col-new">
       </colgroup>
@@ -361,25 +374,778 @@ body {
           <th>학생명</th>
           <th>학생코드</th>
           <th>부정 건수</th>
-          <th>초과율</th>
           <th>등급</th>
           <th>신규</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>문시우</td>
-          <td>CS250400824</td>
-          <td><strong>5건</strong></td>
-          <td>+249%</td>
+          <td>노지인</td>
+          <td>CS250300336</td>
+          <td><strong>2건</strong></td>
           <td><span class="tag danger">위험</span></td>
-          <td></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>지서율</td>
+          <td>CS251101465</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>조유나</td>
+          <td>CS221201001</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김지용</td>
+          <td>CS250601031</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>오태리</td>
+          <td>CS251101568</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>윤정우</td>
+          <td>CS241001338</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>임상우</td>
+          <td>CS240500063</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>마하율</td>
+          <td>CS250300890</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>어지우</td>
+          <td>CS220204417</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>정하영</td>
+          <td>CS241200950</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>신지율</td>
+          <td>CS260301784</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>명상준</td>
+          <td>CS220602068</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>박동재</td>
+          <td>CS250901317</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>전윤우</td>
+          <td>CS250700380</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김미서</td>
+          <td>CS231204204</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>최현율</td>
+          <td>CS240600933</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>박지운</td>
+          <td>CS240302045</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>박찬우</td>
+          <td>CS240200045</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>윤소민</td>
+          <td>CS240205292</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김도윤♥</td>
+          <td>CS250701040</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김승현</td>
+          <td>AS121501866</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>정연서</td>
+          <td>CS260301627</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>송한음</td>
+          <td>CS260300442</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>정연서</td>
+          <td>CS220204766</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>서한비</td>
+          <td>CS220303731</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>천지후</td>
+          <td>CS240101357</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김민호</td>
+          <td>CS240802885</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>지하연</td>
+          <td>CS220300466</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>한아윤</td>
+          <td>CS210302555</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>한세준</td>
+          <td>CS201001161</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>정우찬</td>
+          <td>CS240700838</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>윤서하</td>
+          <td>CS231001524</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>전현우</td>
+          <td>CS240201959</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김은후</td>
+          <td>CS211201326</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>조예나</td>
+          <td>CS250102107</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>양아윤</td>
+          <td>CS230300897</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>신하영</td>
+          <td>CS201000384</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>이준우</td>
+          <td>CS240301320</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>이서윤</td>
+          <td>BS180700520</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>신다건</td>
+          <td>CS240601207</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김상윤</td>
+          <td>CS230800588</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>임이랑</td>
+          <td>CS251001471</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>이선우</td>
+          <td>CS251203016</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>정수안♥</td>
+          <td>AS121490175</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>천시아</td>
+          <td>CS241001739</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>정래연</td>
+          <td>CS250700109</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>정건영</td>
+          <td>CS220202818</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>박호연</td>
+          <td>CS251001030</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>이시윤♡</td>
+          <td>CS250900517</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>정지우♥</td>
+          <td>CS251000294</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김지안</td>
+          <td>CS240803812</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김서진</td>
+          <td>CS240803811</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김동준</td>
+          <td>CS240802613</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>서은솔</td>
+          <td>CS220600505</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>하건우</td>
+          <td>CS240601313</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>박시우♥</td>
+          <td>CS220300468</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>문재윤</td>
+          <td>CS240101021</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>조수연</td>
+          <td>CS240204210</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>주민준♥</td>
+          <td>CS251104287</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>배재현</td>
+          <td>CS250900083</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>박건후</td>
+          <td>CS260205986</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>조용준</td>
+          <td>CS220402368</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김태영</td>
+          <td>CS220206136</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>최연우</td>
+          <td>CS231001237</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>오지율</td>
+          <td>CS230901528</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김재이♥</td>
+          <td>CS240304060</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>류한희</td>
+          <td>CS260206061</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>구하율</td>
+          <td>CS251203683</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>박준혁</td>
+          <td>CS220101895</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>성유준</td>
+          <td>CS210802674</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김지우♥</td>
+          <td>CS251203028</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>임이솔</td>
+          <td>CS211202931</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>이한희</td>
+          <td>CS221102051</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>최효빈</td>
+          <td>CS260200982</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김주원♥</td>
+          <td>CS240102440</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>강유정</td>
+          <td>CS220801497</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>지승현</td>
+          <td>CS251000563</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>육태이</td>
+          <td>CS251001649</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>문정윤</td>
+          <td>CS240902596</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>정희윤</td>
+          <td>AS121490222</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>황재원</td>
+          <td>CS250205118</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>송유근</td>
+          <td>CS230303693</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김지한♥</td>
+          <td>CS220700685</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김민우</td>
+          <td>CS250302281</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>황지아</td>
+          <td>CS240700744</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김하율</td>
+          <td>CS240400707</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>강지후</td>
+          <td>CS240600823</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>윤은서</td>
+          <td>CS240304142</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김주원☆</td>
+          <td>CS251101484</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>주민하</td>
+          <td>CS251104288</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>박주완</td>
+          <td>CS250303487</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>이은설</td>
+          <td>CS240303860</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>박준우★</td>
+          <td>CS251101272</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>이지온</td>
+          <td>CS220100019</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김태윤★</td>
+          <td>CS250303636</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>강소원</td>
+          <td>CS231201815</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>송주하</td>
+          <td>CS251001084</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김윤</td>
+          <td>BS191100413</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김선우</td>
+          <td>CS260201628</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>장설후</td>
+          <td>CS251102440</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>서하윤♥</td>
+          <td>AS121485198</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>전다솔</td>
+          <td>CS230301037</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김세은</td>
+          <td>CS260205759</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>이도윤♥</td>
+          <td>CS250700699</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>정세윤</td>
+          <td>CS250601363</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>서지유</td>
+          <td>CS250202564</td>
+          <td><strong>1건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
         </tr>
         <tr>
           <td>김현우</td>
           <td>CS230101205</td>
+          <td><strong>5건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>이시연</td>
+          <td>CS230601153</td>
+          <td><strong>5건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>문시우</td>
+          <td>CS250400824</td>
+          <td><strong>5건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>최유안</td>
+          <td>CS230700753</td>
           <td><strong>4건</strong></td>
-          <td>+180%</td>
           <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
@@ -387,7 +1153,13 @@ body {
           <td>정시안</td>
           <td>CS241001289</td>
           <td><strong>3건</strong></td>
-          <td>+110%</td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>안서빈</td>
+          <td>CS260204945</td>
+          <td><strong>3건</strong></td>
           <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
@@ -395,15 +1167,6 @@ body {
           <td>공다준</td>
           <td>CS251000605</td>
           <td><strong>3건</strong></td>
-          <td>+110%</td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>이시연</td>
-          <td>CS230601153</td>
-          <td><strong>3건</strong></td>
-          <td>+110%</td>
           <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
@@ -411,7 +1174,6 @@ body {
           <td>임도하</td>
           <td>CS260101561</td>
           <td><strong>3건</strong></td>
-          <td>+110%</td>
           <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
@@ -419,7 +1181,6 @@ body {
           <td>김지한★</td>
           <td>CS221104012</td>
           <td><strong>3건</strong></td>
-          <td>+110%</td>
           <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
@@ -427,7 +1188,6 @@ body {
           <td>박준우♥</td>
           <td>CS220204740</td>
           <td><strong>3건</strong></td>
-          <td>+110%</td>
           <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
@@ -435,15 +1195,6 @@ body {
           <td>임주영</td>
           <td>CS260300429</td>
           <td><strong>3건</strong></td>
-          <td>+110%</td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>최유안</td>
-          <td>CS230700753</td>
-          <td><strong>3건</strong></td>
-          <td>+110%</td>
           <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
@@ -451,7 +1202,6 @@ body {
           <td>윤지웅</td>
           <td>CS220101687</td>
           <td><strong>3건</strong></td>
-          <td>+110%</td>
           <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
@@ -459,7 +1209,6 @@ body {
           <td>문재원</td>
           <td>CS211100036</td>
           <td><strong>3건</strong></td>
-          <td>+110%</td>
           <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
@@ -467,7 +1216,6 @@ body {
           <td>이정환</td>
           <td>CS220800131</td>
           <td><strong>3건</strong></td>
-          <td>+110%</td>
           <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
@@ -475,7 +1223,6 @@ body {
           <td>정예나</td>
           <td>CS220700363</td>
           <td><strong>3건</strong></td>
-          <td>+110%</td>
           <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
@@ -483,7 +1230,6 @@ body {
           <td>오채민</td>
           <td>CS251101120</td>
           <td><strong>3건</strong></td>
-          <td>+110%</td>
           <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
@@ -491,184 +1237,154 @@ body {
           <td>명원준</td>
           <td>CS211201818</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
-          <td><span class="tag new">NEW</span></td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
         </tr>
         <tr>
           <td>송지환</td>
           <td>CS260102025</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>안서빈</td>
-          <td>CS260204945</td>
-          <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
+          <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
           <td>박성민</td>
           <td>CS250500784</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
+          <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
           <td>이윤재</td>
           <td>CS231200730</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
+          <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
           <td>김시윤♥</td>
           <td>CS250203279</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
+          <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
           <td>김승민</td>
           <td>CS230101206</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
+          <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
           <td>윤지오</td>
           <td>CS240600781</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
+          <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
           <td>이상욱</td>
           <td>CS250204717</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
+          <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
           <td>박지성</td>
           <td>CS230303685</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
+          <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
           <td>주성우</td>
           <td>CS210303727</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
+          <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
           <td>고서준</td>
           <td>CS230204836</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
+          <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
           <td>장범진</td>
           <td>CS220600499</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
+          <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
           <td>정시현</td>
           <td>CS250802706</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
+          <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
           <td>조해령</td>
           <td>CS250204448</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
+          <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
           <td>배승혁</td>
           <td>CS230401032</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
+          <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
           <td>정유찬</td>
           <td>CS241100335</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
+          <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
           <td>최이안</td>
           <td>CS231102633</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
+          <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
           <td>박건우♥</td>
           <td>CS260201160</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
+          <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
           <td>강지산</td>
           <td>CS220203464</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
+          <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
           <td>박준서</td>
           <td>AS121500800</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
+          <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
           <td>이연재</td>
           <td>CS221100794</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
+          <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
           <td>김태경</td>
           <td>CS220101194</td>
           <td><strong>2건</strong></td>
-          <td>+40%</td>
-          <td><span class="tag success">관심</span></td>
+          <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
       </tbody>
@@ -677,7 +1393,7 @@ body {
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-03-25 09:59<br>
+    분석 모델: Claude API | 생성일: 2026-03-25 21:13<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>
 

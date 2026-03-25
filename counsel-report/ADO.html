@@ -153,19 +153,27 @@ body {
   border-radius: 3px;
   background: linear-gradient(90deg, var(--accent), #8b5cf6);
 }
-.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
 .data-table thead th {
   background: var(--accent);
   color: #fff;
-  padding: 10px 8px;
-  text-align: left;
+  padding: 10px 6px;
+  text-align: center;
   font-weight: 600;
   font-size: 12px;
 }
+.data-table thead th:first-child { text-align: left; }
 .data-table thead th:first-child { border-radius: 8px 0 0 0; }
 .data-table thead th:last-child { border-radius: 0 8px 0 0; }
-.data-table tbody td { padding: 10px 8px; border-bottom: 1px solid var(--border); }
+.data-table tbody td { padding: 10px 6px; border-bottom: 1px solid var(--border); text-align: center; word-break: break-all; }
+.data-table tbody td:first-child { text-align: left; }
 .data-table tbody tr:hover { background: var(--accent-light); }
+.data-table col.col-name { width: 18%; }
+.data-table col.col-code { width: 28%; }
+.data-table col.col-count { width: 16%; }
+.data-table col.col-rate { width: 14%; }
+.data-table col.col-grade { width: 12%; }
+.data-table col.col-new { width: 12%; }
 .tag {
   display: inline-block;
   padding: 2px 8px;
@@ -214,7 +222,7 @@ body {
 <div class="topbar">
   <div>
     <div class="topbar-title">와이즈만 압구정센터</div>
-    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-02-22 ~ 2026-03-24</div>
+    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-02-23 ~ 2026-03-25</div>
   </div>
 </div>
 
@@ -230,7 +238,7 @@ body {
       <div class="icon">📅</div>
       <div>
         <div class="label">분석 기간</div>
-        <div class="value">2026-02-22 ~ 2026-03-24 (30일)</div>
+        <div class="value">2026-02-23 ~ 2026-03-25 (30일)</div>
       </div>
     </div>
     <!-- D-30 / D-0 누적 비교 -->
@@ -245,30 +253,21 @@ body {
       <tbody>
         <tr>
           <td>총 상담 건수</td>
-          <td class="val" style="color:var(--accent);">584</td>
+          <td class="val" style="color:var(--accent);">608</td>
           <td class="val" style="color:var(--accent);">0</td>
         </tr>
         <tr>
           <td>부정 감성 건수</td>
-          <td class="val" style="color:var(--danger);">143</td>
+          <td class="val" style="color:var(--danger);">160</td>
           <td class="val" style="color:var(--danger);">0</td>
         </tr>
         <tr>
           <td>부정 비율</td>
-          <td class="val" style="color:var(--warning);">24.5%</td>
+          <td class="val" style="color:var(--warning);">26.3%</td>
           <td class="val" style="color:var(--warning);">0.0%</td>
         </tr>
       </tbody>
     </table>
-  </div>
-
-  
-  <div class="alertBanner danger">
-    <div class="alert-icon">🚨</div>
-    <div>
-      <strong>주의 학생 32명 감지</strong><br>
-      평균 대비 부정 감성 빈도가 높은 학생이 발견되었습니다. 아래 상세 내역을 확인해주세요.
-    </div>
   </div>
 
   <!-- 부정 감성 키워드 빈도 통계 -->
@@ -280,7 +279,7 @@ body {
     <ul class="keywordList">
       <li class="keywordItem">
         <div class="kw">🏃 이탈/포기 의사</div>
-        <div class="cnt">66건</div>
+        <div class="cnt">76건</div>
       </li>
       <li>
         <div class="bar-bg"><div class="bar-fill" style="width:100%"></div></div>
@@ -290,44 +289,53 @@ body {
         <div class="cnt">33건</div>
       </li>
       <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:50%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:43%"></div></div>
       </li>
       <li class="keywordItem">
         <div class="kw">📚 학습 어려움</div>
-        <div class="cnt">33건</div>
+        <div class="cnt">24건</div>
       </li>
       <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:50%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:32%"></div></div>
       </li>
       <li class="keywordItem">
         <div class="kw">😰 불안/걱정</div>
-        <div class="cnt">17건</div>
+        <div class="cnt">15건</div>
       </li>
       <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:26%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:20%"></div></div>
       </li>
       <li class="keywordItem">
         <div class="kw">😠 불만/분노</div>
-        <div class="cnt">8건</div>
+        <div class="cnt">9건</div>
       </li>
       <li>
         <div class="bar-bg"><div class="bar-fill" style="width:12%"></div></div>
       </li>
       <li class="keywordItem">
         <div class="kw">😣 부적응</div>
-        <div class="cnt">3건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:5%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">😢 대인관계 갈등</div>
         <div class="cnt">2건</div>
       </li>
       <li>
         <div class="bar-bg"><div class="bar-fill" style="width:3%"></div></div>
       </li>
+      <li class="keywordItem">
+        <div class="kw">😢 대인관계 갈등</div>
+        <div class="cnt">1건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:1%"></div></div>
+      </li>
     </ul>
+  </div>
+
+  
+  <div class="alertBanner danger">
+    <div class="alert-icon">🚨</div>
+    <div>
+      <strong>위험 학생 3명 감지</strong><br>
+      평균 대비 부정 감성 빈도가 높은 학생이 발견되었습니다. 아래 상세 내역을 확인해주세요.
+    </div>
   </div>
 
   <!-- 평균 초과 학생 리스트 -->
@@ -337,11 +345,20 @@ body {
       평균 초과 학생 리스트
     </div>
     <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">
-      와이즈만 압구정센터 내 학생 평균 부정 건수: <strong style="color:var(--text);">1.5건</strong> — 평균 초과 학생 전체를 표시합니다.
+      와이즈만 압구정센터 내 학생 평균 부정 건수: <strong style="color:var(--text);">1.6건</strong> — 평균 초과 학생 전체를 표시합니다.
     </p>
     <table class="data-table">
+      <colgroup>
+        <col class="col-name">
+        <col class="col-code">
+        <col class="col-count">
+        <col class="col-rate">
+        <col class="col-grade">
+        <col class="col-new">
+      </colgroup>
       <thead>
         <tr>
+          <th>학생명</th>
           <th>학생코드</th>
           <th>부정 건수</th>
           <th>초과율</th>
@@ -351,226 +368,314 @@ body {
       </thead>
       <tbody>
         <tr>
-          <td>CS251100412</td>
+          <td>한태우</td>
+          <td>AS121519538</td>
           <td><strong>4건</strong></td>
-          <td>+165.7%</td>
+          <td>+155%</td>
           <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>서민우</td>
+          <td>CS251100412</td>
+          <td><strong>4건</strong></td>
+          <td>+155%</td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>이충훈</td>
+          <td>CS220700524</td>
+          <td><strong>4건</strong></td>
+          <td>+155%</td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>현은유</td>
+          <td>CS240900737</td>
+          <td><strong>3건</strong></td>
+          <td>+91%</td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>문루나</td>
           <td>CS250801106</td>
           <td><strong>3건</strong></td>
-          <td>+99.3%</td>
+          <td>+91%</td>
           <td><span class="tag warning">주의</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>이도훈</td>
           <td>CS210102509</td>
           <td><strong>3건</strong></td>
-          <td>+99.3%</td>
+          <td>+91%</td>
           <td><span class="tag warning">주의</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>김재원</td>
           <td>CS260101315</td>
           <td><strong>3건</strong></td>
-          <td>+99.3%</td>
+          <td>+91%</td>
           <td><span class="tag warning">주의</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>최서희</td>
           <td>CS250200585</td>
           <td><strong>3건</strong></td>
-          <td>+99.3%</td>
+          <td>+91%</td>
           <td><span class="tag warning">주의</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>김태율</td>
           <td>CS250804391</td>
           <td><strong>3건</strong></td>
-          <td>+99.3%</td>
+          <td>+91%</td>
           <td><span class="tag warning">주의</span></td>
           <td></td>
         </tr>
         <tr>
-          <td>AS121519538</td>
-          <td><strong>3건</strong></td>
-          <td>+99.3%</td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-        <tr>
+          <td>유태은</td>
           <td>CS260207056</td>
           <td><strong>3건</strong></td>
-          <td>+99.3%</td>
+          <td>+91%</td>
           <td><span class="tag warning">주의</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>유건호</td>
           <td>CS260207053</td>
           <td><strong>3건</strong></td>
-          <td>+99.3%</td>
+          <td>+91%</td>
           <td><span class="tag warning">주의</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>장시우</td>
           <td>CS240803329</td>
           <td><strong>3건</strong></td>
-          <td>+99.3%</td>
+          <td>+91%</td>
           <td><span class="tag warning">주의</span></td>
           <td></td>
         </tr>
         <tr>
-          <td>CS220700524</td>
-          <td><strong>3건</strong></td>
-          <td>+99.3%</td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-        <tr>
+          <td>문시유</td>
           <td>CS250100332</td>
           <td><strong>3건</strong></td>
-          <td>+99.3%</td>
+          <td>+91%</td>
           <td><span class="tag warning">주의</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>유수연</td>
           <td>CS240802983</td>
           <td><strong>3건</strong></td>
-          <td>+99.3%</td>
+          <td>+91%</td>
           <td><span class="tag warning">주의</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>이정효</td>
           <td>CS211202997</td>
           <td><strong>3건</strong></td>
-          <td>+99.3%</td>
+          <td>+91%</td>
           <td><span class="tag warning">주의</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>유시안</td>
           <td>CS250701583</td>
           <td><strong>3건</strong></td>
-          <td>+99.3%</td>
+          <td>+91%</td>
           <td><span class="tag warning">주의</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>방선우</td>
+          <td>CS231101231</td>
+          <td><strong>2건</strong></td>
+          <td>+28%</td>
+          <td><span class="tag success">관심</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김민결</td>
+          <td>CS250501085</td>
+          <td><strong>2건</strong></td>
+          <td>+28%</td>
+          <td><span class="tag success">관심</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>채지유</td>
+          <td>CS220202107</td>
+          <td><strong>2건</strong></td>
+          <td>+28%</td>
+          <td><span class="tag success">관심</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>최하윤</td>
+          <td>CS250203887</td>
+          <td><strong>2건</strong></td>
+          <td>+28%</td>
+          <td><span class="tag success">관심</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김민서</td>
+          <td>CS220700439</td>
+          <td><strong>2건</strong></td>
+          <td>+28%</td>
+          <td><span class="tag success">관심</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>신주영</td>
+          <td>CS211002166</td>
+          <td><strong>2건</strong></td>
+          <td>+28%</td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>이서우</td>
           <td>CS230400301</td>
           <td><strong>2건</strong></td>
-          <td>+32.9%</td>
+          <td>+28%</td>
           <td><span class="tag success">관심</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>정예원</td>
           <td>CS251201470</td>
           <td><strong>2건</strong></td>
-          <td>+32.9%</td>
+          <td>+28%</td>
           <td><span class="tag success">관심</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>오윤건</td>
           <td>CS240101997</td>
           <td><strong>2건</strong></td>
-          <td>+32.9%</td>
+          <td>+28%</td>
           <td><span class="tag success">관심</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>이충환</td>
           <td>CS220601779</td>
           <td><strong>2건</strong></td>
-          <td>+32.9%</td>
+          <td>+28%</td>
           <td><span class="tag success">관심</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>이현서</td>
           <td>CS240401501</td>
           <td><strong>2건</strong></td>
-          <td>+32.9%</td>
+          <td>+28%</td>
           <td><span class="tag success">관심</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>박윤재</td>
           <td>CS240203312</td>
           <td><strong>2건</strong></td>
-          <td>+32.9%</td>
+          <td>+28%</td>
           <td><span class="tag success">관심</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>김이안</td>
           <td>CS250300649</td>
           <td><strong>2건</strong></td>
-          <td>+32.9%</td>
+          <td>+28%</td>
           <td><span class="tag success">관심</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>이동윤</td>
           <td>CS240202089</td>
           <td><strong>2건</strong></td>
-          <td>+32.9%</td>
+          <td>+28%</td>
           <td><span class="tag success">관심</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>임소유</td>
           <td>CS251201933</td>
           <td><strong>2건</strong></td>
-          <td>+32.9%</td>
+          <td>+28%</td>
           <td><span class="tag success">관심</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>서유진</td>
           <td>CS250200401</td>
           <td><strong>2건</strong></td>
-          <td>+32.9%</td>
+          <td>+28%</td>
           <td><span class="tag success">관심</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>박준후</td>
           <td>CS240202021</td>
           <td><strong>2건</strong></td>
-          <td>+32.9%</td>
+          <td>+28%</td>
           <td><span class="tag success">관심</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>민은</td>
           <td>CS250301149</td>
           <td><strong>2건</strong></td>
-          <td>+32.9%</td>
+          <td>+28%</td>
           <td><span class="tag success">관심</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>최연희</td>
           <td>CS250200587</td>
           <td><strong>2건</strong></td>
-          <td>+32.9%</td>
+          <td>+28%</td>
           <td><span class="tag success">관심</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>임세은</td>
           <td>CS231000407</td>
           <td><strong>2건</strong></td>
-          <td>+32.9%</td>
+          <td>+28%</td>
           <td><span class="tag success">관심</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>이재인</td>
           <td>CS230805707</td>
           <td><strong>2건</strong></td>
-          <td>+32.9%</td>
+          <td>+28%</td>
           <td><span class="tag success">관심</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>김윤재</td>
           <td>CS210101225</td>
           <td><strong>2건</strong></td>
-          <td>+32.9%</td>
+          <td>+28%</td>
           <td><span class="tag success">관심</span></td>
           <td></td>
         </tr>
         <tr>
+          <td>오연두</td>
           <td>CS221101619</td>
           <td><strong>2건</strong></td>
-          <td>+32.9%</td>
+          <td>+28%</td>
           <td><span class="tag success">관심</span></td>
           <td></td>
         </tr>
@@ -580,7 +685,7 @@ body {
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-03-24 00:56<br>
+    분석 모델: Claude API | 생성일: 2026-03-25 09:59<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>
 

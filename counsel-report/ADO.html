@@ -252,18 +252,18 @@ body {
       <tbody>
         <tr>
           <td>총 상담 건수</td>
-          <td class="val" style="color:var(--accent);">683</td>
-          <td class="val" style="color:var(--accent);">21</td>
+          <td class="val" style="color:var(--accent);">703</td>
+          <td class="val" style="color:var(--accent);">41</td>
         </tr>
         <tr>
           <td>부정 감성 건수</td>
-          <td class="val" style="color:var(--danger);">250</td>
-          <td class="val" style="color:var(--danger);">11</td>
+          <td class="val" style="color:var(--danger);">259</td>
+          <td class="val" style="color:var(--danger);">20</td>
         </tr>
         <tr>
           <td>부정 비율</td>
-          <td class="val" style="color:var(--warning);">36.6%</td>
-          <td class="val" style="color:var(--warning);">52.4%</td>
+          <td class="val" style="color:var(--warning);">36.8%</td>
+          <td class="val" style="color:var(--warning);">48.8%</td>
         </tr>
       </tbody>
     </table>
@@ -278,21 +278,21 @@ body {
     <ul class="keywordList">
       <li class="keywordItem">
         <div class="kw">🏃 이탈/포기 의사</div>
-        <div class="cnt">124건</div>
+        <div class="cnt">129건</div>
       </li>
       <li>
         <div class="bar-bg"><div class="bar-fill" style="width:100%"></div></div>
       </li>
       <li class="keywordItem">
         <div class="kw">😤 스트레스/압박감</div>
-        <div class="cnt">40건</div>
+        <div class="cnt">41건</div>
       </li>
       <li>
         <div class="bar-bg"><div class="bar-fill" style="width:32%"></div></div>
       </li>
       <li class="keywordItem">
         <div class="kw">📚 학습 어려움</div>
-        <div class="cnt">32건</div>
+        <div class="cnt">33건</div>
       </li>
       <li>
         <div class="bar-bg"><div class="bar-fill" style="width:26%"></div></div>
@@ -306,10 +306,10 @@ body {
       </li>
       <li class="keywordItem">
         <div class="kw">😰 불안/걱정</div>
-        <div class="cnt">16건</div>
+        <div class="cnt">18건</div>
       </li>
       <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:13%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:14%"></div></div>
       </li>
       <li class="keywordItem">
         <div class="kw">📌 사춘기/반항</div>
@@ -339,7 +339,7 @@ body {
   <div class="alertBanner danger">
     <div class="alert-icon">🚨</div>
     <div>
-      <strong>위험 학생 32명 감지</strong><br>
+      <strong>위험 학생 34명 감지</strong><br>
       평균 대비 부정 감성 빈도가 높은 학생이 발견되었습니다. 아래 상세 내역을 확인해주세요.
     </div>
   </div>
@@ -347,8 +347,8 @@ body {
   <div class="alertBanner" style="background:var(--accent-light);border:1px solid #c7d2fe;">
     <div class="alert-icon">🆕</div>
     <div>
-      <strong>신규 감지 학생 0명</strong><br>
-      이번 분석에서 신규 감지된 학생은 없습니다.
+      <strong>신규 감지 학생 1명</strong><br>
+      이전 분석에 없던 학생이 새롭게 평균 초과 목록에 포함되었습니다.
     </div>
   </div>
 
@@ -380,6 +380,13 @@ body {
       </thead>
       <tbody>
         <tr>
+          <td>조수아</td>
+          <td>CS220205003</td>
+          <td><strong>3건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
           <td>이충훈</td>
           <td>CS220700524</td>
           <td><strong>6건</strong></td>
@@ -390,6 +397,13 @@ body {
           <td>정예원</td>
           <td>CS251201470</td>
           <td><strong>5건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>이로훈</td>
+          <td>CS260300810</td>
+          <td><strong>4건</strong></td>
           <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
@@ -485,15 +499,15 @@ body {
           <td></td>
         </tr>
         <tr>
-          <td>박준수</td>
-          <td>CS230700685</td>
+          <td>이규남</td>
+          <td>CS240205196</td>
           <td><strong>3건</strong></td>
           <td><span class="tag danger">위험</span></td>
           <td></td>
         </tr>
         <tr>
-          <td>이로훈</td>
-          <td>CS260300810</td>
+          <td>박준수</td>
+          <td>CS230700685</td>
           <td><strong>3건</strong></td>
           <td><span class="tag danger">위험</span></td>
           <td></td>
@@ -737,13 +751,6 @@ body {
           <td></td>
         </tr>
         <tr>
-          <td>이규남</td>
-          <td>CS240205196</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-        <tr>
           <td>현지수</td>
           <td>CS231101318</td>
           <td><strong>2건</strong></td>
@@ -875,7 +882,7 @@ body {
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-03-26 15:28<br>
+    분석 모델: Claude API | 생성일: 2026-03-26 21:25<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>
 

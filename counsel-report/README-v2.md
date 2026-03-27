@@ -23,7 +23,7 @@
 |------|--------|------|------|------|--------|
 | 1 | fetch_data.js | MariaDB에서 최근 30일 상담 데이터 추출 | MariaDB (db_square) | data/counsel_data.json | 필수 |
 | 2 | analyze_sentiment.js | **4단계 분류**: Admin 제외 → Strong 즉시집계 → Weak+미분류 AI 후보 생성 | counsel_data.json, keywords.json, config/filter_rules.json | data/sentiment_results.json, data/ai_candidates.jsonl | 필수 |
-| 3 | claude_enhance.js | **Weak+미분류** 대상 Claude AI 문맥분석 (오탐 필터링 + 부정 추가 감지) | ai_candidates.jsonl, sentiment_results.json, cache/ai_review_cache.json | sentiment_results.json (보강) + suggested_keywords | 선택 |
+| 3 | claude_enhance.js | **Weak+미분류** 대상 Claude AI 문맥분석. 캐시 대조 후 **신규(D-0~D-1) + 내용수정(text_hash 불일치) + 이전 FAILED 건만** AI 호출. 나머지는 캐시 결과 자동 반영 | ai_candidates.jsonl, sentiment_results.json, cache/ai_review_cache.json | sentiment_results.json (보강) + suggested_keywords | 선택 |
 | 4 | update_keywords.js | Step 3의 제안 키워드를 keywords.json에 반영 → 다음날 Step 2 강화 | sentiment_results.json | keywords.json (갱신) | 선택 |
 | 5 | build_html.js | 센터별 HTML 리포트 생성 + NEW 뱃지 판별 | sentiment_results.json, sentiment_previous.json | reports/\<cmp_cd\>.html | 필수 |
 | 6 | generate_and_upload.js | GitHub Pages에 리포트 업로드 | reports/*.html | report_links.csv | 필수 |
@@ -61,9 +61,21 @@ counsel_data.json
 │                                         │
 ▼                                         │
 [Step 3] claude_enhance.js ───────────────┘
-  (Weak: 문맥 검증으로 오탐 필터링)
-  (미분류: 새로운 부정 감지)
-  → suggested_keywords 수집
+  │
+  │  ai_candidates.jsonl 전체를 캐시(ai_review_cache.json)와 대조
+  │  ┌────────────────────────────────────────────┐
+  │  │ 캐시 히트 (source_pk + text_hash 일치)     │
+  │  │   → AI 호출 안 함, 캐시의 categories 반영  │
+  │  │                                            │
+  │  │ 캐시 미스 → AI 실제 전송 대상:             │
+  │  │   ① 신규 데이터 (D-0~D-1, 캐시에 없음)    │
+  │  │   ② 내용 수정 건 (text_hash 불일치)        │
+  │  │   ③ 이전 FAILED 건 (캐시에 미저장)         │
+  │  └────────────────────────────────────────────┘
+  │
+  ├─ Weak: 문맥 검증으로 오탐 필터링
+  ├─ 미분류: 새로운 부정 감지
+  └─ suggested_keywords 수집
 │
 ▼
 sentiment_results.json (보강됨: Strong + AI 검증 Weak + AI 신규 감지)
@@ -225,6 +237,10 @@ Day N:
 - 대상: **Weak + 미분류** (ai_candidates.jsonl에 classification 필드 포함)
 - Weak: 키워드 매칭됐지만 문맥상 오탐 여부를 AI가 검증
 - 미분류: 키워드 미매칭 건에서 새로운 부정 감지
+- **30일치 전체를 캐시와 대조하되, AI 실제 호출은 캐시 미스 건만:**
+  - ① **신규 데이터** (D-0~D-1) — 캐시에 없음
+  - ② **내용 수정 건** — text_hash 불일치
+  - ③ **이전 FAILED 건** — 캐시에 미저장
 - 센터(cmp_cd)별로 묶어서 호출 (같은 센터 맥락 유지 → 품질 향상)
 - 500건 초과 센터만 500건씩 분할 (MAX_PER_CALL)
 - Claude CLI를 stdin 기반으로 호출 (`execSync`의 `input` 옵션)

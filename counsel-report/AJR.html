@@ -221,7 +221,7 @@ body {
 <div class="topbar">
   <div>
     <div class="topbar-title">평촌 영재입시센터 [중등관]</div>
-    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-02-24 ~ 2026-03-26</div>
+    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-03-30 ~ 2026-03-30</div>
   </div>
 </div>
 
@@ -237,33 +237,33 @@ body {
       <div class="icon">📅</div>
       <div>
         <div class="label">분석 기간</div>
-        <div class="value">2026-02-24 ~ 2026-03-26 (30일)</div>
+        <div class="value">2026-03-30 ~ 2026-03-30 (1일분 누적)</div>
       </div>
     </div>
-    <!-- D-30 / D-0 누적 비교 -->
+    <!-- 전일 누적 / 금일 누적 비교 -->
     <table class="compare-table">
       <thead>
         <tr>
           <th></th>
-          <th class="col-d30">D-30 누적</th>
-          <th class="col-d0">D-0 누적</th>
+          <th class="col-d30">전일 누적</th>
+          <th class="col-d0">금일 누적</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>총 상담 건수</td>
-          <td class="val" style="color:var(--accent);">397</td>
-          <td class="val" style="color:var(--accent);">19</td>
+          <td class="val" style="color:var(--accent);">0</td>
+          <td class="val" style="color:var(--accent);">2</td>
         </tr>
         <tr>
           <td>부정 감성 건수</td>
-          <td class="val" style="color:var(--danger);">184</td>
-          <td class="val" style="color:var(--danger);">9</td>
+          <td class="val" style="color:var(--danger);">0</td>
+          <td class="val" style="color:var(--danger);">0</td>
         </tr>
         <tr>
           <td>부정 비율</td>
-          <td class="val" style="color:var(--warning);">46.3%</td>
-          <td class="val" style="color:var(--warning);">47.4%</td>
+          <td class="val" style="color:var(--warning);">0.0%</td>
+          <td class="val" style="color:var(--warning);">0.0%</td>
         </tr>
       </tbody>
     </table>
@@ -276,79 +276,17 @@ body {
       부정 감성 키워드 빈도
     </div>
     <ul class="keywordList">
-      <li class="keywordItem">
-        <div class="kw">🏃 이탈/포기 의사</div>
-        <div class="cnt">88건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:100%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">😤 스트레스/압박감</div>
-        <div class="cnt">29건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:33%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">😰 불안/걱정</div>
-        <div class="cnt">22건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:25%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">📚 학습 어려움</div>
-        <div class="cnt">18건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:20%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">😠 불만/분노</div>
-        <div class="cnt">12건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:14%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">📌 AI_보강_키워드</div>
-        <div class="cnt">5건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:6%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">📌 사춘기/반항</div>
-        <div class="cnt">3건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:3%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">😞 우울/무기력</div>
-        <div class="cnt">3건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:3%"></div></div>
-      </li>
+      <li style="padding:12px;color:var(--muted);">부정 키워드가 감지되지 않았습니다.</li>
     </ul>
   </div>
 
   
-  <div class="alertBanner danger">
-    <div class="alert-icon">🚨</div>
-    <div>
-      <strong>위험 학생 20명 감지</strong><br>
-      평균 대비 부정 감성 빈도가 높은 학생이 발견되었습니다. 아래 상세 내역을 확인해주세요.
-    </div>
-  </div>
   
   <div class="alertBanner" style="background:var(--accent-light);border:1px solid #c7d2fe;">
     <div class="alert-icon">🆕</div>
     <div>
-      <strong>신규 감지 학생 5명</strong><br>
-      이전 분석에 없던 학생이 새롭게 평균 초과 목록에 포함되었습니다.
+      <strong>신규 감지 학생 0명</strong><br>
+      이번 분석에서 신규 감지된 학생은 없습니다.
     </div>
   </div>
 
@@ -359,341 +297,15 @@ body {
       평균 초과 학생 리스트
     </div>
     <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">
-      평촌 영재입시센터 [중등관] 내 학생 평균 부정 건수: <strong style="color:var(--text);">1.0건</strong> — 평균 초과 학생 전체를 표시합니다.
+      평촌 영재입시센터 [중등관] 내 학생 평균 부정 건수: <strong style="color:var(--text);">0.0건</strong> — 평균 초과 학생 전체를 표시합니다.
     </p>
-    <table class="data-table">
-      <colgroup>
-        <col class="col-name">
-        <col class="col-code">
-        <col class="col-count">
-        <col class="col-grade">
-        <col class="col-new">
-      </colgroup>
-      <thead>
-        <tr>
-          <th>학생명</th>
-          <th>학생코드</th>
-          <th>부정 건수</th>
-          <th>등급</th>
-          <th>신규</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>이수빈a</td>
-          <td>AS121502199</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td><span class="tag new">NEW</span></td>
-        </tr>
-        <tr>
-          <td>황시현</td>
-          <td>CS251201795</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td><span class="tag new">NEW</span></td>
-        </tr>
-        <tr>
-          <td>이서빈(비)</td>
-          <td>CS240101613</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td><span class="tag new">NEW</span></td>
-        </tr>
-        <tr>
-          <td>남현우</td>
-          <td>AS121419784</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td><span class="tag new">NEW</span></td>
-        </tr>
-        <tr>
-          <td>안시환</td>
-          <td>AS121420494</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td><span class="tag new">NEW</span></td>
-        </tr>
-        <tr>
-          <td>안나윤</td>
-          <td>AS121457913</td>
-          <td><strong>5건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>최영현</td>
-          <td>CS241001237</td>
-          <td><strong>5건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>방도현</td>
-          <td>CS210203588</td>
-          <td><strong>5건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>이정후</td>
-          <td>CS210803540</td>
-          <td><strong>5건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>정연호</td>
-          <td>AS121500627</td>
-          <td><strong>5건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>최주원b</td>
-          <td>CS210700123</td>
-          <td><strong>4건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>박준서c</td>
-          <td>AS121511807</td>
-          <td><strong>4건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>이라희</td>
-          <td>CS240202272</td>
-          <td><strong>4건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>정의찬</td>
-          <td>AS121518988</td>
-          <td><strong>4건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>허유주</td>
-          <td>AS121490182</td>
-          <td><strong>3건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>이다해</td>
-          <td>AS121445774</td>
-          <td><strong>3건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>강하율</td>
-          <td>CS241102700</td>
-          <td><strong>3건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>박정연</td>
-          <td>CS250500192</td>
-          <td><strong>3건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>이승현</td>
-          <td>CS220702299</td>
-          <td><strong>3건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>조인우</td>
-          <td>BS181000269</td>
-          <td><strong>3건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>김하영</td>
-          <td>CS211001341</td>
-          <td><strong>3건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>권민서</td>
-          <td>AS121491294</td>
-          <td><strong>3건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>이시온</td>
-          <td>AS121443757</td>
-          <td><strong>3건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>문성주</td>
-          <td>CS211201397</td>
-          <td><strong>3건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>서아인</td>
-          <td>CS220500584</td>
-          <td><strong>3건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>신서준</td>
-          <td>CS251100846</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>주승표</td>
-          <td>CS220203673</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>김준서a</td>
-          <td>CS210101421</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>노윤아</td>
-          <td>CS251103392</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>이은우z(공통)</td>
-          <td>CS220102503</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>유아라z</td>
-          <td>AS121488890</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>장현우A</td>
-          <td>AS121514965</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>하윤수</td>
-          <td>CS211000938</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>박서현</td>
-          <td>CS240803239</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>김은율</td>
-          <td>BS180900333</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>윤지우</td>
-          <td>CS250805618</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>이하준</td>
-          <td>CS250206521</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>남현아</td>
-          <td>AS121483216</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>안유준</td>
-          <td>AS121505595</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>정해원</td>
-          <td>CS250900522</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>이순지</td>
-          <td>CS251203419</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>이서정</td>
-          <td>AS121459640</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>이정우d</td>
-          <td>CS211203901</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>윤혜정</td>
-          <td>CS210203561</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
+    <p style="padding:12px;color:var(--muted);">평균을 초과하는 학생이 없습니다.</p>
   </div>
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-03-26 21:25<br>
+    분석 모델: Claude API | 생성일: 2026-03-30 16:35<br>
+    1일분 누적 데이터 기준<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>
 

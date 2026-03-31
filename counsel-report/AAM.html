@@ -240,30 +240,30 @@ body {
         <div class="value">2026-03-30 ~ 2026-03-31 (2일분 누적)</div>
       </div>
     </div>
-    <!-- 전일 누적 / 금일 누적 비교 -->
+    <!-- D-30 / D-0 비교 -->
     <table class="compare-table">
       <thead>
         <tr>
           <th></th>
-          <th class="col-d30">전일 누적</th>
-          <th class="col-d0">금일 누적</th>
+          <th class="col-d30">D-30 누적</th>
+          <th class="col-d0">D-0 누적</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>총 상담 건수</td>
-          <td class="val" style="color:var(--accent);">0</td>
-          <td class="val" style="color:var(--accent);">17</td>
+          <td class="val" style="color:var(--accent);">28</td>
+          <td class="val" style="color:var(--accent);">28</td>
         </tr>
         <tr>
           <td>부정 감성 건수</td>
-          <td class="val" style="color:var(--danger);">0</td>
-          <td class="val" style="color:var(--danger);">4</td>
+          <td class="val" style="color:var(--danger);">8</td>
+          <td class="val" style="color:var(--danger);">8</td>
         </tr>
         <tr>
           <td>부정 비율</td>
-          <td class="val" style="color:var(--warning);">0.0%</td>
-          <td class="val" style="color:var(--warning);">23.5%</td>
+          <td class="val" style="color:var(--warning);">28.6%</td>
+          <td class="val" style="color:var(--warning);">28.6%</td>
         </tr>
       </tbody>
     </table>
@@ -278,10 +278,17 @@ body {
     <ul class="keywordList">
       <li class="keywordItem">
         <div class="kw">🏃 이탈/포기 의사</div>
-        <div class="cnt">4건</div>
+        <div class="cnt">7건</div>
       </li>
       <li>
         <div class="bar-bg"><div class="bar-fill" style="width:100%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">😤 스트레스/압박감</div>
+        <div class="cnt">1건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:14%"></div></div>
       </li>
     </ul>
   </div>
@@ -291,8 +298,8 @@ body {
   <div class="alertBanner" style="background:var(--accent-light);border:1px solid #c7d2fe;">
     <div class="alert-icon">🆕</div>
     <div>
-      <strong>신규 감지 학생 0명</strong><br>
-      이번 분석에서 신규 감지된 학생은 없습니다.
+      <strong>신규 감지 학생 2명</strong><br>
+      이전 분석에 없던 학생이 새롭게 평균 초과 목록에 포함되었습니다.
     </div>
   </div>
 
@@ -303,7 +310,7 @@ body {
       평균 초과 학생 리스트
     </div>
     <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">
-      와이즈만 분당센터 [초등관] 내 학생 평균 부정 건수: <strong style="color:var(--text);">1.3건</strong> — 평균 초과 학생 전체를 표시합니다.
+      와이즈만 분당센터 [초등관] 내 학생 평균 부정 건수: <strong style="color:var(--text);">1.6건</strong> — 평균 초과 학생 전체를 표시합니다.
     </p>
     <table class="data-table">
       <colgroup>
@@ -324,6 +331,20 @@ body {
       </thead>
       <tbody>
         <tr>
+          <td>문서아</td>
+          <td>CS240805816</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>이호수</td>
+          <td>CS250206518</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
           <td>조현우</td>
           <td>CS260206294</td>
           <td><strong>2건</strong></td>
@@ -336,7 +357,7 @@ body {
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-03-31 16:09<br>
+    분석 모델: Claude API | 생성일: 2026-03-31 17:46<br>
     2일분 누적 데이터 기준<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>

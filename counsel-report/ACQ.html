@@ -252,18 +252,18 @@ body {
       <tbody>
         <tr>
           <td>총 상담 건수</td>
-          <td class="val" style="color:var(--accent);">174</td>
-          <td class="val" style="color:var(--accent);">87</td>
+          <td class="val" style="color:var(--accent);">123</td>
+          <td class="val" style="color:var(--accent);">36</td>
         </tr>
         <tr>
           <td>부정 감성 건수</td>
-          <td class="val" style="color:var(--danger);">32</td>
-          <td class="val" style="color:var(--danger);">17</td>
+          <td class="val" style="color:var(--danger);">24</td>
+          <td class="val" style="color:var(--danger);">9</td>
         </tr>
         <tr>
           <td>부정 비율</td>
-          <td class="val" style="color:var(--warning);">18.4%</td>
           <td class="val" style="color:var(--warning);">19.5%</td>
+          <td class="val" style="color:var(--warning);">25.0%</td>
         </tr>
       </tbody>
     </table>
@@ -278,35 +278,56 @@ body {
     <ul class="keywordList">
       <li class="keywordItem">
         <div class="kw">🏃 이탈/포기 의사</div>
-        <div class="cnt">23건</div>
+        <div class="cnt">15건</div>
       </li>
       <li>
         <div class="bar-bg"><div class="bar-fill" style="width:100%"></div></div>
       </li>
       <li class="keywordItem">
         <div class="kw">😣 부적응</div>
-        <div class="cnt">7건</div>
+        <div class="cnt">3건</div>
       </li>
       <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:30%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:20%"></div></div>
       </li>
       <li class="keywordItem">
         <div class="kw">📚 학습 어려움</div>
+        <div class="cnt">3건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:20%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">😠 불만/분노</div>
         <div class="cnt">2건</div>
       </li>
       <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:9%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:13%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">😰 불안/걱정</div>
+        <div class="cnt">1건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:7%"></div></div>
       </li>
     </ul>
   </div>
 
   
+  <div class="alertBanner danger">
+    <div class="alert-icon">🚨</div>
+    <div>
+      <strong>위험 학생 1명 감지</strong><br>
+      평균 대비 부정 감성 빈도가 높은 학생이 발견되었습니다. 아래 상세 내역을 확인해주세요.
+    </div>
+  </div>
   
   <div class="alertBanner" style="background:var(--accent-light);border:1px solid #c7d2fe;">
     <div class="alert-icon">🆕</div>
     <div>
-      <strong>신규 감지 학생 0명</strong><br>
-      이번 분석에서 신규 감지된 학생은 없습니다.
+      <strong>신규 감지 학생 3명</strong><br>
+      이전 분석에 없던 학생이 새롭게 평균 초과 목록에 포함되었습니다.
     </div>
   </div>
 
@@ -317,7 +338,7 @@ body {
       평균 초과 학생 리스트
     </div>
     <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">
-      와이즈만 평촌센터 [초등관] 내 학생 평균 부정 건수: <strong style="color:var(--text);">2.1건</strong> — 평균 초과 학생 전체를 표시합니다.
+      와이즈만 평촌센터 [초등관] 내 학생 평균 부정 건수: <strong style="color:var(--text);">1.3건</strong> — 평균 초과 학생 전체를 표시합니다.
     </p>
     <table class="data-table">
       <colgroup>
@@ -338,17 +359,38 @@ body {
       </thead>
       <tbody>
         <tr>
+          <td>신지아</td>
+          <td>CS250205682</td>
+          <td><strong>3건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>김현기aB</td>
+          <td>CS260302856</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>반예윤B</td>
+          <td>CS220101836</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
           <td>권아린</td>
           <td>CS211104255</td>
-          <td><strong>4건</strong></td>
-          <td><span class="tag warning">주의</span></td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
           <td></td>
         </tr>
         <tr>
           <td>Y안범진</td>
           <td>CS231000974</td>
-          <td><strong>4건</strong></td>
-          <td><span class="tag warning">주의</span></td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
           <td></td>
         </tr>
       </tbody>
@@ -357,7 +399,7 @@ body {
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-04-01 10:27<br>
+    분석 모델: Claude API | 생성일: 2026-04-01 19:16<br>
     데이터 기준<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>

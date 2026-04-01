@@ -252,18 +252,18 @@ body {
       <tbody>
         <tr>
           <td>총 상담 건수</td>
-          <td class="val" style="color:var(--accent);">90</td>
-          <td class="val" style="color:var(--accent);">45</td>
+          <td class="val" style="color:var(--accent);">97</td>
+          <td class="val" style="color:var(--accent);">52</td>
         </tr>
         <tr>
           <td>부정 감성 건수</td>
-          <td class="val" style="color:var(--danger);">26</td>
-          <td class="val" style="color:var(--danger);">13</td>
+          <td class="val" style="color:var(--danger);">20</td>
+          <td class="val" style="color:var(--danger);">9</td>
         </tr>
         <tr>
           <td>부정 비율</td>
-          <td class="val" style="color:var(--warning);">28.9%</td>
-          <td class="val" style="color:var(--warning);">28.9%</td>
+          <td class="val" style="color:var(--warning);">20.6%</td>
+          <td class="val" style="color:var(--warning);">17.3%</td>
         </tr>
       </tbody>
     </table>
@@ -285,10 +285,10 @@ body {
       </li>
       <li class="keywordItem">
         <div class="kw">📚 학습 어려움</div>
-        <div class="cnt">9건</div>
+        <div class="cnt">3건</div>
       </li>
       <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:90%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:30%"></div></div>
       </li>
       <li class="keywordItem">
         <div class="kw">😤 스트레스/압박감</div>
@@ -298,18 +298,32 @@ body {
         <div class="bar-bg"><div class="bar-fill" style="width:30%"></div></div>
       </li>
       <li class="keywordItem">
-        <div class="kw">😣 부적응</div>
-        <div class="cnt">2건</div>
+        <div class="kw">😰 불안/걱정</div>
+        <div class="cnt">1건</div>
       </li>
       <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:20%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:10%"></div></div>
       </li>
       <li class="keywordItem">
         <div class="kw">📌 건강문제</div>
-        <div class="cnt">2건</div>
+        <div class="cnt">1건</div>
       </li>
       <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:20%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:10%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">📌 사춘기/반항</div>
+        <div class="cnt">1건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:10%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">😣 부적응</div>
+        <div class="cnt">1건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:10%"></div></div>
       </li>
     </ul>
   </div>
@@ -319,8 +333,8 @@ body {
   <div class="alertBanner" style="background:var(--accent-light);border:1px solid #c7d2fe;">
     <div class="alert-icon">🆕</div>
     <div>
-      <strong>신규 감지 학생 0명</strong><br>
-      이번 분석에서 신규 감지된 학생은 없습니다.
+      <strong>신규 감지 학생 1명</strong><br>
+      이전 분석에 없던 학생이 새롭게 평균 초과 목록에 포함되었습니다.
     </div>
   </div>
 
@@ -331,14 +345,40 @@ body {
       평균 초과 학생 리스트
     </div>
     <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">
-      와이즈만 수원영통센터 내 학생 평균 부정 건수: <strong style="color:var(--text);">2.0건</strong> — 평균 초과 학생 전체를 표시합니다.
+      와이즈만 수원영통센터 내 학생 평균 부정 건수: <strong style="color:var(--text);">1.1건</strong> — 평균 초과 학생 전체를 표시합니다.
     </p>
-    <p style="padding:12px;color:var(--muted);">평균을 초과하는 학생이 없습니다.</p>
+    <table class="data-table">
+      <colgroup>
+        <col class="col-name">
+        <col class="col-code">
+        <col class="col-count">
+        <col class="col-grade">
+        <col class="col-new">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>학생명</th>
+          <th>학생코드</th>
+          <th>부정 건수</th>
+          <th>등급</th>
+          <th>신규</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>우태경♥</td>
+          <td>CS230205616</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-04-01 10:27<br>
+    분석 모델: Claude API | 생성일: 2026-04-01 19:16<br>
     데이터 기준<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>

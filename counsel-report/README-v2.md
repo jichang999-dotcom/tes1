@@ -1,24 +1,12 @@
-# [SOP] AI 리포트2 제작 및 발송 자동화 시스템 (D-0 분석 + 30일 누적)
+# [SOP] AI 리포트 제작 및 발송 자동화 시스템
 
 ## 1. 문서 개요
 
-- **목적**: Google Sheets에 등록된 "발송 대상자"에게 AI 분석 HTML 리포트 링크를 자동 발송하는 시스템
-- **핵심 컨셉**: **매일 D-0(당일) 데이터만 분석**하고, 분석 결과를 **로컬에 누적 저장**하여 최대 30일치 누적 데이터로 리포트를 생성
+- **목적**: Google Sheets에 등록된 "발송 대상자"에게 주간 AI 분석 HTML 리포트 링크를 자동 발송하는 시스템
 - **실행 주기**: 화~토 오후 19:00 (KST), 월요일 01:00 (KST) 보강 배치, 일요일 미실행
-- **데이터 범위**: DB 조회는 **D-0(당일)만**, 리포트 표시는 **누적 최대 30일**
+- **데이터 범위**: 실행일 기준 최근 30일 데이터 (D-30 ~ D-0, KST 기준)
 - **시간 기준**: 모든 날짜/시간은 **KST (한국 표준시, UTC+9)** 기준
 - **분류 체계**: **B안** (Admin → Strong → Weak → 미분류)
-
-### 기존 시스템(리포트1)과의 차이
-
-| 비교 항목 | 리포트1 (기존) | **리포트2 (본 문서)** |
-|-----------|---------------|----------------------|
-| DB 조회 범위 | 매일 D-30 ~ D-0 (30일치 전체) | **매일 D-0만 (당일 데이터만)** |
-| AI 분석 대상 | D-0~D-1 신규 + 캐시 미스 건 | **D-0 당일 건만** |
-| 30일 데이터 확보 | 매번 DB에서 30일치 재조회 | **로컬 누적 파일에서 30일치 확보** |
-| DB 부하 | 높음 (매일 30일치 전체 조회) | **낮음 (당일 데이터만 조회)** |
-| AI 처리량 | 일평균 ~228건 (캐시 미스 기준) | **일평균 ~228건 (D-0 전체)** |
-| 데이터 정합성 | DB 원본 기준 (매번 재조회) | **분석 시점 확정 (D-0 분석 결과를 그대로 누적)** |
 
 ---
 
@@ -26,33 +14,31 @@
 
 | Step | 파일명 | 역할 | 입력 | 출력 | 중요도 |
 |------|--------|------|------|------|--------|
-| 1 | fetch_data.js | MariaDB에서 **D-0(당일) 상담 데이터만** 추출 | MariaDB (db_square) | data/counsel_data_d0.json | 필수 |
-| 2 | analyze_sentiment.js | **4단계 분류**: Admin 제외 → Strong 즉시집계 → Weak+미분류 AI 후보 생성 (D-0 데이터만 대상) | counsel_data_d0.json, keywords.json, config/filter_rules.json | data/sentiment_d0.json, data/ai_candidates.jsonl | 필수 |
-| 3 | claude_enhance.js | **Weak+미분류** 대상 Claude AI 문맥분석. 라운드 로빈 센터 균등 배분. 할루시네이션 방지 검증. D-0 데이터만 처리하므로 캐시 불필요 | ai_candidates.jsonl, sentiment_d0.json | sentiment_d0.json (보강) + suggested_keywords | 선택 |
-| 4 | update_keywords.js | Step 3의 제안 키워드를 keywords.json에 반영 → 다음날 Step 2 강화 | sentiment_d0.json | keywords.json (갱신) | 선택 |
-| 5 | accumulate_results.js | D-0 분석 결과를 **누적 파일에 병합**. 30일 초과 데이터 자동 정리 | sentiment_d0.json, data/sentiment_accumulated.json | data/sentiment_accumulated.json (갱신) | 필수 |
-| 6 | build_html.js | **누적 데이터(최대 30일)** 기반 센터별 HTML 리포트 생성. 학생별 등급 부여. NEW 뱃지 판별 | sentiment_accumulated.json, sentiment_previous.json | reports/\<cmp_cd\>.html | 필수 |
-| 7 | generate_and_upload.js | GitHub Pages에 리포트 업로드 | reports/*.html | report_links.csv | 필수 |
-| 8 | update_sheets.js | Google Sheets에 리포트 링크 삽입 | report_links.csv | Google Sheets 셀 갱신 | 선택 |
-| 9 | update_raw_sheet.js | D-0 상담 원데이터 + 키워드 매칭 결과를 Sheets에 누적 | counsel_data_d0.json, keywords.json | Google Sheets "키워드raw" 시트 | 선택 |
-| 10 | trigger_webhook.js | n8n 웹훅으로 완료 알림 전송 | 없음 | HTTP POST → n8n | 선택 |
+| 1 | fetch_data.js | MariaDB에서 최근 30일 상담 데이터 추출 | MariaDB (db_square) | data/counsel_data.json | 필수 |
+| 2 | analyze_sentiment.js | **4단계 분류**: Admin 제외 → Strong 즉시집계 → Weak+미분류 AI 후보 생성 | counsel_data.json, keywords.json, config/filter_rules.json | data/sentiment_results.json, data/ai_candidates.jsonl | 필수 |
+| 3 | claude_enhance.js | **Weak+미분류** 대상 Claude AI 문맥분석. 캐시 대조 후 **신규(D-0~D-1) + 내용수정(text_hash 불일치) + 이전 FAILED 건만** AI 호출. **라운드 로빈 방식**으로 센터별 균등 배분. **할루시네이션 방지**: source_pk 검증 + 12개 카테고리 외 필터링 + D-0 부정 보정 + 학생 이름 보완. 나머지는 캐시 결과 자동 반영 | ai_candidates.jsonl, sentiment_results.json, cache/ai_review_cache.json | sentiment_results.json (보강) + suggested_keywords | 선택 |
+| 4 | update_keywords.js | Step 3의 제안 키워드를 keywords.json에 반영 → 다음날 Step 2 강화 | sentiment_results.json | keywords.json (갱신) | 선택 |
+| 5 | build_html.js | 센터별 HTML 리포트 생성. 학생별 부정건수를 센터 평균과 비교하여 **등급 부여** (🚨위험: 평균×2 초과 / 🟠주의: 평균×1.5 초과 / 🟢관심: 평균 초과). NEW 뱃지 판별 | sentiment_results.json, sentiment_previous.json | reports/\<cmp_cd\>.html | 필수 |
+| 6 | generate_and_upload.js | GitHub Pages에 리포트 업로드 | reports/*.html | report_links.csv | 필수 |
+| 7 | update_sheets.js | Google Sheets에 리포트 링크 삽입 | report_links.csv | Google Sheets 셀 갱신 | 선택 |
+| 8 | update_raw_sheet.js | 상담 원데이터 + 키워드 매칭 결과를 Sheets에 누적 | counsel_data.json, keywords.json | Google Sheets "키워드raw" 시트 | 선택 |
+| 9 | trigger_webhook.js | n8n 웹훅으로 완료 알림 전송 | 없음 | HTTP POST → n8n | 선택 |
 
 ---
 
 ## 3. 시스템 아키텍처
 
-본 시스템은 **로컬 배치 프로그램(run_report2.bat)**과 **n8n 클라우드 워크플로우**의 2단 구조로 운영됩니다.
+본 시스템은 **로컬 배치 프로그램(run_report.bat)**과 **n8n 클라우드 워크플로우**의 2단 구조로 운영됩니다.
 
-### 3-1. 역할 분담
+### 2-1. 역할 분담
 
 | 구분 | 담당 | 실행 환경 | 사유 |
 |------|------|-----------|------|
-| MariaDB D-0 데이터 조회 | `fetch_data.js` | Windows PC | n8n 클라우드에서 MariaDB 직접 연결 불가 |
-| 4단계 분류 + AI 후보 생성 | `analyze_sentiment.js` | Windows PC | D-0 데이터에 대해 Admin/Strong/Weak/미분류 판정 |
-| Weak+미분류 Claude AI 문맥분석 | `claude_enhance.js` | Windows PC (Claude Code CLI) | D-0 AI 후보 배치 처리, 할루시네이션 방지 검증 |
+| MariaDB 데이터 조회 | `fetch_data.js` | Windows PC | n8n 클라우드에서 MariaDB 직접 연결 불가 |
+| 4단계 분류 (Admin→Strong→Weak→미분류) + AI 후보 생성 | `analyze_sentiment.js` | Windows PC | Admin 제외, Strong 즉시집계, Weak+미분류 AI 후보 파일(`ai_candidates.jsonl`) 생성 |
+| Weak+미분류 Claude AI 문맥분석 보강 | `claude_enhance.js` | Windows PC (Claude Code CLI) | AI 후보 파일 기반 배치 처리, Weak 오탐 필터링, 캐시/lock 보호 |
 | AI 제안 키워드 반영 | `update_keywords.js` | Windows PC | AI 제안 키워드를 `keywords.json`에 자동 반영 |
-| **D-0 결과 누적 병합** | `accumulate_results.js` | Windows PC | **D-0 분석 결과를 30일 누적 파일에 병합 + 만료 정리** |
-| HTML 리포트 생성 + 학생 등급 | `build_html.js` | Windows PC | **누적 데이터(최대 30일) 기반** 리포트 생성 |
+| HTML 리포트 생성 + 학생 등급 부여 | `build_html.js` | Windows PC | sample_report.html 디자인 기반 생성, 학생별 등급 (위험/주의/관심) 부여 |
 | GitHub 업로드 | `generate_and_upload.js` | Windows PC | GitHub API 호출 |
 | Google Sheets 발송링크 업데이트 | `update_sheets.js` | Windows PC | Google Sheets API (서비스 계정) |
 | 원시 데이터 업로드 | `update_raw_sheet.js` | Windows PC | Google Sheets 키워드raw 시트 |
@@ -60,23 +46,22 @@
 | 사업부 이메일 발송 | n8n 워크플로우 | n8n Cloud | Gmail API 연동 |
 | 발송 로그 기록 | n8n 워크플로우 | n8n Cloud | Google Sheets API 연동 |
 
-### 3-2. 실행 흐름
+### 2-2. 실행 흐름
 
 ```
 [일일 배치] 화~토 19:00 KST (Windows 작업 스케줄러, 일/월 제외)
   │
   ▼
-run_report2.bat (10단계 배치 실행)
-  ├─ [1/10] node fetch_data.js            ← MariaDB에서 D-0(당일) 데이터만 조회
-  ├─ [2/10] node analyze_sentiment.js     ← D-0 데이터 4단계 분류
-  ├─ [3/10] node claude_enhance.js        ← D-0 Weak+미분류 AI 문맥분석, 할루시네이션 방지 검증
-  ├─ [4/10] node update_keywords.js       ← AI 제안 키워드 자동 반영
-  ├─ [5/10] node accumulate_results.js    ← ★ D-0 결과를 누적 파일에 병합 (30일 초과 자동 정리)
-  ├─ [6/10] node build_html.js            ← 누적 데이터(최대 30일) 기반 HTML 생성 + 학생 등급
-  ├─ [7/10] node generate_and_upload.js   ← GitHub 업로드 + report_links.csv
-  ├─ [8/10] node update_sheets.js         ← Google Sheets 발송링크 컬럼 업데이트
-  ├─ [9/10] node update_raw_sheet.js      ← D-0 원시 데이터 Google Sheets 업로드
-  └─ [10/10] node trigger_webhook.js      ← n8n Webhook 호출 (발송 트리거)
+run_report.bat (9단계 배치 실행)
+  ├─ [1/9] node fetch_data.js           ← MariaDB 쿼리 (D-30 ~ D-0, KST 기준), source_pk 부여
+  ├─ [2/9] node analyze_sentiment.js    ← 4단계 분류: Admin제외→Strong즉시집계→Weak+미분류 AI후보 생성
+  ├─ [3/9] node claude_enhance.js       ← Weak+미분류 AI 문맥분석. 라운드 로빈 센터 균등 배분, 캐시 미스만 AI 호출, 할루시네이션 방지 검증(source_pk/카테고리/D-0보정/학생명)
+  ├─ [4/9] node update_keywords.js      ← AI 제안 키워드 자동 반영
+  ├─ [5/9] node build_html.js           ← HTML 생성 + 학생 등급 부여 (위험/주의/관심, 센터 평균 대비)
+  ├─ [6/9] node generate_and_upload.js  ← GitHub 업로드 + report_links.csv
+  ├─ [7/9] node update_sheets.js        ← Google Sheets 발송링크 컬럼 업데이트
+  ├─ [8/9] node update_raw_sheet.js     ← 원시 데이터 Google Sheets 업로드
+  └─ [9/9] node trigger_webhook.js      ← n8n Webhook 호출 (발송 트리거)
         │
         ▼
 n8n 워크플로우 (Webhook 트리거)
@@ -84,8 +69,8 @@ n8n 워크플로우 (Webhook 트리거)
   ├─ 사업부 이메일 발송
   └─ "발송 로그" 시트에 기록
 
-[월요일 보강 배치] 매주 월요일 01:00 KST
-  └→ 지난주 실패/미전송 건 재처리 + 키워드 보강 검토
+[월요일 보강 배치] 매주 월요일 추가 실행
+  └→ 지난주 실패/미전송/후순위 밀린 건 재처리 + 키워드 보강 검토
 ```
 
 ---
@@ -103,35 +88,33 @@ n8n 워크플로우 (Webhook 트리거)
 
 | 파일 | 용도 |
 |------|------|
-| `run_report2.bat` | 메인 배치 프로그램 (10단계 자동 실행) |
-| `fetch_data.js` | 1단계: MariaDB D-0 데이터 추출 → `data/counsel_data_d0.json` |
-| `analyze_sentiment.js` | 2단계: D-0 데이터 4단계 분류 → `data/sentiment_d0.json` + AI 후보 파일 |
-| `claude_enhance.js` | 3단계: D-0 Weak+미분류 AI 문맥분석 (할루시네이션 방지 검증) |
+| `run_report.bat` | 메인 배치 프로그램 (9단계 자동 실행) |
+| `fetch_data.js` | 1단계: MariaDB 데이터 추출 → `data/counsel_data.json` (각 row에 `source_pk` 포함) |
+| `analyze_sentiment.js` | 2단계: 4단계 분류(Admin→Strong→Weak→미분류) → `data/sentiment_results.json` + AI 후보 파일 생성 |
+| `claude_enhance.js` | 3단계: Weak+미분류 AI 문맥분석 (오탐 필터링 + 부정 추가 감지, 캐시/lock 보호) |
 | `update_keywords.js` | 4단계: AI 제안 키워드를 `keywords.json`에 자동 반영 |
-| `accumulate_results.js` | **5단계: D-0 결과를 누적 파일에 병합 + 30일 초과 정리** |
-| `build_html.js` | 6단계: 누적 데이터 기반 HTML 생성 + 학생 등급 부여 |
-| `generate_and_upload.js` | 7단계: GitHub 업로드 + report_links.csv |
-| `update_sheets.js` | 8단계: Google Sheets 발송링크 업데이트 |
-| `update_raw_sheet.js` | 9단계: D-0 원시 데이터 Google Sheets 업로드 |
-| `trigger_webhook.js` | 10단계: n8n Webhook 호출 (발송 트리거) |
-| `lib/utils.js` | 공통 유틸리티 (log, normalizeText, generateTextHash) |
+| `build_html.js` | 5단계: HTML 생성 + 학생 등급 부여 (🚨위험: 평균×2초과 / 🟠주의: 평균×1.5초과 / 🟢관심: 평균초과) → `reports/` |
+| `generate_and_upload.js` | 6단계: GitHub 업로드 + report_links.csv |
+| `update_sheets.js` | 7단계: Google Sheets "리포트 제작 관리 시트" 발송링크 업데이트 |
+| `update_raw_sheet.js` | 8단계: 원시 데이터 Google Sheets 업로드 |
+| `trigger_webhook.js` | 9단계: n8n Webhook 호출 (발송 트리거) |
+| `lib/utils.js` | 공통 유틸리티 (log, normalizeText, generateTextHash, generateKeywordsHash) |
 | `config/filter_rules.json` | 전처리 필터 설정 (최소 텍스트 길이, Admin rescue 설정) |
 | `keywords.json` | 부정 감성 키워드 사전 (**3단계 구조: Admin 22개 / Strong 4카테고리 42개 / Weak 11카테고리 180+개**) |
 | `credentials.json` | Google 서비스 계정 인증 키 (`.gitignore`에 추가 필요) |
-| `sample_report.html` | HTML 리포트 디자인 템플릿 |
+| `claude_prompt.txt` | Claude AI 분석용 프롬프트 (참고용, 3단계에서는 내장 프롬프트 사용) |
+| `sample_report.html` | HTML 리포트 디자인 템플릿 (이 파일의 CSS/구조를 그대로 사용) |
 | `.env` | 환경변수 (DB/GitHub 접속 정보) |
 | `setup_scheduler.bat` | Windows 작업 스케줄러 등록 (관리자 권한 실행) |
-
-### 데이터 파일
-
-| 파일 | 용도 |
-|------|------|
-| `data/counsel_data_d0.json` | 1단계 출력: D-0 DB 추출 데이터 (각 row에 `source_pk` 포함) |
-| `data/sentiment_d0.json` | 2~3단계 출력: D-0 감성분석 결과 |
-| `data/ai_candidates.jsonl` | 2단계 출력: D-0 AI 재분석 후보 (Weak + 미분류) |
-| `data/ai_candidates.meta.json` | 2단계 출력: 후보 생성 메타데이터 |
-| **`data/sentiment_accumulated.json`** | **5단계 출력: 최대 30일 누적 분석 결과 (핵심 파일)** |
-| `data/sentiment_previous.json` | 이전 실행 결과 백업 (NEW 뱃지 비교용) |
+| `run_daily.js` | Node.js 대체 오케스트레이터 (레거시) |
+| `data/` | JSON 데이터 저장 |
+| `data/counsel_data.json` | 1단계 출력: DB 추출 데이터 (각 row에 `source_pk` 포함) |
+| `data/sentiment_results.json` | 2~3단계 출력: 감성분석 결과 (Step 2 Strong + Step 3 AI 보강) |
+| `data/ai_candidates.jsonl` | 2단계 출력: AI 재분석 후보 (Weak + 미분류, 필터 통과 건) |
+| `data/ai_candidates.meta.json` | 2단계 출력: 후보 생성 메타데이터 (admin/strong/weak/unclassified 건수) |
+| `data/sentiment_previous.json` | 이전 실행 결과 백업 (NEW 뱃지 비교용, 하루 1회만 갱신) |
+| `cache/` | 캐시 저장소 |
+| `cache/ai_review_cache.json` | 3단계 캐시: `{ source_pk: { text_hash, analyzed_at, categories } }` 기반 중복 분석 방지 + 이전 AI 부정 결과 재반영 |
 | `reports/` | 생성된 HTML 리포트 로컬 보관 폴더 |
 | `logs/` | 실행 로그 저장 폴더 (KST 기준 날짜) |
 
@@ -139,120 +122,16 @@ n8n 워크플로우 (Webhook 트리거)
 
 ---
 
-## 5. 핵심 컨셉: D-0 분석 + 30일 누적
-
-### 5-1. 기본 원리
+## 5. 데이터 흐름도
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  기존 (리포트1): 매일 DB에서 30일치 전체를 다시 가져옴      │
-│                                                             │
-│  Day 1: DB → [D-30 ~ D-0] 11,000건 조회 → 분석 → 리포트   │
-│  Day 2: DB → [D-30 ~ D-0] 11,000건 조회 → 분석 → 리포트   │
-│  Day 3: DB → [D-30 ~ D-0] 11,000건 조회 → 분석 → 리포트   │
-│  ※ 매일 11,000건 조회, 대부분은 어제와 동일한 데이터       │
-└─────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────┐
-│  리포트2 (본 시스템): 당일 데이터만 가져와서 누적           │
-│                                                             │
-│  Day 1: DB → [D-0] ~400건 조회 → 분석 → 누적 파일에 추가   │
-│  Day 2: DB → [D-0] ~400건 조회 → 분석 → 누적 파일에 추가   │
-│  Day 3: DB → [D-0] ~400건 조회 → 분석 → 누적 파일에 추가   │
-│  ...                                                        │
-│  Day 30: 누적 파일에 30일치 ~12,000건 보유 → 리포트 생성    │
-│  Day 31: D-1(가장 오래된 날) 자동 정리 → 항상 최대 30일 유지│
-│  ※ 매일 ~400건만 조회, DB 부하 대폭 감소                   │
-└─────────────────────────────────────────────────────────────┘
-```
-
-### 5-2. 누적 파일 구조 (`data/sentiment_accumulated.json`)
-
-```json
-{
-  "meta": {
-    "last_updated": "2026-03-28T19:15:00+09:00",
-    "date_range": {
-      "oldest": "2026-02-27",
-      "newest": "2026-03-28"
-    },
-    "total_records": 11842,
-    "days_accumulated": 30
-  },
-  "daily_entries": {
-    "2026-03-28": {
-      "fetched_at": "2026-03-28T19:01:23+09:00",
-      "record_count": 412,
-      "centers": {
-        "AAA": {
-          "total_count": 85,
-          "negative_count": 12,
-          "students": {
-            "STD001": {
-              "std_nm": "김학생",
-              "negative_count": 3,
-              "categories": ["스트레스/압박감", "학습 어려움"],
-              "keywords": ["힘들", "어렵"]
-            }
-          }
-        }
-      }
-    },
-    "2026-03-27": { ... },
-    "2026-02-27": { ... }
-  }
-}
-```
-
-### 5-3. 누적 동작 흐름
-
-```
-매일 Step 5 (accumulate_results.js) 실행 시:
-
-  1. sentiment_accumulated.json 로드 (없으면 빈 구조 생성)
-  2. sentiment_d0.json (오늘 분석 결과) 로드
-  3. 오늘 날짜 키로 daily_entries에 추가
-     - 동일 날짜 키가 이미 있으면 → 덮어쓰기 (재실행 대응)
-  4. 30일 초과 데이터 정리
-     - daily_entries의 날짜 키를 정렬
-     - 오늘 기준 30일 이전 키 → 삭제
-  5. meta 정보 갱신 (last_updated, date_range, total_records, days_accumulated)
-  6. sentiment_accumulated.json 저장
-```
-
-### 5-4. 누적 방식의 장점과 한계
-
-#### 장점
-
-| 항목 | 효과 |
-|------|------|
-| **DB 부하 감소** | 매일 ~400건만 조회 (기존 ~11,000건 → 96% 감소) |
-| **AI 처리량 동일** | D-0 전량 분석이므로 AI 품질 유지 |
-| **실행 시간 단축** | DB 조회 시간 대폭 감소, 전체 배치 시간 단축 |
-| **네트워크 부하 감소** | DB 전송량 감소 |
-| **캐시 불필요** | D-0만 처리하므로 AI 캐시 로직 제거 가능 (단순화) |
-
-#### 한계 및 대응
-
-| 한계 | 설명 | 대응 방안 |
-|------|------|-----------|
-| **분석 시점 확정** | D-0 분석 결과는 확정값으로 누적. DB에서 과거 상담이 수정되어도 이미 누적된 결과는 변경하지 않음 (설계 의도) | 해당 없음 |
-| **초기 30일 미달** | 시스템 최초 가동 시 누적 데이터 부족 | 초기 1회 30일치 일괄 투입 (bootstrap) |
-| **누적 파일 손상** | 파일 손상/삭제 시 30일치 데이터 손실 | 일별 백업 + bootstrap 재실행 |
-| **일요일 공백** | 일요일 미실행 → 해당일 데이터 누락 | 월요일 보강 배치에서 일요일분 포함 처리 |
-
----
-
-## 6. 데이터 흐름도
-
-```
-MariaDB (db_square, D-0 당일 상담만)
+MariaDB (db_square, 최근 30일 상담)
 │
 ▼
-[Step 1] fetch_data.js ← D-0(당일) 데이터만 조회
+[Step 1] fetch_data.js
 │
 ▼
-counsel_data_d0.json (~400건/일)
+counsel_data.json
 │
 ▼
 [Step 2] analyze_sentiment.js ◄──── keywords.json (Admin / Strong / Weak 3단계)
@@ -265,13 +144,13 @@ counsel_data_d0.json (~400건/일)
 │  │ 4. 미분류 → AI 후보         │        │
 │  └─────────────────────────────┘        │
 │                                         │
-├─ sentiment_d0.json (Strong만 반영)      │
+├─ sentiment_results.json (Strong만 반영) │
 │                                         │
 ├─ ai_candidates.jsonl (Weak + 미분류)    │
 │                                         │
 ▼                                         │
 [Step 3] claude_enhance.js ───────────────┘
-  │
+  │  캐시 대조 → 캐시 미스만 AI 호출
   │  ┌────────────────────────────────────────────┐
   │  │ ★ 라운드 로빈 (센터 균등 배분)             │
   │  │ AAA→AAM→ACL→...→AAA→AAM→... (500건/청크)  │
@@ -282,7 +161,8 @@ counsel_data_d0.json (~400건/일)
   │  │ ★ 할루시네이션 방지 검증                   │
   │  │ ① source_pk가 입력에 없으면 제거           │
   │  │ ② 허용 12개 카테고리 외 자동 필터링        │
-  │  │ ③ AI 감지 학생 → student_names 보완        │
+  │  │ ③ D-0 부정 건 → d0_negative_count 반영     │
+  │  │ ④ AI 감지 학생 → student_names 보완        │
   │  └────────────────────────────────────────────┘
   │
   │  Weak: 문맥 검증으로 오탐 필터링
@@ -290,27 +170,15 @@ counsel_data_d0.json (~400건/일)
   │  → suggested_keywords 수집
 │
 ▼
-sentiment_d0.json (보강됨: Strong + AI 검증 Weak + AI 신규 감지)
+sentiment_results.json (보강됨: Strong + AI 검증 Weak + AI 신규 감지)
 │
 ▼
 [Step 4] update_keywords.js
   (제안 키워드 → 'AI_보강_키워드' 카테고리에 추가)
 │
 ▼
-[Step 5] accumulate_results.js ★ 핵심 단계 ★
-  │  ┌────────────────────────────────────────────┐
-  │  │ sentiment_accumulated.json 로드             │
-  │  │ + sentiment_d0.json 병합                    │
-  │  │ + 30일 초과 데이터 자동 정리                │
-  │  │ = 최대 30일 누적 데이터 유지                │
-  │  └────────────────────────────────────────────┘
-│
-▼
-sentiment_accumulated.json (최대 30일 누적)
-│
-▼
-[Step 6] build_html.js + sentiment_previous.json (전일 비교 → NEW 뱃지)
-  │  누적 데이터에서 학생별 부정건수 합산 vs 센터 평균 비교 → 등급 부여
+[Step 5] build_html.js + sentiment_previous.json (전일 비교 → NEW 뱃지)
+  │  학생별 부정건수 vs 센터 평균 비교 → 등급 부여
   │  ┌──────────────────────────────────────┐
   │  │ 🚨 위험: 평균 × 2 초과              │
   │  │ 🟠 주의: 평균 × 1.5 초과 (2배 이하) │
@@ -321,20 +189,20 @@ sentiment_accumulated.json (최대 30일 누적)
 ▼
 reports/<cmp_cd>.html
 │
-├─▶ [Step 7] generate_and_upload.js → GitHub Pages + report_links.csv
+├─▶ [Step 6] generate_and_upload.js → GitHub Pages + report_links.csv
 │     │
-│     ├─▶ [Step 8] update_sheets.js → Google Sheets 링크 갱신
+│     ├─▶ [Step 7] update_sheets.js → Google Sheets 링크 갱신
 │     │
-│     └─▶ [Step 9] update_raw_sheet.js → Google Sheets D-0 원데이터 누적
+│     └─▶ [Step 8] update_raw_sheet.js → Google Sheets 원데이터 누적
 │
-└─▶ [Step 10] trigger_webhook.js → n8n 완료 알림
+└─▶ [Step 9] trigger_webhook.js → n8n 완료 알림
 ```
 
 ---
 
-## 7. 환경 설정
+## 6. 환경 설정
 
-### 7-1. 로컬 환경변수 (`.env`)
+### 5-1. 로컬 환경변수 (`.env`)
 
 | 변수 | 설명 |
 |------|------|
@@ -350,79 +218,92 @@ reports/<cmp_cd>.html
 | `GOOGLE_CREDENTIALS_PATH` | Google 서비스 계정 JSON 키 파일 경로 (기본값: `./credentials.json`) |
 
 > **Anthropic API 키는 불필요합니다.** Claude Code CLI(구독형)를 통해 AI 분석을 수행합니다.
+> Google Sheets API 사용을 위해 서비스 계정(`credentials.json`)이 필요합니다. 해당 시트에 서비스 계정 이메일을 편집자로 공유해야 합니다.
 
-### 7-2. Windows 작업 스케줄러
+### 5-2. Windows 작업 스케줄러
 
 #### 일일 배치 (화~토 19:00, 일/월 제외)
 
-- **작업 이름**: `AI_Report2_Daily`
+- **작업 이름**: `AI_Report_Daily`
 - **실행 시간**: 화~토 19:00 (KST), 일/월 미실행
-- **실행 대상**: `run_report2.bat`
+- **실행 대상**: `run_report.bat`
+- **등록 방법**: `setup_scheduler.bat`을 관리자 권한으로 실행
+- **확인 명령**: `schtasks /query /tn "AI_Report_Daily" /v /fo list`
 
 #### 월요일 보강 배치 (매주 월요일)
 
-- **작업 이름**: `AI_Report2_Monday`
+- **작업 이름**: `AI_Report_Monday`
 - **실행 시간**: 매주 월요일 01:00 (KST)
-- **실행 대상**: `run_report2_monday.bat`
-- **목적**: 지난주 실패/미전송 건 재처리 + 일요일분 D-0 데이터 추가 수집 + 키워드 보강 검토
+- **실행 대상**: `run_report_monday.bat`
+- **목적**: 지난주 실패/미전송/후순위 밀린 건 재처리 + suggested_keywords 기반 키워드 보강 검토
+- **정상 운영 시**: 100~300건
+- **맥시멈** (주간 전체 장애 시): ~1,362건
 
 #### 스케줄러 등록 스크립트 (`setup_scheduler.bat`)
 
 ```batch
 @echo off
 chcp 65001 >nul
-echo [스케줄러 등록] AI 리포트2 자동화
+echo [스케줄러 등록] AI 리포트 자동화
 
 REM === 일일 배치 (화~토 19:00 KST, 일/월 제외) ===
-schtasks /create /tn "AI_Report2_Daily" /tr "\"%~dp0run_report2.bat\"" /sc weekly /d TUE,WED,THU,FRI,SAT /st 19:00 /f /rl highest
-echo [완료] AI_Report2_Daily - 화~토 19:00 KST
+schtasks /create /tn "AI_Report_Daily" /tr "\"%~dp0run_report.bat\"" /sc weekly /d TUE,WED,THU,FRI,SAT /st 19:00 /f /rl highest
+echo [완료] AI_Report_Daily - 화~토 19:00 KST
 
 REM === 월요일 보강 배치 (매주 월요일 01:00) ===
-schtasks /create /tn "AI_Report2_Monday" /tr "\"%~dp0run_report2_monday.bat\"" /sc weekly /d MON /st 01:00 /f /rl highest
-echo [완료] AI_Report2_Monday - 매주 월요일 01:00
+schtasks /create /tn "AI_Report_Monday" /tr "\"%~dp0run_report_monday.bat\"" /sc weekly /d MON /st 01:00 /f /rl highest
+echo [완료] AI_Report_Monday - 매주 월요일 01:00
 
 echo.
 echo [확인] 등록된 작업 목록:
-schtasks /query /tn "AI_Report2_Daily" /fo list | findstr "작업 이름 다음 실행 시간 상태"
-schtasks /query /tn "AI_Report2_Monday" /fo list | findstr "작업 이름 다음 실행 시간 상태"
+schtasks /query /tn "AI_Report_Daily" /fo list | findstr "작업 이름 다음 실행 시간 상태"
+schtasks /query /tn "AI_Report_Monday" /fo list | findstr "작업 이름 다음 실행 시간 상태"
 pause
 ```
 
-### 7-3. n8n 워크플로우 설정
+### 5-3. n8n 워크플로우 설정
 
-1. n8n 워크플로우 **AI Report Automation v4** (발송 전용)가 Active 상태인지 확인
+1. n8n 워크플로우 **AI Report Automation v4** (ID: `W8Hhg3JbSVkL0xHL`)가 Active 상태인지 확인
 2. Webhook 노드의 Production URL 확인
 3. `.env`의 `N8N_WEBHOOK_URL`에 해당 URL 입력
 
 ---
 
-## 8. 업무 프로세스 (Workflow)
+## 7. 업무 프로세스 (Workflow)
 
-### 1단계: D-0 데이터 추출 (`fetch_data.js`)
+### 1단계: 데이터 추출 (`fetch_data.js`)
 
-- **데이터 조회**: MariaDB(db_square)에 접속하여 **D-0(당일) 상담 데이터만** 추출
+- **데이터 조회**: MariaDB(db_square)에 접속하여 최근 30일(D-30 ~ D-0, KST 기준) 상담 데이터를 추출
   - 조회 테이블: `tb_counsel`, `tb_counsel_employ`, `tb_company`, `tb_employ`, `tb_student` (JOIN)
   - 조회 필드: `cns_cd`, `cmp_cd`, `cmp_nm`, `std_cd`, `std_nm`(학생명), `emp_cd`, `reg_dt`, `cns_st`, `cns_req_ct`
   - 필터 조건: `fc_cls_sn = '1'`, `brn_cls = 'BC0002'`, 제외 cmp_cd: `AFA, AKU, CAY, CCA`
-  - **날짜 조건**: `reg_dt >= 오늘 00:00:00 AND reg_dt <= 오늘 23:59:59` (KST 기준)
-- **source_pk 부여**: 각 row에 `source_pk = cns_cd`로 고유 식별자 부여
+- **source_pk 부여**: 각 row에 `source_pk = cns_cd`로 고유 식별자 부여. 이후 모든 단계에서 동일 식별자로 추적
 - **cmp_cd별 그룹핑**: 조회 결과를 cmp_cd(센터) 단위로 분류
-- **저장**: `data/counsel_data_d0.json`
+- **저장**: `data/counsel_data.json`
 
 ### 2단계: 4단계 분류 — Admin/Strong/Weak/미분류 (`analyze_sentiment.js`)
-
-기존 리포트1과 동일한 분류 로직을 D-0 데이터에 적용한다.
 
 #### 분류 흐름 (B안)
 
 ```
-D-0 데이터 (~400건/일 기준)
+전체 11,493건
   │
-  ├─ [1] Admin 제외:      ~60건 (14.8%)   ← 행정/운영 기록
-  ├─ [2] Strong 즉시집계:  ~30건 (7.4%)   ← 확정 부정, AI 불필요
-  ├─ [3] Weak → AI 후보:  ~100건 (25.2%)  ← 문맥 검증 필요
-  └─ [4] 미분류 → AI 후보: ~210건 (52.6%) ← 키워드 미매칭
+  ├─ [1] Admin 제외:      1,701건 (14.8%)  ← 행정/운영 기록
+  ├─ [2] Strong 즉시집계:   848건 (7.4%)   ← 확정 부정, AI 불필요
+  ├─ [3] Weak → AI 후보:  2,896건 (25.2%)  ← 문맥 검증 필요
+  └─ [4] 미분류 → AI 후보: 6,048건 (52.6%) ← 키워드 미매칭
 ```
+
+#### B안 선택 근거
+
+| 비교 | A안 (Weak 즉시집계) | **B안 (Weak→AI 검증)** | C안 (절충) |
+|------|--------------------|-----------------------|-----------|
+| Weak 처리 | 즉시 집계 (오탐 포함) | **AI 문맥 검증 후 집계** | 즉시 집계 + 월1회 샘플 |
+| AI 일평균 (D-0) | ~141건 | **~228건** | ~141건 |
+| 퀄리티 | 낮음 | **높음** | 중간 |
+| 오탐 대응 | 없음 | **실시간** | 월1회 |
+
+**B안 선택 이유**: AI 처리량이 감당 가능한 수준(일평균 228건)이므로 퀄리티 우선
 
 #### 판정 상세
 
@@ -431,16 +312,21 @@ D-0 데이터 (~400건/일 기준)
 3. **Weak → AI 후보**: 문맥 검증이 필요한 표현(힘들, 어렵, 속상, 결석 등 180+개) → AI가 문맥 분석하여 오탐 필터링
 4. **미분류 → AI 후보**: 키워드 미매칭 건 → AI가 새로운 부정 감지
 
+#### AI 후보 파일 생성
+
+- Weak + 미분류 중 전처리 필터 통과 건 → `data/ai_candidates.jsonl`
+- 각 후보 row: `source_pk`, `cmp_cd`, `cns_cd`, `std_cd`, `reg_dt`, `cns_st`, `cns_req_ct`, `text_hash`, `classification`(weak/unclassified), `weak_category`
+- 메타데이터(`data/ai_candidates.meta.json`)에 admin/strong/weak/미분류/필터제외/후보 건수 기록
+
 #### 저장
 
-- `data/sentiment_d0.json` (D-0 Strong만 반영, AI 보강 전)
-- `data/ai_candidates.jsonl` (D-0 Weak + 미분류)
+- `data/sentiment_results.json` (Strong만 반영, AI 보강 전)
 
-### 3단계: AI 문맥분석 — D-0 Weak+미분류 대상 (`claude_enhance.js`)
+### 3단계: AI 문맥분석 — Weak+미분류 대상 (`claude_enhance.js`)
 
 #### 목적
 
-- **Weak**: 키워드 매칭됐지만 문맥상 긍정/중립인 건을 AI가 걸러냄
+- **Weak**: 키워드 매칭됐지만 문맥상 긍정/중립인 건을 AI가 걸러냄 (예: "어려운 문제도 잘 풀었습니다" → 부정 아님)
 - **미분류**: 키워드 사전에 없는 부정 표현을 AI가 추가 탐지
 
 #### AI 프롬프트 핵심 지시
@@ -464,118 +350,141 @@ execSync('claude -p --allowedTools "Read,Write,Glob,Grep" --max-turns 30', {
 - 센터(cmp_cd)별로 묶어서 호출 (같은 센터 맥락 유지 → 품질 향상)
 - 500건 초과 센터는 500건씩 분할 (MAX_PER_CALL)
 - **라운드 로빈 방식**: 센터별 청크를 번갈아 호출 (AAA→AAM→ACL→...→AAA→AAM→...)
+  - Rate limit 시에도 모든 센터가 균등하게 분석된 상태로 중단
+  - 특정 센터만 분석 누락되는 상황 방지
 
-#### 리포트2에서의 캐시 정책
+#### 캐시 구조 (`cache/ai_review_cache.json`)
 
-D-0 데이터만 처리하므로 **AI 캐시(`ai_review_cache.json`)는 사용하지 않는다**. 매일 당일 데이터 전량을 분석하며, 과거 데이터를 재분석할 일이 없으므로 캐시 히트/미스 판단이 불필요하다.
+```json
+{
+  "CN002082650": {
+    "text_hash": "be79251a9f32...",
+    "analyzed_at": "2026-03-26T06:22:12.961Z",
+    "categories": ["학습 어려움", "스트레스/압박감"]
+  }
+}
+```
 
-단, 월요일 보강 배치에서 실패 건 재처리 시에는 해당 일자의 데이터를 다시 가져와 분석한다.
+- **key** (`CN002082650`): `cns_cd` (source_pk) — 어떤 상담 건인지 식별
+- **text_hash**: 상담 내용(제목+본문)을 해시 함수로 변환한 고정 길이 지문(fingerprint). **상담 원문은 캐시에 저장하지 않음** (개인정보 보호 + 용량 절감)
+- **categories**: 이전 AI 부정 분석 결과 저장 → 다음 실행 시 재반영
+- **TTL**: 60일 보관, 만료 시 자동 제거
 
-#### 할루시네이션 방지 검증
+#### text_hash 동작 원리
+
+```
+원문: "너무 힘들어서 수업 가기 싫다고 합니다"
+  → hash 함수 → "be79251a9f32471281fda84fbf875824" (32자 고정)
+
+- 원문이 같으면 → 항상 같은 hash
+- 원문이 한 글자라도 바뀌면 → 완전히 다른 hash
+```
+
+#### 캐시 판단 흐름
+
+```
+매일 Step 3 실행 시:
+  DB에서 CN002082650의 상담 내용을 가져옴
+  → hash 계산 → "be79251a..."
+  → 캐시에서 CN002082650 조회 → text_hash 일치?
+
+  ✅ 일치 (캐시 히트)
+    → 내용 안 바뀜 → AI 재호출 불필요
+    → 캐시의 categories를 sentiment_results.json에 자동 반영
+    → 부정 건수에 카운트됨
+
+  ❌ 불일치 (캐시 미스)
+    → 내용이 수정됨 → 당일 Step 3에서 AI 즉시 재분석
+    → 새 결과로 캐시 갱신
+
+  ⚠️ AI 재분석 실패 (Rate limit 등)
+    → FAILED 처리 → 월요일 보강 배치에서 재처리
+```
+
+#### AI 실제 호출 대상 (캐시 미스 항목만)
+
+ai_candidates.jsonl 전체를 캐시(`ai_review_cache.json`)와 대조한 후, 아래 3가지 경우에만 AI를 호출합니다:
+
+| # | 조건 | 설명 |
+|---|------|------|
+| ① | **신규 데이터 (D-0~D-1)** | 캐시에 source_pk 자체가 없는 건 |
+| ② | **내용 수정 건** | source_pk는 있으나 text_hash가 불일치 (상담 내용이 변경됨) |
+| ③ | **이전 FAILED 건** | Rate limit 등으로 AI 분석 실패 → 캐시에 미저장 |
+
+- **캐시 히트** (source_pk + text_hash 일치): AI 호출 없이 캐시의 `categories`를 `sentiment_results.json`에 자동 반영
+- 30일치 데이터를 DB에서 가져오지만, AI 호출은 위 3가지 캐시 미스 건에만 발생 → **비용 및 시간 효율화**
+
+#### 보호 장치
 
 | 장치 | 설명 |
 |------|------|
-| **source_pk 검증** | AI 반환 source_pk가 입력 데이터에 없으면 제거 |
-| **카테고리 검증** | 허용된 12개 카테고리 외 항목 자동 필터링 |
-| **키워드 포맷 검증** | AI 제안 키워드의 타입/공백/길이/중복 검증 후 반영 |
-| **학생 이름 보완** | AI로만 감지된 학생도 std_nm을 student_names에 반영 |
-
-#### 기타 보호 장치
-
-| 장치 | 설명 |
-|------|------|
-| Rate limit 감지 | 한도 도달 시 즉시 중단, 월요일 보강 배치에서 재처리 |
+| 캐시 중복 방지 | source_pk + text_hash 기반 (60일 보관) |
+| 이전 결과 재반영 | 캐시에 categories 저장 → 재분석 없이 복원 |
+| Rate limit 감지 | 한도 도달 시 즉시 중단, 다음 실행에서 이어서 처리 |
 | 2회 재시도 | 5초 간격, 일시적 오류 대응 |
 | Lock 파일 | PID 기반 중복 실행 방지 (60분 타임아웃) |
 | 상태 관리 | PENDING → PROCESSING → DONE/FAILED |
+| **source_pk 검증** | AI 반환 source_pk가 입력 데이터에 없으면 제거 (할루시네이션 방지) |
+| **카테고리 검증** | 허용된 12개 카테고리 외 항목 자동 필터링 |
+| **키워드 포맷 검증** | AI 제안 키워드의 타입/공백/길이/중복 검증 후 반영 |
+| **D-0 부정 건수 보정** | AI 감지 부정 건의 reg_dt로 당일 여부 판별 → d0_negative_count 반영 |
+| **학생 이름 보완** | AI로만 감지된 학생도 std_nm을 student_names에 반영 |
 
 ### 핵심: Step 2↔3↔4 피드백 루프
 
 ```
 Day 1:
-    Step 2: D-0 데이터 Admin/Strong/Weak 분류 → Weak+미분류 ~310건 AI 전송
+    Step 2: Admin/Strong/Weak 분류 → Weak+미분류 ~300건 AI 전송
     Step 3: Claude가 문맥분석 → Weak 오탐 필터링 + 미분류 부정 감지 + 키워드 15개 제안
     Step 4: 15개 중 신규 10개 → keywords.json 'AI_보강_키워드'에 추가
 
 Day 2:
     Step 2: 보강된 키워드로 미분류 감소 → AI 전송량 감소
-    Step 3: 신규 D-0 데이터만 분석
+    Step 3: 캐시 히트로 기처리분 스킵 + 신규만 분석
 
 Day N:
     Step 2: 충분히 보강된 키워드로 대부분 감지 → 미분류 극소
     Step 3: Claude 처리 시간 대폭 단축
 ```
 
+**목적**: AI 처리량을 점진적으로 줄이면서 분석 퀄리티는 유지하는 자가 학습 구조
+
 ### 4단계: 키워드 반영 (`update_keywords.js`)
 
 - Step 3의 제안 키워드를 `keywords.json`의 Weak `AI_보강_키워드` 카테고리에 자동 추가
 
-### 5단계: 누적 병합 (`accumulate_results.js`) ★ 핵심 ★
+### 5단계: HTML 리포트 생성 (`build_html.js`)
 
-#### 처리 흐름
-
-```
-1. sentiment_accumulated.json 로드
-   └─ 파일 없으면 → 빈 구조 { meta: {}, daily_entries: {} } 생성
-
-2. sentiment_d0.json (오늘 분석 결과) 로드
-
-3. daily_entries에 오늘 날짜 키로 추가
-   └─ 동일 날짜 키가 이미 있으면 → 덮어쓰기 (당일 재실행 대응)
-
-4. 30일 초과 데이터 정리
-   └─ daily_entries의 날짜 키를 정렬 → 오늘 기준 30일 이전 키 삭제
-
-5. meta 정보 갱신
-   └─ last_updated, date_range, total_records, days_accumulated
-
-6. sentiment_accumulated.json 저장
-
-7. sentiment_previous.json 갱신 (NEW 뱃지 비교용)
-```
-
-#### 보호 장치
-
-| 장치 | 설명 |
-|------|------|
-| **원자적 쓰기** | 임시 파일에 먼저 쓰고 rename (쓰기 중 비정상 종료 대응) |
-| **일별 백업** | 병합 전 `data/backup/accumulated_YYYY-MM-DD.json`에 백업 |
-| **중복 병합 방지** | 동일 날짜 키 존재 시 덮어쓰기 (멱등성 보장) |
-| **무결성 검증** | 로드 시 JSON 파싱 실패 → 백업에서 복원 시도 |
-
-### 6단계: HTML 리포트 생성 (`build_html.js`)
-
-- **데이터 소스**: `data/sentiment_accumulated.json` (누적 최대 30일)
-- **집계 방식**: `daily_entries`의 전체 날짜를 순회하며 센터별/학생별 부정 건수 합산
 - **디자인 기준**: `sample_report.html`의 CSS/HTML 구조를 그대로 사용 (max-width: 480px 모바일 레이아웃)
 - **HTML 구성 요소**:
-  1. **topbar**: 센터명 + 리포트 기간 (누적 시작일 ~ 최신일)
-  2. **기간 요약 카드**: 누적 기간 / D-0 신규 건수 비교 테이블
-  3. **부정 감성 키워드 빈도**: 상위 8개, 이모지 포함, 바차트. 빈도 합산 = 부정 감성 건수
+  1. **topbar**: 센터명 + 리포트 기간
+  2. **기간 요약 카드**: periodRow + compare-table (D-30 누적 / D-0 누적 비교 테이블)
+  3. **부정 감성 키워드 빈도**: 상위 8개, 이모지 포함, 바차트(bar-bg/bar-fill). 빈도 합산 = 부정 감성 건수
   4. **위험 학생 알림 배너** (alertBanner): 등급이 "위험"인 학생 수만 카운트하여 표시
-  5. **평균 초과 학생 리스트**: data-table
-     - 컬럼: **학생명** / 학생코드 / 부정 건수 / 초과율(%) / 등급 / 신규
+  5. **평균 초과 학생 리스트**: data-table (table-layout: fixed, colgroup으로 열 너비 고정)
+     - 컬럼: **학생명** / 학생코드 / 부정 건수 / 초과율(정수 반올림, %) / 등급 / 신규
      - 위험등급: 평균×2 초과 = 위험, 평균×1.5 초과 = 주의, 그 외 = 관심
      - **NEW 태그**: 이전 실행(`data/sentiment_previous.json`)과 비교하여 신규 평균초과 학생에 표시
-  6. **푸터**: 생성일시 (KST) + 누적 일수 표시
+  6. **푸터**: 생성일시 (KST)
 - **로컬 저장**: `reports/{cmp_cd}.html`
+- **이전 결과 백업**: 현재 분석 결과를 `data/sentiment_previous.json`으로 복사 (다음 실행 시 NEW 판별용)
 
-### 7단계: GitHub 업로드 (`generate_and_upload.js`)
+### 6단계: GitHub 업로드 (`generate_and_upload.js`)
 
 - **GitHub 업로드**: `counsel-report/{cmp_cd}.html` 경로에 업로드 (덮어쓰기 — sha 조회 후 갱신)
 - **저장소**: `jichang999-dotcom/tes1` (main 브랜치)
 - **링크 생성**: `https://jichang999-dotcom.github.io/tes1/counsel-report/{cmp_cd}.html`
 - **링크 목록 저장**: `report_links.csv`에 전체 결과 기록
 
-### 8단계: Google Sheets 업데이트 (`update_sheets.js`)
+### 7단계: Google Sheets 업데이트 (`update_sheets.js`)
 
 - Google 서비스 계정으로 "리포트 제작" 시트에서 **PK = "A1"인 행**만 필터링하여 cmp_cd 매칭 행의 발송링크(E열) 업데이트
 
-### 9단계: 원시 데이터 업로드 (`update_raw_sheet.js`)
+### 8단계: 원시 데이터 업로드 (`update_raw_sheet.js`)
 
-- D-0 상담 원데이터 + 키워드 매칭 결과를 Google Sheets "키워드raw" 시트에 누적
+- 상담 원데이터 + 키워드 매칭 결과를 Google Sheets "키워드raw" 시트에 누적
 
-### 10단계: n8n Webhook 호출 (`trigger_webhook.js`)
+### 9단계: n8n Webhook 호출 (`trigger_webhook.js`)
 
 - 업로드 성공한 리포트 목록(cmp_cd, 센터명, 링크, 상담건수)을 n8n Webhook으로 POST 전송
 
@@ -593,7 +502,7 @@ Webhook (POST) → Read Report Config (read: sheet) → Filter1 → Create a mes
 1. **Webhook** — 로컬 배치에서 전송한 POST 수신
 2. **Read Report Config** — "발송 대상자" 시트 읽기
 3. **Filter1** — 이메일(구글챗ID) + 발송링크 모두 있는 행만 통과
-4. **Create a message** — 구글챗 DM 발송
+4. **Create a message** — 구글챗 DM 발송: `안녕하세요 {{이름}}님 {{cmp_nm}} 리포트 링크입니다. {{발송링크}}`
 5. **Log Chat Send** — "발송 로그" 시트에 발송일시(KST), 구글챗ID, 발송내용 기록
 6. **Read Business Units** — "사업부" 시트에서 이메일 주소 읽기
 7. **Prepare BU Email** — 센터별 리포트 링크 목록 + 발송일시로 메일 본문 생성
@@ -601,9 +510,7 @@ Webhook (POST) → Read Report Config (read: sheet) → Filter1 → Create a mes
 
 ---
 
-## 9. 키워드 사전 (keywords.json) — 3단계 구조
-
-기존 리포트1과 동일한 키워드 사전을 공유한다.
+## 8. 키워드 사전 (keywords.json) — 3단계 구조
 
 ### Admin 키워드 (22개) — 제외 대상
 
@@ -640,7 +547,7 @@ Webhook (POST) → Read Report Config (read: sheet) → Filter1 → Create a mes
 
 ---
 
-## 10. 필터 조건
+## 9. 필터 조건
 
 ### Admin 판정 (`analyze_sentiment.js`)
 
@@ -659,43 +566,46 @@ Webhook (POST) → Read Report Config (read: sheet) → Filter1 → Create a mes
 
 ---
 
-## 11. 운영 모드
+## 10. 운영 모드
 
 ### 일일 배치 (화~토 19:00 KST, 일/월 제외)
 
 | 항목 | 내용 |
 |------|------|
-| DB 조회 대상 | **D-0 (당일) 데이터만** |
-| 일평균 DB 조회량 | **~400건** (기존 ~11,000건 대비 96% 감소) |
-| Admin 제외 | ~60건 자동 제외 |
-| Strong | ~30건 즉시 부정 집계 |
-| Weak + 미분류 | ~310건 AI 전송 → 문맥 분석 후 집계 |
-| 누적 병합 | D-0 결과를 누적 파일에 추가, 30일 초과 데이터 정리 |
-| 리포트 생성 | 누적 데이터(최대 30일) 기반 |
+| 대상 데이터 | D-0~D-1 |
+| Admin 제외 | 행정/운영 기록 자동 제외 |
+| Strong | 즉시 학생별 부정 건수 반영 |
+| Weak + 미분류 | AI 전송 → 문맥 분석 후 집계 |
+| 일평균 AI 처리량 | D-0: ~228건 / D-0~D-1: ~427건 |
 
 ### 월요일 보강 배치
 
 | 항목 | 내용 |
 |------|------|
-| 대상 | 지난주 실패/미전송 건 + **일요일분 D-0 데이터** |
+| 대상 | 지난주 실패/미전송/후순위 밀린 건 |
 | 정상 운영 시 | 100~300건 |
+| 맥시멈 (전체 장애) | ~1,362건 (주간 전체) |
 | 추가 작업 | suggested_keywords 기반 키워드 보강 검토/자동 반영 |
 
-### 초기 투입 (Bootstrap)
+### D-0 vs D-0~D-1 AI처리량 (실측 데이터)
 
-시스템 최초 가동 또는 누적 파일 손실 시, 30일치 데이터를 일괄 투입한다.
-
-```
-node bootstrap_accumulate.js
-  → MariaDB에서 D-30 ~ D-0 전체 조회
-  → 일자별로 분리하여 각각 분류 + AI 분석
-  → sentiment_accumulated.json에 30일치 일괄 기록
-  → 이후 일일 배치로 정상 운영 전환
-```
+| 운영일 | D-0 AI대상 | D-0~D-1 AI대상 |
+|--------|-----------|---------------|
+| 03-17(월) | 287 | 296 |
+| 03-18(화) | 224 | 511 |
+| 03-19(수) | 259 | 483 |
+| 03-20(목) | 253 | 512 |
+| 03-21(금) | 315 | 568 |
+| 03-22(토) | 2 | 317 |
+| 03-23(일) | 22 | 24 |
+| 03-24(월) | 292 | 314 |
+| 03-25(화) | 325 | 617 |
+| 03-26(수) | 300 | 625 |
+| **일평균** | **228건** | **427건** |
 
 ---
 
-## 12. 분석 대상 센터 (13개)
+## 11. 분석 대상 센터 (13개)
 
 | 코드 | 센터명 | 최근 상담건수 |
 |------|--------|-------------|
@@ -715,30 +625,23 @@ node bootstrap_accumulate.js
 
 ---
 
-## 13. 에러 처리 및 로깅
+## 12. 에러 처리 및 로깅
 
 ### 에러 처리 전략
 
-- **Step 1, 2, 5, 6, 7** 실패 시 → **배치 중단** (핵심: 데이터 추출, 분류, 누적, 리포트 생성, 업로드)
-- **Step 3, 4, 8, 9, 10** 실패 시 → **경고 후 계속** (보조 기능)
+- **Step 1, 2, 5, 6** 실패 시 → **배치 중단** (핵심 리포트 생성/배포)
+- **Step 3, 4, 7, 8, 9** 실패 시 → **경고 후 계속** (보조 기능)
 
-Step 3이 실패해도 Step 2의 Strong 키워드 분석 결과만으로 D-0 데이터가 누적되고 리포트가 정상 생성됩니다.
-
-**Step 5 (누적 병합) 실패 시**: 가장 치명적. 원자적 쓰기 + 백업으로 데이터 손실 방지.
+Step 3이 실패해도 Step 2의 Strong 키워드 분석 결과만으로 리포트가 정상 생성됩니다.
+**월요일 보강 배치에서 주간 미처리 건 일괄 재처리.**
 
 ### Step 3 Rate Limit 대응
 
-- Rate limit 감지 시 남은 호출 즉시 중단
-- 성공 건까지의 결과만 D-0 결과에 반영
-- 미처리 건은 월요일 보강 배치에서 재처리
-
-### 누적 파일 장애 대응
-
-| 장애 유형 | 대응 |
-|-----------|------|
-| JSON 파싱 실패 | 직전 일별 백업에서 복원 |
-| 파일 삭제/손실 | bootstrap 재실행 (30일치 일괄 투입) |
-| 디스크 용량 부족 | 30일 초과 백업 자동 정리 (최근 7일 백업만 유지) |
+- Rate limit 감지 시 남은 호출 즉시 중단 (불필요한 재시도 방지)
+- 성공한 건은 캐시에 결과(categories) 포함 저장
+- 다음 실행 시 캐시 히트된 건은 AI 호출 없이 결과 재반영
+- 미처리 건만 신규 호출 → 여러 날에 걸쳐 점진적 완료
+- **월요일 보강 배치에서 주간 미처리 건 일괄 재처리**
 
 ### n8n 워크플로우 에러 처리
 
@@ -752,52 +655,59 @@ Step 3이 실패해도 Step 2의 Strong 키워드 분석 결과만으로 D-0 데
 
 ---
 
-## 14. 예상 소요 시간
+## 13. 예상 소요 시간
 
 | Step | 소요 시간 | 비고 |
 |------|----------|------|
-| 1 (DB D-0 추출) | **< 30초** | D-0만 조회 → 기존 1~3분에서 대폭 단축 |
-| 2 (4단계 분류) | < 30초 | D-0 ~400건 대상 |
-| 3 (Claude AI) | 5~15분 → 점차 단축 | D-0 Weak+미분류만 분석 + 피드백 루프 효과 |
-| 4 (키워드 갱신) | < 1분 | |
-| 5 (누적 병합) | **< 10초** | JSON 병합 + 30일 정리 |
-| 6 (HTML 생성) | 1~2분 | 누적 데이터 기반 |
-| 7 (GitHub 업로드) | 2~5분 | |
-| 8 (Sheets 링크) | 1~2분 | |
-| 9 (Raw 데이터) | 1~2분 | D-0 데이터만 업로드 |
-| 10 (웹훅 알림) | < 1분 | |
-| **합계** | **12~30분 → 점차 단축** | 기존 20~45분 대비 단축 |
+| 1 (DB 추출) | 1~3분 | |
+| 2 (4단계 분류) | 1~2분 | Admin/Strong/Weak/미분류 판정 |
+| 3 (Claude AI) | 10~25분 → 점차 단축 | Weak+미분류 문맥분석 + 피드백 루프 효과 + 캐시 재반영 |
+| 4 (키워드 갱신) | <1분 | |
+| 5 (HTML 생성) | 1~2분 | |
+| 6 (GitHub 업로드) | 2~5분 | |
+| 7 (Sheets 링크) | 1~2분 | |
+| 8 (Raw 데이터) | 2~5분 | |
+| 9 (웹훅 알림) | <1분 | |
+| **합계** | **20~45분 → 점차 단축** | |
 
 ---
 
-## 15. Claude Code 사용량 및 비용
+## 14. Claude Code 사용량 및 비용
 
 ### Claude Code는 구독형 (API 과금 아님)
 
+Claude Code CLI는 **Anthropic 구독 플랜** 기반으로 동작합니다. API 토큰 과금이 아닙니다.
+
 | 플랜 | 월 비용 | 사용량 | 비고 |
 |------|---------|--------|------|
-| **Pro** | $20/월 | 기본 사용량 | D-0 ~310건/일 처리 시 Rate limit 가능성 |
-| **Max (5x)** | $100/월 | Pro 대비 5배 | 권장 플랜 |
+| **Pro** | $20/월 | 기본 사용량 | 일 500건 처리 시 Rate limit 가능성 높음 |
+| **Max (5x)** | $100/월 | Pro 대비 5배 | 일 500건 처리 권장 플랜 |
 | **Max (20x)** | $200/월 | Pro 대비 20배 | 여유 있는 운영 |
 
-### 리포트1 대비 AI 사용량 비교
+### 일 500건 분석 시 사용량 추산
 
-| 항목 | 리포트1 | **리포트2** |
-|------|---------|------------|
-| AI 분석 대상 | D-0~D-1 캐시 미스 건 | **D-0 전량** |
-| 일평균 AI 호출 | ~228건 | **~310건 (D-0 Weak+미분류 전량)** |
-| 캐시 효과 | 있음 (기분석 건 스킵) | **없음 (매일 D-0 전량 분석)** |
-| AI 품질 | 동일 | 동일 |
+| 항목 | 추산 |
+|------|------|
+| 일일 상담 건수 | ~500건 |
+| Admin 제외 후 | ~350~400건 |
+| Strong 즉시 집계 (AI 불필요) | ~50~100건 |
+| **AI 분석 대상 (Weak + 미분류)** | **~250~350건** |
+| 센터별 배치 호출 횟수 | ~15~25회/일 |
+| 키워드 보강 안정화 후 | AI 대상 ~200건/일 수준으로 감소 |
 
-> 리포트2는 캐시를 사용하지 않으므로 일평균 AI 호출량이 다소 증가할 수 있으나, DB 부하 감소와 실행 시간 단축으로 상쇄됩니다.
+### 권장 플랜
+
+- **초기 운영 (안정화 전)**: **Max 5x ($100/월)** — AI 대상 건수가 많고, 재시도/월요일 보강까지 고려
+- **안정화 후**: **Pro ($20/월)** 가능성 — 키워드 보강으로 AI 대상 감소 후 재평가
+- Rate limit 발생 시: 성공 건은 캐시 보존, 미처리 건은 다음 실행 시 자동 소화
 
 ---
 
-## 16. 외부 연동
+## 15. 외부 연동
 
 | 서비스 | 용도 | 접속 정보 |
 |--------|------|----------|
-| MariaDB | 상담 데이터 원본 (D-0만 조회) | db_square (61.74.65.40:3306) |
+| MariaDB | 상담 데이터 원본 | db_square (61.74.65.40:3306) |
 | Claude CLI | AI 문맥 감성 분석 | claude -p (stdin 기반) |
 | GitHub Pages | HTML 리포트 배포 | jichang999-dotcom.github.io/tes1/counsel-report/ |
 | Google Sheets | 리포트 링크 + 원데이터 | 서비스 계정 (credentials.json) |
@@ -805,23 +715,18 @@ Step 3이 실패해도 Step 2의 Strong 키워드 분석 결과만으로 D-0 데
 
 ---
 
-## 17. 운영 가이드
+## 16. 운영 가이드
 
 ### 수동 실행
 
 ```bash
 cd C:\Users\User\Desktop\test
-run_report2.bat
+run_report.bat
 ```
 
 월요일 보강 배치 수동 실행:
 ```bash
-run_report2_monday.bat
-```
-
-초기 투입 (30일치 일괄):
-```bash
-node bootstrap_accumulate.js
+run_report_monday.bat
 ```
 
 개별 단계 실행:
@@ -830,7 +735,6 @@ node fetch_data.js
 node analyze_sentiment.js
 node claude_enhance.js
 node update_keywords.js
-node accumulate_results.js
 node build_html.js
 node generate_and_upload.js
 node update_sheets.js
@@ -841,35 +745,34 @@ node trigger_webhook.js
 ### 스케줄러 상태 확인
 
 ```bash
-schtasks /query /tn "AI_Report2_Daily" /v /fo list
-schtasks /query /tn "AI_Report2_Monday" /v /fo list
+schtasks /query /tn "AI_Report_Daily" /v /fo list
+schtasks /query /tn "AI_Report_Monday" /v /fo list
 ```
 
 ### 주의사항
 
-1. **PC 전원**: Windows 작업 스케줄러는 PC가 켜져 있어야 실행됩니다.
-2. **네트워크**: MariaDB, GitHub API, n8n Cloud에 접근 가능한 환경 필요.
-3. **환경변수**: `.env`와 `credentials.json` 파일은 절대 Git에 커밋하지 마세요.
+1. **PC 전원**: Windows 작업 스케줄러는 PC가 켜져 있어야 실행됩니다. 19:00에 PC가 꺼져 있으면 해당 일자 리포트가 생성되지 않습니다.
+2. **네트워크**: MariaDB(61.74.65.40), GitHub API, n8n Cloud에 모두 접근 가능한 네트워크 환경이어야 합니다.
+3. **환경변수**: `.env` 파일에 모든 접속 정보가 정확히 입력되어야 합니다. `.env`와 `credentials.json` 파일은 절대 Git에 커밋하지 마세요.
 4. **n8n 워크플로우**: AI Report Automation v4가 Active 상태여야 Webhook 호출이 정상 작동합니다.
-5. **Claude Code**: `claude` CLI 명령이 사용 가능해야 합니다.
-6. **누적 파일 관리**: `data/sentiment_accumulated.json`이 핵심 데이터. **절대 수동 삭제 금지**. 손실 시 `bootstrap_accumulate.js` 실행.
-7. **백업 확인**: `data/backup/` 폴더에 일별 백업이 정상 생성되는지 주기적 확인.
-8. **일요일 공백**: 일요일 미실행으로 해당일 데이터 누락. 월요일 보강 배치에서 자동 보충.
-9. **분석 확정 원칙**: D-0 분석 결과는 확정값으로 누적됨. DB에서 과거 상담이 수정되더라도 이미 누적된 결과는 변경하지 않는 것이 본 시스템의 설계 의도.
+5. **Claude Code**: `claude` CLI 명령이 사용 가능해야 합니다. Rate limit 발생 시 월요일 보강 배치에서 자동 재처리.
+6. **감성분석 키워드**: `keywords.json`이 3단계 구조(Admin/Strong/Weak). Strong은 보수적(확정 부정만), Weak는 넓게 설정.
+7. **전처리 필터**: `config/filter_rules.json`에서 최소 텍스트 길이, Admin rescue 설정을 관리.
+8. **시간 기준**: 모든 날짜/시간은 KST(UTC+9) 기준.
+9. **캐시 관리**: `cache/ai_review_cache.json`은 60일 초과 항목 자동 정리. 수동 초기화 시 해당 파일 삭제 (다음 실행 시 전체 재분석).
 10. **Lock 파일**: `data/.claude_enhance.lock` — 비정상 종료 시 60분 후 자동 해제, 수동 삭제 가능.
 
 ---
 
-## 18. 기술 스택
+## 17. 기술 스택
 
 | 항목 | 상세 |
 |------|------|
 | 런타임 | Node.js |
 | DB 클라이언트 | mysql2 |
-| AI | Claude Code CLI (stdin 파이프, 구독형) |
+| AI | Claude CLI (stdin 파이프), @anthropic-ai/sdk |
 | Google API | googleapis |
 | 환경변수 | dotenv |
-| 자동화 | Windows 작업 스케줄러 + run_report2.bat |
+| 자동화 | Windows 작업 스케줄러 + run_report.bat |
 | 리포트 배포 | GitHub Pages |
-| 발송 | n8n Cloud (구글챗 DM + Gmail) |
 | 알림 | n8n Webhook |

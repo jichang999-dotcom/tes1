@@ -221,7 +221,7 @@ body {
 <div class="topbar">
   <div>
     <div class="topbar-title">와이즈만 강서센터</div>
-    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-03-31 ~ 2026-04-01</div>
+    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-04-01 ~ 2026-04-02</div>
   </div>
 </div>
 
@@ -237,7 +237,7 @@ body {
       <div class="icon">📅</div>
       <div>
         <div class="label">분석 기간</div>
-        <div class="value">2026-03-31 ~ 2026-04-01</div>
+        <div class="value">2026-04-01 ~ 2026-04-02</div>
         <div style="margin-top:6px;"><span style="display:inline-block;font-size:11px;color:var(--muted);background:var(--bg);padding:2px 10px;border-radius:12px;border:1px solid var(--border);">🚫 일요일·월요일 제외</span></div>
       </div>
     </div>
@@ -247,24 +247,24 @@ body {
         <tr>
           <th></th>
           <th class="col-d30">2일 누적</th>
-          <th class="col-d0">4/1 당일</th>
+          <th class="col-d0">4/2 당일</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>총 상담 건수</td>
-          <td class="val" style="color:var(--accent);">29</td>
           <td class="val" style="color:var(--accent);">13</td>
+          <td class="val" style="color:var(--accent);">0</td>
         </tr>
         <tr>
           <td>부정 감성 건수</td>
-          <td class="val" style="color:var(--danger);">6</td>
           <td class="val" style="color:var(--danger);">4</td>
+          <td class="val" style="color:var(--danger);">0</td>
         </tr>
         <tr>
           <td>부정 비율</td>
-          <td class="val" style="color:var(--warning);">20.7%</td>
           <td class="val" style="color:var(--warning);">30.8%</td>
+          <td class="val" style="color:var(--warning);">0.0%</td>
         </tr>
       </tbody>
     </table>
@@ -279,31 +279,24 @@ body {
     <ul class="keywordList">
       <li class="keywordItem">
         <div class="kw">😤 스트레스/압박감</div>
-        <div class="cnt">5건</div>
+        <div class="cnt">3건</div>
       </li>
       <li>
         <div class="bar-bg"><div class="bar-fill" style="width:100%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">😰 불안/걱정</div>
-        <div class="cnt">2건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:40%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">📚 학습 어려움</div>
-        <div class="cnt">1건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:20%"></div></div>
       </li>
       <li class="keywordItem">
         <div class="kw">😣 부적응</div>
         <div class="cnt">1건</div>
       </li>
       <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:20%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:33%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">😰 불안/걱정</div>
+        <div class="cnt">1건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:33%"></div></div>
       </li>
     </ul>
   </div>
@@ -313,8 +306,8 @@ body {
   <div class="alertBanner" style="background:var(--accent-light);border:1px solid #c7d2fe;">
     <div class="alert-icon">🆕</div>
     <div>
-      <strong>신규 감지 학생 1명</strong><br>
-      이전 분석에 없던 학생이 새롭게 평균 초과 목록에 포함되었습니다.
+      <strong>신규 감지 학생 0명</strong><br>
+      이번 분석에서 신규 감지된 학생은 없습니다.
     </div>
   </div>
 
@@ -325,40 +318,14 @@ body {
       평균 초과 학생 리스트(2일 누적)
     </div>
     <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">
-      와이즈만 강서센터 내 학생 평균 부정 건수: <strong style="color:var(--text);">1.2건</strong> — 평균 초과 학생 전체를 표시합니다.
+      와이즈만 강서센터 내 학생 평균 부정 건수: <strong style="color:var(--text);">1.0건</strong> — 평균 초과 학생 전체를 표시합니다.
     </p>
-    <table class="data-table">
-      <colgroup>
-        <col class="col-name">
-        <col class="col-code">
-        <col class="col-count">
-        <col class="col-grade">
-        <col class="col-new">
-      </colgroup>
-      <thead>
-        <tr>
-          <th>학생명</th>
-          <th>학생코드</th>
-          <th>부정 건수</th>
-          <th>등급</th>
-          <th>신규</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>조민솔</td>
-          <td>CS251001490</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td><span class="tag new">NEW</span></td>
-        </tr>
-      </tbody>
-    </table>
+    <p style="padding:12px;color:var(--muted);">평균을 초과하는 학생이 없습니다.</p>
   </div>
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-04-01 23:22<br>
+    분석 모델: Claude API | 생성일: 2026-04-02 10:00<br>
     데이터 기준<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>

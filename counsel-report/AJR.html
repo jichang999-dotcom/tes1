@@ -254,13 +254,7 @@ body {
   background: var(--bg);
   border-color: var(--accent);
 }
-.raw-table { min-width: 700px; width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
-.raw-table colgroup .col-date { width: 76px; }
-.raw-table colgroup .col-name { width: 52px; }
-.raw-table colgroup .col-stdcode { width: 100px; }
-.raw-table colgroup .col-title { width: auto; }
-.raw-table colgroup .col-kw { width: 90px; }
-.raw-table colgroup .col-cat { width: 90px; }
+.raw-table { width: 100%; border-collapse: collapse; font-size: 12px; }
 .raw-table thead th {
   background: var(--accent);
   color: #fff;
@@ -275,18 +269,15 @@ body {
 .raw-table thead th:first-child { border-radius: 8px 0 0 0; }
 .raw-table thead th:last-child { border-radius: 0 8px 0 0; }
 .raw-table tbody td {
-  padding: 8px 4px;
+  padding: 8px 6px;
   border-bottom: 1px solid var(--border);
   text-align: center;
   font-size: 12px;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .raw-table tbody td.td-title {
   text-align: left;
   white-space: normal;
-  word-break: break-all;
 }
 .raw-table tbody tr:hover { background: var(--accent-light); }
 .raw-table tbody tr:last-child td { border-bottom: none; }
@@ -418,7 +409,7 @@ body {
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-04-03 12:17<br>
+    분석 모델: Claude API | 생성일: 2026-04-03 12:21<br>
     데이터 기준<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>
@@ -436,7 +427,7 @@ body {
   </div>
 </div>
 
-<div class="container" style="padding-top:12px;max-width:740px;">
+<div class="container" style="padding-top:12px;max-width:700px;">
 
   <button class="btn-back" onclick="showSummary()">← 기간 요약으로 돌아가기</button>
 
@@ -447,14 +438,6 @@ body {
     </div>
     <div style="overflow-x:auto;">
     <table class="raw-table">
-      <colgroup>
-        <col class="col-date">
-        <col class="col-name">
-        <col class="col-stdcode">
-        <col class="col-title">
-        <col class="col-kw">
-        <col class="col-cat">
-      </colgroup>
       <thead>
         <tr>
           <th>상담일자</th>

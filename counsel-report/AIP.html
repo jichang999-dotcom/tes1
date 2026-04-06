@@ -309,7 +309,7 @@ body {
 <div class="topbar">
   <div>
     <div class="topbar-title">와이즈만 일산후곡센터</div>
-    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-04-01 ~ 2026-04-04</div>
+    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-04-01 ~ 2026-04-06</div>
   </div>
 </div>
 
@@ -322,14 +322,13 @@ body {
         <div class="icon" style="background:linear-gradient(135deg,var(--accent),#8b5cf6);color:#fff;">📊</div>
         기간 요약
       </div>
-      <button class="btn-raw" onclick="showRaw()">raw 이동 →</button>
+      
     </div>
     <div class="periodRow">
       <div class="icon">📅</div>
       <div>
         <div class="label">분석 기간</div>
-        <div class="value">2026-04-01 ~ 2026-04-04</div>
-        
+        <div class="value">2026-04-01 ~ 2026-04-06</div>
       </div>
     </div>
     <!-- D-30 / D-0 비교 -->
@@ -337,25 +336,25 @@ body {
       <thead>
         <tr>
           <th></th>
-          <th class="col-d30">4일 누적</th>
-          <th class="col-d0">4/4 당일</th>
+          <th class="col-d30">6일 누적</th>
+          <th class="col-d0">4/6 당일</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>총 상담 건수</td>
-          <td class="val" style="color:var(--accent);">18</td>
-          <td class="val" style="color:var(--accent);">6</td>
+          <td class="val" style="color:var(--accent);">20</td>
+          <td class="val" style="color:var(--accent);">2</td>
         </tr>
         <tr>
           <td>부정 감성 건수</td>
           <td class="val" style="color:var(--danger);">6</td>
-          <td class="val" style="color:var(--danger);">2</td>
+          <td class="val" style="color:var(--danger);">0</td>
         </tr>
         <tr>
           <td>부정 비율</td>
-          <td class="val" style="color:var(--warning);">33.3%</td>
-          <td class="val" style="color:var(--warning);">33.3%</td>
+          <td class="val" style="color:var(--warning);">30.0%</td>
+          <td class="val" style="color:var(--warning);">0.0%</td>
         </tr>
       </tbody>
     </table>
@@ -365,7 +364,7 @@ body {
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--danger-light);color:var(--danger);">💬</div>
-      부정 감성 키워드 건수(4일 누적)
+      부정 감성 키워드 건수(6일 누적)
     </div>
     <ul class="keywordList">
       <li class="keywordItem">
@@ -413,7 +412,7 @@ body {
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--danger-light);color:var(--danger);">⚠️</div>
-      평균 초과 학생 리스트(4일 누적)
+      평균 초과 학생 리스트(6일 누적)
     </div>
     <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">
       와이즈만 일산후곡센터 내 학생 평균 부정 건수: <strong style="color:var(--text);">1.0건</strong> — 평균 초과 학생 전체를 표시합니다.
@@ -423,7 +422,7 @@ body {
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-04-04 19:00<br>
+    분석 모델: Claude API | 생성일: 2026-04-06 17:10<br>
     데이터 기준<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>
@@ -437,7 +436,7 @@ body {
 <div class="topbar">
   <div>
     <div class="topbar-title">와이즈만 일산후곡센터</div>
-    <div class="topbar-sub">키워드 raw 데이터 · 2026-04-01 ~ 2026-04-04</div>
+    <div class="topbar-sub">키워드 raw 데이터 · 2026-04-01 ~ 2026-04-06</div>
   </div>
 </div>
 
@@ -448,72 +447,9 @@ body {
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--accent-light);color:var(--accent);">📋</div>
-      키워드 raw (부정 판정 6건)
+      키워드 raw (부정 판정 0건)
     </div>
-    <div style="overflow-x:auto;">
-    <table class="raw-table">
-      <thead>
-        <tr>
-          <th>상담일자</th>
-          <th>학생명</th>
-          <th>학생코드</th>
-          <th>상담제목</th>
-          <th>감지 키워드</th>
-          <th>감성 카테고리</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>2026-04-04</td>
-          <td>이햇빛</td>
-          <td>CS240501772</td>
-          <td class="td-title">형성평가 형편없음 / 설명회예약</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>조승우</td>
-          <td>CS220500602</td>
-          <td class="td-title">형성평가후기 /간담회예약</td>
-          <td><span class="tag-kw">사춘기/반항</span></td>
-          <td><span class="tag-kw">사춘기/반항</span></td>
-        </tr>
-        <tr style="border-top:2px solid var(--accent);">
-          <td>2026-04-03</td>
-          <td>반하은</td>
-          <td>CS221201411</td>
-          <td class="td-title">정기 상담</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>이나경</td>
-          <td>CS241104594</td>
-          <td class="td-title">3월4주차보강 /4월26알요일1시30분예약하심</td>
-          <td><span class="tag-kw">건강문제</span></td>
-          <td><span class="tag-kw">건강문제</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>김윤우</td>
-          <td>CS260300917</td>
-          <td class="td-title">수학학원다니기 싫다고 cms숙제 줄이셔야 한다고</td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr style="border-top:2px solid var(--accent);">
-          <td>2026-04-02</td>
-          <td>조유담</td>
-          <td>CS240401629</td>
-          <td class="td-title">진도 관련 상담</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-        </tr>
-      </tbody>
-    </table>
-    </div>
+    <p style="padding:12px;color:var(--muted);">부정 판정 데이터가 없습니다.</p>
   </div>
 
   <div class="footer">

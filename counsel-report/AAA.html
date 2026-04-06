@@ -322,7 +322,7 @@ body {
         <div class="icon" style="background:linear-gradient(135deg,var(--accent),#8b5cf6);color:#fff;">📊</div>
         기간 요약
       </div>
-      
+      <button class="btn-raw" onclick="showRaw()">raw 이동 →</button>
     </div>
     <div class="periodRow">
       <div class="icon">📅</div>
@@ -525,7 +525,7 @@ body {
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-04-06 17:10<br>
+    분석 모델: Claude API | 생성일: 2026-04-06 22:19<br>
     데이터 기준<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>
@@ -550,9 +550,392 @@ body {
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--accent-light);color:var(--accent);">📋</div>
-      키워드 raw (부정 판정 0건)
+      키워드 raw (부정 판정 46건)
     </div>
-    <p style="padding:12px;color:var(--muted);">부정 판정 데이터가 없습니다.</p>
+    <div style="overflow-x:auto;">
+    <table class="raw-table">
+      <thead>
+        <tr>
+          <th>상담일자</th>
+          <th>학생명</th>
+          <th>학생코드</th>
+          <th>상담제목</th>
+          <th>감지 키워드</th>
+          <th>감성 카테고리</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2026-04-04</td>
+          <td>송재민</td>
+          <td>BS200500454</td>
+          <td class="td-title">휴회확정</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>김라은</td>
+          <td>CS220803739</td>
+          <td class="td-title">휴회상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>김라은</td>
+          <td>CS220803739</td>
+          <td class="td-title">[4월 과학 휴회의사]</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>이강은</td>
+          <td>CS230101634</td>
+          <td class="td-title">휴회확정</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>최담주</td>
+          <td>CS250204048</td>
+          <td class="td-title">휴회상담(부재17:41)</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>윤태하</td>
+          <td>CS241102838</td>
+          <td class="td-title">휴회상담(부재16:03)</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>김시우B</td>
+          <td>CS230100637</td>
+          <td class="td-title">3월정기상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>육현후</td>
+          <td>CS240500805</td>
+          <td class="td-title">4월 정기 /  재원생 간담회 참석</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>김선율</td>
+          <td>CS230500242</td>
+          <td class="td-title">4월 정기 /  중등 승급 일정 안내/ 4월 1주차 결석보강 / 4/18 결석예정</td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>박서준B</td>
+          <td>BS190400194</td>
+          <td class="td-title">[4월 과학 반 이동]</td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>정윤우</td>
+          <td>CS241001017</td>
+          <td class="td-title">수업중 무릎다침?</td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>정지용</td>
+          <td>CS211102283</td>
+          <td class="td-title">[결석/개인보강] 4/4(토) 2교시 결석 / 노셔틀</td>
+          <td><span class="tag-kw">건강문제</span></td>
+          <td><span class="tag-kw">건강문제</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>이영재</td>
+          <td>CS220303543</td>
+          <td class="td-title">특강취소 /학생거부</td>
+          <td><span class="tag-kw">건강문제</span></td>
+          <td><span class="tag-kw">건강문제</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-03</td>
+          <td>강태현</td>
+          <td>CS221100713</td>
+          <td class="td-title">-</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>육현후</td>
+          <td>CS240500805</td>
+          <td class="td-title">요청상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>조준희</td>
+          <td>CS251100175</td>
+          <td class="td-title">4월 정기</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>진민건</td>
+          <td>CS250802961</td>
+          <td class="td-title">성대경시 환불처리 확인 요청 -> 다시 처리함 </td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>권현욱</td>
+          <td>CS260303110</td>
+          <td class="td-title">첫수업후상담 </td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>신가원</td>
+          <td>CS221104019</td>
+          <td class="td-title">[4월 과학 휴회의사]</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>조윤아B</td>
+          <td>CS210700516</td>
+          <td class="td-title">3/31 결석 보강</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>박이솔</td>
+          <td>CS231000821</td>
+          <td class="td-title">과제관리 및 매클</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>박이솔</td>
+          <td>CS231000821</td>
+          <td class="td-title">4월 매클-부재(13:35) > 문자발송</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-02</td>
+          <td>김도영</td>
+          <td>CS250203213</td>
+          <td class="td-title">4월 금3 이동확정</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>김도일</td>
+          <td>CS230803857</td>
+          <td class="td-title">4월 휴회 방어</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>김도일</td>
+          <td>CS230803857</td>
+          <td class="td-title">[4월 과학 휴회의사]</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>송재민</td>
+          <td>BS200500454</td>
+          <td class="td-title">[4월과학휴회의사] why C 토 2교시 / 노셔틀</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>최이헌</td>
+          <td>CS230901393</td>
+          <td class="td-title">휴회상담-부재(14:31) > 문자발송</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>박준우a</td>
+          <td>CS241203765</td>
+          <td class="td-title">4월 정기 / 방문상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>서준후</td>
+          <td>AS121416296</td>
+          <td class="td-title">미납안내(개인폰 연락) -낼 수 없다 하시다 끊어버리심 </td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>이연수</td>
+          <td>CS210302223</td>
+          <td class="td-title">4월 정기 </td>
+          <td><span class="tag-kw">건강문제</span></td>
+          <td><span class="tag-kw">건강문제</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>오서우</td>
+          <td>CS240702173</td>
+          <td class="td-title">4월정기</td>
+          <td><span class="tag-kw">부적응</span></td>
+          <td><span class="tag-kw">부적응</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>채현서</td>
+          <td>CS240400159</td>
+          <td class="td-title">4월정기</td>
+          <td><span class="tag-kw">부적응</span></td>
+          <td><span class="tag-kw">부적응</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>노승유</td>
+          <td>AS121496352</td>
+          <td class="td-title">3월정기</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>김루나</td>
+          <td>CS230203875</td>
+          <td class="td-title">4월정기</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-01</td>
+          <td>박시형</td>
+          <td>CS250303985</td>
+          <td class="td-title">4월 휴회</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>박시형</td>
+          <td>CS250303985</td>
+          <td class="td-title">[4월 과학 휴회의사]</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>김시윤C</td>
+          <td>CS230200158</td>
+          <td class="td-title">4월 휴회</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>김시윤C</td>
+          <td>CS230200158</td>
+          <td class="td-title">[4월 과학 휴회의사]</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>김소율</td>
+          <td>BS190400303</td>
+          <td class="td-title">휴회상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>최이헌</td>
+          <td>CS230901393</td>
+          <td class="td-title">4월휴회의사</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>육제현</td>
+          <td>CS240803237</td>
+          <td class="td-title">4월 정기</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>최지아</td>
+          <td>CS260101148</td>
+          <td class="td-title">4월 과학 휴회취소 / 토 11:40으로 변경 확정</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>김서현</td>
+          <td>CS250702129</td>
+          <td class="td-title">상담요청(보강선생님+ 담당 선생님)</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>김도원</td>
+          <td>CS250203050</td>
+          <td class="td-title">4월 토1 과학 고민 후 내일 연락주시기로 함.</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>김도원</td>
+          <td>CS250203050</td>
+          <td class="td-title">수강 취소?</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>안선아</td>
+          <td>CS250400154</td>
+          <td class="td-title">숙제 관련 상담</td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
   </div>
 
   <div class="footer">

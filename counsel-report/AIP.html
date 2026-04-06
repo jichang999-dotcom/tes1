@@ -322,7 +322,7 @@ body {
         <div class="icon" style="background:linear-gradient(135deg,var(--accent),#8b5cf6);color:#fff;">📊</div>
         기간 요약
       </div>
-      
+      <button class="btn-raw" onclick="showRaw()">raw 이동 →</button>
     </div>
     <div class="periodRow">
       <div class="icon">📅</div>
@@ -422,7 +422,7 @@ body {
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-04-06 17:10<br>
+    분석 모델: Claude API | 생성일: 2026-04-06 22:19<br>
     데이터 기준<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>
@@ -447,9 +447,72 @@ body {
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--accent-light);color:var(--accent);">📋</div>
-      키워드 raw (부정 판정 0건)
+      키워드 raw (부정 판정 6건)
     </div>
-    <p style="padding:12px;color:var(--muted);">부정 판정 데이터가 없습니다.</p>
+    <div style="overflow-x:auto;">
+    <table class="raw-table">
+      <thead>
+        <tr>
+          <th>상담일자</th>
+          <th>학생명</th>
+          <th>학생코드</th>
+          <th>상담제목</th>
+          <th>감지 키워드</th>
+          <th>감성 카테고리</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2026-04-04</td>
+          <td>이햇빛</td>
+          <td>CS240501772</td>
+          <td class="td-title">형성평가 형편없음 / 설명회예약 </td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>조승우</td>
+          <td>CS220500602</td>
+          <td class="td-title">형성평가후기 /간담회예약</td>
+          <td><span class="tag-kw">사춘기/반항</span></td>
+          <td><span class="tag-kw">사춘기/반항</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-03</td>
+          <td>반하은</td>
+          <td>CS221201411</td>
+          <td class="td-title">정기 상담</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>이나경</td>
+          <td>CS241104594</td>
+          <td class="td-title">3월4주차보강 /4월26알요일1시30분예약하심 </td>
+          <td><span class="tag-kw">건강문제</span></td>
+          <td><span class="tag-kw">건강문제</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>김윤우</td>
+          <td>CS260300917</td>
+          <td class="td-title">수학학원다니기 싫다고 cms숙제 줄이셔야 한다고 </td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-02</td>
+          <td>조유담</td>
+          <td>CS240401629</td>
+          <td class="td-title">진도 관련 상담</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
   </div>
 
   <div class="footer">

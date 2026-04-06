@@ -309,7 +309,7 @@ body {
 <div class="topbar">
   <div>
     <div class="topbar-title">와이즈만 송파센터 [초등관]</div>
-    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-04-01 ~ 2026-04-04</div>
+    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-04-01 ~ 2026-04-06</div>
   </div>
 </div>
 
@@ -322,14 +322,13 @@ body {
         <div class="icon" style="background:linear-gradient(135deg,var(--accent),#8b5cf6);color:#fff;">📊</div>
         기간 요약
       </div>
-      <button class="btn-raw" onclick="showRaw()">raw 이동 →</button>
+      
     </div>
     <div class="periodRow">
       <div class="icon">📅</div>
       <div>
         <div class="label">분석 기간</div>
-        <div class="value">2026-04-01 ~ 2026-04-04</div>
-        
+        <div class="value">2026-04-01 ~ 2026-04-06</div>
       </div>
     </div>
     <!-- D-30 / D-0 비교 -->
@@ -337,25 +336,25 @@ body {
       <thead>
         <tr>
           <th></th>
-          <th class="col-d30">4일 누적</th>
-          <th class="col-d0">4/4 당일</th>
+          <th class="col-d30">6일 누적</th>
+          <th class="col-d0">4/6 당일</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>총 상담 건수</td>
           <td class="val" style="color:var(--accent);">397</td>
-          <td class="val" style="color:var(--accent);">123</td>
+          <td class="val" style="color:var(--accent);">0</td>
         </tr>
         <tr>
           <td>부정 감성 건수</td>
           <td class="val" style="color:var(--danger);">94</td>
-          <td class="val" style="color:var(--danger);">38</td>
+          <td class="val" style="color:var(--danger);">0</td>
         </tr>
         <tr>
           <td>부정 비율</td>
           <td class="val" style="color:var(--warning);">23.7%</td>
-          <td class="val" style="color:var(--warning);">30.9%</td>
+          <td class="val" style="color:var(--warning);">0.0%</td>
         </tr>
       </tbody>
     </table>
@@ -365,7 +364,7 @@ body {
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--danger-light);color:var(--danger);">💬</div>
-      부정 감성 키워드 건수(4일 누적)
+      부정 감성 키워드 건수(6일 누적)
     </div>
     <ul class="keywordList">
       <li class="keywordItem">
@@ -439,8 +438,8 @@ body {
   <div class="alertBanner" style="background:var(--accent-light);border:1px solid #c7d2fe;">
     <div class="alert-icon">🆕</div>
     <div>
-      <strong>신규 감지 학생 7명</strong><br>
-      이전 분석에 없던 학생이 새롭게 평균 초과 목록에 포함되었습니다.
+      <strong>신규 감지 학생 0명</strong><br>
+      이번 분석에서 신규 감지된 학생은 없습니다.
     </div>
   </div>
 
@@ -448,7 +447,7 @@ body {
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--danger-light);color:var(--danger);">⚠️</div>
-      평균 초과 학생 리스트(4일 누적)
+      평균 초과 학생 리스트(6일 누적)
     </div>
     <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">
       와이즈만 송파센터 [초등관] 내 학생 평균 부정 건수: <strong style="color:var(--text);">1.2건</strong> — 평균 초과 학생 전체를 표시합니다.
@@ -472,59 +471,17 @@ body {
       </thead>
       <tbody>
         <tr>
-          <td>권도윤(잠실)</td>
-          <td>CS210800588</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td><span class="tag new">NEW</span></td>
-        </tr>
-        <tr>
-          <td>권정우</td>
-          <td>CS240304079</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td><span class="tag new">NEW</span></td>
-        </tr>
-        <tr>
-          <td>강채아</td>
-          <td>CS251200153</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td><span class="tag new">NEW</span></td>
-        </tr>
-        <tr>
-          <td>정민찬</td>
-          <td>CS211104952</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td><span class="tag new">NEW</span></td>
-        </tr>
-        <tr>
-          <td>성연후</td>
-          <td>CS251102871</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td><span class="tag new">NEW</span></td>
-        </tr>
-        <tr>
-          <td>최성원</td>
-          <td>CS260100267</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td><span class="tag new">NEW</span></td>
-        </tr>
-        <tr>
-          <td>장하윤(잠실)</td>
-          <td>CS250500740</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td><span class="tag new">NEW</span></td>
-        </tr>
-        <tr>
           <td>이준서</td>
           <td>CS250205493</td>
           <td><strong>3건</strong></td>
           <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>권도윤(잠실)</td>
+          <td>CS210800588</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
           <td></td>
         </tr>
         <tr>
@@ -549,8 +506,36 @@ body {
           <td></td>
         </tr>
         <tr>
+          <td>권정우</td>
+          <td>CS240304079</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
+        <tr>
           <td>황시윤</td>
           <td>CS220302097</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>강채아</td>
+          <td>CS251200153</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>정민찬</td>
+          <td>CS211104952</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>성연후</td>
+          <td>CS251102871</td>
           <td><strong>2건</strong></td>
           <td><span class="tag warning">주의</span></td>
           <td></td>
@@ -562,13 +547,27 @@ body {
           <td><span class="tag warning">주의</span></td>
           <td></td>
         </tr>
+        <tr>
+          <td>최성원</td>
+          <td>CS260100267</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>장하윤(잠실)</td>
+          <td>CS250500740</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
       </tbody>
     </table>
   </div>
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-04-04 19:00<br>
+    분석 모델: Claude API | 생성일: 2026-04-06 17:10<br>
     데이터 기준<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>
@@ -582,7 +581,7 @@ body {
 <div class="topbar">
   <div>
     <div class="topbar-title">와이즈만 송파센터 [초등관]</div>
-    <div class="topbar-sub">키워드 raw 데이터 · 2026-04-01 ~ 2026-04-04</div>
+    <div class="topbar-sub">키워드 raw 데이터 · 2026-04-01 ~ 2026-04-06</div>
   </div>
 </div>
 
@@ -593,776 +592,9 @@ body {
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--accent-light);color:var(--accent);">📋</div>
-      키워드 raw (부정 판정 94건)
+      키워드 raw (부정 판정 0건)
     </div>
-    <div style="overflow-x:auto;">
-    <table class="raw-table">
-      <thead>
-        <tr>
-          <th>상담일자</th>
-          <th>학생명</th>
-          <th>학생코드</th>
-          <th>상담제목</th>
-          <th>감지 키워드</th>
-          <th>감성 카테고리</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>2026-04-04</td>
-          <td>설유준</td>
-          <td>CS251200495</td>
-          <td class="td-title">3월 정기-휴회상담</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>박다인</td>
-          <td>CS251102035</td>
-          <td class="td-title">3월 상담+교사변경_부재중 문자남김</td>
-          <td><span class="tag-kw">교사변경</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>임수정</td>
-          <td>CS240501012</td>
-          <td class="td-title">평가 결과 상담/ 교사 변동 안내</td>
-          <td><span class="tag-kw">사춘기/반항</span></td>
-          <td><span class="tag-kw">사춘기/반항</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>손시어돌태호</td>
-          <td>CS240401373</td>
-          <td class="td-title">3월 정기상담</td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>조이현</td>
-          <td>CS210400745</td>
-          <td class="td-title">4월 3주차 휴회 / 하키대회일정으로 금토 지방이동 많음</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>정재훈</td>
-          <td>CS250300152</td>
-          <td class="td-title">3월 정기상담</td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>김우진</td>
-          <td>CS251101797</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>김재하</td>
-          <td>CS251201103</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>변시아</td>
-          <td>CS250700919</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>강태현</td>
-          <td>CS250401534</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>반준서</td>
-          <td>CS250203868</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>이지훈</td>
-          <td>CS241202334</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>고강민</td>
-          <td>CS260202822</td>
-          <td class="td-title">3월 정기 상담/휴회상담</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>성연후</td>
-          <td>CS251102871</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>김동훈</td>
-          <td>CS260102392</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>이재상</td>
-          <td>CS250205492</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>정수빈</td>
-          <td>CS260101510</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>황시호</td>
-          <td>CS250805754</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>감도율</td>
-          <td>CS250401607</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>강채아</td>
-          <td>CS251200153</td>
-          <td class="td-title">개인상담 및 휴회 상담</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>배수호</td>
-          <td>CS241202750</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>이시환</td>
-          <td>CS250400641</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>오하람</td>
-          <td>CS230600491</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>정여진</td>
-          <td>CS240204894</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>정소유</td>
-          <td>CS230901665</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>김도현</td>
-          <td>CS220202707</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>정민찬</td>
-          <td>CS211104952</td>
-          <td class="td-title">4월 정기상담</td>
-          <td><span class="tag-kw">우울/무기력</span></td>
-          <td><span class="tag-kw">우울/무기력</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>유호준</td>
-          <td>CS231000297</td>
-          <td class="td-title">4월 정기상담</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>맹유진</td>
-          <td>CS250901213</td>
-          <td class="td-title">4월 정기상담</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>최성원</td>
-          <td>CS260100267</td>
-          <td class="td-title">수업중 학생 들 싸움 문제로 아버님 다시 학원으로 전화 / 단호하게 지도 주시길 요청</td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>정하선</td>
-          <td>CS250205503</td>
-          <td class="td-title">4월 휴회(관리 컴플레인)</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>김재율</td>
-          <td>CS240902575</td>
-          <td class="td-title">실장님 상담요청-하단 내용 참고</td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>남윤주</td>
-          <td>CS221201653</td>
-          <td class="td-title">4월 휴회</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>김대호</td>
-          <td>CS260201575</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>장수인</td>
-          <td>CS230701562</td>
-          <td class="td-title">3월 정기 상담 / 휴회상담</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>나하연</td>
-          <td>CS250301864</td>
-          <td class="td-title">3월 정기상담</td>
-          <td><span class="tag-kw">불안/걱정</span></td>
-          <td><span class="tag-kw">불안/걱정</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>권도윤(중대)</td>
-          <td>CS251101492</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>강지원</td>
-          <td>CS240200473</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr style="border-top:2px solid var(--accent);">
-          <td>2026-04-03</td>
-          <td>유소윤</td>
-          <td>CS230803315</td>
-          <td class="td-title">3월 정기상담+4월휴회</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>주하연</td>
-          <td>CS250200075</td>
-          <td class="td-title">3월 수업 + 교사변경</td>
-          <td><span class="tag-kw">교사변경</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>천도현</td>
-          <td>CS240902522</td>
-          <td class="td-title">3월 수업 + 교사변경</td>
-          <td><span class="tag-kw">교사변경</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>유선우</td>
-          <td>CS260206534</td>
-          <td class="td-title">3월 수업 + 교사변경</td>
-          <td><span class="tag-kw">교사변경</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>강민재</td>
-          <td>CS240400261</td>
-          <td class="td-title">3월 수업+교사변경</td>
-          <td><span class="tag-kw">교사변경</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>최연우</td>
-          <td>CS250204156</td>
-          <td class="td-title">3월 수업 + 교사변경</td>
-          <td><span class="tag-kw">교사변경</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>형태희</td>
-          <td>CS250600307</td>
-          <td class="td-title">3월 수업 + 교사변경</td>
-          <td><span class="tag-kw">교사변경</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>전소이</td>
-          <td>CS240501102</td>
-          <td class="td-title">3월 수업 +교사변경</td>
-          <td><span class="tag-kw">교사변경</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>정수아</td>
-          <td>CS260101474</td>
-          <td class="td-title">3월 상담+교사변경</td>
-          <td><span class="tag-kw">교사변경</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>이윤후</td>
-          <td>CS240102293</td>
-          <td class="td-title">[결과상담] GT, 3S / 고민 후 연락</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>이윤준</td>
-          <td>CS250204843</td>
-          <td class="td-title">[결과상담] GTad, 3S / 시간표 고민 후 연락</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>장하윤(잠실)</td>
-          <td>CS250500740</td>
-          <td class="td-title">4월 교과 정기 상담</td>
-          <td><span class="tag-kw">건강문제</span></td>
-          <td><span class="tag-kw">건강문제</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>황시윤</td>
-          <td>CS220302097</td>
-          <td class="td-title">수요일 1교시 GTad 오픈 희망(목요일 불가) / 미승급시 사고력 휴회 가능성</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>이로운(토성)</td>
-          <td>CS221001644</td>
-          <td class="td-title">영재학급 합격으로 토요일 수업 어려움 // 평일 일정 맞지않음</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>강채아</td>
-          <td>CS251200153</td>
-          <td class="td-title">4월 한달 휴회 후 5월 재입회 / 4월 수강료 5월 이월처리</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>이도현</td>
-          <td>CS260200120</td>
-          <td class="td-title">3월 정기상담</td>
-          <td><span class="tag-kw">불안/걱정</span></td>
-          <td><span class="tag-kw">불안/걱정</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>권정우</td>
-          <td>CS240304079</td>
-          <td class="td-title">3월 상담 + 교사 변경</td>
-          <td><span class="tag-kw">건강문제</span></td>
-          <td><span class="tag-kw">건강문제</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>정민찬</td>
-          <td>CS211104952</td>
-          <td class="td-title">2(목) 결석 개인보강 일정 확인전화 // 교사변경 안내 - 매우 불편해 하심, 수강지속에 대한 고민도 언급, 우선 4월 수강</td>
-          <td><span class="tag-kw">컴플레인</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>최성원</td>
-          <td>CS260100267</td>
-          <td class="td-title">부재 확인 후 콜백 // 8시 이후 상담전화 가능 - 수업중 학생들 싸움주의 요청</td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>김지완</td>
-          <td>CS230101167</td>
-          <td class="td-title">전화 연결안되어 문자남김(교사변경포함시킴)</td>
-          <td><span class="tag-kw">교사변경</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>성연후</td>
-          <td>CS251102871</td>
-          <td class="td-title">4월 휴회,환불요청-사유 하단/담임선생님께 공유/확정 후 셔틀 쪽지</td>
-          <td><span class="tag-kw">환불</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>이준서</td>
-          <td>CS250205493</td>
-          <td class="td-title">4월 수강료 환불로 변경 요청</td>
-          <td><span class="tag-kw">환불</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>이준서</td>
-          <td>CS250205493</td>
-          <td class="td-title">4월 휴회 / 5월 재입회(4월 수강료 이동처리)</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>성이준</td>
-          <td>CS221202642</td>
-          <td class="td-title">3월 정기상담</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>김준영(가동)</td>
-          <td>CS250803795</td>
-          <td class="td-title">3월 정기상담</td>
-          <td><span class="tag-kw">불안/걱정</span></td>
-          <td><span class="tag-kw">불안/걱정</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>송지호</td>
-          <td>CS251202973</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>장하윤(잠실)</td>
-          <td>CS250500740</td>
-          <td class="td-title">3월 정기상담2</td>
-          <td><span class="tag-kw">불만/분노</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>김건민</td>
-          <td>CS241001164</td>
-          <td class="td-title">3월 정기상담</td>
-          <td><span class="tag-kw">스트레스/압박감</span></td>
-          <td><span class="tag-kw">스트레스/압박감</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>최재원</td>
-          <td>CS220400534</td>
-          <td class="td-title">4월 휴회</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>최재원</td>
-          <td>CS220400534</td>
-          <td class="td-title">3월 정기상담2</td>
-          <td><span class="tag-kw">사춘기/반항</span></td>
-          <td><span class="tag-kw">사춘기/반항</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>이도연</td>
-          <td>CS250401163</td>
-          <td class="td-title">3월 교사변동 안내+교대창사 안내</td>
-          <td><span class="tag-kw">컴플레인</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>박지승</td>
-          <td>CS211203851</td>
-          <td class="td-title">3월 정기상담</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>황시윤</td>
-          <td>CS220302097</td>
-          <td class="td-title">3월 정기상담</td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr style="border-top:2px solid var(--accent);">
-          <td>2026-04-02</td>
-          <td>김지완</td>
-          <td>CS230101167</td>
-          <td class="td-title">부재중 문자남김_3월 상담+교사변경 필요함</td>
-          <td><span class="tag-kw">교사변경</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-02</td>
-          <td>최우리</td>
-          <td>CS240500068</td>
-          <td class="td-title">3월 수업+교사변경</td>
-          <td><span class="tag-kw">교사변경</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-02</td>
-          <td>나준혁</td>
-          <td>CS250206499</td>
-          <td class="td-title">휴회상담</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-02</td>
-          <td>최시아</td>
-          <td>CS241203622</td>
-          <td class="td-title">3월 상담+교사변경</td>
-          <td><span class="tag-kw">교사변경</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-02</td>
-          <td>정규혜</td>
-          <td>CS221000065</td>
-          <td class="td-title">교사변경+3월 상담</td>
-          <td><span class="tag-kw">교사변경</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-02</td>
-          <td>송승유</td>
-          <td>CS221101852</td>
-          <td class="td-title">3월 정기상담 / 휴회상담</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-02</td>
-          <td>이채원</td>
-          <td>CS231101152</td>
-          <td class="td-title">3월 평가 상담 및  4월 4일 6시 ~ 7시 보충 수업 진행</td>
-          <td><span class="tag-kw">스트레스/압박감</span></td>
-          <td><span class="tag-kw">스트레스/압박감</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-02</td>
-          <td>한우진(B-가)</td>
-          <td>CS240203239</td>
-          <td class="td-title">교사변경_3월 수업 상담 (보강건 확인중요)_4월 2주</td>
-          <td><span class="tag-kw">교사변경</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-02</td>
-          <td>권도윤(잠실)</td>
-          <td>CS210800588</td>
-          <td class="td-title">4월 휴회신청/환불 관련 담임선생님과 전화통화 요청-수업 중이시라 어머니께 전화드리도록 메세지 전달</td>
-          <td><span class="tag-kw">환불</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-02</td>
-          <td>유시유</td>
-          <td>CS260301676</td>
-          <td class="td-title">과학 담임선생님 갑작스럽게 변경된 사실, 전화통보로 기분이 좀 언짢으심을 표함/과학 챗방에 내용공유</td>
-          <td><span class="tag-kw">불만/분노</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-02</td>
-          <td>이재현</td>
-          <td>CS250701379</td>
-          <td class="td-title">3월 정기상담</td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-02</td>
-          <td>박준우</td>
-          <td>CS231001156</td>
-          <td class="td-title">3월 정기상담 / 긴 문장 읽기 싫어하고 사고력이 부족해서 질문 많이 하기로 함</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-02</td>
-          <td>이창수</td>
-          <td>CS231200874</td>
-          <td class="td-title">3월 정기상담</td>
-          <td><span class="tag-kw">건강문제</span></td>
-          <td><span class="tag-kw">건강문제</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-02</td>
-          <td>권정우</td>
-          <td>CS240304079</td>
-          <td class="td-title">3월 정기상담 / 지난 주 시험에 컨디션 난조가 있었음 전달</td>
-          <td><span class="tag-kw">스트레스/압박감</span></td>
-          <td><span class="tag-kw">스트레스/압박감</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-02</td>
-          <td>유시유</td>
-          <td>CS260301676</td>
-          <td class="td-title">첫수업 상담 & 밴드 초대</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-        </tr>
-        <tr style="border-top:2px solid var(--accent);">
-          <td>2026-04-01</td>
-          <td>최하준</td>
-          <td>CS240500635</td>
-          <td class="td-title">7(화) 결석 10(금) 8-9시 보강희망(4시종료 학원일정) // 교사변경에 대한 안내 - 불편해 하심</td>
-          <td><span class="tag-kw">교사변경</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-01</td>
-          <td>오서윤</td>
-          <td>CS251201372</td>
-          <td class="td-title">3월 정기상담</td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-01</td>
-          <td>이준서</td>
-          <td>CS250205493</td>
-          <td class="td-title">개인보강상담/3월 정기 상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-01</td>
-          <td>권도윤(잠실)</td>
-          <td>CS210800588</td>
-          <td class="td-title">3월 정기상담</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-01</td>
-          <td>김하은</td>
-          <td>CS260202382</td>
-          <td class="td-title">3월 정기상담/추가</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-01</td>
-          <td>최원호</td>
-          <td>CS250301552</td>
-          <td class="td-title">3월 정기 상담</td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-01</td>
-          <td>송승유</td>
-          <td>CS221101852</td>
-          <td class="td-title">4월 휴회요청/담임선생님께 공유</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-01</td>
-          <td>정유나</td>
-          <td>CS251200988</td>
-          <td class="td-title">4월 휴회 및 환불요청-사유 상담내용란 참조/담임선생님께 공유</td>
-          <td><span class="tag-kw">환불</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-      </tbody>
-    </table>
-    </div>
+    <p style="padding:12px;color:var(--muted);">부정 판정 데이터가 없습니다.</p>
   </div>
 
   <div class="footer">

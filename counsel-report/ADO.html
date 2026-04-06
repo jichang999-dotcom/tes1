@@ -322,7 +322,7 @@ body {
         <div class="icon" style="background:linear-gradient(135deg,var(--accent),#8b5cf6);color:#fff;">📊</div>
         기간 요약
       </div>
-      
+      <button class="btn-raw" onclick="showRaw()">raw 이동 →</button>
     </div>
     <div class="periodRow">
       <div class="icon">📅</div>
@@ -448,7 +448,7 @@ body {
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-04-06 17:10<br>
+    분석 모델: Claude API | 생성일: 2026-04-06 22:19<br>
     데이터 기준<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>
@@ -473,9 +473,104 @@ body {
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--accent-light);color:var(--accent);">📋</div>
-      키워드 raw (부정 판정 0건)
+      키워드 raw (부정 판정 10건)
     </div>
-    <p style="padding:12px;color:var(--muted);">부정 판정 데이터가 없습니다.</p>
+    <div style="overflow-x:auto;">
+    <table class="raw-table">
+      <thead>
+        <tr>
+          <th>상담일자</th>
+          <th>학생명</th>
+          <th>학생코드</th>
+          <th>상담제목</th>
+          <th>감지 키워드</th>
+          <th>감성 카테고리</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2026-04-04</td>
+          <td>방선우</td>
+          <td>CS231101231</td>
+          <td class="td-title">4월 휴회</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>송하유</td>
+          <td>CS231103193</td>
+          <td class="td-title">4월 휴회</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>민은</td>
+          <td>CS250301149</td>
+          <td class="td-title">4월 휴회 확정 - 힘들다고 하심(표면적 사유)</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>민담</td>
+          <td>CS250301148</td>
+          <td class="td-title">4월 휴회 확정 - 힘들다고 하심(표면적 사유)</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-03</td>
+          <td>문시유</td>
+          <td>CS250100332</td>
+          <td class="td-title">휴회 상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-02</td>
+          <td>김라온</td>
+          <td>CS251001510</td>
+          <td class="td-title">4월 휴회상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>나세찬</td>
+          <td>CS260400019</td>
+          <td class="td-title">결과상담 - 왓 4개월 정도 진행 후 와이 승급 상담 받아 보시라고 말씀 드림 / 영재원 관심.</td>
+          <td><span class="tag-kw">불안/걱정</span></td>
+          <td><span class="tag-kw">불안/걱정</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-01</td>
+          <td>김라온</td>
+          <td>CS251001510</td>
+          <td class="td-title">4월 휴회</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>최이엘</td>
+          <td>CS250600539</td>
+          <td class="td-title">수업 중 이슈 상담</td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>김로한</td>
+          <td>CS220301468</td>
+          <td class="td-title">학습태도 상담</td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
   </div>
 
   <div class="footer">

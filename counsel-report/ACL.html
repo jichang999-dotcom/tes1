@@ -322,7 +322,7 @@ body {
         <div class="icon" style="background:linear-gradient(135deg,var(--accent),#8b5cf6);color:#fff;">📊</div>
         기간 요약
       </div>
-      
+      <button class="btn-raw" onclick="showRaw()">raw 이동 →</button>
     </div>
     <div class="periodRow">
       <div class="icon">📅</div>
@@ -443,7 +443,7 @@ body {
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-04-06 17:10<br>
+    분석 모델: Claude API | 생성일: 2026-04-06 22:19<br>
     데이터 기준<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>
@@ -468,9 +468,96 @@ body {
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--accent-light);color:var(--accent);">📋</div>
-      키워드 raw (부정 판정 0건)
+      키워드 raw (부정 판정 9건)
     </div>
-    <p style="padding:12px;color:var(--muted);">부정 판정 데이터가 없습니다.</p>
+    <div style="overflow-x:auto;">
+    <table class="raw-table">
+      <thead>
+        <tr>
+          <th>상담일자</th>
+          <th>학생명</th>
+          <th>학생코드</th>
+          <th>상담제목</th>
+          <th>감지 키워드</th>
+          <th>감성 카테고리</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2026-04-03</td>
+          <td>서준우</td>
+          <td>CS220203381</td>
+          <td class="td-title">숙제미비 상담</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>진세림</td>
+          <td>CS220600010</td>
+          <td class="td-title">학습태도와 숙제 미비상담</td>
+          <td><span class="tag-kw">우울/무기력</span></td>
+          <td><span class="tag-kw">우울/무기력</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-02</td>
+          <td>신수빈</td>
+          <td>CS241102447</td>
+          <td class="td-title">휴회상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>김시운</td>
+          <td>CS211104505</td>
+          <td class="td-title">형성평가 12~2월</td>
+          <td><span class="tag-kw">가정문제</span></td>
+          <td><span class="tag-kw">가정문제</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>김현서2</td>
+          <td>CS250805180</td>
+          <td class="td-title">상담</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-01</td>
+          <td>임예지</td>
+          <td>CS241000840</td>
+          <td class="td-title">정기상담</td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>김도훈</td>
+          <td>CS250803536</td>
+          <td class="td-title">형성평가 12~2월</td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>박서아2</td>
+          <td>CS241203792</td>
+          <td class="td-title">형성평가 12~2월</td>
+          <td><span class="tag-kw">부적응</span></td>
+          <td><span class="tag-kw">부적응</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>조민솔</td>
+          <td>CS251001490</td>
+          <td class="td-title">형성평가 12~2월</td>
+          <td><span class="tag-kw">불안/걱정</span></td>
+          <td><span class="tag-kw">불안/걱정</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
   </div>
 
   <div class="footer">

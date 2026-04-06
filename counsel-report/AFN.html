@@ -309,7 +309,7 @@ body {
 <div class="topbar">
   <div>
     <div class="topbar-title">와이즈만 대치센터</div>
-    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-04-01 ~ 2026-04-04</div>
+    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-04-01 ~ 2026-04-06</div>
   </div>
 </div>
 
@@ -322,14 +322,13 @@ body {
         <div class="icon" style="background:linear-gradient(135deg,var(--accent),#8b5cf6);color:#fff;">📊</div>
         기간 요약
       </div>
-      <button class="btn-raw" onclick="showRaw()">raw 이동 →</button>
+      
     </div>
     <div class="periodRow">
       <div class="icon">📅</div>
       <div>
         <div class="label">분석 기간</div>
-        <div class="value">2026-04-01 ~ 2026-04-04</div>
-        
+        <div class="value">2026-04-01 ~ 2026-04-06</div>
       </div>
     </div>
     <!-- D-30 / D-0 비교 -->
@@ -337,25 +336,25 @@ body {
       <thead>
         <tr>
           <th></th>
-          <th class="col-d30">4일 누적</th>
-          <th class="col-d0">4/4 당일</th>
+          <th class="col-d30">6일 누적</th>
+          <th class="col-d0">4/6 당일</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>총 상담 건수</td>
           <td class="val" style="color:var(--accent);">121</td>
-          <td class="val" style="color:var(--accent);">26</td>
+          <td class="val" style="color:var(--accent);">0</td>
         </tr>
         <tr>
           <td>부정 감성 건수</td>
           <td class="val" style="color:var(--danger);">18</td>
-          <td class="val" style="color:var(--danger);">3</td>
+          <td class="val" style="color:var(--danger);">0</td>
         </tr>
         <tr>
           <td>부정 비율</td>
           <td class="val" style="color:var(--warning);">14.9%</td>
-          <td class="val" style="color:var(--warning);">11.5%</td>
+          <td class="val" style="color:var(--warning);">0.0%</td>
         </tr>
       </tbody>
     </table>
@@ -365,7 +364,7 @@ body {
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--danger-light);color:var(--danger);">💬</div>
-      부정 감성 키워드 건수(4일 누적)
+      부정 감성 키워드 건수(6일 누적)
     </div>
     <ul class="keywordList">
       <li class="keywordItem">
@@ -420,7 +419,7 @@ body {
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--danger-light);color:var(--danger);">⚠️</div>
-      평균 초과 학생 리스트(4일 누적)
+      평균 초과 학생 리스트(6일 누적)
     </div>
     <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">
       와이즈만 대치센터 내 학생 평균 부정 건수: <strong style="color:var(--text);">1.1건</strong> — 평균 초과 학생 전체를 표시합니다.
@@ -456,7 +455,7 @@ body {
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-04-04 19:00<br>
+    분석 모델: Claude API | 생성일: 2026-04-06 17:10<br>
     데이터 기준<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>
@@ -470,7 +469,7 @@ body {
 <div class="topbar">
   <div>
     <div class="topbar-title">와이즈만 대치센터</div>
-    <div class="topbar-sub">키워드 raw 데이터 · 2026-04-01 ~ 2026-04-04</div>
+    <div class="topbar-sub">키워드 raw 데이터 · 2026-04-01 ~ 2026-04-06</div>
   </div>
 </div>
 
@@ -481,168 +480,9 @@ body {
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--accent-light);color:var(--accent);">📋</div>
-      키워드 raw (부정 판정 18건)
+      키워드 raw (부정 판정 0건)
     </div>
-    <div style="overflow-x:auto;">
-    <table class="raw-table">
-      <thead>
-        <tr>
-          <th>상담일자</th>
-          <th>학생명</th>
-          <th>학생코드</th>
-          <th>상담제목</th>
-          <th>감지 키워드</th>
-          <th>감성 카테고리</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>2026-04-04</td>
-          <td>김후영</td>
-          <td>CS250600864</td>
-          <td class="td-title">4월 휴회 / 후영이가 안온다고 함 / 오면 재밌는데 집에서 오기까지가 쉽지 않고 어머님이 일을 하셔서 아버님이 데려다 주셔야 하는데 아버님도 계속 안데려다 주심</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>허정우</td>
-          <td>CS211202336</td>
-          <td class="td-title">WTC과학 문의 / 수학,과학 모두 집에서 하고 있음 / 학원을 힘들어하는 편 / 누나가 서초 WTC 적응 못하고 3개월만에 중단</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-04</td>
-          <td>허가은</td>
-          <td>CS210800323</td>
-          <td class="td-title">WTC과학 관심 / 서울대영재교육원 진학 목표 / 집에서만 공부하고 있음 / 3학년 말경 서초에서 WTC 수학, 과학 같이 시작했는데 갑자기 늘어난 학습량에 아이가 힘들어해서 3개월만에 중단</td>
-          <td><span class="tag-kw">스트레스/압박감</span></td>
-          <td><span class="tag-kw">스트레스/압박감</span></td>
-        </tr>
-        <tr style="border-top:2px solid var(--accent);">
-          <td>2026-04-03</td>
-          <td>오시연</td>
-          <td>CS250101373</td>
-          <td class="td-title">휴회 상담</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>성지훈</td>
-          <td>CS201103144</td>
-          <td class="td-title">4월 정기 상담 / 휴회상담</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>최래온</td>
-          <td>CS250901373</td>
-          <td class="td-title">첫 수업 후 상담</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>장유준</td>
-          <td>CS251100535</td>
-          <td class="td-title">휴회 전 상담</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>윤서준</td>
-          <td>CS220200677</td>
-          <td class="td-title">3월 정기상담</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-03</td>
-          <td>김주헌</td>
-          <td>CS250400045</td>
-          <td class="td-title">4월 정기상담</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-        </tr>
-        <tr style="border-top:2px solid var(--accent);">
-          <td>2026-04-02</td>
-          <td>유아현</td>
-          <td>CS240800722</td>
-          <td class="td-title">B형독감 걸림 / 이번주 화목 수학 수업 모두 결석</td>
-          <td><span class="tag-kw">환불</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-02</td>
-          <td>김동률</td>
-          <td>CS220702602</td>
-          <td class="td-title">4월 휴회 전화 / 토11:30 수업 대기 신청</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-02</td>
-          <td>여은수</td>
-          <td>CS251100941</td>
-          <td class="td-title">3월 정기상담</td>
-          <td><span class="tag-kw">안 다니</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr style="border-top:2px solid var(--accent);">
-          <td>2026-04-01</td>
-          <td>정혜윤</td>
-          <td>AS121454970</td>
-          <td class="td-title">휴회상담</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-01</td>
-          <td>장유준</td>
-          <td>CS251100535</td>
-          <td class="td-title">4,5월 휴회 / 6월 재입회</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-01</td>
-          <td>이민재</td>
-          <td>CS210102786</td>
-          <td class="td-title">4월 휴원</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-01</td>
-          <td>정다인</td>
-          <td>AS121509096</td>
-          <td class="td-title">4월 정기상담</td>
-          <td><span class="tag-kw">우울/무기력</span></td>
-          <td><span class="tag-kw">우울/무기력</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-01</td>
-          <td>박준우</td>
-          <td>CS250401213</td>
-          <td class="td-title">3월 정기상담</td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-        </tr>
-        <tr>
-          <td>2026-04-01</td>
-          <td>한승헌</td>
-          <td>CS260300763</td>
-          <td class="td-title">수업 관련 상담_보강 후 대면으로 상담</td>
-          <td><span class="tag-kw">안 다니</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-      </tbody>
-    </table>
-    </div>
+    <p style="padding:12px;color:var(--muted);">부정 판정 데이터가 없습니다.</p>
   </div>
 
   <div class="footer">

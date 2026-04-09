@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>전체 센터 AI 상담 분석 대시보드</title>
+<style>
+:root {
+  --bg: #f5f7fa;
+  --card: #ffffff;
+  --text: #1a1d21;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --accent: #6366f1;
+  --accent-light: #eef2ff;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --danger-light: #fef2f2;
+  --warning-light: #fffbeb;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans KR", sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  background: var(--bg);
+  color: var(--text);
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 16px 32px;
+}
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.topbar-title { font-size: 17px; font-weight: 700; }
+.topbar-sub { font-size: 12px; color: var(--muted); }
+.card {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid var(--border);
+}
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 탭 네비게이션 */
+.tab-nav {
+  display: flex;
+  gap: 4px;
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 12px;
+}
+.tab-btn {
+  flex: 1;
+  padding: 8px 4px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tab-btn.active {
+  background: var(--card);
+  color: var(--accent);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* 요약 카드 그리드 */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.summary-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 12px;
+  text-align: center;
+}
+.summary-item .s-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text);
+}
+.summary-item .s-value .s-unit { font-size: 13px; font-weight: 600; color: var(--muted); }
+.summary-item .s-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.summary-item.highlight { border-color: var(--danger); background: var(--danger-light); }
+.summary-item.highlight .s-value { color: var(--danger); }
+
+/* 센터 카드 그리드 */
+.center-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.center-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.center-card:hover { border-color: var(--accent); box-shadow: 0 2px 8px rgba(99,102,241,0.12); transform: translateY(-1px); }
+.center-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.center-name { font-size: 14px; font-weight: 700; }
+.center-stats { display: flex; gap: 12px; }
+.stat-item { flex: 1; }
+.stat-value { font-size: 18px; font-weight: 800; }
+.stat-value .stat-unit { font-size: 12px; font-weight: 600; color: var(--muted); }
+.stat-label { font-size: 11px; color: var(--muted); }
+.center-alert {
+  margin-top: 8px;
+  padding: 4px 8px;
+  background: var(--danger-light);
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--danger);
+}
+
+/* 키워드/테이블 (기존 스타일 재사용) */
+.keywordList { list-style: none; }
+.keywordItem {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px; border-radius: 8px; transition: background 0.2s;
+}
+.keywordItem:hover { background: var(--bg); }
+.keywordItem .kw { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.keywordItem .cnt { font-size: 14px; font-weight: 600; color: var(--danger); }
+.bar-bg { height: 6px; background: var(--border); border-radius: 3px; margin-top: 4px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent), #8b5cf6); }
+.tag {
+  display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600;
+}
+.tag.danger { background: var(--danger-light); color: var(--danger); }
+.tag.warning { background: var(--warning-light); color: var(--warning); }
+.tag.success { background: #ecfdf5; color: var(--success); }
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table thead th {
+  background: var(--accent); color: #fff; padding: 10px 6px;
+  text-align: center; font-weight: 600; font-size: 12px;
+}
+.data-table thead th:first-child { border-radius: 8px 0 0 0; text-align: left; }
+.data-table thead th:last-child { border-radius: 0 8px 0 0; }
+.data-table tbody td { padding: 10px 6px; border-bottom: 1px solid var(--border); text-align: center; }
+.data-table tbody td:first-child { text-align: left; }
+.data-table tbody tr:hover { background: var(--accent-light); }
+.rank-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.rank-table thead th {
+  background: var(--accent); color: #fff; padding: 10px 6px;
+  text-align: center; font-weight: 600; font-size: 12px;
+}
+.rank-table thead th:first-child { border-radius: 8px 0 0 0; }
+.rank-table thead th:last-child { border-radius: 0 8px 0 0; }
+.rank-table tbody td { padding: 10px 6px; border-bottom: 1px solid var(--border); }
+.rank-table tbody tr:hover { background: var(--accent-light); cursor: pointer; }
+.footer { text-align: center; padding: 20px 0; font-size: 11px; color: var(--muted); }
+
+/* 반응형 */
+@media (max-width: 640px) {
+  .summary-grid { grid-template-columns: repeat(2, 1fr); }
+  .center-grid { grid-template-columns: 1fr; }
+  .rank-table { font-size: 11px; }
+  .rank-table thead th, .rank-table tbody td { padding: 8px 4px; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <div class="topbar-title">전체 센터 대시보드</div>
+    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-04-01 ~ 2026-04-08 (8일)</div>
+  </div>
+</div>
+
+<div class="container" style="padding-top:12px;">
+
+  <!-- 전체 요약 카드 -->
+  <div class="summary-grid">
+    <div class="summary-item">
+      <div class="s-value">2856<span class="s-unit">건</span></div>
+      <div class="s-label">총 상담</div>
+    </div>
+    <div class="summary-item">
+      <div class="s-value">468<span class="s-unit">건</span></div>
+      <div class="s-label">부정 감성</div>
+    </div>
+    <div class="summary-item">
+      <div class="s-value">16.4<span class="s-unit">%</span></div>
+      <div class="s-label">부정 비율</div>
+    </div>
+    <div class="summary-item highlight">
+      <div class="s-value">53<span class="s-unit">명</span></div>
+      <div class="s-label">주의 학생</div>
+    </div>
+  </div>
+
+  <!-- 탭 -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('overview')">센터 현황</button>
+    <button class="tab-btn" onclick="switchTab('ranking')">센터 순위</button>
+    <button class="tab-btn" onclick="switchTab('keywords')">키워드 분석</button>
+    <button class="tab-btn" onclick="switchTab('students')">주의 학생</button>
+  </div>
+
+  <!-- 탭1: 센터 현황 -->
+  <div id="tab-overview" class="tab-panel active">
+    <div class="center-grid">
+
+      <div class="center-card" onclick="location.href='AIP.html'">
+        <div class="center-card-header">
+          <div class="center-name">와이즈만 일산후곡센터</div>
+          <span class="tag warning">보통</span>
+        </div>
+        <div class="center-stats">
+          <div class="stat-item">
+            <div class="stat-value">8<span class="stat-unit">건</span> <span style="color:var(--danger);font-size:12px;">+2</span></div>
+            <div class="stat-label">부정 감성</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">29.6<span class="stat-unit">%</span></div>
+            <div class="stat-label">부정 비율</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">0<span class="stat-unit">명</span></div>
+            <div class="stat-label">주의 학생</div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div class="center-card" onclick="location.href='ACL.html'">
+        <div class="center-card-header">
+          <div class="center-name">와이즈만 강서센터</div>
+          <span class="tag success">양호</span>
+        </div>
+        <div class="center-stats">
+          <div class="stat-item">
+            <div class="stat-value">9<span class="stat-unit">건</span> </div>
+            <div class="stat-label">부정 감성</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">24.3<span class="stat-unit">%</span></div>
+            <div class="stat-label">부정 비율</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">0<span class="stat-unit">명</span></div>
+            <div class="stat-label">주의 학생</div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div class="center-card" onclick="location.href='AIU.html'">
+        <div class="center-card-header">
+          <div class="center-name">와이즈만 수원영통센터</div>
+          <span class="tag success">양호</span>
+        </div>
+        <div class="center-stats">
+          <div class="stat-item">
+            <div class="stat-value">59<span class="stat-unit">건</span> <span style="color:var(--danger);font-size:12px;">+4</span></div>
+            <div class="stat-label">부정 감성</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">21.0<span class="stat-unit">%</span></div>
+            <div class="stat-label">부정 비율</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">8<span class="stat-unit">명</span></div>
+            <div class="stat-label">주의 학생</div>
+          </div>
+        </div>
+        <div class="center-alert">위험 1명 · 주의 7명</div>
+      </div>
+
+      <div class="center-card" onclick="location.href='ACQ.html'">
+        <div class="center-card-header">
+          <div class="center-name">와이즈만 평촌센터 [초등관]</div>
+          <span class="tag success">양호</span>
+        </div>
+        <div class="center-stats">
+          <div class="stat-item">
+            <div class="stat-value">75<span class="stat-unit">건</span> <span style="color:var(--danger);font-size:12px;">+7</span></div>
+            <div class="stat-label">부정 감성</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">20.7<span class="stat-unit">%</span></div>
+            <div class="stat-label">부정 비율</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">7<span class="stat-unit">명</span></div>
+            <div class="stat-label">주의 학생</div>
+          </div>
+        </div>
+        <div class="center-alert">위험 7명 · 주의 0명</div>
+      </div>
+
+      <div class="center-card" onclick="location.href='ACV.html'">
+        <div class="center-card-header">
+          <div class="center-name">와이즈만 송파센터 [초등관]</div>
+          <span class="tag success">양호</span>
+        </div>
+        <div class="center-stats">
+          <div class="stat-item">
+            <div class="stat-value">101<span class="stat-unit">건</span> <span style="color:var(--danger);font-size:12px;">+4</span></div>
+            <div class="stat-label">부정 감성</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">20.1<span class="stat-unit">%</span></div>
+            <div class="stat-label">부정 비율</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">16<span class="stat-unit">명</span></div>
+            <div class="stat-label">주의 학생</div>
+          </div>
+        </div>
+        <div class="center-alert">위험 1명 · 주의 15명</div>
+      </div>
+
+      <div class="center-card" onclick="location.href='ALB.html'">
+        <div class="center-card-header">
+          <div class="center-name">송파 영재입시센터 [중등관]</div>
+          <span class="tag success">양호</span>
+        </div>
+        <div class="center-stats">
+          <div class="stat-item">
+            <div class="stat-value">5<span class="stat-unit">건</span> <span style="color:var(--danger);font-size:12px;">+1</span></div>
+            <div class="stat-label">부정 감성</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">18.5<span class="stat-unit">%</span></div>
+            <div class="stat-label">부정 비율</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">0<span class="stat-unit">명</span></div>
+            <div class="stat-label">주의 학생</div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div class="center-card" onclick="location.href='ADO.html'">
+        <div class="center-card-header">
+          <div class="center-name">와이즈만 압구정센터</div>
+          <span class="tag success">양호</span>
+        </div>
+        <div class="center-stats">
+          <div class="stat-item">
+            <div class="stat-value">16<span class="stat-unit">건</span> <span style="color:var(--danger);font-size:12px;">+3</span></div>
+            <div class="stat-label">부정 감성</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">14.7<span class="stat-unit">%</span></div>
+            <div class="stat-label">부정 비율</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">3<span class="stat-unit">명</span></div>
+            <div class="stat-label">주의 학생</div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div class="center-card" onclick="location.href='AFN.html'">
+        <div class="center-card-header">
+          <div class="center-name">와이즈만 대치센터</div>
+          <span class="tag success">양호</span>
+        </div>
+        <div class="center-stats">
+          <div class="stat-item">
+            <div class="stat-value">25<span class="stat-unit">건</span> <span style="color:var(--danger);font-size:12px;">+5</span></div>
+            <div class="stat-label">부정 감성</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">14.6<span class="stat-unit">%</span></div>
+            <div class="stat-label">부정 비율</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">3<span class="stat-unit">명</span></div>
+            <div class="stat-label">주의 학생</div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div class="center-card" onclick="location.href='AAA.html'">
+        <div class="center-card-header">
+          <div class="center-name">와이즈만 서초센터</div>
+          <span class="tag success">양호</span>
+        </div>
+        <div class="center-stats">
+          <div class="stat-item">
+            <div class="stat-value">68<span class="stat-unit">건</span> <span style="color:var(--danger);font-size:12px;">+16</span></div>
+            <div class="stat-label">부정 감성</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">14.2<span class="stat-unit">%</span></div>
+            <div class="stat-label">부정 비율</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">2<span class="stat-unit">명</span></div>
+            <div class="stat-label">주의 학생</div>
+          </div>
+        </div>
+        <div class="center-alert">위험 2명 · 주의 0명</div>
+      </div>
+
+      <div class="center-card" onclick="location.href='AJR.html'">
+        <div class="center-card-header">
+          <div class="center-name">평촌 영재입시센터 [중등관]</div>
+          <span class="tag success">양호</span>
+        </div>
+        <div class="center-stats">
+          <div class="stat-item">
+            <div class="stat-value">14<span class="stat-unit">건</span> </div>
+            <div class="stat-label">부정 감성</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">13.7<span class="stat-unit">%</span></div>
+            <div class="stat-label">부정 비율</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">1<span class="stat-unit">명</span></div>
+            <div class="stat-label">주의 학생</div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div class="center-card" onclick="location.href='AAM.html'">
+        <div class="center-card-header">
+          <div class="center-name">와이즈만 분당센터 [초등관]</div>
+          <span class="tag success">양호</span>
+        </div>
+        <div class="center-stats">
+          <div class="stat-item">
+            <div class="stat-value">14<span class="stat-unit">건</span> <span style="color:var(--danger);font-size:12px;">+2</span></div>
+            <div class="stat-label">부정 감성</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">12.1<span class="stat-unit">%</span></div>
+            <div class="stat-label">부정 비율</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">1<span class="stat-unit">명</span></div>
+            <div class="stat-label">주의 학생</div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div class="center-card" onclick="location.href='AFF.html'">
+        <div class="center-card-header">
+          <div class="center-name">분당 영재입시센터 [중등관]</div>
+          <span class="tag success">양호</span>
+        </div>
+        <div class="center-stats">
+          <div class="stat-item">
+            <div class="stat-value">13<span class="stat-unit">건</span> <span style="color:var(--danger);font-size:12px;">+2</span></div>
+            <div class="stat-label">부정 감성</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">12.0<span class="stat-unit">%</span></div>
+            <div class="stat-label">부정 비율</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">1<span class="stat-unit">명</span></div>
+            <div class="stat-label">주의 학생</div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div class="center-card" onclick="location.href='ACS.html'">
+        <div class="center-card-header">
+          <div class="center-name">와이즈만 해운대센텀센터</div>
+          <span class="tag success">양호</span>
+        </div>
+        <div class="center-stats">
+          <div class="stat-item">
+            <div class="stat-value">61<span class="stat-unit">건</span> <span style="color:var(--danger);font-size:12px;">+3</span></div>
+            <div class="stat-label">부정 감성</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">11.4<span class="stat-unit">%</span></div>
+            <div class="stat-label">부정 비율</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">11<span class="stat-unit">명</span></div>
+            <div class="stat-label">주의 학생</div>
+          </div>
+        </div>
+        <div class="center-alert">위험 1명 · 주의 10명</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 탭2: 센터 순위 -->
+  <div id="tab-ranking" class="tab-panel">
+    <div class="card">
+      <div class="card-title">센터별 부정 비율 순위</div>
+      <table class="rank-table">
+        <thead>
+          <tr>
+            <th style="width:8%;">#</th>
+            <th style="text-align:left;">센터명</th>
+            <th style="width:12%;">총 상담</th>
+            <th style="width:12%;">부정</th>
+            <th style="width:14%;">비율</th>
+            <th style="width:12%;">학생수</th>
+            <th style="width:12%;">주의</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr onclick="location.href='AIP.html'" style="cursor:pointer;">
+          <td style="text-align:center;">1</td>
+          <td>와이즈만 일산후곡센터</td>
+          <td style="text-align:center;"><strong>27</strong></td>
+          <td style="text-align:center;"><strong>8</strong></td>
+          <td style="text-align:center;"><span class="tag warning">29.6%</span></td>
+          <td style="text-align:center;">8</td>
+          <td style="text-align:center;font-weight:600;color:var(--danger);">0</td>
+        </tr>
+        <tr onclick="location.href='ACL.html'" style="cursor:pointer;">
+          <td style="text-align:center;">2</td>
+          <td>와이즈만 강서센터</td>
+          <td style="text-align:center;"><strong>37</strong></td>
+          <td style="text-align:center;"><strong>9</strong></td>
+          <td style="text-align:center;"><span class="tag success">24.3%</span></td>
+          <td style="text-align:center;">9</td>
+          <td style="text-align:center;font-weight:600;color:var(--danger);">0</td>
+        </tr>
+        <tr onclick="location.href='AIU.html'" style="cursor:pointer;">
+          <td style="text-align:center;">3</td>
+          <td>와이즈만 수원영통센터</td>
+          <td style="text-align:center;"><strong>281</strong></td>
+          <td style="text-align:center;"><strong>59</strong></td>
+          <td style="text-align:center;"><span class="tag success">21.0%</span></td>
+          <td style="text-align:center;">50</td>
+          <td style="text-align:center;font-weight:600;color:var(--danger);">8</td>
+        </tr>
+        <tr onclick="location.href='ACQ.html'" style="cursor:pointer;">
+          <td style="text-align:center;">4</td>
+          <td>와이즈만 평촌센터 [초등관]</td>
+          <td style="text-align:center;"><strong>362</strong></td>
+          <td style="text-align:center;"><strong>75</strong></td>
+          <td style="text-align:center;"><span class="tag success">20.7%</span></td>
+          <td style="text-align:center;">54</td>
+          <td style="text-align:center;font-weight:600;color:var(--danger);">7</td>
+        </tr>
+        <tr onclick="location.href='ACV.html'" style="cursor:pointer;">
+          <td style="text-align:center;">5</td>
+          <td>와이즈만 송파센터 [초등관]</td>
+          <td style="text-align:center;"><strong>503</strong></td>
+          <td style="text-align:center;"><strong>101</strong></td>
+          <td style="text-align:center;"><span class="tag success">20.1%</span></td>
+          <td style="text-align:center;">84</td>
+          <td style="text-align:center;font-weight:600;color:var(--danger);">16</td>
+        </tr>
+        <tr onclick="location.href='ALB.html'" style="cursor:pointer;">
+          <td style="text-align:center;">6</td>
+          <td>송파 영재입시센터 [중등관]</td>
+          <td style="text-align:center;"><strong>27</strong></td>
+          <td style="text-align:center;"><strong>5</strong></td>
+          <td style="text-align:center;"><span class="tag success">18.5%</span></td>
+          <td style="text-align:center;">5</td>
+          <td style="text-align:center;font-weight:600;color:var(--danger);">0</td>
+        </tr>
+        <tr onclick="location.href='ADO.html'" style="cursor:pointer;">
+          <td style="text-align:center;">7</td>
+          <td>와이즈만 압구정센터</td>
+          <td style="text-align:center;"><strong>109</strong></td>
+          <td style="text-align:center;"><strong>16</strong></td>
+          <td style="text-align:center;"><span class="tag success">14.7%</span></td>
+          <td style="text-align:center;">13</td>
+          <td style="text-align:center;font-weight:600;color:var(--danger);">3</td>
+        </tr>
+        <tr onclick="location.href='AFN.html'" style="cursor:pointer;">
+          <td style="text-align:center;">8</td>
+          <td>와이즈만 대치센터</td>
+          <td style="text-align:center;"><strong>171</strong></td>
+          <td style="text-align:center;"><strong>25</strong></td>
+          <td style="text-align:center;"><span class="tag success">14.6%</span></td>
+          <td style="text-align:center;">22</td>
+          <td style="text-align:center;font-weight:600;color:var(--danger);">3</td>
+        </tr>
+        <tr onclick="location.href='AAA.html'" style="cursor:pointer;">
+          <td style="text-align:center;">9</td>
+          <td>와이즈만 서초센터</td>
+          <td style="text-align:center;"><strong>478</strong></td>
+          <td style="text-align:center;"><strong>68</strong></td>
+          <td style="text-align:center;"><span class="tag success">14.2%</span></td>
+          <td style="text-align:center;">51</td>
+          <td style="text-align:center;font-weight:600;color:var(--danger);">2</td>
+        </tr>
+        <tr onclick="location.href='AJR.html'" style="cursor:pointer;">
+          <td style="text-align:center;">10</td>
+          <td>평촌 영재입시센터 [중등관]</td>
+          <td style="text-align:center;"><strong>102</strong></td>
+          <td style="text-align:center;"><strong>14</strong></td>
+          <td style="text-align:center;"><span class="tag success">13.7%</span></td>
+          <td style="text-align:center;">13</td>
+          <td style="text-align:center;font-weight:600;color:var(--danger);">1</td>
+        </tr>
+        <tr onclick="location.href='AAM.html'" style="cursor:pointer;">
+          <td style="text-align:center;">11</td>
+          <td>와이즈만 분당센터 [초등관]</td>
+          <td style="text-align:center;"><strong>116</strong></td>
+          <td style="text-align:center;"><strong>14</strong></td>
+          <td style="text-align:center;"><span class="tag success">12.1%</span></td>
+          <td style="text-align:center;">13</td>
+          <td style="text-align:center;font-weight:600;color:var(--danger);">1</td>
+        </tr>
+        <tr onclick="location.href='AFF.html'" style="cursor:pointer;">
+          <td style="text-align:center;">12</td>
+          <td>분당 영재입시센터 [중등관]</td>
+          <td style="text-align:center;"><strong>108</strong></td>
+          <td style="text-align:center;"><strong>13</strong></td>
+          <td style="text-align:center;"><span class="tag success">12.0%</span></td>
+          <td style="text-align:center;">12</td>
+          <td style="text-align:center;font-weight:600;color:var(--danger);">1</td>
+        </tr>
+        <tr onclick="location.href='ACS.html'" style="cursor:pointer;">
+          <td style="text-align:center;">13</td>
+          <td>와이즈만 해운대센텀센터</td>
+          <td style="text-align:center;"><strong>535</strong></td>
+          <td style="text-align:center;"><strong>61</strong></td>
+          <td style="text-align:center;"><span class="tag success">11.4%</span></td>
+          <td style="text-align:center;">47</td>
+          <td style="text-align:center;font-weight:600;color:var(--danger);">11</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 탭3: 키워드 분석 -->
+  <div id="tab-keywords" class="tab-panel">
+    <div class="card">
+      <div class="card-title">전체 부정 감성 키워드 (13개 센터 합산)</div>
+      <ul class="keywordList">
+      <li class="keywordItem">
+        <div class="kw">🏃 이탈/포기 의사</div>
+        <div class="cnt">197건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:100%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">📚 학습 어려움</div>
+        <div class="cnt">86건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:44%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">😤 스트레스/압박감</div>
+        <div class="cnt">49건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:25%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">😠 불만/분노</div>
+        <div class="cnt">33건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:17%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">😣 부적응</div>
+        <div class="cnt">30건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:15%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">📌 건강문제</div>
+        <div class="cnt">20건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:10%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">😢 대인관계 갈등</div>
+        <div class="cnt">17건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:9%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">😰 불안/걱정</div>
+        <div class="cnt">15건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:8%"></div></div>
+      </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 탭4: 주의 학생 -->
+  <div id="tab-students" class="tab-panel">
+    <div class="card">
+      <div class="card-title">전체 센터 주의 학생 (평균 초과, 상위 30명)</div>
+      <div style="overflow-x:auto;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width:25%;text-align:left;">센터</th>
+            <th style="width:15%;text-align:left;">학생명</th>
+            <th style="width:25%;">학생코드</th>
+            <th style="width:15%;">부정 건수</th>
+            <th style="width:12%;">등급</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr onclick="location.href='ACS.html'" style="cursor:pointer;">
+          <td>와이즈만 해운대센텀센터</td>
+          <td>황하준</td>
+          <td>CS250501152</td>
+          <td><strong>5건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+        </tr>
+        <tr onclick="location.href='ACQ.html'" style="cursor:pointer;">
+          <td>와이즈만 평촌센터 [초등관]</td>
+          <td>김윤성</td>
+          <td>CS220103196</td>
+          <td><strong>4건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+        </tr>
+        <tr onclick="location.href='AAA.html'" style="cursor:pointer;">
+          <td>와이즈만 서초센터</td>
+          <td>최이헌</td>
+          <td>CS230901393</td>
+          <td><strong>4건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+        </tr>
+        <tr onclick="location.href='AIU.html'" style="cursor:pointer;">
+          <td>와이즈만 수원영통센터</td>
+          <td>신지원</td>
+          <td>CS250100688</td>
+          <td><strong>3건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+        </tr>
+        <tr onclick="location.href='ACQ.html'" style="cursor:pointer;">
+          <td>와이즈만 평촌센터 [초등관]</td>
+          <td>임서준</td>
+          <td>CS230401288</td>
+          <td><strong>3건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+        </tr>
+        <tr onclick="location.href='ACQ.html'" style="cursor:pointer;">
+          <td>와이즈만 평촌센터 [초등관]</td>
+          <td>김동우B</td>
+          <td>CS251102817</td>
+          <td><strong>3건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+        </tr>
+        <tr onclick="location.href='ACQ.html'" style="cursor:pointer;">
+          <td>와이즈만 평촌센터 [초등관]</td>
+          <td>이채원</td>
+          <td>CS230201978</td>
+          <td><strong>3건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+        </tr>
+        <tr onclick="location.href='ACQ.html'" style="cursor:pointer;">
+          <td>와이즈만 평촌센터 [초등관]</td>
+          <td>이호준B</td>
+          <td>CS221104227</td>
+          <td><strong>3건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+        </tr>
+        <tr onclick="location.href='ACQ.html'" style="cursor:pointer;">
+          <td>와이즈만 평촌센터 [초등관]</td>
+          <td>김승윤</td>
+          <td>CS260203044</td>
+          <td><strong>3건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+        </tr>
+        <tr onclick="location.href='ACQ.html'" style="cursor:pointer;">
+          <td>와이즈만 평촌센터 [초등관]</td>
+          <td>박재윤B</td>
+          <td>CS260101069</td>
+          <td><strong>3건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+        </tr>
+        <tr onclick="location.href='ACV.html'" style="cursor:pointer;">
+          <td>와이즈만 송파센터 [초등관]</td>
+          <td>이준서</td>
+          <td>CS250205493</td>
+          <td><strong>3건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+        </tr>
+        <tr onclick="location.href='AAA.html'" style="cursor:pointer;">
+          <td>와이즈만 서초센터</td>
+          <td>김희운</td>
+          <td>CS231200802</td>
+          <td><strong>3건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+        </tr>
+        <tr onclick="location.href='AIU.html'" style="cursor:pointer;">
+          <td>와이즈만 수원영통센터</td>
+          <td>우태경♥</td>
+          <td>CS230205616</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+        </tr>
+        <tr onclick="location.href='AIU.html'" style="cursor:pointer;">
+          <td>와이즈만 수원영통센터</td>
+          <td>최현율</td>
+          <td>CS240600933</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+        </tr>
+        <tr onclick="location.href='AIU.html'" style="cursor:pointer;">
+          <td>와이즈만 수원영통센터</td>
+          <td>장설후</td>
+          <td>CS251102440</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+        </tr>
+        <tr onclick="location.href='AIU.html'" style="cursor:pointer;">
+          <td>와이즈만 수원영통센터</td>
+          <td>문재원</td>
+          <td>CS211100036</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+        </tr>
+        <tr onclick="location.href='AIU.html'" style="cursor:pointer;">
+          <td>와이즈만 수원영통센터</td>
+          <td>김윤빈</td>
+          <td>CS250701077</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+        </tr>
+        <tr onclick="location.href='AIU.html'" style="cursor:pointer;">
+          <td>와이즈만 수원영통센터</td>
+          <td>문정윤</td>
+          <td>CS240902596</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+        </tr>
+        <tr onclick="location.href='AIU.html'" style="cursor:pointer;">
+          <td>와이즈만 수원영통센터</td>
+          <td>김이준</td>
+          <td>CS230101576</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+        </tr>
+        <tr onclick="location.href='ACV.html'" style="cursor:pointer;">
+          <td>와이즈만 송파센터 [초등관]</td>
+          <td>권도윤(잠실)</td>
+          <td>CS210800588</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+        </tr>
+        <tr onclick="location.href='ACV.html'" style="cursor:pointer;">
+          <td>와이즈만 송파센터 [초등관]</td>
+          <td>송승유</td>
+          <td>CS221101852</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+        </tr>
+        <tr onclick="location.href='ACV.html'" style="cursor:pointer;">
+          <td>와이즈만 송파센터 [초등관]</td>
+          <td>정유나</td>
+          <td>CS251200988</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+        </tr>
+        <tr onclick="location.href='ACV.html'" style="cursor:pointer;">
+          <td>와이즈만 송파센터 [초등관]</td>
+          <td>김지완</td>
+          <td>CS230101167</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+        </tr>
+        <tr onclick="location.href='ACV.html'" style="cursor:pointer;">
+          <td>와이즈만 송파센터 [초등관]</td>
+          <td>나준혁</td>
+          <td>CS250206499</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+        </tr>
+        <tr onclick="location.href='ACV.html'" style="cursor:pointer;">
+          <td>와이즈만 송파센터 [초등관]</td>
+          <td>유시유</td>
+          <td>CS260301676</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+        </tr>
+        <tr onclick="location.href='ACV.html'" style="cursor:pointer;">
+          <td>와이즈만 송파센터 [초등관]</td>
+          <td>권정우</td>
+          <td>CS240304079</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+        </tr>
+        <tr onclick="location.href='ACV.html'" style="cursor:pointer;">
+          <td>와이즈만 송파센터 [초등관]</td>
+          <td>황시윤</td>
+          <td>CS220302097</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+        </tr>
+        <tr onclick="location.href='ACV.html'" style="cursor:pointer;">
+          <td>와이즈만 송파센터 [초등관]</td>
+          <td>강채아</td>
+          <td>CS251200153</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+        </tr>
+        <tr onclick="location.href='ACV.html'" style="cursor:pointer;">
+          <td>와이즈만 송파센터 [초등관]</td>
+          <td>정민찬</td>
+          <td>CS211104952</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+        </tr>
+        <tr onclick="location.href='ACV.html'" style="cursor:pointer;">
+          <td>와이즈만 송파센터 [초등관]</td>
+          <td>성연후</td>
+          <td>CS251102871</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+        </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    생성: 2026-04-09 10:05 KST · 분석 기간 8일 · 전체 13개 센터
+  </div>
+
+</div>
+
+<script>
+function switchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

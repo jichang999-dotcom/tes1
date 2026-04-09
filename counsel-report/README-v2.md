@@ -425,12 +425,37 @@ pause
 ### 1단계: D-1~D-0 데이터 추출 (`fetch_data.js`)
 
 - **데이터 조회**: MariaDB(db_square)에 접속하여 **D-1~D-0(전일~당일) 상담 데이터** 추출
-  - 조회 테이블: `tb_counsel`, `tb_counsel_employ`, `tb_company`, `tb_employ`, `tb_student` (JOIN)
-  - 조회 필드: `cns_cd`, `cmp_cd`, `cmp_nm`, `std_cd`, `std_nm`(학생명), `emp_cd`, `reg_dt`, `cns_st`, `cns_req_ct`
-  - 필터 조건: `fc_cls_sn = '1'`, `brn_cls = 'BC0002'`, 제외 cmp_cd: `AFA, AKU, CAY, CCA`
+  - **SQL 쿼리**:
+    ```sql
+    SELECT
+      tc.cns_cd,
+      tc.cmp_cd,
+      tc2.cmp_nm,
+      tc.des_usr_act_cd AS std_cd,
+      ts.std_nm,
+      tce.cns_emp_cd AS emp_cd,
+      tc.reg_dt,
+      tc.cns_st,
+      tce.cns_req_ct
+    FROM tb_counsel tc
+    INNER JOIN tb_counsel_employ tce ON tc.cns_cd = tce.cns_cd
+    INNER JOIN tb_company tc2 ON tc.cmp_cd = tc2.cmp_cd
+    INNER JOIN tb_employ te ON tce.cns_emp_cd = te.emp_cd
+    INNER JOIN tb_student ts ON tc.des_usr_act_cd = ts.std_cd
+    WHERE
+      tc2.fc_cls_sn = '1'
+      AND tc2.brn_cls = 'BC0002'
+      AND tc.cmp_cd NOT IN ('AFA','AKU','CAY','CCA')
+      AND tc.reg_dt >= ?    -- D-1 00:00:00
+      AND tc.reg_dt <= ?    -- D-0 23:59:59
+    ORDER BY tc.cmp_cd, tc.reg_dt DESC
+    ```
+  - **JOIN 구조**: `tb_counsel` ↔ `tb_counsel_employ` (cns_cd) ↔ `tb_company` (cmp_cd) ↔ `tb_employ` (emp_cd) ↔ `tb_student` (std_cd)
+  - **필터 조건**: `fc_cls_sn = '1'` (프랜차이즈 구분), `brn_cls = 'BC0002'` (지점 유형), 제외 cmp_cd: `AFA, AKU, CAY, CCA`
   - **날짜 조건**: `reg_dt >= 어제(D-1) 00:00:00 AND reg_dt <= 오늘(D-0) 23:59:59` (KST 기준)
   - **--date 옵션**: `--date YYYY-MM-DD` 지정 시 해당 날짜만 단일 조회 (D-1 없음)
-- **중복 제거**: `std_cd` + `cns_st` + `cns_req_ct` 세 필드가 모두 동일한 행은 중복으로 판단하여 제외 (첫 번째 건만 유지)
+  - **참고**: `tb_counsel_employ` JOIN으로 인해 동일 상담(cns_cd)에 직원이 복수 연결된 경우 행이 복제될 수 있음 → 아래 중복 제거에서 처리
+- **중복 제거**: `std_cd` + `cns_st` + `cns_req_ct` 세 필드가 모두 동일한 행은 중복으로 판단하여 제외 (첫 번째 건만 유지). 주로 `tb_counsel_employ` JOIN에서 동일 상담에 복수 직원이 연결된 경우 발생 (일평균 약 30건 제거). **DB 쿼리 결과 건수와 저장 건수가 다른 이유**
 - **source_pk 부여**: 각 row에 `source_pk = cns_cd`로 고유 식별자 부여
 - **날짜별 분리**: reg_dt 기준으로 날짜별 `date_groups` 생성 + 전체 통합 `groups` (하위 호환)
 - **cmp_cd별 그룹핑**: 조회 결과를 cmp_cd(센터) 단위로 분류

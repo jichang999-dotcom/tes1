@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>주식단테 기법 분석 대시보드</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', 'Malgun Gothic', sans-serif; background: #0d1117; color: #c9d1d9; line-height: 1.6; padding: 20px; }
+  .container { max-width: 1200px; margin: 0 auto; }
+  h1 { color: #58a6ff; font-size: 1.8em; margin-bottom: 8px; border-bottom: 2px solid #30363d; padding-bottom: 12px; }
+  h2 { color: #f0883e; font-size: 1.4em; margin: 30px 0 12px; }
+  h3 { color: #7ee787; font-size: 1.15em; margin: 20px 0 8px; }
+  .subtitle { color: #8b949e; font-size: 0.9em; margin-bottom: 24px; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.8em; font-weight: bold; }
+  .badge-swing { background: #1f6feb33; color: #58a6ff; border: 1px solid #1f6feb; }
+  .badge-long { background: #da363333; color: #f85149; border: 1px solid #da3633; }
+  .badge-filled { background: #23883233; color: #3fb950; border: 1px solid #238832; }
+  .badge-waiting { background: #6e768133; color: #8b949e; border: 1px solid #6e7681; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.88em; }
+  th { background: #21262d; color: #f0883e; padding: 10px 8px; text-align: center; border: 1px solid #30363d; white-space: nowrap; }
+  td { padding: 9px 8px; border: 1px solid #30363d; text-align: center; }
+  tr:nth-child(even) { background: #161b2280; }
+  tr:hover { background: #1c2333; }
+  .price { color: #58a6ff; font-weight: bold; }
+  .profit { color: #3fb950; font-weight: bold; }
+  .loss { color: #f85149; font-weight: bold; }
+  .ratio-good { color: #3fb950; font-weight: bold; }
+  .ratio-warn { color: #d29922; }
+  .ratio-bad { color: #f85149; }
+  .stop { color: #f85149; font-weight: bold; font-size: 1.1em; }
+  .section-divider { border: 0; border-top: 1px solid #30363d; margin: 30px 0; }
+  .theory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; margin: 16px 0; }
+  .theory-card { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 16px; }
+  .theory-card h4 { color: #f0883e; margin-bottom: 8px; }
+  .theory-card ul { padding-left: 18px; }
+  .theory-card li { margin-bottom: 4px; font-size: 0.9em; }
+  .highlight { background: #1f6feb22; border-left: 3px solid #1f6feb; padding: 12px 16px; margin: 12px 0; border-radius: 0 6px 6px 0; font-size: 0.9em; }
+  .warn-box { background: #da363322; border-left: 3px solid #da3633; padding: 12px 16px; margin: 12px 0; border-radius: 0 6px 6px 0; font-size: 0.9em; }
+  .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 16px 0; }
+  .summary-item { background: #21262d; border-radius: 6px; padding: 14px; text-align: center; }
+  .summary-item .label { color: #8b949e; font-size: 0.8em; }
+  .summary-item .value { font-size: 1.3em; font-weight: bold; margin-top: 4px; }
+  .weight-info { display: inline-flex; gap: 6px; align-items: center; font-size: 0.85em; color: #8b949e; margin-bottom: 12px; }
+  .weight-chip { background: #30363d; padding: 2px 8px; border-radius: 4px; font-family: monospace; }
+  .condition-text { font-size: 0.82em; color: #c9d1d9; text-align: left; }
+  .footer { text-align: center; color: #484f58; font-size: 0.8em; margin-top: 40px; padding-top: 20px; border-top: 1px solid #30363d; }
+  @media (max-width: 768px) {
+    table { font-size: 0.78em; }
+    th, td { padding: 6px 4px; }
+    .theory-grid { grid-template-columns: 1fr; }
+    .summary-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>주식단테 기법 분석 대시보드</h1>
+<p class="subtitle">유튜브 채널 <strong>주식단테사단</strong> 무료 강의 기반 매매기법 참고서 + 종목 분석<br>
+최종 업데이트: 2026-04-13 | 투자금 기준: 종목당 200만원</p>
+
+<!-- ===== 기법 요약 ===== -->
+<h2>핵심 이론 요약</h2>
+
+<div class="theory-grid">
+  <div class="theory-card">
+    <h4>밥그릇 기법 (세력 공략 프레임)</h4>
+    <ul>
+      <li><strong>1구간</strong>: 악재 → 급락 → 개미 투매</li>
+      <li><strong>2구간</strong>: 저가 매집 (1구간 대비 1:1 이상 시간)</li>
+      <li><strong>3구간</strong>: 224일선 돌파 → 본격 상승 (공략 포인트)</li>
+      <li><strong>4구간</strong>: 급등 → 호재 뉴스 동반</li>
+    </ul>
+    <p style="margin-top:8px;font-size:0.85em;color:#8b949e;">적용: 소형주 + 대주주 지분 20~40%</p>
+  </div>
+  <div class="theory-card">
+    <h4>공구리 기법 (바닥 돌파)</h4>
+    <ul>
+      <li><strong>공구리 1</strong>: 전고점 매물 소화 → 지지 → 상승</li>
+      <li><strong>공구리 2</strong>: 쌍바닥 → 추가 공구리 → 상승</li>
+      <li><strong>공구리 3</strong>: 개미털기 후 상승 (가장 강력)</li>
+    </ul>
+    <p style="margin-top:8px;font-size:0.85em;color:#8b949e;">공구리 라인 이탈 시 즉시 손절</p>
+  </div>
+  <div class="theory-card">
+    <h4>하이힐 / 256 / 이평때리기</h4>
+    <ul>
+      <li><strong>하이힐</strong>: 낙폭 과대 후 "굽" 형성 시 매수 타점</li>
+      <li><strong>256 기법</strong>: 224일선 터치 → 반등 구간 공략</li>
+      <li><strong>이평때리기</strong>: 주요 이평선 지지 확인 후 진입</li>
+    </ul>
+    <p style="margin-top:8px;font-size:0.85em;color:#8b949e;">224일선 = 세력 최중시 지지/저항</p>
+  </div>
+  <div class="theory-card">
+    <h4>비중 배분 전략 (사용자 고정)</h4>
+    <ul>
+      <li><strong>스윙</strong>: 1:1:2 (3분할) → 25/25/50%</li>
+      <li><strong>중장기</strong>: 1:1:2:4 (4분할) → 12.5/12.5/25/50%</li>
+      <li>물타기 구조: 지지선 + 반등 양봉 + 거래량 0.7~1.5배</li>
+      <li>손절은 기계적, 수익은 추세에 맡김</li>
+    </ul>
+    <p style="margin-top:8px;font-size:0.85em;color:#8b949e;">기본 투자금: 200만원/종목</p>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- ===== 종목 1: 한화솔루션 ===== -->
+<h2>종목 분석</h2>
+
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h3 style="margin:0;">한화솔루션 (009830)</h3>
+      <span class="badge badge-swing">스윙</span>
+      <span class="badge badge-filled">1차 체결</span>
+    </div>
+    <div class="weight-info">
+      비중: <span class="weight-chip">1 : 1 : 2</span>
+      투자금: <span class="weight-chip">200만원</span>
+    </div>
+  </div>
+
+  <div class="summary-grid">
+    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#f0883e;">눌림 진행 중</div></div>
+    <div class="summary-item"><div class="label">최종 평단 (전량)</div><div class="value price">39,890원</div></div>
+    <div class="summary-item"><div class="label">최종 목표가</div><div class="value profit">45,000원</div></div>
+    <div class="summary-item"><div class="label">손절 라인</div><div class="value stop">37,500원</div></div>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>단계</th><th>매수가</th><th>비중</th><th>매수 조건</th><th>평단</th><th>목표가</th><th>이익률</th><th>이익금</th><th>손익비</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1차 ✅</td>
+        <td class="price">43,461원</td>
+        <td>25% (50만)</td>
+        <td class="condition-text">체결됨</td>
+        <td>43,461</td>
+        <td class="price">48,000원</td>
+        <td class="profit">+10.4%</td>
+        <td class="profit">+5.2만</td>
+        <td class="ratio-bad">0.76</td>
+      </tr>
+      <tr>
+        <td>2차 🔵</td>
+        <td class="price">39,500원</td>
+        <td>25% (50만)</td>
+        <td class="condition-text">20일선 지지 + 반등양봉 + 거래량 12M±3M</td>
+        <td>41,481</td>
+        <td class="price">46,500원</td>
+        <td class="profit">+12.1%</td>
+        <td class="profit">+12.1만</td>
+        <td class="ratio-warn">1.26</td>
+      </tr>
+      <tr>
+        <td>3차 🟣</td>
+        <td class="price">38,300원</td>
+        <td>50% (100만)</td>
+        <td class="condition-text">60일/224일선 근처 + 양봉 + 거래량 12~18M</td>
+        <td><strong>39,890</strong></td>
+        <td class="price">45,000원</td>
+        <td class="profit"><strong>+12.8%</strong></td>
+        <td class="profit"><strong>+25.6만</strong></td>
+        <td class="ratio-good"><strong>2.14 ⭐</strong></td>
+      </tr>
+      <tr style="background:#1c1012;">
+        <td>🛑 손절</td>
+        <td class="stop">37,500원</td>
+        <td>—</td>
+        <td class="condition-text">종가 기준 이탈 시 기계적 컷</td>
+        <td>—</td>
+        <td>—</td>
+        <td class="loss">최대 -5.99%</td>
+        <td class="loss">-12만</td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="highlight">밥그릇 4구간 급등 완료 → 첫 눌림 진행 중. 224일선 약 36,000~37,000 추정. 이차전지/태양광 대형주 — IRA/관세 이슈 모니터링.</div>
+</div>
+
+<!-- ===== 종목 2: DS단석 ===== -->
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h3 style="margin:0;">DS단석 (017860)</h3>
+      <span class="badge badge-swing">스윙</span>
+      <span class="badge badge-filled">1차 체결</span>
+    </div>
+    <div class="weight-info">
+      비중: <span class="weight-chip">1 : 1 : 2</span>
+      투자금: <span class="weight-chip">200만원</span>
+    </div>
+  </div>
+
+  <div class="summary-grid">
+    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#f0883e;">밥그릇 2구간 초중반</div></div>
+    <div class="summary-item"><div class="label">최종 평단 (전량)</div><div class="value price">18,747원</div></div>
+    <div class="summary-item"><div class="label">최종 목표가</div><div class="value profit">20,300원</div></div>
+    <div class="summary-item"><div class="label">손절 라인</div><div class="value stop">18,000원</div></div>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>단계</th><th>매수가</th><th>비중</th><th>매수 조건</th><th>평단</th><th>목표가</th><th>이익률</th><th>이익금</th><th>손익비</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1차 ✅</td>
+        <td class="price">19,986원</td>
+        <td>25% (50만)</td>
+        <td class="condition-text">체결됨</td>
+        <td>19,986</td>
+        <td class="price">21,500원</td>
+        <td class="profit">+7.6%</td>
+        <td class="profit">+3.8만</td>
+        <td class="ratio-bad">0.76</td>
+      </tr>
+      <tr>
+        <td>2차 🔵</td>
+        <td class="price">18,600원</td>
+        <td>25% (50만)</td>
+        <td class="condition-text">직전 지지 + 꼬리양봉 + 거래량 평상시</td>
+        <td>19,293</td>
+        <td class="price">20,700원</td>
+        <td class="profit">+7.3%</td>
+        <td class="profit">+7.3만</td>
+        <td class="ratio-warn">1.09</td>
+      </tr>
+      <tr>
+        <td>3차 🟣</td>
+        <td class="price">18,200원</td>
+        <td>50% (100만)</td>
+        <td class="condition-text">52주 저점 근처 + 양봉 + 거래량 소폭 증가</td>
+        <td><strong>18,747</strong></td>
+        <td class="price">20,300원</td>
+        <td class="profit"><strong>+8.3%</strong></td>
+        <td class="profit"><strong>+16.6만</strong></td>
+        <td class="ratio-good"><strong>2.08 ⭐</strong></td>
+      </tr>
+      <tr style="background:#1c1012;">
+        <td>🛑 손절</td>
+        <td class="stop">18,000원</td>
+        <td>—</td>
+        <td class="condition-text">종가 기준 이탈 시 기계적 컷</td>
+        <td>—</td>
+        <td>—</td>
+        <td class="loss">최대 -3.98%</td>
+        <td class="loss">-8만</td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="highlight">밥그릇 2구간 (매집 단계) 진행 중. 대주주 지분 36.59% — 밥그릇 조건 충족. 224일선 하방. 10% 미만 타이트 스윙 종목.</div>
+</div>
+
+<!-- ===== 종목 3: 컨텍 ===== -->
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h3 style="margin:0;">컨텍 (451760)</h3>
+      <span class="badge badge-swing">스윙</span>
+      <span class="badge badge-waiting">진입 대기</span>
+    </div>
+    <div class="weight-info">
+      비중: <span class="weight-chip">1 : 1 : 2</span>
+      투자금: <span class="weight-chip">200만원</span>
+    </div>
+  </div>
+
+  <div class="summary-grid">
+    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#f0883e;">박스권 돌파 시도</div></div>
+    <div class="summary-item"><div class="label">최종 평단 (전량)</div><div class="value price">18,250원</div></div>
+    <div class="summary-item"><div class="label">최종 목표가</div><div class="value profit">21,000원</div></div>
+    <div class="summary-item"><div class="label">손절 라인</div><div class="value stop">16,500원</div></div>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>단계</th><th>매수가</th><th>비중</th><th>매수 조건</th><th>평단</th><th>목표가</th><th>이익률</th><th>이익금</th><th>손익비</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1차 🔵</td>
+        <td class="price">19,500원</td>
+        <td>25% (50만)</td>
+        <td class="condition-text">20일선 첫 눌림 + 반등양봉 + 거래량 1M 전후</td>
+        <td>19,500</td>
+        <td class="price">22,000원</td>
+        <td class="profit">+12.8%</td>
+        <td class="profit">+6.4만</td>
+        <td class="ratio-bad">0.83</td>
+      </tr>
+      <tr>
+        <td>2차 🔵</td>
+        <td class="price">18,500원</td>
+        <td>25% (50만)</td>
+        <td class="condition-text">박스 중단 지지 + 양봉 + 거래량 감소 OK</td>
+        <td>19,000</td>
+        <td class="price">21,500원</td>
+        <td class="profit">+13.2%</td>
+        <td class="profit">+13.2만</td>
+        <td class="ratio-warn">1.00</td>
+      </tr>
+      <tr>
+        <td>3차 🟣</td>
+        <td class="price">17,500원</td>
+        <td>50% (100만)</td>
+        <td class="condition-text">박스 하단 + 장대양봉 + 거래량 1.5M+</td>
+        <td><strong>18,250</strong></td>
+        <td class="price">21,000원</td>
+        <td class="profit"><strong>+15.1%</strong></td>
+        <td class="profit"><strong>+30.1만</strong></td>
+        <td class="ratio-good"><strong>1.57 ⭐</strong></td>
+      </tr>
+      <tr style="background:#1c1012;">
+        <td>🛑 손절</td>
+        <td class="stop">16,500원</td>
+        <td>—</td>
+        <td class="condition-text">박스 하단 완전 이탈</td>
+        <td>—</td>
+        <td>—</td>
+        <td class="loss">최대 -9.59%</td>
+        <td class="loss">-19.2만</td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="highlight">밥그릇 4구간 완료 후 조정 마무리. A안(눌림 대기) 적용. 소형 우주/위성주 — 거래대금 100위 밖, 비중 축소 권장.</div>
+</div>
+
+<hr class="section-divider">
+
+<!-- ===== 포트폴리오 요약 ===== -->
+<h2>포트폴리오 요약 (전량 체결 기준)</h2>
+
+<div class="card">
+  <table>
+    <thead>
+      <tr><th>종목</th><th>매매 타입</th><th>평단</th><th>최종 목표</th><th>이익금</th><th>손절</th><th>손절 손실</th><th>손익비</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>한화솔루션</strong></td>
+        <td><span class="badge badge-swing">스윙</span></td>
+        <td class="price">39,890원</td>
+        <td class="profit">45,000원 (+12.8%)</td>
+        <td class="profit">+25.6만</td>
+        <td class="stop">37,500원</td>
+        <td class="loss">-12만</td>
+        <td class="ratio-good">2.14 ⭐</td>
+      </tr>
+      <tr>
+        <td><strong>DS단석</strong></td>
+        <td><span class="badge badge-swing">스윙</span></td>
+        <td class="price">18,747원</td>
+        <td class="profit">20,300원 (+8.3%)</td>
+        <td class="profit">+16.6만</td>
+        <td class="stop">18,000원</td>
+        <td class="loss">-8만</td>
+        <td class="ratio-good">2.08 ⭐</td>
+      </tr>
+      <tr>
+        <td><strong>컨텍</strong></td>
+        <td><span class="badge badge-swing">스윙</span></td>
+        <td class="price">18,250원</td>
+        <td class="profit">21,000원 (+15.1%)</td>
+        <td class="profit">+30.1만</td>
+        <td class="stop">16,500원</td>
+        <td class="loss">-19.2만</td>
+        <td class="ratio-good">1.57</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr style="background:#21262d;">
+        <td colspan="4"><strong>전체 합산 (전량 체결, 전종목 목표 달성 시)</strong></td>
+        <td class="profit"><strong>+72.3만</strong></td>
+        <td colspan="2" class="loss"><strong>-39.2만 (최악)</strong></td>
+        <td class="ratio-good"><strong>~1.84</strong></td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="summary-grid" style="margin-top:16px;">
+    <div class="summary-item"><div class="label">총 투자금</div><div class="value price">600만원</div></div>
+    <div class="summary-item"><div class="label">최대 수익 (전종목 달성)</div><div class="value profit">+72.3만</div></div>
+    <div class="summary-item"><div class="label">최대 손실 (전종목 손절)</div><div class="value loss">-39.2만</div></div>
+    <div class="summary-item"><div class="label">전체 손익비</div><div class="value ratio-good">1.84 : 1</div></div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<div class="warn-box">
+  <strong>면책사항</strong>: 본 분석은 유튜브 채널 주식단테사단의 기법 프레임워크를 차트에 기계적으로 적용한 <strong>학습용 참고 자료</strong>입니다. 실시간 호가/뉴스/재무 데이터를 반영하지 않았으며, <strong>투자 권유가 아닙니다</strong>. 최종 판단과 책임은 본인에게 있습니다.
+</div>
+
+<div class="footer">
+  Powered by Claude Code | 주식단테 기법 기반 분석 | 2026-04-13<br>
+  출처: 주식단테사단 공식 커뮤니티 · 무료 기법강의 게시판
+</div>
+
+</div>
+</body>
+</html>

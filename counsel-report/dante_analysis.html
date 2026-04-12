@@ -47,11 +47,99 @@
   .weight-chip { background: #30363d; padding: 2px 8px; border-radius: 4px; font-family: monospace; }
   .condition-text { font-size: 0.82em; color: #c9d1d9; text-align: left; }
   .footer { text-align: center; color: #484f58; font-size: 0.8em; margin-top: 40px; padding-top: 20px; border-top: 1px solid #30363d; }
+  /* 모바일: 테이블을 카드형 레이아웃으로 변환 */
   @media (max-width: 768px) {
-    table { font-size: 0.78em; }
-    th, td { padding: 6px 4px; }
+    body { padding: 10px; }
+    h1 { font-size: 1.3em; }
+    h2 { font-size: 1.2em; }
+    .card { padding: 14px; }
+    .card-header { flex-direction: column; align-items: flex-start; }
     .theory-grid { grid-template-columns: 1fr; }
     .summary-grid { grid-template-columns: 1fr 1fr; }
+    .summary-item .value { font-size: 1.1em; }
+
+    /* 종목 분석 테이블 → 카드형 */
+    table.stock-table thead { display: none; }
+    table.stock-table tbody tr {
+      display: block;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      padding: 12px;
+    }
+    table.stock-table tbody tr:hover { background: #1c2333; }
+    table.stock-table tbody tr td {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: none;
+      padding: 4px 0;
+      text-align: right;
+      font-size: 0.88em;
+    }
+    table.stock-table tbody tr td::before {
+      content: attr(data-label);
+      font-weight: bold;
+      color: #f0883e;
+      text-align: left;
+      flex-shrink: 0;
+      margin-right: 10px;
+      font-size: 0.85em;
+    }
+    table.stock-table tbody tr td.condition-text {
+      text-align: right;
+    }
+    /* 손절 행 강조 */
+    table.stock-table tbody tr[style*="1c1012"] {
+      border-left: 3px solid #f85149;
+    }
+
+    /* 포트폴리오 요약 테이블 → 카드형 */
+    table.portfolio-table thead { display: none; }
+    table.portfolio-table tbody tr {
+      display: block;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      padding: 12px;
+    }
+    table.portfolio-table tbody tr td {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: none;
+      padding: 4px 0;
+      text-align: right;
+      font-size: 0.88em;
+    }
+    table.portfolio-table tbody tr td::before {
+      content: attr(data-label);
+      font-weight: bold;
+      color: #f0883e;
+      text-align: left;
+      flex-shrink: 0;
+      margin-right: 10px;
+      font-size: 0.85em;
+    }
+    table.portfolio-table tfoot tr {
+      display: block;
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 12px;
+    }
+    table.portfolio-table tfoot td {
+      display: block;
+      border: none;
+      padding: 4px 0;
+      text-align: center;
+      font-size: 0.9em;
+    }
+    table.portfolio-table tfoot td[colspan="4"] {
+      margin-bottom: 6px;
+    }
   }
 </style>
 </head>
@@ -131,54 +219,54 @@
     <div class="summary-item"><div class="label">손절 라인</div><div class="value stop">37,500원</div></div>
   </div>
 
-  <table>
+  <table class="stock-table">
     <thead>
       <tr><th>단계</th><th>매수가</th><th>비중</th><th>매수 조건</th><th>평단</th><th>목표가</th><th>이익률</th><th>이익금</th><th>손익비</th></tr>
     </thead>
     <tbody>
       <tr>
-        <td>1차 ✅</td>
-        <td class="price">43,461원</td>
-        <td>25% (50만)</td>
-        <td class="condition-text">체결됨</td>
-        <td>43,461</td>
-        <td class="price">48,000원</td>
-        <td class="profit">+10.4%</td>
-        <td class="profit">+5.2만</td>
-        <td class="ratio-bad">0.76</td>
+        <td data-label="단계">1차 ✅</td>
+        <td data-label="매수가" class="price">43,461원</td>
+        <td data-label="비중">25% (50만)</td>
+        <td data-label="매수 조건" class="condition-text">체결됨</td>
+        <td data-label="평단">43,461</td>
+        <td data-label="목표가" class="price">48,000원</td>
+        <td data-label="이익률" class="profit">+10.4%</td>
+        <td data-label="이익금" class="profit">+5.2만</td>
+        <td data-label="손익비" class="ratio-bad">0.76</td>
       </tr>
       <tr>
-        <td>2차 🔵</td>
-        <td class="price">39,500원</td>
-        <td>25% (50만)</td>
-        <td class="condition-text">20일선 지지 + 반등양봉 + 거래량 12M±3M</td>
-        <td>41,481</td>
-        <td class="price">46,500원</td>
-        <td class="profit">+12.1%</td>
-        <td class="profit">+12.1만</td>
-        <td class="ratio-warn">1.26</td>
+        <td data-label="단계">2차 🔵</td>
+        <td data-label="매수가" class="price">39,500원</td>
+        <td data-label="비중">25% (50만)</td>
+        <td data-label="매수 조건" class="condition-text">20일선 지지 + 반등양봉 + 거래량 12M±3M</td>
+        <td data-label="평단">41,481</td>
+        <td data-label="목표가" class="price">46,500원</td>
+        <td data-label="이익률" class="profit">+12.1%</td>
+        <td data-label="이익금" class="profit">+12.1만</td>
+        <td data-label="손익비" class="ratio-warn">1.26</td>
       </tr>
       <tr>
-        <td>3차 🟣</td>
-        <td class="price">38,300원</td>
-        <td>50% (100만)</td>
-        <td class="condition-text">60일/224일선 근처 + 양봉 + 거래량 12~18M</td>
-        <td><strong>39,890</strong></td>
-        <td class="price">45,000원</td>
-        <td class="profit"><strong>+12.8%</strong></td>
-        <td class="profit"><strong>+25.6만</strong></td>
-        <td class="ratio-good"><strong>2.14 ⭐</strong></td>
+        <td data-label="단계">3차 🟣</td>
+        <td data-label="매수가" class="price">38,300원</td>
+        <td data-label="비중">50% (100만)</td>
+        <td data-label="매수 조건" class="condition-text">60일/224일선 근처 + 양봉 + 거래량 12~18M</td>
+        <td data-label="평단"><strong>39,890</strong></td>
+        <td data-label="목표가" class="price">45,000원</td>
+        <td data-label="이익률" class="profit"><strong>+12.8%</strong></td>
+        <td data-label="이익금" class="profit"><strong>+25.6만</strong></td>
+        <td data-label="손익비" class="ratio-good"><strong>2.14 ⭐</strong></td>
       </tr>
       <tr style="background:#1c1012;">
-        <td>🛑 손절</td>
-        <td class="stop">37,500원</td>
-        <td>—</td>
-        <td class="condition-text">종가 기준 이탈 시 기계적 컷</td>
-        <td>—</td>
-        <td>—</td>
-        <td class="loss">최대 -5.99%</td>
-        <td class="loss">-12만</td>
-        <td>—</td>
+        <td data-label="단계">🛑 손절</td>
+        <td data-label="매수가" class="stop">37,500원</td>
+        <td data-label="비중">—</td>
+        <td data-label="매수 조건" class="condition-text">종가 기준 이탈 시 기계적 컷</td>
+        <td data-label="평단">—</td>
+        <td data-label="목표가">—</td>
+        <td data-label="이익률" class="loss">최대 -5.99%</td>
+        <td data-label="이익금" class="loss">-12만</td>
+        <td data-label="손익비">—</td>
       </tr>
     </tbody>
   </table>
@@ -207,54 +295,54 @@
     <div class="summary-item"><div class="label">손절 라인</div><div class="value stop">18,000원</div></div>
   </div>
 
-  <table>
+  <table class="stock-table">
     <thead>
       <tr><th>단계</th><th>매수가</th><th>비중</th><th>매수 조건</th><th>평단</th><th>목표가</th><th>이익률</th><th>이익금</th><th>손익비</th></tr>
     </thead>
     <tbody>
       <tr>
-        <td>1차 ✅</td>
-        <td class="price">19,986원</td>
-        <td>25% (50만)</td>
-        <td class="condition-text">체결됨</td>
-        <td>19,986</td>
-        <td class="price">21,500원</td>
-        <td class="profit">+7.6%</td>
-        <td class="profit">+3.8만</td>
-        <td class="ratio-bad">0.76</td>
+        <td data-label="단계">1차 ✅</td>
+        <td data-label="매수가" class="price">19,986원</td>
+        <td data-label="비중">25% (50만)</td>
+        <td data-label="매수 조건" class="condition-text">체결됨</td>
+        <td data-label="평단">19,986</td>
+        <td data-label="목표가" class="price">21,500원</td>
+        <td data-label="이익률" class="profit">+7.6%</td>
+        <td data-label="이익금" class="profit">+3.8만</td>
+        <td data-label="손익비" class="ratio-bad">0.76</td>
       </tr>
       <tr>
-        <td>2차 🔵</td>
-        <td class="price">18,600원</td>
-        <td>25% (50만)</td>
-        <td class="condition-text">직전 지지 + 꼬리양봉 + 거래량 평상시</td>
-        <td>19,293</td>
-        <td class="price">20,700원</td>
-        <td class="profit">+7.3%</td>
-        <td class="profit">+7.3만</td>
-        <td class="ratio-warn">1.09</td>
+        <td data-label="단계">2차 🔵</td>
+        <td data-label="매수가" class="price">18,600원</td>
+        <td data-label="비중">25% (50만)</td>
+        <td data-label="매수 조건" class="condition-text">직전 지지 + 꼬리양봉 + 거래량 평상시</td>
+        <td data-label="평단">19,293</td>
+        <td data-label="목표가" class="price">20,700원</td>
+        <td data-label="이익률" class="profit">+7.3%</td>
+        <td data-label="이익금" class="profit">+7.3만</td>
+        <td data-label="손익비" class="ratio-warn">1.09</td>
       </tr>
       <tr>
-        <td>3차 🟣</td>
-        <td class="price">18,200원</td>
-        <td>50% (100만)</td>
-        <td class="condition-text">52주 저점 근처 + 양봉 + 거래량 소폭 증가</td>
-        <td><strong>18,747</strong></td>
-        <td class="price">20,300원</td>
-        <td class="profit"><strong>+8.3%</strong></td>
-        <td class="profit"><strong>+16.6만</strong></td>
-        <td class="ratio-good"><strong>2.08 ⭐</strong></td>
+        <td data-label="단계">3차 🟣</td>
+        <td data-label="매수가" class="price">18,200원</td>
+        <td data-label="비중">50% (100만)</td>
+        <td data-label="매수 조건" class="condition-text">52주 저점 근처 + 양봉 + 거래량 소폭 증가</td>
+        <td data-label="평단"><strong>18,747</strong></td>
+        <td data-label="목표가" class="price">20,300원</td>
+        <td data-label="이익률" class="profit"><strong>+8.3%</strong></td>
+        <td data-label="이익금" class="profit"><strong>+16.6만</strong></td>
+        <td data-label="손익비" class="ratio-good"><strong>2.08 ⭐</strong></td>
       </tr>
       <tr style="background:#1c1012;">
-        <td>🛑 손절</td>
-        <td class="stop">18,000원</td>
-        <td>—</td>
-        <td class="condition-text">종가 기준 이탈 시 기계적 컷</td>
-        <td>—</td>
-        <td>—</td>
-        <td class="loss">최대 -3.98%</td>
-        <td class="loss">-8만</td>
-        <td>—</td>
+        <td data-label="단계">🛑 손절</td>
+        <td data-label="매수가" class="stop">18,000원</td>
+        <td data-label="비중">—</td>
+        <td data-label="매수 조건" class="condition-text">종가 기준 이탈 시 기계적 컷</td>
+        <td data-label="평단">—</td>
+        <td data-label="목표가">—</td>
+        <td data-label="이익률" class="loss">최대 -3.98%</td>
+        <td data-label="이익금" class="loss">-8만</td>
+        <td data-label="손익비">—</td>
       </tr>
     </tbody>
   </table>
@@ -283,54 +371,54 @@
     <div class="summary-item"><div class="label">손절 라인</div><div class="value stop">16,500원</div></div>
   </div>
 
-  <table>
+  <table class="stock-table">
     <thead>
       <tr><th>단계</th><th>매수가</th><th>비중</th><th>매수 조건</th><th>평단</th><th>목표가</th><th>이익률</th><th>이익금</th><th>손익비</th></tr>
     </thead>
     <tbody>
       <tr>
-        <td>1차 🔵</td>
-        <td class="price">19,500원</td>
-        <td>25% (50만)</td>
-        <td class="condition-text">20일선 첫 눌림 + 반등양봉 + 거래량 1M 전후</td>
-        <td>19,500</td>
-        <td class="price">22,000원</td>
-        <td class="profit">+12.8%</td>
-        <td class="profit">+6.4만</td>
-        <td class="ratio-bad">0.83</td>
+        <td data-label="단계">1차 🔵</td>
+        <td data-label="매수가" class="price">19,500원</td>
+        <td data-label="비중">25% (50만)</td>
+        <td data-label="매수 조건" class="condition-text">20일선 첫 눌림 + 반등양봉 + 거래량 1M 전후</td>
+        <td data-label="평단">19,500</td>
+        <td data-label="목표가" class="price">22,000원</td>
+        <td data-label="이익률" class="profit">+12.8%</td>
+        <td data-label="이익금" class="profit">+6.4만</td>
+        <td data-label="손익비" class="ratio-bad">0.83</td>
       </tr>
       <tr>
-        <td>2차 🔵</td>
-        <td class="price">18,500원</td>
-        <td>25% (50만)</td>
-        <td class="condition-text">박스 중단 지지 + 양봉 + 거래량 감소 OK</td>
-        <td>19,000</td>
-        <td class="price">21,500원</td>
-        <td class="profit">+13.2%</td>
-        <td class="profit">+13.2만</td>
-        <td class="ratio-warn">1.00</td>
+        <td data-label="단계">2차 🔵</td>
+        <td data-label="매수가" class="price">18,500원</td>
+        <td data-label="비중">25% (50만)</td>
+        <td data-label="매수 조건" class="condition-text">박스 중단 지지 + 양봉 + 거래량 감소 OK</td>
+        <td data-label="평단">19,000</td>
+        <td data-label="목표가" class="price">21,500원</td>
+        <td data-label="이익률" class="profit">+13.2%</td>
+        <td data-label="이익금" class="profit">+13.2만</td>
+        <td data-label="손익비" class="ratio-warn">1.00</td>
       </tr>
       <tr>
-        <td>3차 🟣</td>
-        <td class="price">17,500원</td>
-        <td>50% (100만)</td>
-        <td class="condition-text">박스 하단 + 장대양봉 + 거래량 1.5M+</td>
-        <td><strong>18,250</strong></td>
-        <td class="price">21,000원</td>
-        <td class="profit"><strong>+15.1%</strong></td>
-        <td class="profit"><strong>+30.1만</strong></td>
-        <td class="ratio-good"><strong>1.57 ⭐</strong></td>
+        <td data-label="단계">3차 🟣</td>
+        <td data-label="매수가" class="price">17,500원</td>
+        <td data-label="비중">50% (100만)</td>
+        <td data-label="매수 조건" class="condition-text">박스 하단 + 장대양봉 + 거래량 1.5M+</td>
+        <td data-label="평단"><strong>18,250</strong></td>
+        <td data-label="목표가" class="price">21,000원</td>
+        <td data-label="이익률" class="profit"><strong>+15.1%</strong></td>
+        <td data-label="이익금" class="profit"><strong>+30.1만</strong></td>
+        <td data-label="손익비" class="ratio-good"><strong>1.57 ⭐</strong></td>
       </tr>
       <tr style="background:#1c1012;">
-        <td>🛑 손절</td>
-        <td class="stop">16,500원</td>
-        <td>—</td>
-        <td class="condition-text">박스 하단 완전 이탈</td>
-        <td>—</td>
-        <td>—</td>
-        <td class="loss">최대 -9.59%</td>
-        <td class="loss">-19.2만</td>
-        <td>—</td>
+        <td data-label="단계">🛑 손절</td>
+        <td data-label="매수가" class="stop">16,500원</td>
+        <td data-label="비중">—</td>
+        <td data-label="매수 조건" class="condition-text">박스 하단 완전 이탈</td>
+        <td data-label="평단">—</td>
+        <td data-label="목표가">—</td>
+        <td data-label="이익률" class="loss">최대 -9.59%</td>
+        <td data-label="이익금" class="loss">-19.2만</td>
+        <td data-label="손익비">—</td>
       </tr>
     </tbody>
   </table>
@@ -344,40 +432,40 @@
 <h2>포트폴리오 요약 (전량 체결 기준)</h2>
 
 <div class="card">
-  <table>
+  <table class="portfolio-table">
     <thead>
       <tr><th>종목</th><th>매매 타입</th><th>평단</th><th>최종 목표</th><th>이익금</th><th>손절</th><th>손절 손실</th><th>손익비</th></tr>
     </thead>
     <tbody>
       <tr>
-        <td><strong>한화솔루션</strong></td>
-        <td><span class="badge badge-swing">스윙</span></td>
-        <td class="price">39,890원</td>
-        <td class="profit">45,000원 (+12.8%)</td>
-        <td class="profit">+25.6만</td>
-        <td class="stop">37,500원</td>
-        <td class="loss">-12만</td>
-        <td class="ratio-good">2.14 ⭐</td>
+        <td data-label="종목"><strong>한화솔루션</strong></td>
+        <td data-label="매매 타입"><span class="badge badge-swing">스윙</span></td>
+        <td data-label="평단" class="price">39,890원</td>
+        <td data-label="최종 목표" class="profit">45,000원 (+12.8%)</td>
+        <td data-label="이익금" class="profit">+25.6만</td>
+        <td data-label="손절" class="stop">37,500원</td>
+        <td data-label="손절 손실" class="loss">-12만</td>
+        <td data-label="손익비" class="ratio-good">2.14 ⭐</td>
       </tr>
       <tr>
-        <td><strong>DS단석</strong></td>
-        <td><span class="badge badge-swing">스윙</span></td>
-        <td class="price">18,747원</td>
-        <td class="profit">20,300원 (+8.3%)</td>
-        <td class="profit">+16.6만</td>
-        <td class="stop">18,000원</td>
-        <td class="loss">-8만</td>
-        <td class="ratio-good">2.08 ⭐</td>
+        <td data-label="종목"><strong>DS단석</strong></td>
+        <td data-label="매매 타입"><span class="badge badge-swing">스윙</span></td>
+        <td data-label="평단" class="price">18,747원</td>
+        <td data-label="최종 목표" class="profit">20,300원 (+8.3%)</td>
+        <td data-label="이익금" class="profit">+16.6만</td>
+        <td data-label="손절" class="stop">18,000원</td>
+        <td data-label="손절 손실" class="loss">-8만</td>
+        <td data-label="손익비" class="ratio-good">2.08 ⭐</td>
       </tr>
       <tr>
-        <td><strong>컨텍</strong></td>
-        <td><span class="badge badge-swing">스윙</span></td>
-        <td class="price">18,250원</td>
-        <td class="profit">21,000원 (+15.1%)</td>
-        <td class="profit">+30.1만</td>
-        <td class="stop">16,500원</td>
-        <td class="loss">-19.2만</td>
-        <td class="ratio-good">1.57</td>
+        <td data-label="종목"><strong>컨텍</strong></td>
+        <td data-label="매매 타입"><span class="badge badge-swing">스윙</span></td>
+        <td data-label="평단" class="price">18,250원</td>
+        <td data-label="최종 목표" class="profit">21,000원 (+15.1%)</td>
+        <td data-label="이익금" class="profit">+30.1만</td>
+        <td data-label="손절" class="stop">16,500원</td>
+        <td data-label="손절 손실" class="loss">-19.2만</td>
+        <td data-label="손익비" class="ratio-good">1.57</td>
       </tr>
     </tbody>
     <tfoot>

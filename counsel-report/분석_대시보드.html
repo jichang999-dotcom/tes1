@@ -57,6 +57,10 @@
   .tab-btn:hover:not(.active-swing):not(.active-long) { background: #21262d; color: #c9d1d9; }
   .tab-content { display: none; }
   .tab-content.active { display: block; }
+  /* 시나리오 선택 */
+  .scenario-row { transition: all 0.15s; }
+  .scenario-row:hover { background: #1c2333 !important; }
+  .scenario-active { outline: 2px solid #58a6ff; outline-offset: -2px; background: #1f6feb18 !important; }
   /* 모바일: 테이블을 카드형 레이아웃으로 변환 */
   @media (max-width: 768px) {
     body { padding: 10px; }
@@ -488,120 +492,57 @@
     </div>
   </div>
 
-  <div class="summary-grid">
+  <div class="summary-grid" id="lg-summary">
     <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#f0883e;">3구간 돌파 후 조정 (눌림목)</div></div>
-    <div class="summary-item"><div class="label">최종 평단 (전량)</div><div class="value price">103,333원</div></div>
-    <div class="summary-item"><div class="label">최종 목표가</div><div class="value profit">130,000원</div></div>
-    <div class="summary-item"><div class="label">손절 라인</div><div class="value stop">94,000원</div></div>
+    <div class="summary-item"><div class="label">최종 평단 (전량)</div><div class="value price" id="lg-sum-avg">103,333원</div></div>
+    <div class="summary-item"><div class="label">최종 목표가</div><div class="value profit" id="lg-sum-target">130,000원</div></div>
+    <div class="summary-item"><div class="label">손절 라인</div><div class="value stop" id="lg-sum-stop">94,000원</div></div>
   </div>
 
   <div class="highlight" style="margin-bottom:12px;">224일선(~100,000) 대비 현재가 119,600원. 대주주 33.67% — 밥그릇 적용 대상(20~40%) 적합. 68,000 → 151,900 (+123%) 대세 상승 후 조정 중.</div>
 
-  <table class="stock-table">
+  <div id="lg-scenario-label" style="margin-bottom:8px;font-size:0.85em;color:#8b949e;">현재 시나리오: <strong style="color:#58a6ff;" id="lg-scenario-name">현재가 진입 (118,000)</strong></div>
+
+  <table class="stock-table" id="lg-buy-table">
     <thead>
       <tr><th>단계</th><th>매수가</th><th>수량</th><th>매수금액</th><th>비중</th><th>매수 조건</th><th>평단</th><th>목표가</th><th>이익률</th><th>이익금</th><th>손익비</th></tr>
     </thead>
-    <tbody>
-      <tr>
-        <td data-label="단계">1차 🔵</td>
-        <td data-label="매수가" class="price">118,000원</td>
-        <td data-label="수량">1주</td>
-        <td data-label="매수금액">11.8만</td>
-        <td data-label="비중">12.5% (12.5만)</td>
-        <td data-label="매수 조건" class="condition-text">20일선 지지 + 반등양봉 + 거래량 1.2M+</td>
-        <td data-label="평단">118,000</td>
-        <td data-label="목표가" class="price">145,000원</td>
-        <td data-label="이익률" class="profit">+22.9%</td>
-        <td data-label="이익금" class="profit">+2.7만</td>
-        <td data-label="손익비" class="ratio-bad">0.90</td>
-      </tr>
-      <tr>
-        <td data-label="단계">2차 🔵</td>
-        <td data-label="매수가" class="price">112,000원</td>
-        <td data-label="수량">1주</td>
-        <td data-label="매수금액">11.2만</td>
-        <td data-label="비중">12.5% (12.5만)</td>
-        <td data-label="매수 조건" class="condition-text">60일선 지지 + 꼬리양봉 + 거래량 평상시</td>
-        <td data-label="평단">115,000</td>
-        <td data-label="목표가" class="price">140,000원</td>
-        <td data-label="이익률" class="profit">+21.7%</td>
-        <td data-label="이익금" class="profit">+5.0만</td>
-        <td data-label="손익비" class="ratio-warn">1.11</td>
-      </tr>
-      <tr>
-        <td data-label="단계">3차 🔵</td>
-        <td data-label="매수가" class="price">105,000원</td>
-        <td data-label="수량">2주</td>
-        <td data-label="매수금액">21.0만</td>
-        <td data-label="비중">25% (25만)</td>
-        <td data-label="매수 조건" class="condition-text">112일선 근처 + 반등양봉 + 거래량 1.5M+</td>
-        <td data-label="평단">110,000</td>
-        <td data-label="목표가" class="price">135,000원</td>
-        <td data-label="이익률" class="profit">+22.7%</td>
-        <td data-label="이익금" class="profit">+10.0만</td>
-        <td data-label="손익비" class="ratio-good">1.65</td>
-      </tr>
-      <tr>
-        <td data-label="단계">4차 🟣</td>
-        <td data-label="매수가" class="price">98,000원</td>
-        <td data-label="수량">5주</td>
-        <td data-label="매수금액">49.0만</td>
-        <td data-label="비중">50% (50만)</td>
-        <td data-label="매수 조건" class="condition-text">224일선 지지 + 반등양봉 + 거래량 증가</td>
-        <td data-label="평단"><strong>103,333</strong></td>
-        <td data-label="목표가" class="price">130,000원</td>
-        <td data-label="이익률" class="profit"><strong>+25.8%</strong></td>
-        <td data-label="이익금" class="profit"><strong>+24.0만</strong></td>
-        <td data-label="손익비" class="ratio-good"><strong>2.19 ⭐</strong></td>
-      </tr>
-      <tr style="background:#1c1012;">
-        <td data-label="단계">🛑 손절</td>
-        <td data-label="매수가" class="stop">94,000원</td>
-        <td data-label="수량">—</td>
-        <td data-label="매수금액">—</td>
-        <td data-label="비중">—</td>
-        <td data-label="매수 조건" class="condition-text">224일선 이탈 종가 기준 기계적 컷</td>
-        <td data-label="평단">—</td>
-        <td data-label="목표가">—</td>
-        <td data-label="이익률" class="loss">최대 -9.0%</td>
-        <td data-label="이익금" class="loss">-8.4만</td>
-        <td data-label="손익비">—</td>
-      </tr>
+    <tbody id="lg-buy-tbody">
     </tbody>
   </table>
 
-  <h4 style="color:#f0883e; margin-top:16px;">추천 진입 시나리오</h4>
-  <table class="stock-table">
+  <h4 style="color:#f0883e; margin-top:16px;">추천 진입 시나리오 <span style="font-size:0.75em;color:#8b949e;font-weight:normal;">(클릭하면 위 테이블이 변경됩니다)</span></h4>
+  <table class="stock-table" id="lg-scenario-table">
     <thead>
       <tr><th>시나리오</th><th>매수 시작가</th><th>전량 평단</th><th>손익비</th><th>추천도</th></tr>
     </thead>
     <tbody>
-      <tr>
+      <tr class="scenario-row scenario-active" onclick="selectScenario('current')" id="sc-current" style="cursor:pointer;">
         <td data-label="시나리오">현재가 진입 (118,000)</td>
         <td data-label="매수 시작가" class="price">118,000원</td>
         <td data-label="전량 평단">103,333원</td>
         <td data-label="손익비" class="ratio-good">2.19</td>
         <td data-label="추천도">⭐⭐</td>
       </tr>
-      <tr style="background:#1f6feb11;">
+      <tr class="scenario-row" onclick="selectScenario('ma60')" id="sc-ma60" style="cursor:pointer;">
         <td data-label="시나리오"><strong>60일선 진입 (112,000)</strong></td>
         <td data-label="매수 시작가" class="price">112,000원</td>
         <td data-label="전량 평단">99,111원</td>
         <td data-label="손익비" class="ratio-good">2.62</td>
         <td data-label="추천도">⭐⭐⭐</td>
       </tr>
-      <tr style="background:#23883211;">
+      <tr class="scenario-row" onclick="selectScenario('ma224')" id="sc-ma224" style="cursor:pointer;">
         <td data-label="시나리오"><strong>224일선 터치 (100,000)</strong></td>
         <td data-label="매수 시작가" class="price">100,000원</td>
         <td data-label="전량 평단">88,889원</td>
         <td data-label="손익비" class="ratio-good"><strong>3.35</strong></td>
         <td data-label="추천도">⭐⭐⭐⭐⭐</td>
       </tr>
-      <tr>
+      <tr class="scenario-row" onclick="selectScenario('breakout')" id="sc-breakout" style="cursor:pointer;">
         <td data-label="시나리오">거래량 돌파 후 눌림</td>
         <td data-label="매수 시작가" class="price">125,000원</td>
-        <td data-label="전량 평단">—</td>
-        <td data-label="손익비">—</td>
+        <td data-label="전량 평단">113,375원</td>
+        <td data-label="손익비" class="ratio-good">2.94</td>
         <td data-label="추천도">⭐⭐⭐⭐</td>
       </tr>
     </tbody>
@@ -703,7 +644,6 @@ function switchTab(type) {
   var longTab = document.getElementById('tab-long');
   var btnSwing = document.getElementById('btn-swing');
   var btnLong = document.getElementById('btn-long');
-
   if (type === 'swing') {
     swingTab.classList.add('active');
     longTab.classList.remove('active');
@@ -716,6 +656,108 @@ function switchTab(type) {
     btnLong.className = 'tab-btn active-long';
   }
 }
+
+/* LG전자 시나리오 데이터 */
+var lgScenarios = {
+  current: {
+    name: '현재가 진입 (118,000)',
+    summary: { avg: '103,333원', target: '130,000원', stop: '94,000원' },
+    rows: [
+      { step:'1차 🔵', price:'118,000원', qty:'1주', amount:'11.8만', weight:'12.5% (12.5만)', cond:'20일선 지지 + 반등양봉 + 거래량 1.2M+', avg:'118,000', target:'145,000원', rate:'+22.9%', profit:'+2.7만', ratio:'0.90', rc:'ratio-bad', bold:false },
+      { step:'2차 🔵', price:'112,000원', qty:'1주', amount:'11.2만', weight:'12.5% (12.5만)', cond:'60일선 지지 + 꼬리양봉 + 거래량 평상시', avg:'115,000', target:'140,000원', rate:'+21.7%', profit:'+5.0만', ratio:'1.11', rc:'ratio-warn', bold:false },
+      { step:'3차 🔵', price:'105,000원', qty:'2주', amount:'21.0만', weight:'25% (25만)', cond:'112일선 근처 + 반등양봉 + 거래량 1.5M+', avg:'110,000', target:'135,000원', rate:'+22.7%', profit:'+10.0만', ratio:'1.65', rc:'ratio-good', bold:false },
+      { step:'4차 🟣', price:'98,000원', qty:'5주', amount:'49.0만', weight:'50% (50만)', cond:'224일선 지지 + 반등양봉 + 거래량 증가', avg:'103,333', target:'130,000원', rate:'+25.8%', profit:'+24.0만', ratio:'2.19 ⭐', rc:'ratio-good', bold:true }
+    ],
+    stop: { price:'94,000원', cond:'224일선 이탈 종가 기준 기계적 컷', rate:'최대 -9.0%', loss:'-8.4만' }
+  },
+  ma60: {
+    name: '60일선 진입 (112,000)',
+    summary: { avg: '99,111원', target: '128,000원', stop: '91,000원' },
+    rows: [
+      { step:'1차 🔵', price:'112,000원', qty:'1주', amount:'11.2만', weight:'12.5% (12.5만)', cond:'60일선 지지 + 반등양봉 + 거래량 1.2M+', avg:'112,000', target:'140,000원', rate:'+25.0%', profit:'+2.8만', ratio:'1.16', rc:'ratio-warn', bold:false },
+      { step:'2차 🔵', price:'105,000원', qty:'1주', amount:'10.5만', weight:'12.5% (12.5만)', cond:'112일선 지지 + 꼬리양봉 + 거래량 평상시', avg:'108,500', target:'135,000원', rate:'+24.4%', profit:'+5.3만', ratio:'1.47', rc:'ratio-warn', bold:false },
+      { step:'3차 🔵', price:'100,000원', qty:'2주', amount:'20.0만', weight:'25% (25만)', cond:'224일선 근처 + 반등양봉 + 거래량 1.5M+', avg:'104,250', target:'130,000원', rate:'+24.7%', profit:'+10.3만', ratio:'1.93', rc:'ratio-good', bold:false },
+      { step:'4차 🟣', price:'95,000원', qty:'5주', amount:'47.5만', weight:'50% (50만)', cond:'224일선 하방 지지 + 반등양봉 + 거래량 증가', avg:'99,111', target:'128,000원', rate:'+29.1%', profit:'+25.9만', ratio:'2.62 ⭐', rc:'ratio-good', bold:true }
+    ],
+    stop: { price:'91,000원', cond:'224일선 이탈 종가 기준 기계적 컷', rate:'최대 -8.2%', loss:'-7.3만' }
+  },
+  ma224: {
+    name: '224일선 터치 (100,000)',
+    summary: { avg: '88,889원', target: '115,000원', stop: '82,000원' },
+    rows: [
+      { step:'1차 🔵', price:'100,000원', qty:'1주', amount:'10.0만', weight:'12.5% (12.5만)', cond:'224일선 지지 + 반등양봉 + 거래량 1.5M+', avg:'100,000', target:'130,000원', rate:'+30.0%', profit:'+3.0만', ratio:'1.88', rc:'ratio-good', bold:false },
+      { step:'2차 🔵', price:'95,000원', qty:'1주', amount:'9.5만', weight:'12.5% (12.5만)', cond:'224일선 하방 지지 + 꼬리양봉 + 거래량 평상시', avg:'97,500', target:'125,000원', rate:'+28.2%', profit:'+5.5만', ratio:'2.11', rc:'ratio-good', bold:false },
+      { step:'3차 🔵', price:'90,000원', qty:'2주', amount:'18.0만', weight:'25% (25만)', cond:'장기 박스 하단 + 반등양봉 + 거래량 증가', avg:'93,750', target:'120,000원', rate:'+28.0%', profit:'+10.5만', ratio:'2.62', rc:'ratio-good', bold:false },
+      { step:'4차 🟣', price:'85,000원', qty:'5주', amount:'42.5만', weight:'50% (50만)', cond:'밥그릇 2구간 하단 + 반등양봉 + 거래량 증가', avg:'88,889', target:'115,000원', rate:'+29.4%', profit:'+23.5만', ratio:'3.35 ⭐', rc:'ratio-good', bold:true }
+    ],
+    stop: { price:'82,000원', cond:'밥그릇 2구간 최저점 이탈 종가 기준 컷', rate:'최대 -7.7%', loss:'-6.2만' }
+  },
+  breakout: {
+    name: '거래량 돌파 후 눌림 (125,000)',
+    summary: { avg: '113,375원', target: '138,000원', stop: '105,000원' },
+    rows: [
+      { step:'1차 🔵', price:'125,000원', qty:'1주', amount:'12.5만', weight:'12.5% (12.5만)', cond:'돌파 양봉 하단 지지 + 반등양봉 + 거래량 2M+', avg:'125,000', target:'145,000원', rate:'+16.0%', profit:'+2.0만', ratio:'0.80', rc:'ratio-bad', bold:false },
+      { step:'2차 🔵', price:'120,000원', qty:'1주', amount:'12.0만', weight:'12.5% (12.5만)', cond:'20일선 지지 + 꼬리양봉 + 거래량 평상시', avg:'122,500', target:'142,000원', rate:'+15.9%', profit:'+3.9만', ratio:'1.05', rc:'ratio-warn', bold:false },
+      { step:'3차 🔵', price:'115,000원', qty:'2주', amount:'23.0만', weight:'25% (25만)', cond:'60일선 지지 + 반등양봉 + 거래량 1.5M+', avg:'118,750', target:'140,000원', rate:'+17.9%', profit:'+8.5만', ratio:'1.60', rc:'ratio-good', bold:false },
+      { step:'4차 🟣', price:'108,000원', qty:'4주', amount:'43.2만', weight:'50% (50만)', cond:'112일선 지지 + 반등양봉 + 거래량 증가', avg:'113,375', target:'138,000원', rate:'+21.7%', profit:'+19.7만', ratio:'2.94 ⭐', rc:'ratio-good', bold:true }
+    ],
+    stop: { price:'105,000원', cond:'112일선 이탈 종가 기준 기계적 컷', rate:'최대 -7.4%', loss:'-6.7만' }
+  }
+};
+
+function selectScenario(key) {
+  var sc = lgScenarios[key];
+  if (!sc) return;
+
+  /* 상단 요약 업데이트 */
+  document.getElementById('lg-sum-avg').textContent = sc.summary.avg;
+  document.getElementById('lg-sum-target').textContent = sc.summary.target;
+  document.getElementById('lg-sum-stop').textContent = sc.summary.stop;
+  document.getElementById('lg-scenario-name').textContent = sc.name;
+
+  /* 시나리오 행 활성화 */
+  var rows = document.querySelectorAll('.scenario-row');
+  for (var i = 0; i < rows.length; i++) rows[i].classList.remove('scenario-active');
+  document.getElementById('sc-' + key).classList.add('scenario-active');
+
+  /* 매수 테이블 재생성 */
+  var tbody = document.getElementById('lg-buy-tbody');
+  var html = '';
+  for (var i = 0; i < sc.rows.length; i++) {
+    var r = sc.rows[i];
+    var b = r.bold;
+    html += '<tr>';
+    html += '<td data-label="단계">' + r.step + '</td>';
+    html += '<td data-label="매수가" class="price">' + r.price + '</td>';
+    html += '<td data-label="수량">' + r.qty + '</td>';
+    html += '<td data-label="매수금액">' + r.amount + '</td>';
+    html += '<td data-label="비중">' + r.weight + '</td>';
+    html += '<td data-label="매수 조건" class="condition-text">' + r.cond + '</td>';
+    html += '<td data-label="평단">' + (b ? '<strong>' + r.avg + '</strong>' : r.avg) + '</td>';
+    html += '<td data-label="목표가" class="price">' + r.target + '</td>';
+    html += '<td data-label="이익률" class="profit">' + (b ? '<strong>' + r.rate + '</strong>' : r.rate) + '</td>';
+    html += '<td data-label="이익금" class="profit">' + (b ? '<strong>' + r.profit + '</strong>' : r.profit) + '</td>';
+    html += '<td data-label="손익비" class="' + r.rc + '">' + (b ? '<strong>' + r.ratio + '</strong>' : r.ratio) + '</td>';
+    html += '</tr>';
+  }
+  /* 손절 행 */
+  var s = sc.stop;
+  html += '<tr style="background:#1c1012;">';
+  html += '<td data-label="단계">🛑 손절</td>';
+  html += '<td data-label="매수가" class="stop">' + s.price + '</td>';
+  html += '<td data-label="수량">—</td><td data-label="매수금액">—</td><td data-label="비중">—</td>';
+  html += '<td data-label="매수 조건" class="condition-text">' + s.cond + '</td>';
+  html += '<td data-label="평단">—</td><td data-label="목표가">—</td>';
+  html += '<td data-label="이익률" class="loss">' + s.rate + '</td>';
+  html += '<td data-label="이익금" class="loss">' + s.loss + '</td>';
+  html += '<td data-label="손익비">—</td>';
+  html += '</tr>';
+
+  tbody.innerHTML = html;
+}
+
+/* 초기 로드 */
+selectScenario('current');
 </script>
 </body>
 </html>

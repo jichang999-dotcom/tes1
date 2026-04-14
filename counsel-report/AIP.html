@@ -343,18 +343,18 @@ body {
       <tbody>
         <tr>
           <td>총 상담 건수</td>
-          <td class="val" style="color:var(--accent);">35</td>
-          <td class="val" style="color:var(--accent);">2</td>
+          <td class="val" style="color:var(--accent);">50</td>
+          <td class="val" style="color:var(--accent);">17</td>
         </tr>
         <tr>
           <td>부정 감성 건수</td>
-          <td class="val" style="color:var(--danger);">8</td>
-          <td class="val" style="color:var(--danger);">0</td>
+          <td class="val" style="color:var(--danger);">13</td>
+          <td class="val" style="color:var(--danger);">5</td>
         </tr>
         <tr>
           <td>부정 비율</td>
-          <td class="val" style="color:var(--warning);">22.9%</td>
-          <td class="val" style="color:var(--warning);">0.0%</td>
+          <td class="val" style="color:var(--warning);">26.0%</td>
+          <td class="val" style="color:var(--warning);">29.4%</td>
         </tr>
       </tbody>
     </table>
@@ -375,18 +375,18 @@ body {
         <div class="bar-bg"><div class="bar-fill" style="width:100%"></div></div>
       </li>
       <li class="keywordItem">
-        <div class="kw">📌 건강문제</div>
-        <div class="cnt">1건</div>
+        <div class="kw">🏃 이탈/포기 의사</div>
+        <div class="cnt">3건</div>
       </li>
       <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:25%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:75%"></div></div>
       </li>
       <li class="keywordItem">
-        <div class="kw">🏃 이탈/포기 의사</div>
-        <div class="cnt">1건</div>
+        <div class="kw">📌 건강문제</div>
+        <div class="cnt">2건</div>
       </li>
       <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:25%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:50%"></div></div>
       </li>
       <li class="keywordItem">
         <div class="kw">📌 사춘기/반항</div>
@@ -402,6 +402,20 @@ body {
       <li>
         <div class="bar-bg"><div class="bar-fill" style="width:25%"></div></div>
       </li>
+      <li class="keywordItem">
+        <div class="kw">😤 스트레스/압박감</div>
+        <div class="cnt">1건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:25%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">📌 가정문제</div>
+        <div class="cnt">1건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:25%"></div></div>
+      </li>
     </ul>
   </div>
 
@@ -410,8 +424,8 @@ body {
   <div class="alertBanner" style="background:var(--accent-light);border:1px solid #c7d2fe;">
     <div class="alert-icon">🆕</div>
     <div>
-      <strong>신규 감지 학생 0명</strong><br>
-      이번 분석에서 신규 감지된 학생은 없습니다.
+      <strong>신규 감지 학생 2명</strong><br>
+      이전 분석에 없던 학생이 새롭게 평균 초과 목록에 포함되었습니다.
     </div>
   </div>
 
@@ -422,14 +436,47 @@ body {
       평균 초과 학생 리스트(14일 누적)
     </div>
     <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">
-      와이즈만 일산후곡센터 내 학생 평균 부정 건수: <strong style="color:var(--text);">1.0건</strong> — 평균 초과 학생 전체를 표시합니다.
+      와이즈만 일산후곡센터 내 학생 평균 부정 건수: <strong style="color:var(--text);">1.2건</strong> — 평균 초과 학생 전체를 표시합니다.
     </p>
-    <p style="padding:12px;color:var(--muted);">평균을 초과하는 학생이 없습니다.</p>
+    <table class="data-table">
+      <colgroup>
+        <col class="col-name">
+        <col class="col-code">
+        <col class="col-count">
+        <col class="col-grade">
+        <col class="col-new">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>학생명</th>
+          <th>학생코드</th>
+          <th>부정 건수</th>
+          <th>등급</th>
+          <th>신규</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>장하라</td>
+          <td>CS241103806</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>전영욱</td>
+          <td>CS240101297</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-04-14 19:09<br>
+    분석 모델: Claude API | 생성일: 2026-04-14 20:40<br>
     데이터 기준<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>
@@ -454,7 +501,7 @@ body {
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--accent-light);color:var(--accent);">📋</div>
-      키워드 raw (부정 판정 8건)
+      키워드 raw (부정 판정 13건)
     </div>
     <div style="overflow-x:auto;">
     <table class="raw-table">
@@ -470,6 +517,46 @@ body {
       </thead>
       <tbody>
         <tr>
+          <td>2026-04-14</td>
+          <td>전유소</td>
+          <td>CS250801215</td>
+          <td class="td-title">요청 상담</td>
+          <td><span class="tag-kw">건강문제</span></td>
+          <td><span class="tag-kw">건강문제</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-14</td>
+          <td>전영욱</td>
+          <td>CS240101297</td>
+          <td class="td-title">4WTC 간담회</td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-14</td>
+          <td>장하라</td>
+          <td>CS241103806</td>
+          <td class="td-title">휴회 상담</td>
+          <td><span class="tag-kw">휴회</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-14</td>
+          <td>장하라</td>
+          <td>CS241103806</td>
+          <td class="td-title">수업 태도 관련 소통</td>
+          <td><span class="tag-kw">가정문제</span></td>
+          <td><span class="tag-kw">가정문제</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-14</td>
+          <td>전영욱</td>
+          <td>CS240101297</td>
+          <td class="td-title">해외 1달살기로 휴회 소통</td>
+          <td><span class="tag-kw">휴회</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
           <td>2026-04-07</td>
           <td>임서연2</td>
           <td>CS241001368</td>

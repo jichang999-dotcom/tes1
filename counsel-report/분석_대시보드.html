@@ -54,7 +54,9 @@
   .tab-btn:last-child { border-radius: 0 6px 6px 0; }
   .tab-btn.active-swing { background: #1f6feb33; color: #58a6ff; border-color: #1f6feb; }
   .tab-btn.active-long { background: #da363333; color: #f85149; border-color: #da3633; }
-  .tab-btn:hover:not(.active-swing):not(.active-long) { background: #21262d; color: #c9d1d9; }
+  .tab-btn.active-candidate { background: #f0883e33; color: #f0883e; border-color: #f0883e; }
+  .tab-btn:hover:not(.active-swing):not(.active-long):not(.active-candidate) { background: #21262d; color: #c9d1d9; }
+  .badge-candidate { background: #f0883e33; color: #f0883e; border: 1px solid #f0883e; }
   .tab-content { display: none; }
   .tab-content.active { display: block; }
   /* 시나리오 선택 */
@@ -162,7 +164,7 @@
 
 <h1>분석 대시보드</h1>
 <p class="subtitle">유튜브 채널 <strong>주식단테사단</strong> 무료 강의 기반 매매기법 참고서 + 종목 분석<br>
-최종 업데이트: 2026-04-14 | 총 투자금: 200만원 (종목당 ~67만원)</p>
+최종 업데이트: 2026-04-15 | 활성 스윙: 한화솔루션 + DS단석 | 중장기: LG전자 | 여유비: 50만원 | 후보: 컨텍 · 지앤씨에너지</p>
 
 <!-- ===== 기법 요약 ===== -->
 <h2>핵심 이론 요약</h2>
@@ -215,6 +217,7 @@
 <div class="tab-group">
   <button class="tab-btn active-swing" onclick="switchTab('swing')" id="btn-swing">스윙</button>
   <button class="tab-btn" onclick="switchTab('long')" id="btn-long">중장기</button>
+  <button class="tab-btn" onclick="switchTab('candidate')" id="btn-candidate">후보</button>
 </div>
 
 <!-- ===== 스윙 탭 ===== -->
@@ -225,19 +228,20 @@
     <div>
       <h3 style="margin:0;">한화솔루션 (009830)</h3>
       <span class="badge badge-swing">스윙</span>
-      <span class="badge badge-filled">1차 체결</span>
+      <span class="badge badge-filled">1+2차 체결</span>
     </div>
     <div class="weight-info">
-      비중: <span class="weight-chip">1 : 1 : 2</span>
-      투자금: <span class="weight-chip">~67만원</span>
+      비중: <span class="weight-chip">공격 추격</span>
+      투자금: <span class="weight-chip">~67만원 (84% 소진)</span>
+      현재가: <span class="weight-chip">42,500원</span>
     </div>
   </div>
 
   <div class="summary-grid">
-    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#f0883e;">눌림 진행 중</div></div>
-    <div class="summary-item"><div class="label">최종 평단 (전량)</div><div class="value price">37,336원</div></div>
-    <div class="summary-item"><div class="label">최종 목표가</div><div class="value profit">44,000원</div></div>
-    <div class="summary-item"><div class="label">손절 라인</div><div class="value stop">34,000원</div></div>
+    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#3fb950;">정배열 회복 · 2차 상승 초입</div></div>
+    <div class="summary-item"><div class="label">현재 평단 (13주)</div><div class="value price">43,145원</div></div>
+    <div class="summary-item"><div class="label">최종 목표가</div><div class="value profit">50,000원</div></div>
+    <div class="summary-item"><div class="label">손절 라인</div><div class="value stop">37,000원</div></div>
   </div>
 
   <table class="stock-table">
@@ -250,57 +254,60 @@
         <td data-label="매수가" class="price">43,461원</td>
         <td data-label="수량">3주</td>
         <td data-label="매수금액">13.0만</td>
-        <td data-label="비중">25% (17만)</td>
-        <td data-label="매수 조건" class="condition-text">체결됨</td>
+        <td data-label="비중">19.5%</td>
+        <td data-label="매수 조건" class="condition-text">체결 완료</td>
         <td data-label="평단">43,461</td>
-        <td data-label="목표가" class="price">48,000원</td>
-        <td data-label="이익률" class="profit">+10.4%</td>
-        <td data-label="이익금" class="profit">+1.4만</td>
-        <td data-label="손익비" class="ratio-bad">0.48</td>
+        <td data-label="목표가">—</td>
+        <td data-label="이익률">—</td>
+        <td data-label="이익금">—</td>
+        <td data-label="손익비">—</td>
+      </tr>
+      <tr style="background:#0d1f0d;">
+        <td data-label="단계"><strong>2차 ✅</strong></td>
+        <td data-label="매수가" class="price"><strong>43,050원</strong></td>
+        <td data-label="수량"><strong>10주</strong></td>
+        <td data-label="매수금액"><strong>43.05만</strong></td>
+        <td data-label="비중"><strong>64.5%</strong></td>
+        <td data-label="매수 조건" class="condition-text"><strong>오늘 체결 (정배열 회복 추격)</strong></td>
+        <td data-label="평단"><strong>43,145</strong></td>
+        <td data-label="목표가" class="profit">50,000원</td>
+        <td data-label="이익률" class="profit">+15.9%</td>
+        <td data-label="이익금" class="profit">+8.9만</td>
+        <td data-label="손익비" class="ratio-warn">1.21</td>
       </tr>
       <tr>
-        <td data-label="단계">2차 🔵</td>
+        <td data-label="단계">3차 예비 🔵</td>
         <td data-label="매수가" class="price">38,000원</td>
-        <td data-label="수량">4주</td>
-        <td data-label="매수금액">15.2만</td>
-        <td data-label="비중">25% (17만)</td>
-        <td data-label="매수 조건" class="condition-text">20일선 지지 + 반등양봉 + 거래량 12M±3M</td>
-        <td data-label="평단">40,340</td>
-        <td data-label="목표가" class="price">46,000원</td>
-        <td data-label="이익률" class="profit">+14.0%</td>
-        <td data-label="이익금" class="profit">+4.0만</td>
-        <td data-label="손익비" class="ratio-bad">0.89</td>
-      </tr>
-      <tr>
-        <td data-label="단계">3차 🟣</td>
-        <td data-label="매수가" class="price">35,000원</td>
-        <td data-label="수량">9주</td>
-        <td data-label="매수금액">31.5만</td>
-        <td data-label="비중">50% (33만)</td>
-        <td data-label="매수 조건" class="condition-text">224일선 근처 + 반등양봉 + 거래량 12~18M</td>
-        <td data-label="평단"><strong>37,336</strong></td>
-        <td data-label="목표가" class="price">44,000원</td>
+        <td data-label="수량">2주</td>
+        <td data-label="매수금액">7.6만</td>
+        <td data-label="비중">11% (남은 예산)</td>
+        <td data-label="매수 조건" class="condition-text">112일선 지지 반등양봉 + 거래량 평상시</td>
+        <td data-label="평단"><strong>42,459</strong></td>
+        <td data-label="목표가" class="profit"><strong>50,000원</strong></td>
         <td data-label="이익률" class="profit"><strong>+17.8%</strong></td>
-        <td data-label="이익금" class="profit"><strong>+10.7만</strong></td>
-        <td data-label="손익비" class="ratio-good"><strong>2.00 ⭐</strong></td>
+        <td data-label="이익금" class="profit"><strong>+11.3만</strong></td>
+        <td data-label="손익비" class="ratio-warn"><strong>1.39</strong></td>
       </tr>
       <tr style="background:#1c1012;">
         <td data-label="단계">🛑 손절</td>
-        <td data-label="매수가" class="stop">34,000원</td>
+        <td data-label="매수가" class="stop">37,000원</td>
         <td data-label="수량">—</td>
         <td data-label="매수금액">—</td>
         <td data-label="비중">—</td>
-        <td data-label="매수 조건" class="condition-text">종가 기준 이탈 시 기계적 컷</td>
+        <td data-label="매수 조건" class="condition-text">112일선 종가 이탈 시 기계적 컷</td>
         <td data-label="평단">—</td>
         <td data-label="목표가">—</td>
-        <td data-label="이익률" class="loss">최대 -8.9%</td>
-        <td data-label="이익금" class="loss">-5.3만</td>
+        <td data-label="이익률" class="loss">최대 -12.9%</td>
+        <td data-label="이익금" class="loss">-8.3만</td>
         <td data-label="손익비">—</td>
       </tr>
     </tbody>
   </table>
 
-  <div class="highlight">밥그릇 4구간 급등 완료 → 첫 눌림 진행 중. 224일선 약 36,000~37,000 추정. 이차전지/태양광 대형주 — IRA/관세 이슈 모니터링.</div>
+  <div class="highlight">
+    <strong>포지션 재편 (2026-04-15)</strong> — 오늘 43,050원 × 10주 추가매수. 평단 43,145원 × 13주 (56.1만 소진).<br>
+    밥그릇 4구간 조정 완료 → <strong>정배열(5&gt;20&gt;60&gt;112&gt;224) 회복</strong> → 2차 상승 초입 추격 진입. 손절 기준 34,000 → <strong>37,000(112일선)</strong>으로 상향 조정. 이차전지/태양광 — IRA/관세 이슈 지속 모니터링.
+  </div>
 </div>
 
 <!-- ===== 종목 2: DS단석 ===== -->
@@ -387,92 +394,6 @@
   <div class="highlight">밥그릇 2구간 (매집 단계) 진행 중. 대주주 지분 36.59% — 밥그릇 조건 충족. 224일선 하방. 손절 넓혀 물타기 여유 확보.</div>
 </div>
 
-<!-- ===== 종목 3: 컨텍 ===== -->
-<div class="card">
-  <div class="card-header">
-    <div>
-      <h3 style="margin:0;">컨텍 (451760)</h3>
-      <span class="badge badge-swing">스윙</span>
-      <span class="badge badge-waiting">재진입 대기</span>
-    </div>
-    <div class="weight-info">
-      비중: <span class="weight-chip">1 : 1 : 2</span>
-      투자금: <span class="weight-chip">~67만원</span>
-    </div>
-  </div>
-
-  <div class="summary-grid">
-    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#f0883e;">밥그릇 4구간 진입 — 전고점 돌파 후 눌림 대기</div></div>
-    <div class="summary-item"><div class="label">최종 평단 (전량)</div><div class="value price">19,162원</div></div>
-    <div class="summary-item"><div class="label">최종 목표가</div><div class="value profit">22,500원</div></div>
-    <div class="summary-item"><div class="label">손절 라인</div><div class="value stop">17,500원</div></div>
-  </div>
-
-  <div class="highlight" style="margin-bottom:12px;">1차 매수(19,500 × 8주) → 21,750 부근 전량 매도 완료 (2026-04-14). 수익 실현 후 눌림목 재진입 전략.</div>
-
-  <table class="stock-table">
-    <thead>
-      <tr><th>단계</th><th>매수가</th><th>수량</th><th>매수금액</th><th>비중</th><th>매수 조건</th><th>평단</th><th>목표가</th><th>이익률</th><th>이익금</th><th>손익비</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td data-label="단계">1차 🔵</td>
-        <td data-label="매수가" class="price">20,500원</td>
-        <td data-label="수량">8주</td>
-        <td data-label="매수금액">16.4만</td>
-        <td data-label="비중">25% (17만)</td>
-        <td data-label="매수 조건" class="condition-text">20일선 눌림 + 반등양봉 + 거래량 1M 전후</td>
-        <td data-label="평단">20,500</td>
-        <td data-label="목표가" class="price">23,500원</td>
-        <td data-label="이익률" class="profit">+14.6%</td>
-        <td data-label="이익금" class="profit">+2.4만</td>
-        <td data-label="손익비" class="ratio-warn">1.16</td>
-      </tr>
-      <tr>
-        <td data-label="단계">2차 🔵</td>
-        <td data-label="매수가" class="price">19,500원</td>
-        <td data-label="수량">8주</td>
-        <td data-label="매수금액">15.6만</td>
-        <td data-label="비중">25% (17만)</td>
-        <td data-label="매수 조건" class="condition-text">60일선 지지 + 꼬리양봉 + 거래량 평상시</td>
-        <td data-label="평단">20,000</td>
-        <td data-label="목표가" class="price">23,000원</td>
-        <td data-label="이익률" class="profit">+15.0%</td>
-        <td data-label="이익금" class="profit">+4.8만</td>
-        <td data-label="손익비" class="ratio-good">1.50</td>
-      </tr>
-      <tr>
-        <td data-label="단계">3차 🟣</td>
-        <td data-label="매수가" class="price">18,500원</td>
-        <td data-label="수량">18주</td>
-        <td data-label="매수금액">33.3만</td>
-        <td data-label="비중">50% (33만)</td>
-        <td data-label="매수 조건" class="condition-text">224일선 근처 + 반등양봉 + 거래량 1.5M+</td>
-        <td data-label="평단"><strong>19,162</strong></td>
-        <td data-label="목표가" class="price">22,500원</td>
-        <td data-label="이익률" class="profit"><strong>+17.4%</strong></td>
-        <td data-label="이익금" class="profit"><strong>+11.4만</strong></td>
-        <td data-label="손익비" class="ratio-good"><strong>2.01 ⭐</strong></td>
-      </tr>
-      <tr style="background:#1c1012;">
-        <td data-label="단계">🛑 손절</td>
-        <td data-label="매수가" class="stop">17,500원</td>
-        <td data-label="수량">—</td>
-        <td data-label="매수금액">—</td>
-        <td data-label="비중">—</td>
-        <td data-label="매수 조건" class="condition-text">224일선 이탈 종가 기준 기계적 컷</td>
-        <td data-label="평단">—</td>
-        <td data-label="목표가">—</td>
-        <td data-label="이익률" class="loss">최대 -8.7%</td>
-        <td data-label="이익금" class="loss">-5.7만</td>
-        <td data-label="손익비">—</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="highlight">밥그릇 4구간 진입, 전고점 돌파 후 상승 추세. 추격 금지, 눌림목 대기 재진입. 소형 우주/위성주 — 거래대금 100위 밖, 비중 축소 권장.</div>
-</div>
-
 </div><!-- /tab-swing -->
 
 <!-- ===== 중장기 탭 ===== -->
@@ -553,6 +474,204 @@
 
 </div><!-- /tab-long -->
 
+<!-- ===== 후보 탭 ===== -->
+<div class="tab-content" id="tab-candidate">
+
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h3 style="margin:0;">지앤씨에너지 (119850)</h3>
+      <span class="badge badge-swing">스윙 후보</span>
+      <span class="badge badge-candidate">진입 대기</span>
+    </div>
+    <div class="weight-info">
+      비중: <span class="weight-chip">1 : 1 : 2</span>
+      투자금: <span class="weight-chip">~67만원</span>
+      현재가: <span class="weight-chip">34,100원</span>
+    </div>
+  </div>
+
+  <div class="summary-grid">
+    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#f0883e;">112·224 수렴 · 돌파 대기</div></div>
+    <div class="summary-item"><div class="label">최종 평단 (전량)</div><div class="value price">32,517원</div></div>
+    <div class="summary-item"><div class="label">최종 목표가</div><div class="value profit">38,000원</div></div>
+    <div class="summary-item"><div class="label">손절 라인</div><div class="value stop">29,800원</div></div>
+  </div>
+
+  <div class="highlight" style="margin-bottom:12px;">
+    <strong>단테 2.5절 112/224/448 릴레이 기법 적용</strong> — 현재 112일선(≈35,500) / 224일선(≈34,000) 수렴 구간.
+    25.10 고점 46,750원 → -26% 하락 후 삼각 수렴. <strong>112일선 종가 돌파 양봉 + 거래량 동반</strong> 시 진입.
+  </div>
+
+  <h4 style="color:#58a6ff; margin-top:16px;">시나리오 A — 112일선 돌파 진입 (최우선)</h4>
+
+  <table class="stock-table">
+    <thead>
+      <tr><th>단계</th><th>매수가</th><th>수량</th><th>매수금액</th><th>비중</th><th>매수 조건</th><th>평단</th><th>목표가</th><th>이익률</th><th>이익금</th><th>손익비</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-label="단계">1차 🔵</td>
+        <td data-label="매수가" class="price">35,500원</td>
+        <td data-label="수량">4주</td>
+        <td data-label="매수금액">14.2만</td>
+        <td data-label="비중">25% (16.75만)</td>
+        <td data-label="매수 조건" class="condition-text">112일선 종가 돌파 양봉 + 거래량 600K+</td>
+        <td data-label="평단">35,500</td>
+        <td data-label="목표가" class="profit">40,000원</td>
+        <td data-label="이익률" class="profit">+12.7%</td>
+        <td data-label="이익금" class="profit">+1.8만</td>
+        <td data-label="손익비" class="ratio-good">1.77</td>
+      </tr>
+      <tr>
+        <td data-label="단계">2차 🔵</td>
+        <td data-label="매수가" class="price">33,500원</td>
+        <td data-label="수량">5주</td>
+        <td data-label="매수금액">16.8만</td>
+        <td data-label="비중">25% (16.75만)</td>
+        <td data-label="매수 조건" class="condition-text">돌파 후 20일선 눌림 반등양봉</td>
+        <td data-label="평단">34,389</td>
+        <td data-label="목표가" class="profit">39,000원</td>
+        <td data-label="이익률" class="profit">+13.4%</td>
+        <td data-label="이익금" class="profit">+4.1만</td>
+        <td data-label="손익비" class="ratio-good">1.89</td>
+      </tr>
+      <tr style="background:#0d1f0d;">
+        <td data-label="단계"><strong>3차 🟣</strong></td>
+        <td data-label="매수가" class="price"><strong>31,000원</strong></td>
+        <td data-label="수량"><strong>10주</strong></td>
+        <td data-label="매수금액"><strong>31.0만</strong></td>
+        <td data-label="비중"><strong>50% (33.5만)</strong></td>
+        <td data-label="매수 조건" class="condition-text"><strong>112일선 재터치 반등 + 거래량 1M+</strong></td>
+        <td data-label="평단"><strong>32,517</strong></td>
+        <td data-label="목표가" class="profit"><strong>38,000원</strong></td>
+        <td data-label="이익률" class="profit"><strong>+16.9%</strong></td>
+        <td data-label="이익금" class="profit"><strong>+10.5만</strong></td>
+        <td data-label="손익비" class="ratio-good"><strong>2.02 ⭐</strong></td>
+      </tr>
+      <tr style="background:#1c1012;">
+        <td data-label="단계"><strong>손절</strong></td>
+        <td data-label="매수가" class="stop"><strong>29,800원</strong></td>
+        <td data-label="수량">—</td>
+        <td data-label="매수금액">—</td>
+        <td data-label="비중">—</td>
+        <td data-label="매수 조건" class="condition-text">112일선 아래 재이탈 종가 기준 기계적 컷</td>
+        <td data-label="평단">—</td>
+        <td data-label="목표가">—</td>
+        <td data-label="이익률" class="stop">-8.4%</td>
+        <td data-label="이익금" class="stop">-5.3만</td>
+        <td data-label="손익비">—</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4 style="color:#f0883e; margin-top:16px;">🎯 결론 — 권고 진입 타이밍</h4>
+  <div class="highlight">
+    <strong>오늘 진입 ❌ / 신호 대기 ✅</strong><br><br>
+    <strong>트리거 3종 중 하나 발생 시 1차 진입</strong>:
+    <ol style="margin:8px 0 0 20px; padding:0;">
+      <li>⭐ <strong>35,500원 종가 돌파 양봉 + 거래량 600K↑</strong> (112일선 돌파 — 가장 확실)</li>
+      <li><strong>33,000원 터치 후 꼬리양봉</strong> (224일선 지지 반등)</li>
+      <li><strong>36,000원 장대양봉 돌파 + 거래량 1M↑</strong> (수렴 삼각형 상단 돌파 — 공격적)</li>
+    </ol>
+    <br>
+    <strong>추격 금지 신호</strong>: 36,000 거래량 없는 상승 (가짜 돌파) / 음봉 연속 + 거래량 증가 (하방 돌파)<br><br>
+    <strong>알람 세팅</strong>: 35,500 (돌파) / 33,000 (224 터치) / 29,800 (손절)
+  </div>
+
+  <div style="margin-top:12px; font-size:0.82em; color:#8b949e;">
+    ⚠️ 편입 기준: 112일선 종가 돌파 양봉 확인 후 진입. 여유비(50만) 또는 후보간 우선순위로 배정.
+  </div>
+</div>
+
+<!-- ===== 컨텍 (후보 이동) ===== -->
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h3 style="margin:0;">컨텍 (451760)</h3>
+      <span class="badge badge-swing">스윙 후보</span>
+      <span class="badge badge-candidate">재진입 대기</span>
+    </div>
+    <div class="weight-info">
+      비중: <span class="weight-chip">1 : 1 : 2</span>
+      투자금: <span class="weight-chip">~67만원</span>
+    </div>
+  </div>
+
+  <div class="summary-grid">
+    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#f0883e;">밥그릇 4구간 · 눌림 대기</div></div>
+    <div class="summary-item"><div class="label">최종 평단 (전량)</div><div class="value price">19,162원</div></div>
+    <div class="summary-item"><div class="label">최종 목표가</div><div class="value profit">22,500원</div></div>
+    <div class="summary-item"><div class="label">손절 라인</div><div class="value stop">17,500원</div></div>
+  </div>
+
+  <div class="highlight" style="margin-bottom:12px;">1차 매수(19,500 × 8주) → 21,750 부근 전량 매도 완료 (2026-04-14). 수익 실현 후 <strong>후보 그룹으로 재분류</strong>. 20일선 눌림 반등양봉 출현 시 재진입.</div>
+
+  <table class="stock-table">
+    <thead>
+      <tr><th>단계</th><th>매수가</th><th>수량</th><th>매수금액</th><th>비중</th><th>매수 조건</th><th>평단</th><th>목표가</th><th>이익률</th><th>이익금</th><th>손익비</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-label="단계">1차 🔵</td>
+        <td data-label="매수가" class="price">20,500원</td>
+        <td data-label="수량">8주</td>
+        <td data-label="매수금액">16.4만</td>
+        <td data-label="비중">25% (17만)</td>
+        <td data-label="매수 조건" class="condition-text">20일선 눌림 + 반등양봉 + 거래량 1M 전후</td>
+        <td data-label="평단">20,500</td>
+        <td data-label="목표가" class="price">23,500원</td>
+        <td data-label="이익률" class="profit">+14.6%</td>
+        <td data-label="이익금" class="profit">+2.4만</td>
+        <td data-label="손익비" class="ratio-warn">1.16</td>
+      </tr>
+      <tr>
+        <td data-label="단계">2차 🔵</td>
+        <td data-label="매수가" class="price">19,500원</td>
+        <td data-label="수량">8주</td>
+        <td data-label="매수금액">15.6만</td>
+        <td data-label="비중">25% (17만)</td>
+        <td data-label="매수 조건" class="condition-text">60일선 지지 + 꼬리양봉 + 거래량 평상시</td>
+        <td data-label="평단">20,000</td>
+        <td data-label="목표가" class="price">23,000원</td>
+        <td data-label="이익률" class="profit">+15.0%</td>
+        <td data-label="이익금" class="profit">+4.8만</td>
+        <td data-label="손익비" class="ratio-good">1.50</td>
+      </tr>
+      <tr style="background:#0d1f0d;">
+        <td data-label="단계"><strong>3차 🟣</strong></td>
+        <td data-label="매수가" class="price"><strong>18,500원</strong></td>
+        <td data-label="수량"><strong>18주</strong></td>
+        <td data-label="매수금액"><strong>33.3만</strong></td>
+        <td data-label="비중"><strong>50% (33만)</strong></td>
+        <td data-label="매수 조건" class="condition-text"><strong>224일선 근처 + 반등양봉 + 거래량 1.5M+</strong></td>
+        <td data-label="평단"><strong>19,162</strong></td>
+        <td data-label="목표가" class="profit"><strong>22,500원</strong></td>
+        <td data-label="이익률" class="profit"><strong>+17.4%</strong></td>
+        <td data-label="이익금" class="profit"><strong>+11.4만</strong></td>
+        <td data-label="손익비" class="ratio-good"><strong>2.01 ⭐</strong></td>
+      </tr>
+      <tr style="background:#1c1012;">
+        <td data-label="단계">🛑 손절</td>
+        <td data-label="매수가" class="stop">17,500원</td>
+        <td data-label="수량">—</td>
+        <td data-label="매수금액">—</td>
+        <td data-label="비중">—</td>
+        <td data-label="매수 조건" class="condition-text">224일선 이탈 종가 기준 기계적 컷</td>
+        <td data-label="평단">—</td>
+        <td data-label="목표가">—</td>
+        <td data-label="이익률" class="loss">최대 -8.7%</td>
+        <td data-label="이익금" class="loss">-5.7만</td>
+        <td data-label="손익비">—</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="highlight">소형 우주/위성주 — 거래대금 100위 밖, 비중 축소 권장. 추격 금지, 눌림목 재진입 원칙.</div>
+</div>
+
+</div><!-- /tab-candidate -->
+
 <hr class="section-divider">
 
 <!-- ===== 포트폴리오 요약 ===== -->
@@ -567,22 +686,22 @@
       <tr>
         <td data-label="종목"><strong>한화솔루션</strong></td>
         <td data-label="매매 타입"><span class="badge badge-swing">스윙</span></td>
-        <td data-label="총수량">16주</td>
-        <td data-label="매수금액" class="price">59.7만</td>
-        <td data-label="비율">31.8%</td>
-        <td data-label="평단" class="price">37,336원</td>
-        <td data-label="최종 목표" class="profit">44,000원 (+17.8%)</td>
-        <td data-label="이익금" class="profit">+10.7만</td>
-        <td data-label="손절" class="stop">34,000원</td>
-        <td data-label="손절 손실" class="loss">-5.3만</td>
-        <td data-label="손익비" class="ratio-good">2.00 ⭐</td>
+        <td data-label="총수량">15주 (예비 포함)</td>
+        <td data-label="매수금액" class="price">63.7만</td>
+        <td data-label="비율">18.2%</td>
+        <td data-label="평단" class="price">42,459원</td>
+        <td data-label="최종 목표" class="profit">50,000원 (+17.8%)</td>
+        <td data-label="이익금" class="profit">+11.3만</td>
+        <td data-label="손절" class="stop">37,000원</td>
+        <td data-label="손절 손실" class="loss">-8.3만</td>
+        <td data-label="손익비" class="ratio-warn">1.39</td>
       </tr>
       <tr>
         <td data-label="종목"><strong>DS단석</strong></td>
         <td data-label="매매 타입"><span class="badge badge-swing">스윙</span></td>
         <td data-label="총수량">36주</td>
         <td data-label="매수금액" class="price">64.1만</td>
-        <td data-label="비율">34.2%</td>
+        <td data-label="비율">18.3%</td>
         <td data-label="평단" class="price">17,808원</td>
         <td data-label="최종 목표" class="profit">20,800원 (+16.8%)</td>
         <td data-label="이익금" class="profit">+10.8만</td>
@@ -591,37 +710,76 @@
         <td data-label="손익비" class="ratio-good">1.65 ⭐</td>
       </tr>
       <tr>
-        <td data-label="종목"><strong>컨텍</strong></td>
-        <td data-label="매매 타입"><span class="badge badge-swing">스윙</span></td>
-        <td data-label="총수량">34주</td>
+        <td data-label="종목"><strong>LG전자</strong></td>
+        <td data-label="매매 타입"><span class="badge badge-long">중장기</span></td>
+        <td data-label="총수량">9주 (진입 대기)</td>
+        <td data-label="매수금액" class="price">93.0만</td>
+        <td data-label="비율">26.6%</td>
+        <td data-label="평단" class="price">103,333원</td>
+        <td data-label="최종 목표" class="profit">130,000원 (+25.8%)</td>
+        <td data-label="이익금" class="profit">+24.0만</td>
+        <td data-label="손절" class="stop">94,000원</td>
+        <td data-label="손절 손실" class="loss">-8.4만</td>
+        <td data-label="손익비" class="ratio-good">2.19 ⭐</td>
+      </tr>
+      <tr style="background:#1a1f2e;">
+        <td data-label="종목"><strong>💰 여유비</strong></td>
+        <td data-label="매매 타입"><span class="badge badge-candidate">미배정</span></td>
+        <td data-label="총수량">—</td>
+        <td data-label="매수금액" class="price">50.0만</td>
+        <td data-label="비율">14.3%</td>
+        <td data-label="평단">—</td>
+        <td data-label="최종 목표">후보 진입 신호 시 투입</td>
+        <td data-label="이익금">—</td>
+        <td data-label="손절">—</td>
+        <td data-label="손절 손실">—</td>
+        <td data-label="손익비">—</td>
+      </tr>
+      <tr style="background:#1c2a1c; opacity:0.75;">
+        <td data-label="종목">지앤씨에너지 (후보)</td>
+        <td data-label="매매 타입"><span class="badge badge-candidate">후보</span></td>
+        <td data-label="총수량">16주 (전량)</td>
+        <td data-label="매수금액" class="price">61.8만</td>
+        <td data-label="비율">대기</td>
+        <td data-label="평단" class="price">32,517원</td>
+        <td data-label="최종 목표" class="profit">38,000원 (+16.9%)</td>
+        <td data-label="이익금" class="profit">+10.5만</td>
+        <td data-label="손절" class="stop">29,800원</td>
+        <td data-label="손절 손실" class="loss">-5.3만</td>
+        <td data-label="손익비" class="ratio-good">2.02</td>
+      </tr>
+      <tr style="background:#1c2a1c; opacity:0.75;">
+        <td data-label="종목">컨텍 (후보)</td>
+        <td data-label="매매 타입"><span class="badge badge-candidate">후보</span></td>
+        <td data-label="총수량">34주 (전량)</td>
         <td data-label="매수금액" class="price">65.3만</td>
-        <td data-label="비율">34.5%</td>
+        <td data-label="비율">대기</td>
         <td data-label="평단" class="price">19,162원</td>
         <td data-label="최종 목표" class="profit">22,500원 (+17.4%)</td>
         <td data-label="이익금" class="profit">+11.4만</td>
         <td data-label="손절" class="stop">17,500원</td>
         <td data-label="손절 손실" class="loss">-5.7만</td>
-        <td data-label="손익비" class="ratio-good">2.01 ⭐</td>
+        <td data-label="손익비" class="ratio-good">2.01</td>
       </tr>
     </tbody>
     <tfoot>
       <tr style="background:#21262d;">
-        <td colspan="3"><strong>전체 합산</strong></td>
-        <td class="price"><strong>189.1만</strong></td>
+        <td colspan="3"><strong>활성 + 여유비 합산</strong></td>
+        <td class="price"><strong>270.8만</strong></td>
         <td><strong>100%</strong></td>
         <td colspan="2"><strong>전량 체결+목표 달성 시</strong></td>
-        <td class="profit"><strong>+32.9만</strong></td>
-        <td colspan="2" class="loss"><strong>-17.5만 (최악)</strong></td>
-        <td class="ratio-good"><strong>~1.88</strong></td>
+        <td class="profit"><strong>+46.1만</strong></td>
+        <td colspan="2" class="loss"><strong>-23.2만 (최악)</strong></td>
+        <td class="ratio-good"><strong>~1.99</strong></td>
       </tr>
     </tfoot>
   </table>
 
   <div class="summary-grid" style="margin-top:16px;">
-    <div class="summary-item"><div class="label">총 투자금</div><div class="value price">200만원</div></div>
-    <div class="summary-item"><div class="label">최대 수익 (전종목 달성)</div><div class="value profit">+32.9만</div></div>
-    <div class="summary-item"><div class="label">최대 손실 (전종목 손절)</div><div class="value loss">-17.5만</div></div>
-    <div class="summary-item"><div class="label">전체 손익비</div><div class="value ratio-good">1.88 : 1</div></div>
+    <div class="summary-item"><div class="label">총 운용금</div><div class="value price">350만원 (활성 220.8 + 여유 50 + 후보 127.1 예비)</div></div>
+    <div class="summary-item"><div class="label">활성 최대 수익</div><div class="value profit">+46.1만</div></div>
+    <div class="summary-item"><div class="label">활성 최대 손실</div><div class="value loss">-23.2만</div></div>
+    <div class="summary-item"><div class="label">활성 손익비</div><div class="value ratio-good">1.99 : 1</div></div>
   </div>
 </div>
 
@@ -640,21 +798,27 @@
 
 <script>
 function switchTab(type) {
-  var swingTab = document.getElementById('tab-swing');
-  var longTab = document.getElementById('tab-long');
-  var btnSwing = document.getElementById('btn-swing');
-  var btnLong = document.getElementById('btn-long');
-  if (type === 'swing') {
-    swingTab.classList.add('active');
-    longTab.classList.remove('active');
-    btnSwing.className = 'tab-btn active-swing';
-    btnLong.className = 'tab-btn';
-  } else {
-    swingTab.classList.remove('active');
-    longTab.classList.add('active');
-    btnSwing.className = 'tab-btn';
-    btnLong.className = 'tab-btn active-long';
-  }
+  var tabs = {
+    swing: document.getElementById('tab-swing'),
+    long: document.getElementById('tab-long'),
+    candidate: document.getElementById('tab-candidate')
+  };
+  var btns = {
+    swing: document.getElementById('btn-swing'),
+    long: document.getElementById('btn-long'),
+    candidate: document.getElementById('btn-candidate')
+  };
+  var activeClass = { swing: 'active-swing', long: 'active-long', candidate: 'active-candidate' };
+
+  Object.keys(tabs).forEach(function(k) {
+    if (k === type) {
+      tabs[k].classList.add('active');
+      btns[k].className = 'tab-btn ' + activeClass[k];
+    } else {
+      tabs[k].classList.remove('active');
+      btns[k].className = 'tab-btn';
+    }
+  });
 }
 
 /* LG전자 시나리오 데이터 */

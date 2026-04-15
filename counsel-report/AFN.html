@@ -309,7 +309,7 @@ body {
 <div class="topbar">
   <div>
     <div class="topbar-title">와이즈만 대치센터</div>
-    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-04-01 ~ 2026-04-14</div>
+    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-04-01 ~ 2026-04-15</div>
   </div>
 </div>
 
@@ -328,7 +328,7 @@ body {
       <div class="icon">📅</div>
       <div>
         <div class="label">분석 기간</div>
-        <div class="value">2026-04-01 ~ 2026-04-14</div>
+        <div class="value">2026-04-01 ~ 2026-04-15</div>
       </div>
     </div>
     <!-- D-30 / D-0 비교 -->
@@ -336,25 +336,25 @@ body {
       <thead>
         <tr>
           <th></th>
-          <th class="col-d30">14일 누적</th>
-          <th class="col-d0">4/14 당일</th>
+          <th class="col-d30">15일 누적</th>
+          <th class="col-d0">4/15 당일</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>총 상담 건수</td>
-          <td class="val" style="color:var(--accent);">294</td>
-          <td class="val" style="color:var(--accent);">16</td>
+          <td class="val" style="color:var(--accent);">322</td>
+          <td class="val" style="color:var(--accent);">24</td>
         </tr>
         <tr>
           <td>부정 감성 건수</td>
-          <td class="val" style="color:var(--danger);">44</td>
+          <td class="val" style="color:var(--danger);">51</td>
           <td class="val" style="color:var(--danger);">4</td>
         </tr>
         <tr>
           <td>부정 비율</td>
-          <td class="val" style="color:var(--warning);">15.0%</td>
-          <td class="val" style="color:var(--warning);">25.0%</td>
+          <td class="val" style="color:var(--warning);">15.8%</td>
+          <td class="val" style="color:var(--warning);">16.7%</td>
         </tr>
       </tbody>
     </table>
@@ -364,12 +364,12 @@ body {
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--danger-light);color:var(--danger);">💬</div>
-      부정 감성 키워드 건수(14일 누적)
+      부정 감성 키워드 건수(15일 누적)
     </div>
     <ul class="keywordList">
       <li class="keywordItem">
         <div class="kw">🏃 이탈/포기 의사</div>
-        <div class="cnt">17건</div>
+        <div class="cnt">18건</div>
       </li>
       <li>
         <div class="bar-bg"><div class="bar-fill" style="width:100%"></div></div>
@@ -379,28 +379,28 @@ body {
         <div class="cnt">14건</div>
       </li>
       <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:82%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:78%"></div></div>
       </li>
       <li class="keywordItem">
         <div class="kw">📌 건강문제</div>
-        <div class="cnt">5건</div>
+        <div class="cnt">8건</div>
       </li>
       <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:29%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:44%"></div></div>
       </li>
       <li class="keywordItem">
         <div class="kw">😤 스트레스/압박감</div>
-        <div class="cnt">4건</div>
+        <div class="cnt">5건</div>
       </li>
       <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:24%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:28%"></div></div>
       </li>
       <li class="keywordItem">
         <div class="kw">😠 불만/분노</div>
-        <div class="cnt">2건</div>
+        <div class="cnt">4건</div>
       </li>
       <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:12%"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:22%"></div></div>
       </li>
       <li class="keywordItem">
         <div class="kw">😞 우울/무기력</div>
@@ -420,11 +420,18 @@ body {
   </div>
 
   
+  <div class="alertBanner danger">
+    <div class="alert-icon">🚨</div>
+    <div>
+      <strong>위험 학생 1명 감지</strong><br>
+      평균 대비 부정 감성 빈도가 높은 학생이 발견되었습니다. 아래 상세 내역을 확인해주세요.
+    </div>
+  </div>
   
   <div class="alertBanner" style="background:var(--accent-light);border:1px solid #c7d2fe;">
     <div class="alert-icon">🆕</div>
     <div>
-      <strong>신규 감지 학생 1명</strong><br>
+      <strong>신규 감지 학생 3명</strong><br>
       이전 분석에 없던 학생이 새롭게 평균 초과 목록에 포함되었습니다.
     </div>
   </div>
@@ -433,10 +440,10 @@ body {
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--danger-light);color:var(--danger);">⚠️</div>
-      평균 초과 학생 리스트(14일 누적)
+      평균 초과 학생 리스트(15일 누적)
     </div>
     <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">
-      와이즈만 대치센터 내 학생 평균 부정 건수: <strong style="color:var(--text);">1.1건</strong> — 평균 초과 학생 전체를 표시합니다.
+      와이즈만 대치센터 내 학생 평균 부정 건수: <strong style="color:var(--text);">1.2건</strong> — 평균 초과 학생 전체를 표시합니다.
     </p>
     <table class="data-table">
       <colgroup>
@@ -457,8 +464,22 @@ body {
       </thead>
       <tbody>
         <tr>
-          <td>박세은</td>
-          <td>CS260200732</td>
+          <td>김도현(0803)</td>
+          <td>CS210401212</td>
+          <td><strong>3건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>임선우</td>
+          <td>CS220401262</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>이서진</td>
+          <td>CS210304136</td>
           <td><strong>2건</strong></td>
           <td><span class="tag warning">주의</span></td>
           <td><span class="tag new">NEW</span></td>
@@ -491,13 +512,20 @@ body {
           <td><span class="tag warning">주의</span></td>
           <td></td>
         </tr>
+        <tr>
+          <td>박세은</td>
+          <td>CS260200732</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag warning">주의</span></td>
+          <td></td>
+        </tr>
       </tbody>
     </table>
   </div>
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-04-14 20:40<br>
+    분석 모델: Claude API | 생성일: 2026-04-15 19:11<br>
     데이터 기준<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>
@@ -511,7 +539,7 @@ body {
 <div class="topbar">
   <div>
     <div class="topbar-title">와이즈만 대치센터</div>
-    <div class="topbar-sub">키워드 raw 데이터 · 2026-04-01 ~ 2026-04-14</div>
+    <div class="topbar-sub">키워드 raw 데이터 · 2026-04-01 ~ 2026-04-15</div>
   </div>
 </div>
 
@@ -522,7 +550,7 @@ body {
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--accent-light);color:var(--accent);">📋</div>
-      키워드 raw (부정 판정 44건)
+      키워드 raw (부정 판정 51건)
     </div>
     <div style="overflow-x:auto;">
     <table class="raw-table">
@@ -537,6 +565,62 @@ body {
         </tr>
       </thead>
       <tbody>
+        <tr>
+          <td>2026-04-15</td>
+          <td>정한희</td>
+          <td>CS240700930</td>
+          <td class="td-title">하는게 너무 많아서 아이가 시험 안보겠다고 했다 함 / 진단검사 취소</td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-15</td>
+          <td>장예은</td>
+          <td>CS211203723</td>
+          <td class="td-title">4/18(토) 결석->학급보강,개인보강 일요일밖에 안됨/선생님과 상의 후 연락</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-15</td>
+          <td>임선우</td>
+          <td>CS220401262</td>
+          <td class="td-title">첫 수업 안내 전화, 3-2 오투 과제 안내, 교사변경 안내</td>
+          <td><span class="tag-kw">교사변경</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-15</td>
+          <td>서우현</td>
+          <td>AS121496363</td>
+          <td class="td-title">4월 3주차 휴회</td>
+          <td><span class="tag-kw">휴회</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-14</td>
+          <td>이서진</td>
+          <td>CS210304136</td>
+          <td class="td-title">재입회 상담</td>
+          <td><span class="tag-kw">건강문제</span></td>
+          <td><span class="tag-kw">건강문제</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-14</td>
+          <td>김도현(0803)</td>
+          <td>CS210401212</td>
+          <td class="td-title">4월 정기 상담 (하이탑)</td>
+          <td><span class="tag-kw">건강문제</span></td>
+          <td><span class="tag-kw">건강문제</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-14</td>
+          <td>김도현(0803)</td>
+          <td>CS210401212</td>
+          <td class="td-title">4월 정기 상담 (how)</td>
+          <td><span class="tag-kw">건강문제</span></td>
+          <td><span class="tag-kw">건강문제</span></td>
+        </tr>
         <tr>
           <td>2026-04-14</td>
           <td>이서진</td>

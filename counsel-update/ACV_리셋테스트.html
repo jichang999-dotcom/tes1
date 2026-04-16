@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[TEST] 조치완료 리셋 플로우 · ACV</title>
+<style>
+:root {
+  --bg:#f5f7fa; --card:#fff; --text:#1a1d21; --muted:#6b7280;
+  --border:#e5e7eb; --accent:#6366f1; --accent-light:#eef2ff;
+  --success:#10b981; --success-light:#ecfdf5;
+  --warning:#f59e0b; --warning-light:#fffbeb;
+  --danger:#ef4444; --danger-light:#fef2f2;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
+  font-size:14px; line-height:1.55; background:var(--bg); color:var(--text);
+}
+.container { max-width:480px; margin:0 auto; padding:0 16px 32px; }
+.topbar {
+  background:#fff; border-radius:0 0 12px 12px;
+  padding:12px 16px; border:1px solid var(--border); border-top:none;
+  margin-bottom:12px;
+}
+.topbar .title { font-size:16px; font-weight:700; }
+.topbar .title .tag {
+  display:inline-block; margin-left:6px; padding:1px 7px; border-radius:10px;
+  background:var(--warning-light); color:var(--warning); font-size:10px; font-weight:700;
+}
+.topbar .sub { font-size:11px; color:var(--muted); margin-top:2px; line-height:1.5; }
+.topbar .now {
+  display:inline-block; margin-top:8px;
+  background:var(--accent-light); color:var(--accent);
+  padding:4px 10px; border-radius:6px; font-size:11px; font-weight:600;
+}
+.topbar .controls {
+  display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:10px;
+}
+.topbar .controls button {
+  padding:8px 6px; border:1px solid var(--border); background:#fff;
+  border-radius:8px; font-size:11.5px; font-weight:600; cursor:pointer;
+  white-space:nowrap;
+}
+.topbar .controls button.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+.topbar .controls button.danger { background:var(--danger-light); color:var(--danger); border-color:#fecaca; }
+
+.card {
+  background:#fff; border-radius:12px; border:1px solid var(--border);
+  padding:14px 16px; margin-bottom:12px;
+}
+.card h2 {
+  font-size:14px; font-weight:700; margin-bottom:10px;
+  display:flex; align-items:center; gap:8px;
+}
+.card h2 .icon {
+  width:24px; height:24px; border-radius:6px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:12px; background:var(--accent-light); color:var(--accent);
+}
+.card .hint { font-size:11px; color:var(--muted); margin-bottom:10px; }
+
+.badge { display:inline-block; padding:1px 7px; border-radius:10px; font-size:10px; font-weight:700; }
+.badge.danger { background:var(--danger-light); color:var(--danger); }
+.badge.success { background:var(--success-light); color:var(--success); }
+.badge.warn { background:var(--warning-light); color:var(--warning); }
+.badge.done { background:var(--success); color:#fff; }
+.badge.relapse { background:#fef3c7; color:#92400e; border:1px solid #fde68a; }
+
+.stu-card {
+  padding:12px; border:1px solid var(--border); border-radius:10px;
+  margin-bottom:8px; background:#fff;
+}
+.stu-card.is-done { background:#fafafa; opacity:0.7; }
+.stu-card.is-relapse { border-color:#fbbf24; background:#fffbeb; }
+.stu-card .head { display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+.stu-card .name { font-weight:700; font-size:14px; }
+.stu-card .code { font-size:11px; color:var(--muted); margin-left:6px; }
+.stu-card .meta { font-size:11px; color:var(--muted); margin-top:4px; }
+.stu-card .actions { display:flex; gap:6px; }
+
+.btn {
+  padding:5px 10px; border-radius:6px; font-size:11px; font-weight:600;
+  cursor:pointer; border:1px solid transparent; white-space:nowrap;
+}
+.btn-done { background:var(--success-light); color:var(--success); border-color:#a7f3d0; }
+.btn-done:hover { background:var(--success); color:#fff; }
+.btn-done:disabled,
+.btn:disabled { opacity:0.4; cursor:not-allowed; background:#f3f4f6; color:var(--muted); border-color:var(--border); }
+.btn-done:disabled:hover { background:#f3f4f6; color:var(--muted); }
+.btn-cancel { background:#fff; color:var(--muted); border-color:var(--border); }
+.btn-cancel:hover { background:var(--danger-light); color:var(--danger); border-color:#fecaca; }
+
+.json-view {
+  background:#0f172a; color:#cbd5e1; border-radius:8px;
+  padding:10px 12px; font-family:Consolas,Menlo,monospace; font-size:11px;
+  max-height:240px; overflow:auto; white-space:pre-wrap; word-break:break-all;
+}
+
+.alert {
+  padding:10px 12px; border-radius:8px; margin-bottom:10px; font-size:12.5px;
+  display:flex; align-items:flex-start; gap:8px;
+}
+.alert.relapse { background:var(--warning-light); border:1px solid #fde68a; }
+
+.user-row {
+  display:flex; align-items:center; gap:10px; padding:8px 12px;
+  background:var(--accent-light); border-radius:8px; margin-bottom:12px;
+  font-size:12px; flex-wrap:wrap;
+}
+.user-row b { color:var(--accent); }
+.user-row button {
+  padding:3px 10px; border:1px solid var(--accent); background:#fff;
+  color:var(--accent); border-radius:6px; font-size:11px; font-weight:600; cursor:pointer;
+}
+
+/* Modal */
+.modal-bg {
+  position:fixed; inset:0; background:rgba(0,0,0,0.45);
+  display:none; align-items:center; justify-content:center; z-index:500; padding:16px;
+}
+.modal-bg.open { display:flex; }
+.modal { background:#fff; border-radius:12px; width:100%; max-width:380px; padding:20px; }
+.modal h3 { font-size:16px; margin-bottom:4px; }
+.modal .sub { font-size:12px; color:var(--muted); margin-bottom:14px; }
+.modal label { display:block; font-size:12px; color:var(--muted); margin-bottom:4px; }
+.modal input, .modal textarea {
+  width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:8px;
+  font-size:13px; font-family:inherit; margin-bottom:12px; resize:vertical;
+}
+.modal .act { display:flex; gap:8px; justify-content:flex-end; }
+.modal .act button {
+  padding:8px 14px; border-radius:8px; font-size:13px; font-weight:600;
+  cursor:pointer; border:1px solid var(--border); background:#fff;
+}
+.modal .act .primary { background:var(--success); color:#fff; border-color:var(--success); }
+
+.toast {
+  position:fixed; left:50%; bottom:24px; transform:translateX(-50%) translateY(20px);
+  background:#1f2937; color:#fff; padding:10px 16px; border-radius:24px;
+  font-size:13px; opacity:0; pointer-events:none;
+  transition:opacity 0.2s, transform 0.2s; z-index:999;
+}
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+.stu-card .head { flex-direction:column; align-items:flex-start; }
+.stu-card .actions { width:100%; margin-top:8px; }
+.stu-card .actions .btn { flex:1; padding:8px 10px; font-size:12px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- 헤더 (모바일 리포트 크기) -->
+<div class="topbar">
+  <div class="title">와이즈만 송파센터 [초등관] <span class="tag">TEST</span></div>
+  <div class="sub">
+    조치완료 리셋 플로우 · 센터 <b>ACV</b><br>
+    분석 기간 · <b>2026-04-01 ~ 2026-04-15</b>
+  </div>
+  <div class="now">🕐 <span id="nowDisplay"></span></div>
+  <div class="controls">
+    <button class="primary" onclick="simulateBatch()">🔄 배치 재빌드</button>
+    <button onclick="addRelapseCounsel()">🔁 재발 추가</button>
+    <button onclick="advanceDay()">📅 하루 +1</button>
+    <button class="danger" onclick="resetAll()">♻️ 초기화</button>
+  </div>
+</div>
+
+<!-- 재발 경보 배너 -->
+<div id="relapseBanner"></div>
+
+<!-- 평균 초과 학생 리스트 -->
+<div class="card">
+  <h2><div class="icon" style="background:var(--danger-light); color:var(--danger);">⚠️</div> 평균 초과 학생 리스트</h2>
+  <div class="hint">평균 2건 초과. 조치완료 후에도 재발하면 🔁 경고와 함께 다시 노출됩니다.</div>
+  <div id="stuList"></div>
+</div>
+
+<!-- 조치 아카이브 -->
+<div class="card">
+  <h2><div class="icon" style="background:var(--success-light); color:var(--success);">✅</div> 조치 아카이브</h2>
+  <div class="hint">리셋 이후 재발이 없는 조치완료 학생입니다.</div>
+  <div id="archiveList"><span style="color:var(--muted); font-size:12px;">아직 조치완료된 학생이 없습니다.</span></div>
+</div>
+
+<!-- action_log.json 뷰어 -->
+<div class="card">
+  <h2><div class="icon">🗂️</div> action_log.json</h2>
+  <div class="hint">운영 시 <code>fetch_action_log.js</code>가 Google Sheets에서 생성. 테스트에서는 localStorage 기반.</div>
+  <div class="json-view" id="jsonView"></div>
+</div>
+
+<!-- 설명 카드 -->
+<div class="card">
+  <h2><div class="icon">💡</div> 테스트 시나리오</h2>
+  <ol style="padding-left:20px; font-size:12.5px; line-height:1.8;">
+    <li><b>[✅ 조치완료]</b> 클릭 → 즉시 STATE 저장</li>
+    <li><b>[🔄 배치 재빌드]</b> → 해당 학생이 아카이브로 이동</li>
+    <li><b>[🔁 재발 추가]</b> → 조치 학생에게 오늘 새 상담 1건</li>
+    <li><b>[🔄 배치 재빌드]</b> → "🔁 재발생" 경고와 함께 리스트 복귀</li>
+    <li>아카이브 <b>[↩️ 취소]</b> → 과거 이력 복원</li>
+    <li><b>[📅 하루 +1]</b> → 4/16 이후: 조치 버튼 비활성 (분석 기간 외)</li>
+  </ol>
+</div>
+
+</div><!-- /container -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// 설정
+// ============================================================
+const CENTER_CODE = 'ACV';
+const CENTER_NAME = '와이즈만 송파센터 [초등관]';
+const LS_STATE = 'acv_reset_test_state_v1';
+const LS_CLOCK = 'acv_reset_test_clock';
+const LS_EXTRA = 'acv_reset_test_extra_counsels';
+const AVG_THRESHOLD = 2; // 평균 부정 2건 초과 시 '평균 초과'
+
+// 분석 기간 (이 범위 안에서만 조치완료 등록 가능)
+const PERIOD_START = '2026-04-01T00:00:00+09:00';
+const PERIOD_END   = '2026-04-15T23:59:59+09:00';
+
+function inPeriod(iso) {
+  return iso >= PERIOD_START && iso <= PERIOD_END;
+}
+
+// ============================================================
+// 초기 데이터 (시드) - 리셋 테스트용 최소 샘플
+// ============================================================
+const STUDENTS = [
+  { name:'유선우',  code:'CS260206534' },
+  { name:'최하준',  code:'CS240500635' },
+  { name:'이준서',  code:'CS250205493' },
+  { name:'정규혜',  code:'CS221000065' },
+  { name:'권정우',  code:'CS240304079' },
+  { name:'송승유',  code:'CS221101852' }
+];
+
+// 부정 상담 시드 (cns_dt = ISO)
+const SEED_COUNSELS = [
+  { code:'CS260206534', cns_dt:'2026-04-03T10:20:00+09:00', kw:'학습 어려움' },
+  { code:'CS260206534', cns_dt:'2026-04-08T14:30:00+09:00', kw:'이탈/포기' },
+  { code:'CS260206534', cns_dt:'2026-04-14T11:00:00+09:00', kw:'불만/분노' },
+
+  { code:'CS240500635', cns_dt:'2026-04-02T09:45:00+09:00', kw:'이탈/포기' },
+  { code:'CS240500635', cns_dt:'2026-04-09T15:10:00+09:00', kw:'이탈/포기' },
+  { code:'CS240500635', cns_dt:'2026-04-13T16:20:00+09:00', kw:'불만/분노' },
+  { code:'CS240500635', cns_dt:'2026-04-15T10:40:00+09:00', kw:'이탈/포기' },
+
+  { code:'CS250205493', cns_dt:'2026-04-05T13:00:00+09:00', kw:'학습 어려움' },
+  { code:'CS250205493', cns_dt:'2026-04-11T14:50:00+09:00', kw:'부적응' },
+
+  { code:'CS221000065', cns_dt:'2026-04-01T10:00:00+09:00', kw:'불안/걱정' },
+  { code:'CS221000065', cns_dt:'2026-04-07T11:30:00+09:00', kw:'학습 어려움' },
+  { code:'CS221000065', cns_dt:'2026-04-12T14:00:00+09:00', kw:'대인관계' },
+
+  { code:'CS240304079', cns_dt:'2026-04-04T10:00:00+09:00', kw:'이탈/포기' },
+  { code:'CS240304079', cns_dt:'2026-04-10T11:30:00+09:00', kw:'불만/분노' },
+
+  { code:'CS221101852', cns_dt:'2026-04-06T09:30:00+09:00', kw:'학습 어려움' },
+  { code:'CS221101852', cns_dt:'2026-04-14T16:00:00+09:00', kw:'스트레스' }
+];
+
+// ============================================================
+// 상태
+// ============================================================
+let STATE = JSON.parse(localStorage.getItem(LS_STATE) || '{}');
+let NOW   = localStorage.getItem(LS_CLOCK) || '2026-04-15T14:30:00+09:00';
+let EXTRA = JSON.parse(localStorage.getItem(LS_EXTRA) || '[]');
+
+function save() {
+  localStorage.setItem(LS_STATE, JSON.stringify(STATE));
+  localStorage.setItem(LS_CLOCK, NOW);
+  localStorage.setItem(LS_EXTRA, JSON.stringify(EXTRA));
+}
+
+// ============================================================
+// 핵심: action_log + reset filter 로직
+// ============================================================
+function buildActionLog() {
+  const reset_map = {};
+  for (const [code, st] of Object.entries(STATE)) {
+    if (st.status === 'active') {
+      reset_map[code] = {
+        reset_at: st.reset_at,
+        requestId: st.requestId
+      };
+    }
+  }
+  return { generated_at: NOW, reset_map };
+}
+
+function getAllCounsels() {
+  return [...SEED_COUNSELS, ...EXTRA].sort((a,b) => a.cns_dt.localeCompare(b.cns_dt));
+}
+
+// 리셋 필터: 학생별 effective records
+function filterByReset(records, code, reset_map) {
+  const reset = reset_map[code];
+  if (!reset) return { effective: records, preReset: [] };
+  const effective = records.filter(r => r.cns_dt > reset.reset_at);
+  const preReset  = records.filter(r => r.cns_dt <= reset.reset_at);
+  return { effective, preReset };
+}
+
+// ============================================================
+// 렌더
+// ============================================================
+function render() {
+  const nowEl = document.getElementById('nowDisplay');
+  const nowBox = nowEl.parentElement; // .now
+  nowEl.textContent = fmt(NOW) + (inPeriod(NOW) ? '' : ' ⛔ 기간 외');
+  nowBox.style.background = inPeriod(NOW) ? 'var(--accent-light)' : 'var(--danger-light)';
+  nowBox.style.color = inPeriod(NOW) ? 'var(--accent)' : 'var(--danger)';
+
+  const log = buildActionLog();
+  const counsels = getAllCounsels();
+
+  // 학생별 집계
+  const byStu = {};
+  for (const s of STUDENTS) byStu[s.code] = { ...s, records: [] };
+  for (const c of counsels) {
+    if (byStu[c.code]) byStu[c.code].records.push(c);
+  }
+
+  // ---------- 학생 카드 (평균 초과만) + 아카이브 ----------
+  let relapseCnt = 0;
+  const activeList = [];
+  const archiveList = [];
+  const relapsedNames = [];
+
+  for (const s of Object.values(byStu)) {
+    const { effective, preReset } = filterByReset(s.records, s.code, log.reset_map);
+    const reset = log.reset_map[s.code];
+
+    if (reset && effective.length === 0) {
+      archiveList.push({ ...s, reset, allRecords: s.records });
+      continue;
+    }
+
+    const isRelapse = !!reset && effective.length > 0;
+    if (isRelapse) { relapseCnt++; relapsedNames.push(s.name); }
+
+    if (effective.length > AVG_THRESHOLD || isRelapse) {
+      activeList.push({ ...s, effective, preReset, reset, isRelapse });
+    }
+  }
+
+  // 재발 배너
+  const banner = document.getElementById('relapseBanner');
+  if (relapseCnt > 0) {
+    banner.innerHTML = `
+      <div class="alert relapse">
+        <div>🔁</div>
+        <div>
+          <b>조치 후 재발생 ${relapseCnt}명</b> — ${relapsedNames.join(', ')}<br>
+          <span style="color:var(--muted); font-size:11px;">리셋 이후 신규 부정 상담이 감지되어 리스트에 재등장했습니다.</span>
+        </div>
+      </div>
+    `;
+  } else {
+    banner.innerHTML = '';
+  }
+
+  // 학생 카드
+  const stuListEl = document.getElementById('stuList');
+  stuListEl.innerHTML = '';
+  if (activeList.length === 0) {
+    stuListEl.innerHTML = '<span style="color:var(--muted); font-size:12px;">평균 초과 학생이 없습니다.</span>';
+  }
+  for (const s of activeList) {
+    const card = document.createElement('div');
+    card.className = 'stu-card' + (s.isRelapse ? ' is-relapse' : '');
+    const relapseBadge = s.isRelapse
+      ? `<span class="badge relapse">🔁 조치 후 재발생</span>`
+      : '';
+    const resetInfo = s.reset
+      ? `<div class="meta">리셋: ${fmt(s.reset.reset_at)}</div>`
+      : '';
+    const canAct = inPeriod(NOW);
+    card.innerHTML = `
+      <div class="head">
+        <div style="width:100%;">
+          <span class="name">${s.name}</span>
+          <span class="code">${s.code}</span>
+          ${relapseBadge ? '<br>' + relapseBadge : ''}
+        </div>
+      </div>
+      <div class="meta">
+        누적 부정 <b style="color:var(--danger);">${s.effective.length}건</b>
+        ${s.preReset.length > 0 ? ` · <span style="color:var(--muted);">(숨김 ${s.preReset.length}건)</span>` : ''}
+      </div>
+      ${resetInfo}
+      <div class="actions">
+        <button class="btn btn-done" onclick="handleDone('${s.code}')"
+          ${canAct ? '' : 'disabled title="분석 기간 외에는 등록 불가"'}>✅ 조치완료</button>
+      </div>
+    `;
+    stuListEl.appendChild(card);
+  }
+
+  // 아카이브
+  const archEl = document.getElementById('archiveList');
+  archEl.innerHTML = '';
+  if (archiveList.length === 0) {
+    archEl.innerHTML = '<span style="color:var(--muted); font-size:12px;">아직 조치완료된 학생이 없습니다.</span>';
+  }
+  for (const s of archiveList) {
+    const card = document.createElement('div');
+    card.className = 'stu-card is-done';
+    card.innerHTML = `
+      <div class="head">
+        <div style="width:100%;">
+          <span class="name">${s.name}</span>
+          <span class="code">${s.code}</span>
+          <span class="badge done" style="margin-left:4px;">✅ 완료</span>
+        </div>
+      </div>
+      <div class="meta">
+        리셋: ${fmt(s.reset.reset_at)} · 숨김 ${s.allRecords.length}건
+      </div>
+      <div class="actions">
+        <button class="btn btn-cancel" onclick="handleCancel('${s.code}')">↩️ 취소</button>
+      </div>
+    `;
+    archEl.appendChild(card);
+  }
+
+  // JSON 뷰
+  document.getElementById('jsonView').textContent = JSON.stringify(log, null, 2);
+}
+
+function fmt(iso) {
+  return iso.replace('T', ' ').slice(0, 16);
+}
+
+// ============================================================
+// 액션
+// ============================================================
+function handleDone(code) {
+  if (!inPeriod(NOW)) {
+    toast('⛔ 분석 기간 외에는 조치완료를 등록할 수 없습니다');
+    return;
+  }
+  const s = STUDENTS.find(x => x.code === code);
+  if (!s) return;
+  const now = new Date();
+  const reqId = 'ACT-' + now.getFullYear()
+    + String(now.getMonth()+1).padStart(2,'0')
+    + String(now.getDate()).padStart(2,'0') + '-'
+    + Math.random().toString(36).slice(2,6).toUpperCase();
+
+  STATE[code] = {
+    status: 'active',
+    reset_at: NOW,
+    requestId: reqId,
+    createdAt: new Date().toISOString()
+  };
+  save();
+  toast(`✅ ${s.name} 조치완료 — [🔄 배치 시뮬레이션]으로 집계 갱신 확인`);
+  render();
+}
+function handleCancel(code) {
+  if (!confirm('조치완료를 취소하시겠습니까? (과거 이력이 다시 리포트에 포함됩니다)')) return;
+  delete STATE[code];
+  save();
+  toast('↩️ 조치취소 처리됨');
+  render();
+}
+
+// 배치 시뮬레이션: 단순히 re-render (실제로는 build_html.js가 action_log.json을 읽어 재빌드)
+function simulateBatch() {
+  toast('🔄 배치 재빌드 완료 — action_log.json 기반으로 리포트 재생성');
+  render();
+}
+
+// 재발 시나리오: 조치된 학생 중 랜덤 1명에게 오늘 부정 상담 추가
+function addRelapseCounsel() {
+  if (!inPeriod(NOW)) {
+    toast('⛔ 분석 기간 외에는 재발 상담을 추가할 수 없습니다');
+    return;
+  }
+  const doneCodes = Object.entries(STATE)
+    .filter(([_, s]) => s.status === 'active')
+    .map(([c, _]) => c);
+  if (doneCodes.length === 0) {
+    alert('먼저 학생을 조치완료로 등록해주세요. 조치 이후의 재발을 시뮬레이션하는 기능입니다.');
+    return;
+  }
+  const code = doneCodes[Math.floor(Math.random() * doneCodes.length)];
+  const s = STUDENTS.find(x => x.code === code);
+  EXTRA.push({
+    code,
+    cns_dt: NOW,
+    kw: '이탈/포기'
+  });
+  save();
+  toast(`🔁 ${s.name} 재발 상담 추가됨 — 배치 시뮬레이션으로 재감지 확인`);
+  render();
+}
+
+function advanceDay() {
+  const d = new Date(NOW);
+  d.setDate(d.getDate() + 1);
+  NOW = d.toISOString().slice(0, 19) + '+09:00';
+  save();
+  toast('📅 하루 경과 — 현재 시각: ' + fmt(NOW));
+  render();
+}
+
+function resetAll() {
+  if (!confirm('모든 테스트 데이터를 초기화합니다 (조치 기록 + 재발 상담 + 시각). 계속?')) return;
+  STATE = {};
+  EXTRA = [];
+  NOW = '2026-04-16T14:30:00+09:00';
+  save();
+  toast('♻️ 초기 상태로 복원됨');
+  render();
+}
+
+// ============================================================
+// 토스트
+// ============================================================
+let toastTimer = null;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+// 초기 렌더
+render();
+</script>
+</body>
+</html>

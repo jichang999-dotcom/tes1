@@ -1,0 +1,2142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[TEST] 와이즈만 송파센터 [초등관] AI 상담 분석 리포트</title>
+<style>
+:root {
+  --bg: #f5f7fa;
+  --card: #ffffff;
+  --text: #1a1d21;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --accent: #6366f1;
+  --accent-light: #eef2ff;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --danger-light: #fef2f2;
+  --warning-light: #fffbeb;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans KR", sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  background: var(--bg);
+  color: var(--text);
+}
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 16px 32px;
+}
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.topbar-title { font-size: 17px; font-weight: 700; }
+.topbar-sub { font-size: 12px; color: var(--muted); }
+.card {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid var(--border);
+}
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-title .icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+.periodRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--accent-light);
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.periodRow .icon { font-size: 18px; }
+.periodRow .label { font-size: 13px; color: var(--muted); }
+.periodRow .value { font-size: 14px; font-weight: 600; }
+.compare-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 13px;
+}
+.compare-table thead th {
+  padding: 10px 8px;
+  font-weight: 600;
+  font-size: 12px;
+  text-align: center;
+}
+.compare-table thead th:first-child {
+  background: var(--bg);
+  color: var(--muted);
+  text-align: left;
+  width: 34%;
+}
+.compare-table thead th.col-d30 {
+  background: var(--accent);
+  color: #fff;
+  width: 33%;
+}
+.compare-table thead th.col-d0 {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  width: 33%;
+}
+.compare-table tbody td {
+  padding: 12px 8px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.compare-table tbody td:first-child {
+  text-align: left;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+.compare-table tbody td.val {
+  font-weight: 700;
+  font-size: 18px;
+}
+.compare-table tbody tr:last-child td { border-bottom: none; }
+.keywordList { list-style: none; }
+.keywordItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 8px;
+  transition: background 0.2s, transform 0.2s;
+  cursor: default;
+}
+.keywordItem:hover { background: var(--bg); transform: translateX(4px); }
+.keywordItem .kw { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.keywordItem .cnt { font-size: 14px; font-weight: 600; color: var(--danger); }
+.bar-bg {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--accent), #8b5cf6);
+}
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
+.data-table thead th {
+  background: var(--accent);
+  color: #fff;
+  padding: 10px 6px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 12px;
+}
+.data-table thead th:first-child { text-align: left; }
+.data-table thead th:first-child { border-radius: 8px 0 0 0; }
+.data-table thead th:last-child { border-radius: 0 8px 0 0; }
+.data-table tbody td { padding: 10px 6px; border-bottom: 1px solid var(--border); text-align: center; word-break: break-all; }
+.data-table tbody td:first-child { text-align: left; }
+.data-table tbody tr:hover { background: var(--accent-light); }
+.data-table col.col-name { width: 20%; }
+.data-table col.col-code { width: 32%; }
+.data-table col.col-count { width: 18%; }
+.data-table col.col-grade { width: 15%; }
+.data-table col.col-new { width: 15%; }
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.tag.danger { background: var(--danger-light); color: var(--danger); }
+.tag.warning { background: var(--warning-light); color: var(--warning); }
+.tag.success { background: #ecfdf5; color: var(--success); }
+.tag.new {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 2px 10px;
+  border-radius: 12px;
+  animation: newPulse 2s ease-in-out infinite;
+}
+@keyframes newPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+.alertBanner {
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+}
+.alertBanner.danger { background: var(--danger-light); border: 1px solid #fecaca; }
+.alertBanner .alert-icon { font-size: 16px; }
+.footer {
+  text-align: center;
+  padding: 20px 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+.btn-raw {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border: 1px solid var(--accent);
+  background: var(--accent-light);
+  color: var(--accent);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+.btn-raw:hover {
+  background: var(--accent);
+  color: #fff;
+}
+.page { display: block; }
+.page.hidden { display: none; }
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  margin-bottom: 12px;
+}
+.btn-back:hover {
+  background: var(--bg);
+  border-color: var(--accent);
+}
+.raw-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.raw-table thead th {
+  background: var(--accent);
+  color: #fff;
+  padding: 8px 4px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 11px;
+  position: sticky;
+  top: 0;
+  white-space: nowrap;
+}
+.raw-table thead th:first-child { border-radius: 8px 0 0 0; }
+.raw-table thead th:last-child { border-radius: 0 8px 0 0; }
+.raw-table tbody td {
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.raw-table tbody td.td-title {
+  text-align: left;
+  white-space: normal;
+}
+.raw-table tbody tr:hover { background: var(--accent-light); }
+.raw-table tbody tr:last-child td { border-bottom: none; }
+.tag-kw {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  background: var(--danger-light);
+  color: var(--danger);
+}
+.tag-ai {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  background: #f0fdf4;
+  color: var(--success);
+}
+
+/* === 조치완료 테스트 === */
+.data-table col.col-act { width: 18%; }
+.btn-act {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid #a7f3d0;
+  background: #ecfdf5;
+  color: var(--success);
+  white-space: nowrap;
+}
+.btn-act:hover { background: var(--success); color: #fff; }
+.btn-act:disabled {
+  opacity: 0.4; cursor: not-allowed;
+  background: #f3f4f6; color: var(--muted); border-color: var(--border);
+}
+.btn-act-cancel {
+  padding: 4px 8px; border-radius: 6px;
+  font-size: 10.5px; font-weight: 700; cursor: pointer;
+  border: 1px solid var(--border); background: #fff; color: var(--muted);
+  white-space: nowrap;
+}
+.btn-act-cancel:hover { background: var(--danger-light); color: var(--danger); border-color: #fecaca; }
+.stu-done td { background: #fafafa !important; color: #9ca3af; }
+.stu-done td:first-child { text-decoration: line-through; }
+.stu-relapse td { background: #fffbeb !important; }
+.tag-relapse {
+  display: inline-block; font-size: 9px; font-weight: 700;
+  padding: 1px 5px; border-radius: 8px;
+  background: #fef3c7; color: #92400e; border: 1px solid #fde68a;
+  margin-left: 3px;
+}
+.archive-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px;
+  margin-bottom: 6px; background: #fafafa; font-size: 13px;
+}
+.archive-row .info { flex: 1; min-width: 0; }
+.archive-row .info b { font-size: 13px; }
+.archive-row .info .sub { font-size: 11px; color: var(--muted); }
+.archive-row button {
+  padding: 4px 10px; border-radius: 6px;
+  font-size: 10.5px; font-weight: 700; cursor: pointer;
+  border: 1px solid var(--border); background: #fff; color: var(--muted);
+  white-space: nowrap;
+}
+
+/* 재발 배너 */
+.relapse-banner {
+  background: #fffbeb; border: 1px solid #fde68a;
+  padding: 10px 12px; border-radius: 10px;
+  margin-bottom: 12px; font-size: 12.5px;
+  display: flex; align-items: flex-start; gap: 8px;
+}
+
+/* 테스트 컨트롤 (플로팅) */
+.test-fab {
+  position: fixed; right: 12px; bottom: 12px; z-index: 900;
+  background: #0f172a; color: #fff;
+  border-radius: 24px; padding: 8px 14px; font-size: 12px; font-weight: 700;
+  border: none; cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+.test-panel {
+  position: fixed; right: 12px; bottom: 54px; z-index: 899;
+  background: #fff; border: 1px solid var(--border); border-radius: 12px;
+  padding: 12px; width: 240px; display: none;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+.test-panel.open { display: block; }
+.test-panel h4 { font-size: 12px; margin-bottom: 8px; color: var(--muted); }
+.test-panel .row {
+  display: flex; gap: 6px; margin-bottom: 6px; font-size: 11.5px;
+  align-items: center; justify-content: space-between;
+}
+.test-panel button {
+  width: 100%; padding: 7px 8px; font-size: 11.5px; font-weight: 600;
+  border: 1px solid var(--border); border-radius: 6px; background: #fff;
+  cursor: pointer; margin-bottom: 4px;
+}
+.test-panel .now-badge {
+  display: inline-block; padding: 2px 8px; border-radius: 10px;
+  background: var(--accent-light); color: var(--accent);
+  font-size: 11px; font-weight: 700;
+}
+.test-panel .now-badge.out { background: var(--danger-light); color: var(--danger); }
+
+/* 토스트 */
+.toast {
+  position: fixed; left: 50%; bottom: 24px;
+  transform: translateX(-50%) translateY(20px);
+  background: #1f2937; color: #fff; padding: 9px 16px;
+  border-radius: 24px; font-size: 12.5px; opacity: 0;
+  pointer-events: none; transition: opacity 0.2s, transform 0.2s;
+  z-index: 1000;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- 기간 요약 페이지 -->
+<div id="page-summary" class="page">
+
+<div class="topbar">
+  <div>
+    <div class="topbar-title">와이즈만 송파센터 [초등관] <span style="background:#fef3c7;color:#92400e;font-size:10px;font-weight:700;padding:1px 7px;border-radius:10px;margin-left:4px;vertical-align:middle;">TEST</span></div>
+    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-04-01 ~ 2026-04-15</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 기간 요약 -->
+  <div class="card">
+    <div class="card-title" style="justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="icon" style="background:linear-gradient(135deg,var(--accent),#8b5cf6);color:#fff;">📊</div>
+        기간 요약
+      </div>
+      <button class="btn-raw" onclick="showRaw()">raw 이동 →</button>
+    </div>
+    <div class="periodRow">
+      <div class="icon">📅</div>
+      <div>
+        <div class="label">분석 기간</div>
+        <div class="value">2026-04-01 ~ 2026-04-15</div>
+      </div>
+    </div>
+    <!-- D-30 / D-0 비교 -->
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="col-d30">15일 누적</th>
+          <th class="col-d0">4/15 당일</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>총 상담 건수</td>
+          <td class="val" style="color:var(--accent);">686</td>
+          <td class="val" style="color:var(--accent);">22</td>
+        </tr>
+        <tr>
+          <td>부정 감성 건수</td>
+          <td class="val" style="color:var(--danger);">123</td>
+          <td class="val" style="color:var(--danger);">2</td>
+        </tr>
+        <tr>
+          <td>부정 비율</td>
+          <td class="val" style="color:var(--warning);">17.9%</td>
+          <td class="val" style="color:var(--warning);">9.1%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 부정 감성 키워드 건수 통계 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="icon" style="background:var(--danger-light);color:var(--danger);">💬</div>
+      부정 감성 키워드 건수(15일 누적)
+    </div>
+    <ul class="keywordList">
+      <li class="keywordItem">
+        <div class="kw">🏃 이탈/포기 의사</div>
+        <div class="cnt">52건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:100%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">😠 불만/분노</div>
+        <div class="cnt">22건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:42%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">📚 학습 어려움</div>
+        <div class="cnt">21건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:40%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">😢 대인관계 갈등</div>
+        <div class="cnt">8건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:15%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">😣 부적응</div>
+        <div class="cnt">5건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:10%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">😰 불안/걱정</div>
+        <div class="cnt">4건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:8%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">😤 스트레스/압박감</div>
+        <div class="cnt">3건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:6%"></div></div>
+      </li>
+      <li class="keywordItem">
+        <div class="kw">📌 건강문제</div>
+        <div class="cnt">3건</div>
+      </li>
+      <li>
+        <div class="bar-bg"><div class="bar-fill" style="width:6%"></div></div>
+      </li>
+    </ul>
+  </div>
+
+  
+  <div class="alertBanner danger">
+    <div class="alert-icon">🚨</div>
+    <div>
+      <strong>위험 학생 7명 감지</strong><br>
+      평균 대비 부정 감성 빈도가 높은 학생이 발견되었습니다. 아래 상세 내역을 확인해주세요.
+    </div>
+  </div>
+  
+  <div class="alertBanner" style="background:var(--accent-light);border:1px solid #c7d2fe;">
+    <div class="alert-icon">🆕</div>
+    <div>
+      <strong>신규 감지 학생 1명</strong><br>
+      이전 분석에 없던 학생이 새롭게 평균 초과 목록에 포함되었습니다.
+    </div>
+  </div>
+
+  <!-- 평균 초과 학생 리스트 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="icon" style="background:var(--danger-light);color:var(--danger);">⚠️</div>
+      평균 초과 학생 리스트(15일 누적)
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">
+      와이즈만 송파센터 [초등관] 내 학생 평균 부정 건수: <strong style="color:var(--text);">1.3건</strong> — 평균 초과 학생 전체를 표시합니다.
+    </p>
+    <div id="relapse-banner"></div>
+    <table class="data-table" id="stu-table">
+      <colgroup>
+        <col class="col-name">
+        <col class="col-code">
+        <col class="col-count">
+        <col class="col-grade">
+        <col class="col-act">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>학생명</th>
+          <th>학생코드</th>
+          <th>부정</th>
+          <th>등급</th>
+          <th>조치</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>유선우</td>
+          <td>CS260206534</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td><span class="tag new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>최하준</td>
+          <td>CS240500635</td>
+          <td><strong>3건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>이준서</td>
+          <td>CS250205493</td>
+          <td><strong>3건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>정규혜</td>
+          <td>CS221000065</td>
+          <td><strong>3건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>권정우</td>
+          <td>CS240304079</td>
+          <td><strong>3건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>정민찬</td>
+          <td>CS211104952</td>
+          <td><strong>3건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>성이준</td>
+          <td>CS221202642</td>
+          <td><strong>3건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>유호준</td>
+          <td>CS231000297</td>
+          <td><strong>3건</strong></td>
+          <td><span class="tag danger">위험</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>권도윤(잠실)</td>
+          <td>CS210800588</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>송승유</td>
+          <td>CS221101852</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>정유나</td>
+          <td>CS251200988</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>김지완</td>
+          <td>CS230101167</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>나준혁</td>
+          <td>CS250206499</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>유시유</td>
+          <td>CS260301676</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>황시윤</td>
+          <td>CS220302097</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>강채아</td>
+          <td>CS251200153</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>성연후</td>
+          <td>CS251102871</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>최재원</td>
+          <td>CS220400534</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>최성원</td>
+          <td>CS260100267</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>장하윤(잠실)</td>
+          <td>CS250500740</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>설유준</td>
+          <td>CS251200495</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>임수정</td>
+          <td>CS240501012</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>손시어돌태호</td>
+          <td>CS240401373</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>조승연</td>
+          <td>CS240500312</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 조치 아카이브 (JS가 조건부로 표시) -->
+  <div class="card" id="archive-card" style="display:none;">
+    <div class="card-title">
+      <div class="icon" style="background:#ecfdf5;color:#10b981;">✅</div>
+      조치 아카이브 <span id="archive-count" style="font-size:11px;color:var(--muted);font-weight:500;margin-left:4px;"></span>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">
+      리셋 이후 재발 없는 조치완료 학생입니다. 이력 보존용.
+    </p>
+    <div id="archive-list"></div>
+  </div>
+
+  <div class="footer">
+    본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
+    분석 모델: Claude API | 생성일: 2026-04-15 19:11<br>
+    데이터 기준<br>
+    &copy; 2026 AI 상담 분석 시스템
+  </div>
+
+</div>
+</div>
+
+<!-- 키워드 raw 페이지 -->
+<div id="page-raw" class="page hidden">
+
+<div class="topbar">
+  <div>
+    <div class="topbar-title">와이즈만 송파센터 [초등관] <span style="background:#fef3c7;color:#92400e;font-size:10px;font-weight:700;padding:1px 7px;border-radius:10px;margin-left:4px;vertical-align:middle;">TEST</span></div>
+    <div class="topbar-sub">키워드 raw 데이터 · 2026-04-01 ~ 2026-04-15</div>
+  </div>
+</div>
+
+<div class="container" style="padding-top:12px;max-width:700px;">
+
+  <button class="btn-back" onclick="showSummary()">← 기간 요약으로 돌아가기</button>
+
+  <div class="card">
+    <div class="card-title">
+      <div class="icon" style="background:var(--accent-light);color:var(--accent);">📋</div>
+      키워드 raw (부정 판정 123건)
+    </div>
+    <div style="overflow-x:auto;">
+    <table class="raw-table">
+      <thead>
+        <tr>
+          <th>상담일자</th>
+          <th>학생명</th>
+          <th>학생코드</th>
+          <th>상담제목</th>
+          <th>감지 키워드</th>
+          <th>감성 카테고리</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2026-04-15</td>
+          <td>김리하</td>
+          <td>CS260202118</td>
+          <td class="td-title">4월 정기 상담</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-15</td>
+          <td>정유안</td>
+          <td>CS240701900</td>
+          <td class="td-title">4월 정기상담</td>
+          <td><span class="tag-kw">부적응</span></td>
+          <td><span class="tag-kw">부적응</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-14</td>
+          <td>성이준</td>
+          <td>CS221202642</td>
+          <td class="td-title">4월3주차 휴회 상담</td>
+          <td><span class="tag-kw">휴회</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-14</td>
+          <td>유선우</td>
+          <td>CS260206534</td>
+          <td class="td-title">GT2 첫수업후 상담</td>
+          <td><span class="tag-kw">부적응</span></td>
+          <td><span class="tag-kw">부적응</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-14</td>
+          <td>김남준</td>
+          <td>AS121507631</td>
+          <td class="td-title">4월 정기상담</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-14</td>
+          <td>윤아성</td>
+          <td>CS260205585</td>
+          <td class="td-title">4월 정기상담</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-14</td>
+          <td>성이준</td>
+          <td>CS221202642</td>
+          <td class="td-title">4월3주차 휴회</td>
+          <td><span class="tag-kw">휴회</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-14</td>
+          <td>유호준</td>
+          <td>CS231000297</td>
+          <td class="td-title">4.18(토) 9시 과제 보충 수업 / 교과 수업(3-2) 개인 일정 확인 후 확정 전화 주시기로 함</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-13</td>
+          <td>권정우</td>
+          <td>CS240304079</td>
+          <td class="td-title">GT2 첫수업후 상담</td>
+          <td><span class="tag-kw">부적응</span></td>
+          <td><span class="tag-kw">부적응</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-11</td>
+          <td>한수호</td>
+          <td>CS230900704</td>
+          <td class="td-title">4월 정기상담</td>
+          <td><span class="tag-kw">부적응</span></td>
+          <td><span class="tag-kw">부적응</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-11</td>
+          <td>유호준</td>
+          <td>CS231000297</td>
+          <td class="td-title">숙제 상담 요청</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-11</td>
+          <td>주승민</td>
+          <td>CS240101488</td>
+          <td class="td-title">[결과상담] what / 토1교시 대기</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-10</td>
+          <td>정규혜</td>
+          <td>CS221000065</td>
+          <td class="td-title">GT4 첫수업 후 상담</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-10</td>
+          <td>정규혜</td>
+          <td>CS221000065</td>
+          <td class="td-title">교과 4A 첫수업 후 상담</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-10</td>
+          <td>최하준</td>
+          <td>CS240500635</td>
+          <td class="td-title">교과 4S/5C 첫수업후 상담</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-10</td>
+          <td>김태영</td>
+          <td>CS240902515</td>
+          <td class="td-title">4/11(토)9시 보강 예정이었던 것 취소 요청 전화주심-태영이가 원치 않아함/담임선생님께 전달/셔틀기사님께 전달</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-10</td>
+          <td>손시어돌태호</td>
+          <td>CS240401373</td>
+          <td class="td-title">태호학생 셔틀안전문제로 상담차 전화 // 거리가 멀어 학생 힘들어 함 - 방안 없더라도 안전은 중요</td>
+          <td><span class="tag-kw">위험행동</span></td>
+          <td><span class="tag-kw">위험행동</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-09</td>
+          <td>김태리</td>
+          <td>CS251203087</td>
+          <td class="td-title">사고력 병강안내전화 - 어머니 시기가 이른것 같아 상반기 지겨볼 예정</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-09</td>
+          <td>조승연</td>
+          <td>CS240500312</td>
+          <td class="td-title">4월 정기상담-시험결과 상담</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-08</td>
+          <td>정민찬</td>
+          <td>CS211104952</td>
+          <td class="td-title">교과 4S/5C 첫수업후 상담</td>
+          <td><span class="tag-kw">컴플레인</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-08</td>
+          <td>임수정</td>
+          <td>CS240501012</td>
+          <td class="td-title">교과 4S/5C 첫수업후 상담</td>
+          <td><span class="tag-kw">사춘기/반항</span></td>
+          <td><span class="tag-kw">사춘기/반항</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-08</td>
+          <td>최하준</td>
+          <td>CS240500635</td>
+          <td class="td-title">월상담/ 교사 변동 안내 마무리 / 결석 보강 연락 요청</td>
+          <td><span class="tag-kw">불안/걱정</span></td>
+          <td><span class="tag-kw">불안/걱정</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-08</td>
+          <td>이서진</td>
+          <td>CS260301388</td>
+          <td class="td-title">[결과상담-전화] what / 4월 2주차 신규 - 온라인 결제문자 발송</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-08</td>
+          <td>신숙현</td>
+          <td>CS220500878</td>
+          <td class="td-title">학생태도관련 전달 // 도를 넘는 장난에 대한 지도가 필요함 - 어머니 선생님에게 사과의 말씀전달요청</td>
+          <td><span class="tag-kw">부적응</span></td>
+          <td><span class="tag-kw">부적응</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-07</td>
+          <td>조승연</td>
+          <td>CS240500312</td>
+          <td class="td-title">4월 정기상담 - 시험결과/부재</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-07</td>
+          <td>나준혁</td>
+          <td>CS250206499</td>
+          <td class="td-title">4월 정기상담 - 3학년 1학기 평가 상담.</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-07</td>
+          <td>설유준</td>
+          <td>CS251200495</td>
+          <td class="td-title">4월 미납 / 휴회 확인</td>
+          <td><span class="tag-kw">휴회</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-07</td>
+          <td>이혜전</td>
+          <td>CS251103697</td>
+          <td class="td-title">5월 여행으로 휴회(5월31일 입국 예정) _6월 1주차 or 3주차 재입회 결정은 6월2일 연락 주시기로 함</td>
+          <td><span class="tag-kw">휴회</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-07</td>
+          <td>정유나</td>
+          <td>CS251200988</td>
+          <td class="td-title">4월 휴회 확정</td>
+          <td><span class="tag-kw">휴회</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-04</td>
+          <td>설유준</td>
+          <td>CS251200495</td>
+          <td class="td-title">3월 정기-휴회상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>박다인</td>
+          <td>CS251102035</td>
+          <td class="td-title">3월 상담+교사변경_부재중 문자남김</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>조이현</td>
+          <td>CS210400745</td>
+          <td class="td-title">4월 3주차 휴회 / 하키대회일정으로 금토 지방이동 많음</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>김우진</td>
+          <td>CS251101797</td>
+          <td class="td-title">3월 정기 상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>김재하</td>
+          <td>CS251201103</td>
+          <td class="td-title">3월 정기 상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>변시아</td>
+          <td>CS250700919</td>
+          <td class="td-title">3월 정기 상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>강태현</td>
+          <td>CS250401534</td>
+          <td class="td-title">3월 정기 상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>반준서</td>
+          <td>CS250203868</td>
+          <td class="td-title">유연재선생님 어머니 상담전화 완료/교사 변동 안내드림</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>이지훈</td>
+          <td>CS241202334</td>
+          <td class="td-title">3월 정기 상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>고강민</td>
+          <td>CS260202822</td>
+          <td class="td-title">3월 정기 상담/휴회상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>김동훈</td>
+          <td>CS260102392</td>
+          <td class="td-title">3월 정기 상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>이재상</td>
+          <td>CS250205492</td>
+          <td class="td-title">3월 정기 상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>정수빈</td>
+          <td>CS260101510</td>
+          <td class="td-title">3월 정기 상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>황시호</td>
+          <td>CS250805754</td>
+          <td class="td-title">3월 정기 상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>감도율</td>
+          <td>CS250401607</td>
+          <td class="td-title">3월 정기 상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>강채아</td>
+          <td>CS251200153</td>
+          <td class="td-title">개인상담 및 휴회 상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>배수호</td>
+          <td>CS241202750</td>
+          <td class="td-title">3월 정기 상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>이시환</td>
+          <td>CS250400641</td>
+          <td class="td-title">3월 정기 상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>오하람</td>
+          <td>CS230600491</td>
+          <td class="td-title">3월 정기 상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>정여진</td>
+          <td>CS240204894</td>
+          <td class="td-title">3월 정기 상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>정소유</td>
+          <td>CS230901665</td>
+          <td class="td-title">3월 정기 상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>김도현</td>
+          <td>CS220202707</td>
+          <td class="td-title">3월 정기 상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>정하선</td>
+          <td>CS250205503</td>
+          <td class="td-title">4월 휴회(관리 컴플레인)</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>남윤주</td>
+          <td>CS221201653</td>
+          <td class="td-title">4월 휴회 </td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>김대호</td>
+          <td>CS260201575</td>
+          <td class="td-title">3월 정기 상담 </td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>장수인</td>
+          <td>CS230701562</td>
+          <td class="td-title">3월 정기 상담 / 휴회상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>권도윤(중대)</td>
+          <td>CS251101492</td>
+          <td class="td-title">3월 정기 상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>강지원</td>
+          <td>CS240200473</td>
+          <td class="td-title">3월 정기 상담 </td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>임수정</td>
+          <td>CS240501012</td>
+          <td class="td-title">평가 결과 상담/ 교사 변동 안내</td>
+          <td><span class="tag-kw">사춘기/반항</span></td>
+          <td><span class="tag-kw">사춘기/반항</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>손시어돌태호</td>
+          <td>CS240401373</td>
+          <td class="td-title">3월 정기상담</td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>정재훈</td>
+          <td>CS250300152</td>
+          <td class="td-title">3월 정기상담 </td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>성연후</td>
+          <td>CS251102871</td>
+          <td class="td-title">3월 정기 상담</td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>정민찬</td>
+          <td>CS211104952</td>
+          <td class="td-title">월상담 / 4월 2일 결석 보강 9일 수업 후 1시간 가능한지 요청하심</td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>유호준</td>
+          <td>CS231000297</td>
+          <td class="td-title">4월 정기상담</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>맹유진</td>
+          <td>CS250901213</td>
+          <td class="td-title">4월 정기상담</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>최성원</td>
+          <td>CS260100267</td>
+          <td class="td-title">3월 정기상담 부재중</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>김재율</td>
+          <td>CS240902575</td>
+          <td class="td-title">시간표 문의 / 문자전달완료 </td>
+          <td><span class="tag-kw">우울/무기력</span></td>
+          <td><span class="tag-kw">우울/무기력</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-04</td>
+          <td>나하연</td>
+          <td>CS250301864</td>
+          <td class="td-title">3월 정기상담</td>
+          <td><span class="tag-kw">불안/걱정</span></td>
+          <td><span class="tag-kw">불안/걱정</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-03</td>
+          <td>유소윤</td>
+          <td>CS230803315</td>
+          <td class="td-title">3월 정기상담+4월휴회</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>주하연</td>
+          <td>CS250200075</td>
+          <td class="td-title">하연이 교재를 다인이 가방에서 발견 (문자드림)</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>천도현</td>
+          <td>CS240902522</td>
+          <td class="td-title">3월 정기상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>유선우</td>
+          <td>CS260206534</td>
+          <td class="td-title">3월 수업 + 교사변경 (상담 시 정리한 내용 추가해둠)</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>강민재</td>
+          <td>CS240400261</td>
+          <td class="td-title">교재 겹침 확인 _어머님 통화는 부재중</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>최연우</td>
+          <td>CS250204156</td>
+          <td class="td-title">3월 수업 + 교사변경</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>형태희</td>
+          <td>CS250600307</td>
+          <td class="td-title">3월 수업 + 교사변경</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>전소이</td>
+          <td>CS240501102</td>
+          <td class="td-title">3월 수업 +교사변경</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>정수아</td>
+          <td>CS260101474</td>
+          <td class="td-title">3월 상담+교사변경</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>이윤후</td>
+          <td>CS240102293</td>
+          <td class="td-title">[결과상담] GT, 3S / 고민 후 연락</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>이윤준</td>
+          <td>CS250204843</td>
+          <td class="td-title">[결과상담] GTad, 3S / 시간표 고민 후 연락</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>황시윤</td>
+          <td>CS220302097</td>
+          <td class="td-title">수요일 1교시 GTad 오픈 희망(목요일 불가) / 미승급시 사고력 휴회 가능성</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>황시윤</td>
+          <td>CS220302097</td>
+          <td class="td-title">3월 정기상담</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>이로운(토성)</td>
+          <td>CS221001644</td>
+          <td class="td-title">영재학급 합격으로 토요일 수업 어려움 // 평일 일정 맞지않음</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>강채아</td>
+          <td>CS251200153</td>
+          <td class="td-title">4월 한달 휴회 후 5월 재입회 / 4월 수강료 5월 이월처리</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>정민찬</td>
+          <td>CS211104952</td>
+          <td class="td-title">2(목) 결석 개인보강 일정 확인전화 // 교사변경 안내 - 매우 불편해 하심, 수강지속에 대한 고민도 언급, 우선 4월 수강</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>김지완</td>
+          <td>CS230101167</td>
+          <td class="td-title">전화 연결안되어 문자남김(교사변경포함시킴)</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>성연후</td>
+          <td>CS251102871</td>
+          <td class="td-title">4월 휴회,환불요청-사유 하단/담임선생님께 공유/확정 후 셔틀 쪽지</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>이준서</td>
+          <td>CS250205493</td>
+          <td class="td-title">4월 수강료 환불로 변경 요청</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>이준서</td>
+          <td>CS250205493</td>
+          <td class="td-title">4월 휴회 / 5월 재입회(4월 수강료 이동처리)</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>송지호</td>
+          <td>CS251202973</td>
+          <td class="td-title">3월 정기 상담</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>최재원</td>
+          <td>CS220400534</td>
+          <td class="td-title">4월 휴회</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>최재원</td>
+          <td>CS220400534</td>
+          <td class="td-title">3월 정기상담2</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>이도연</td>
+          <td>CS250401163</td>
+          <td class="td-title">3월 교사변동 안내+교대창사 안내</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>이도현</td>
+          <td>CS260200120</td>
+          <td class="td-title">3월 정기상담</td>
+          <td><span class="tag-kw">불안/걱정</span></td>
+          <td><span class="tag-kw">불안/걱정</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>최성원</td>
+          <td>CS260100267</td>
+          <td class="td-title">부재 확인 후 콜백 // 8시 이후 상담전화 가능 - 수업중 학생들 싸움주의 요청</td>
+          <td><span class="tag-kw">불안/걱정</span></td>
+          <td><span class="tag-kw">불안/걱정</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>성이준</td>
+          <td>CS221202642</td>
+          <td class="td-title">3월 정기상담</td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>김준영(가동)</td>
+          <td>CS250803795</td>
+          <td class="td-title">3월 정기상담</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>장하윤(잠실)</td>
+          <td>CS250500740</td>
+          <td class="td-title">4월 교과 정기 상담</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>장하윤(잠실)</td>
+          <td>CS250500740</td>
+          <td class="td-title">3월 정기상담2</td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>김건민</td>
+          <td>CS241001164</td>
+          <td class="td-title">3월 정기상담</td>
+          <td><span class="tag-kw">사춘기/반항</span></td>
+          <td><span class="tag-kw">사춘기/반항</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>박지승</td>
+          <td>CS211203851</td>
+          <td class="td-title">3월 정기상담</td>
+          <td><span class="tag-kw">건강문제</span></td>
+          <td><span class="tag-kw">건강문제</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-03</td>
+          <td>권정우</td>
+          <td>CS240304079</td>
+          <td class="td-title">3월 상담 + 교사 변경</td>
+          <td><span class="tag-kw">건강문제</span></td>
+          <td><span class="tag-kw">건강문제</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-02</td>
+          <td>김지완</td>
+          <td>CS230101167</td>
+          <td class="td-title">부재중 문자남김_3월 상담+교사변경 필요함</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>최우리</td>
+          <td>CS240500068</td>
+          <td class="td-title">3월 수업+교사변경</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>나준혁</td>
+          <td>CS250206499</td>
+          <td class="td-title">휴회상담</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>최시아</td>
+          <td>CS241203622</td>
+          <td class="td-title">3월 상담+교사변경</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>정규혜</td>
+          <td>CS221000065</td>
+          <td class="td-title">교사변경+3월 상담 (사고력 시험지 사라진 경우_처리내용 메모)</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>송승유</td>
+          <td>CS221101852</td>
+          <td class="td-title">3월 정기상담 / 휴회상담</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>한우진(B-가)</td>
+          <td>CS240203239</td>
+          <td class="td-title">교사변경_3월 수업 상담 (보강건 확인중요)_4월 2주</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>권도윤(잠실)</td>
+          <td>CS210800588</td>
+          <td class="td-title">4월 휴회신청/환불 관련 담임선생님과 전화통화 요청-수업 중이시라 어머니께 전화드리도록 메세지 전달</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>이채원</td>
+          <td>CS231101152</td>
+          <td class="td-title">3월 평가 상담 및  4월 4일 6시 ~ 7시 보충 수업 진행</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>유시유</td>
+          <td>CS260301676</td>
+          <td class="td-title">첫 수업 전 상담</td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>유시유</td>
+          <td>CS260301676</td>
+          <td class="td-title">과학 담임선생님 갑작스럽게 변경된 사실, 전화통보로 기분이 좀 언짢으심을 표함/과학 챗방에 내용공유</td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>이재현</td>
+          <td>CS250701379</td>
+          <td class="td-title">3월 정기상담 </td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>박준우</td>
+          <td>CS231001156</td>
+          <td class="td-title">3월 정기상담 / 긴 문장 읽기 싫어하고 사고력이 부족해서 질문 많이 하기로 함</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>이창수</td>
+          <td>CS231200874</td>
+          <td class="td-title">3월 정기상담</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-02</td>
+          <td>권정우</td>
+          <td>CS240304079</td>
+          <td class="td-title">3월 정기상담 / 지난 주 시험에 컨디션 난조가 있었음 전달</td>
+          <td><span class="tag-kw">건강문제</span></td>
+          <td><span class="tag-kw">건강문제</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--accent);">
+          <td>2026-04-01</td>
+          <td>최하준</td>
+          <td>CS240500635</td>
+          <td class="td-title">7(화) 결석 10(금) 8-9시 보강희망(4시종료 학원일정) // 교사변경에 대한 안내 - 불편해 하심</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>이준서</td>
+          <td>CS250205493</td>
+          <td class="td-title">개인보강상담/3월 정기 상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>권도윤(잠실)</td>
+          <td>CS210800588</td>
+          <td class="td-title">3월 정기상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>송승유</td>
+          <td>CS221101852</td>
+          <td class="td-title">4월 휴회요청/담임선생님께 공유</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>정유나</td>
+          <td>CS251200988</td>
+          <td class="td-title">4월 휴회 및 환불요청-사유 상담내용란 참조/담임선생님께 공유</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>오서윤</td>
+          <td>CS251201372</td>
+          <td class="td-title">3월 정기상담</td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>김하은</td>
+          <td>CS260202382</td>
+          <td class="td-title">3월 정기상담/추가</td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+        </tr>
+        <tr>
+          <td>2026-04-01</td>
+          <td>최원호</td>
+          <td>CS250301552</td>
+          <td class="td-title">3월 정기 상담</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="footer">
+    본 데이터는 구글 스프레드시트 "키워드raw" 시트와 동일한 기준으로 추출되었습니다.<br>
+    &copy; 2026 AI 상담 분석 시스템
+  </div>
+
+</div>
+</div>
+
+<script>
+function showRaw() {
+  document.getElementById('page-summary').classList.add('hidden');
+  document.getElementById('page-raw').classList.remove('hidden');
+  window.scrollTo(0, 0);
+}
+function showSummary() {
+  document.getElementById('page-raw').classList.add('hidden');
+  document.getElementById('page-summary').classList.remove('hidden');
+  window.scrollTo(0, 0);
+}
+
+// ============================================================
+// 조치완료 테스트 로직
+// ============================================================
+const CENTER_CODE = 'ACV';
+const PERIOD_START = '2026-04-01T00:00:00+09:00';
+const PERIOD_END   = '2026-04-15T23:59:59+09:00';
+const LS_STATE = 'acv_test_action_state_v1';
+const LS_NOW   = 'acv_test_virtual_now';
+const LS_EXTRA = 'acv_test_extra_counsels';
+const DEFAULT_NOW = '2026-04-15T18:00:00+09:00';
+const GAS_URL  = 'https://script.google.com/macros/s/AKfycbzPxHlWm4y7QlpumPCNq4jni0583hYWHOptgVNF-zAPZZ2zoTz1v9lLa8ScbtiblFv-EA/exec';
+
+let STATE = JSON.parse(localStorage.getItem(LS_STATE) || '{}');
+let NOW   = localStorage.getItem(LS_NOW) || DEFAULT_NOW;
+let EXTRA = JSON.parse(localStorage.getItem(LS_EXTRA) || '[]');
+
+function saveAll() {
+  localStorage.setItem(LS_STATE, JSON.stringify(STATE));
+  localStorage.setItem(LS_NOW, NOW);
+  localStorage.setItem(LS_EXTRA, JSON.stringify(EXTRA));
+}
+function inPeriod(iso) { return iso >= PERIOD_START && iso <= PERIOD_END; }
+
+// raw 테이블에서 학생별 상담 기록 파싱 (날짜 + EXTRA 병합)
+function parseRawCounsels() {
+  const rows = document.querySelectorAll('#page-raw .raw-table tbody tr');
+  const map = {};  // { std_cd: [{ cns_dt, kw, title }] }
+  rows.forEach(tr => {
+    const tds = tr.querySelectorAll('td');
+    if (tds.length < 5) return;
+    const dt = tds[0].textContent.trim();   // "2026-04-15"
+    const code = tds[2].textContent.trim();
+    const kw = tds[4].textContent.trim();
+    if (!code) return;
+    (map[code] ||= []).push({ cns_dt: dt + 'T12:00:00+09:00', kw });
+  });
+  for (const ex of EXTRA) {
+    (map[ex.code] ||= []).push({ cns_dt: ex.cns_dt, kw: ex.kw, extra: true });
+  }
+  return map;
+}
+
+// 학생 테이블 enhance: 마지막 td 교체 + 상태/재발 계산
+function renderStudentTable() {
+  const rawMap = parseRawCounsels();
+  const tbody = document.querySelector('#stu-table tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  const archive = [];
+  const relapsedNames = [];
+
+  rows.forEach(tr => {
+    const tds = tr.querySelectorAll('td');
+    if (tds.length < 5) return;
+    const name = tds[0].textContent.replace(/🆕/g, '').trim();
+    const code = tds[1].textContent.trim();
+    // 원래 cnt/grade는 td[2]/td[3] 그대로 사용
+    const lastTd = tds[4];
+    // NEW 뱃지는 처음 한 번만 학생명 옆으로 이동
+    if (!tr.dataset.enhanced) {
+      const newTag = lastTd.querySelector('.tag.new');
+      if (newTag) {
+        const span = document.createElement('span');
+        span.innerHTML = ' <span class="tag new" style="font-size:9px;padding:1px 6px;">NEW</span>';
+        tds[0].appendChild(span);
+      }
+      tr.dataset.enhanced = '1';
+      tr.dataset.stdCd = code;
+      tr.dataset.stdName = name;
+    }
+
+    // 리셋 상태 계산
+    const st = STATE[code];
+    const records = rawMap[code] || [];
+    let relapseRecords = [];
+    let isDone = false;
+    let isRelapse = false;
+
+    if (st && st.status === 'active') {
+      relapseRecords = records.filter(r => r.cns_dt > st.reset_at);
+      isDone = relapseRecords.length === 0;
+      isRelapse = !isDone;
+    }
+
+    tr.classList.toggle('stu-done', isDone);
+    tr.classList.toggle('stu-relapse', isRelapse);
+
+    if (isDone) {
+      archive.push({ code, name, reset: st, hidden: records.length });
+      lastTd.innerHTML = '';
+      tr.style.display = 'none';
+      return;
+    } else {
+      tr.style.display = '';
+    }
+
+    // 재발 뱃지를 학생명 셀에 반영
+    let relapseTag = tds[0].querySelector('.tag-relapse');
+    if (isRelapse) {
+      if (!relapseTag) {
+        relapseTag = document.createElement('span');
+        relapseTag.className = 'tag-relapse';
+        relapseTag.textContent = '🔁 재발';
+        tds[0].appendChild(relapseTag);
+      }
+      relapsedNames.push(name);
+    } else if (relapseTag) {
+      relapseTag.remove();
+    }
+
+    // 부정 건수: 리셋 후엔 재발 건수만 표시
+    if (st && st.status === 'active') {
+      const origHtml = tr.dataset.origCnt || tds[2].innerHTML;
+      tr.dataset.origCnt = origHtml;
+      tds[2].innerHTML = `<strong style="color:var(--danger);">${relapseRecords.length}건</strong><div style="font-size:10px;color:var(--muted);">숨김 ${records.length}</div>`;
+    } else if (tr.dataset.origCnt) {
+      tds[2].innerHTML = tr.dataset.origCnt;
+      delete tr.dataset.origCnt;
+    }
+
+    // 조치 버튼
+    const canAct = inPeriod(NOW);
+    lastTd.innerHTML = `<button class="btn-act" data-code="${code}" ${canAct ? '' : 'disabled title="분석 기간 외"'}>✅ 조치</button>`;
+  });
+
+  // 재발 배너
+  const banner = document.getElementById('relapse-banner');
+  if (relapsedNames.length > 0) {
+    banner.innerHTML = `
+      <div class="relapse-banner">
+        <div>🔁</div>
+        <div>
+          <b>조치 후 재발생 ${relapsedNames.length}명</b> — ${relapsedNames.join(', ')}<br>
+          <span style="color:var(--muted);font-size:11px;">리셋 이후 신규 부정 상담이 감지되었습니다.</span>
+        </div>
+      </div>`;
+  } else {
+    banner.innerHTML = '';
+  }
+
+  // 아카이브 카드
+  const archCard = document.getElementById('archive-card');
+  const archList = document.getElementById('archive-list');
+  const archCount = document.getElementById('archive-count');
+  if (archive.length > 0) {
+    archCard.style.display = '';
+    archCount.textContent = `(${archive.length}명)`;
+    archList.innerHTML = archive.map(a => `
+      <div class="archive-row">
+        <div class="info">
+          <b>${a.name}</b>
+          <span style="font-size:11px;color:var(--muted);margin-left:4px;">${a.code}</span>
+          <div class="sub">리셋 ${fmtDate(a.reset.reset_at)} · 숨김 ${a.hidden}건</div>
+        </div>
+        <button onclick="handleCancel('${a.code}')">↩️ 취소</button>
+      </div>`).join('');
+  } else {
+    archCard.style.display = 'none';
+    archList.innerHTML = '';
+  }
+}
+
+function fmtDate(iso) { return iso.replace('T', ' ').slice(0, 16); }
+
+// Apps Script 연동 (text/plain 으로 simple request → 프리플라이트 회피)
+function postGAS(body) {
+  return fetch(GAS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(body)
+  }).then(r => r.json()).catch(err => {
+    console.warn('GAS POST 실패', err);
+    return { ok: false, error: String(err) };
+  });
+}
+
+async function syncFromSheet() {
+  try {
+    const r = await fetch(GAS_URL + '?center=' + CENTER_CODE);
+    const data = await r.json();
+    if (!data.ok) throw new Error(data.error || 'sync failed');
+    const remote = data.reset_map || {};
+    const merged = {};
+    for (const [code, row] of Object.entries(remote)) {
+      merged[code] = {
+        status: 'active',
+        reset_at: row.reset_at,
+        requestId: row.requestId,
+        createdAt: row.reset_at
+      };
+    }
+    STATE = merged;
+    saveAll();
+    renderStudentTable();
+    toast('🔄 시트 동기화 완료 (' + Object.keys(merged).length + '건)');
+  } catch (err) {
+    console.warn('sync 실패, 로컬 STATE 유지', err);
+    toast('⚠️ 시트 동기화 실패 (로컬 사용)');
+  }
+}
+
+function handleDone(code) {
+  if (!inPeriod(NOW)) { toast('⛔ 분석 기간 외에는 조치완료 불가'); return; }
+  const tr = document.querySelector(`#stu-table tr[data-std-cd="${code}"]`);
+  const name = tr ? tr.dataset.stdName : code;
+  const requestId = 'ACT-' + Date.now().toString(36).toUpperCase();
+  STATE[code] = {
+    status: 'active',
+    reset_at: NOW,
+    requestId,
+    createdAt: new Date().toISOString()
+  };
+  saveAll();
+  toast(`✅ ${name} 조치완료 등록`);
+  renderStudentTable();
+  postGAS({
+    action: 'done',
+    requestId,
+    reset_at: NOW,
+    centerCode: CENTER_CODE,
+    studentCode: code,
+    studentName: name
+  }).then(res => { if (res.ok) toast('📤 시트 기록됨'); });
+}
+
+function handleCancel(code) {
+  if (!confirm('조치완료를 취소하시겠습니까? 과거 이력이 리포트에 복원됩니다.')) return;
+  const tr = document.querySelector(`#stu-table tr[data-std-cd="${code}"]`);
+  const name = tr ? tr.dataset.stdName : code;
+  delete STATE[code];
+  saveAll();
+  toast('↩️ 조치취소 처리됨');
+  renderStudentTable();
+  postGAS({
+    action: 'cancel',
+    centerCode: CENTER_CODE,
+    studentCode: code,
+    studentName: name
+  }).then(res => { if (res.ok) toast('📤 시트 취소 반영'); });
+}
+
+// 테이블 클릭 위임
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.btn-act');
+  if (btn && btn.dataset.code) handleDone(btn.dataset.code);
+});
+
+// ============================================================
+// 테스트 컨트롤 (플로팅)
+// ============================================================
+function toggleTestPanel() {
+  document.getElementById('test-panel').classList.toggle('open');
+}
+function setVirtualNow(iso) {
+  NOW = iso; saveAll(); updateNowBadge(); renderStudentTable();
+  toast('🕐 가상 시각 변경: ' + fmtDate(iso));
+}
+function updateNowBadge() {
+  const el = document.getElementById('now-badge');
+  if (!el) return;
+  el.textContent = fmtDate(NOW);
+  el.classList.toggle('out', !inPeriod(NOW));
+}
+function addRelapseCounsel() {
+  const codes = Object.entries(STATE).filter(([,s]) => s.status === 'active').map(([c]) => c);
+  if (codes.length === 0) { toast('먼저 학생을 조치완료 해주세요'); return; }
+  const code = codes[Math.floor(Math.random() * codes.length)];
+  const raw = parseRawCounsels();
+  const name = document.querySelector(`#stu-table tr[data-std-cd="${code}"]`)?.dataset.stdName || code;
+  EXTRA.push({ code, cns_dt: NOW, kw: '이탈/포기' });
+  saveAll();
+  toast(`🔁 ${name} 재발 상담 추가됨`);
+  renderStudentTable();
+}
+function resetAllTest() {
+  if (!confirm('테스트 상태 전체 초기화?')) return;
+  STATE = {}; EXTRA = []; NOW = DEFAULT_NOW;
+  saveAll(); updateNowBadge(); renderStudentTable();
+  toast('♻️ 초기화됨');
+}
+
+// 토스트
+let toastTimer;
+function toast(msg) {
+  let el = document.getElementById('toast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'toast';
+    el.className = 'toast';
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2500);
+}
+
+// 플로팅 UI 주입
+(function injectTestUI() {
+  const fab = document.createElement('button');
+  fab.className = 'test-fab';
+  fab.textContent = '🧪 테스트';
+  fab.onclick = toggleTestPanel;
+  document.body.appendChild(fab);
+
+  const panel = document.createElement('div');
+  panel.className = 'test-panel';
+  panel.id = 'test-panel';
+  panel.innerHTML = `
+    <h4>🧪 테스트 컨트롤</h4>
+    <div class="row">
+      <span>가상 시각</span>
+      <span class="now-badge" id="now-badge">-</span>
+    </div>
+    <button onclick="setVirtualNow('2026-04-15T18:00:00+09:00')">📅 4/15 18:00 (기간 내)</button>
+    <button onclick="setVirtualNow('2026-04-16T10:00:00+09:00')">📅 4/16 10:00 (기간 외)</button>
+    <button onclick="addRelapseCounsel()">🔁 재발 상담 추가</button>
+    <button onclick="syncFromSheet()">🔄 시트에서 재동기화</button>
+    <button onclick="resetAllTest()" style="color:var(--danger);border-color:#fecaca;">♻️ 전체 초기화</button>
+    <div style="font-size:10.5px;color:var(--muted);margin-top:6px;line-height:1.5;">
+      분석 기간: 2026-04-01 ~ 2026-04-15<br>
+      기간 외에는 조치 버튼이 비활성화됩니다.
+    </div>
+  `;
+  document.body.appendChild(panel);
+  updateNowBadge();
+})();
+
+// 초기 렌더 + 시트 동기화
+renderStudentTable();
+syncFromSheet();
+</script>
+
+</body>
+</html>

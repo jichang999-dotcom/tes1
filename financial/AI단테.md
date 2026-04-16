@@ -434,10 +434,11 @@
 
 ## 7. 분석 대시보드
 
-- **GitHub Pages 대시보드**: [분석_대시보드.html](https://jichang999-dotcom.github.io/tes1/counsel-report/분석_대시보드.html)
-- **GitHub 저장소 경로**: `jichang999-dotcom/tes1` → `counsel-report/분석_대시보드.html`
-- **로컬 파일 위치**: 프로젝트 루트 `분석_대시보드.html` (reports/ 폴더 외부 — GitHub API 한글 경로 이슈로 분리)
-- **업데이트 방법**: `분석_대시보드.html` 수정 후 별도 API 업로드 (v2_generate_and_upload.js 대상 아님)
+- **GitHub Pages 대시보드**: [분석_대시보드.html](https://jichang999-dotcom.github.io/tes1/financial/분석_대시보드.html)
+- **GitHub Pages AI단테**: [AI단테.md](https://jichang999-dotcom.github.io/tes1/financial/AI단테.md)
+- **GitHub 저장소 경로**: `jichang999-dotcom/tes1` → **`financial/`** (2026-04-16 `counsel-report/` → `financial/` 정식 이전 완료)
+- **로컬 파일 위치**: 프로젝트 루트 `분석_대시보드.html` + `AI단테.md` (GitHub API 한글 경로 이슈로 루트에 배치)
+- **업데이트 방법**: `node upload_dashboard.js` 단일 실행으로 두 파일 동시 `financial/` 경로 업로드 + 레거시 `counsel-report/` 자동 정리
 - **기본 투자금**: 총 200만원 (종목 수로 균등 배분)
 
 ---

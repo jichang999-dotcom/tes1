@@ -72,7 +72,8 @@
   .tab-btn.active-long { background: #da363333; color: #f85149; border-color: #da3633; }
   .tab-btn.active-candidate { background: #f0883e33; color: #f0883e; border-color: #f0883e; }
   .tab-btn.active-closed { background: #6e768133; color: #adbac7; border-color: #6e7681; }
-  .tab-btn:hover:not(.active-swing):not(.active-long):not(.active-candidate):not(.active-closed) { background: #21262d; color: #c9d1d9; }
+  .tab-btn.active-summary { background: #3fb95033; color: #3fb950; border-color: #3fb950; }
+  .tab-btn:hover:not(.active-swing):not(.active-long):not(.active-candidate):not(.active-closed):not(.active-summary) { background: #21262d; color: #c9d1d9; }
   .badge-candidate { background: #f0883e33; color: #f0883e; border: 1px solid #f0883e; }
   .badge-closed { background: #6e768133; color: #adbac7; border: 1px solid #6e7681; }
   .badge-realized { background: #23883233; color: #3fb950; border: 1px solid #238832; }
@@ -214,6 +215,7 @@
   <button class="tab-btn" onclick="switchTab('long')" id="btn-long">중장기</button>
   <button class="tab-btn" onclick="switchTab('candidate')" id="btn-candidate">후보</button>
   <button class="tab-btn" onclick="switchTab('closed')" id="btn-closed">🏁 종료</button>
+  <button class="tab-btn" onclick="switchTab('summary')" id="btn-summary">📊 요약</button>
 </div>
 
 <!-- ===== 스윙 탭 ===== -->
@@ -553,6 +555,19 @@
 
     <div style="margin-top:12px;padding:10px;background:#f0883e22;border-radius:6px;border:1px solid #f0883e44;">
       <strong style="color:#f0883e;">⚠️ 1차만 체결 시 손익비 0.88 (기준 1.5 미달)</strong> — 2~3차 체결 기회 반드시 남길 것. 갭상 장대양봉에 4주 전량 올인 금지.
+    </div>
+
+    <div style="margin-top:12px;padding:10px;background:#2a1f0e;border-radius:6px;border:1px solid #d2992266;">
+      <strong style="color:#d29922;">🆕 CB 전환 추가상장 리스크 (2026-04-17 공시, 04-22 상장 완료)</strong>
+      <ul style="margin:6px 0 0 20px;padding:0;font-size:0.9em;">
+        <li><strong>9회차 CB 전환 31,499주</strong> (전환가 <strong>15,873원</strong>, 04-01 발행 → 16일 초단기 전환)</li>
+        <li><strong>희석률 0.20%</strong> (31,499 / 15,816,230) — <strong>미미</strong>, 기술적 돌파 논리 훼손 X</li>
+        <li><strong>현재가 대비 전환차익 +30.4%</strong> → CB 투자자 단기 매도 압력 실재</li>
+        <li><strong>04-23 +1.97% 양봉 마감</strong> = 일부 전환 물량 이미 소화 (개미털기 소화 과정과 부합)</li>
+        <li><strong>손절 17,500 = 전환가 +10.3%</strong> → CB 투자자 본전 회피 심리선 방어 논리 유효</li>
+        <li>⚠️ <strong>장중 윗꼬리 장대양봉 + 거래량 2배 음봉 전환</strong> 시 CB 물량 출회 → <strong>즉시 진입 중단</strong>, 반등 재확인 대기</li>
+        <li>📌 추가 CB 회차(10회차~) 존재 여부 후속 공시 모니터링 필요</li>
+      </ul>
     </div>
   </div>
 
@@ -1187,8 +1202,10 @@
 
 <hr class="section-divider">
 
-<!-- ===== 포트폴리오 요약 ===== -->
-<h2>포트폴리오 요약 (전량 체결 기준)</h2>
+<!-- ===== 📊 요약 탭 (포트폴리오 요약 전용) ===== -->
+<div class="tab-content" id="tab-summary">
+
+<h2>📊 포트폴리오 요약 (전량 체결 기준)</h2>
 
 <div class="card">
   <table class="portfolio-table">
@@ -1352,6 +1369,8 @@
   </div>
 </div>
 
+</div><!-- /tab-summary -->
+
 <hr class="section-divider">
 
 <div class="warn-box">
@@ -1371,15 +1390,17 @@ function switchTab(type) {
     swing: document.getElementById('tab-swing'),
     long: document.getElementById('tab-long'),
     candidate: document.getElementById('tab-candidate'),
-    closed: document.getElementById('tab-closed')
+    closed: document.getElementById('tab-closed'),
+    summary: document.getElementById('tab-summary')
   };
   var btns = {
     swing: document.getElementById('btn-swing'),
     long: document.getElementById('btn-long'),
     candidate: document.getElementById('btn-candidate'),
-    closed: document.getElementById('btn-closed')
+    closed: document.getElementById('btn-closed'),
+    summary: document.getElementById('btn-summary')
   };
-  var activeClass = { swing: 'active-swing', long: 'active-long', candidate: 'active-candidate', closed: 'active-closed' };
+  var activeClass = { swing: 'active-swing', long: 'active-long', candidate: 'active-candidate', closed: 'active-closed', summary: 'active-summary' };
 
   Object.keys(tabs).forEach(function(k) {
     if (k === type) {

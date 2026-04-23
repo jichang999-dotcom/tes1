@@ -5,6 +5,40 @@
 
 ---
 
+## 🚨 0. 작업 완료 필수 규칙 — GitHub 업로드 (2026-04-23 확정)
+
+**이 문서(`AI단테.md`) 또는 `분석_대시보드.html`을 한 줄이라도 수정했다면, 반드시 아래 단계를 실행해 GitHub에 업로드해야 한다. 업로드 누락 시 작업 미완료로 간주한다.**
+
+### 실행 절차 (필수, 순서 고정)
+
+```bash
+# 1. 로컬 편집 완료 후
+node upload_dashboard.js
+```
+
+### 업로드 대상 & 경로
+
+| 로컬 파일 | 원격 경로 | GitHub Pages URL |
+|---|---|---|
+| `AI단테.md` | `financial/AI단테.md` | https://jichang999-dotcom.github.io/tes1/financial/AI단테.md |
+| `분석_대시보드.html` | `financial/분석_대시보드.html` | https://jichang999-dotcom.github.io/tes1/financial/분석_대시보드.html |
+
+### 실행 전 체크
+- [ ] `upload_dashboard.js` 내부 `commitMsg` 변수를 **이번 변경에 맞게 수정** (자동 생성 X)
+- [ ] `.env`의 `GITHUB_TOKEN` 존재 확인 (dotenv 자동 로드)
+- [ ] 실행 결과에 `✅ 커밋: [SHA]` 2건 출력 확인
+
+### 🚫 금지 사항
+- ❌ `test/` 디렉토리에서 `git init` 금지 (원격 리포는 monorepo 구조. 혼동 유발)
+- ❌ 수동 git add/commit/push 금지 (경로 매핑이 다름)
+- ❌ 업로드 없이 "작업 완료" 보고 금지
+
+### 🧭 원칙
+**"로컬 편집 = 작업 절반. GitHub 업로드 = 작업 완료."**
+문서 버전과 실제 운영(GitHub Pages)의 불일치는 즉시 혼선의 원인이 된다.
+
+---
+
 ## 1. 채널 개요
 
 **주식단테사단**은 주식단테를 중심으로 한 트레이더 커뮤니티. 주요 강사진:

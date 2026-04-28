@@ -184,16 +184,14 @@
 
 <h1>분석 대시보드</h1>
 
-<div class="highlight" style="margin-bottom:12px;background:#f8514922;border-left:4px solid #f85149;padding:10px;">
-  🚨 <strong style="color:#f85149;">운영 필수 규칙</strong>: 이 대시보드 또는 <code>AI단테.md</code> 수정 시 반드시 <code style="background:#21262d;padding:2px 6px;border-radius:3px;">node upload_dashboard.js</code> 실행 → GitHub(<code>financial/</code> 경로) 업로드 완료까지가 작업 끝. 업로드 누락 시 운영 불일치 발생 (상세: <code>AI단테.md 섹션 0</code>)
-</div>
-
-<p class="subtitle">유튜브 채널 <strong>주식단테사단</strong> 무료 강의 기반 매매기법 참고서 + 종목 분석 — 최종 업데이트 <strong>2026-04-28 장중 차트 갱신 (LG +7.15% 강양봉 / 클래시스 -4.62% 박스 이탈)</strong> · 활성 2 / 후보 6 / 종결 2 · 🏆 누적 실현 <strong>+82,070원</strong> · 활성 평가익 <strong>+35,704원</strong> (LG +29,800 / 컨텍 +5,904) ⚡</p>
-
-<div class="highlight" style="margin-bottom:12px;background:#1a2838;border-left:4px solid #58a6ff;padding:10px;">
-  🆕 <strong style="color:#58a6ff;">2026-04-28 룰 확정 — 1차 매수는 항상 2분할 (1차a / 1차b)</strong>: 시간 분산 + 갭리스크·슬리피지 회피 + 트리거 재확인 목적. 비중은 1차a 50% + 1차b 50% (스윙 1:1:2 → 12.5%/12.5%/25%/50%). 1차a 체결 후 갭상 +2% → 1차b 자동 취소 + 트레일링 / 갭하 -3% → 1차b 자동 취소 + Track C 후퇴 모드 발효. 일괄 진입 금지. (상세: <code>AI단테.md 4.3절</code>)
-</div>
-
+<!--
+  ⛔ 헤더 배너 3종 영구 삭제 (2026-04-28 사용자 확정)
+  — 아래 3종은 분석 갱신 시 절대 재추가 금지. 운영 룰은 AI단테.md에서만 관리:
+    1) 운영 필수 규칙(빨간 배너) — GitHub 업로드 룰. AI단테.md 0절·CLAUDE.md 메모리에 위치
+    2) subtitle(유튜브 채널 + 최종 업데이트 + 활성/후보/종결 카운트 + 평가익 텍스트)
+    3) 1차 매수 2분할 룰 확정(파란 배너) — AI단테.md 4.3절·CLAUDE.md 메모리에 위치
+  근거: 사용자 확정 — 이미 AI단테.md / 메모리에 영구 등록된 룰을 대시보드 헤더에 중복 노출하지 않는다.
+-->
 <hr class="section-divider">
 
 <!-- ===== 종목 1: 한화솔루션 ===== -->
@@ -209,9 +207,12 @@
 <!-- ===== 스윙 탭 ===== -->
 <div class="tab-content active" id="tab-swing">
 
-<div class="highlight" style="background:#1a2e1a;border-left:4px solid #3fb950;margin-bottom:16px;padding:12px;">
-  🏆 <strong style="color:#3fb950;">한화솔루션 (009830) — 04-27 전량 청산 종료 완료 (스윙 ✅종료)</strong> · 누적 실현 <strong>+69,702원</strong> (1+2+3+4차 통합) → <a href="#tab-closed" onclick="switchTab('closed'); return false;" style="color:#58a6ff;">🏁 종료 탭에서 매매일지 보기</a>
-</div>
+<!--
+  ⛔ 한화솔루션 04-27 종료 안내 배너 영구 삭제 (2026-04-28 사용자 확정)
+  — 종결 종목의 종료 안내 배너는 스윙 탭 상단에 재추가 금지.
+    종료 매매일지는 🏁 종료 탭에 이미 보존되어 있고, 요약 탭 portfolio-table에도 +69,702원 실현이 기록되어 있음.
+  근거: 사용자 확정 — 이미 다른 영역에 보존된 정보의 헤더 배너 중복 금지.
+-->
 
 <div class="card" style="display:none;"><!-- 한화솔루션 활성 카드 → 04-27 종료 탭 이동
   <div class="card-header">
@@ -1456,19 +1457,12 @@
     <div class="summary-item"><div class="label">손절라인</div><div class="value stop">5,200원 (224일선 -5%, 03월 저점 부근)</div></div>
   </div>
 
-  <div class="warn-box" style="background:#1a2838;border-left:4px solid #58a6ff;margin-bottom:12px;">
-    📊 <strong>펀더멘털 카드 (2026-04-28 · 기사 검색 기반) · 종합 🟡 중립~양호</strong>
-    <table style="margin:8px 0;font-size:0.88em;">
-      <thead><tr><th>지표</th><th>최근 실적</th><th>YoY 변화</th><th>판정</th></tr></thead>
-      <tbody>
-        <tr><td style="text-align:left;">📈 <strong>모멘텀 (뉴스)</strong></td><td style="text-align:left;">🔴 04-28 1Q 실적 발표 예정 · 신용등급 A+ 상향 · EV 타이어 비중 30% 목표</td><td style="text-align:left;">광주공장 화재 회복 + 미국 관세 부담 잔존</td><td style="color:#d29922;">🟡 중립 (이벤트 직전)</td></tr>
-        <tr><td style="text-align:left;">💰 <strong>매출 성장률</strong></td><td style="text-align:left;">2025 매출 4조 7,013억 (창사 최대) · 2026 목표 5.1조</td><td style="text-align:left;">+3.7% YoY (2026 가이던스 +8.5%)</td><td style="color:#3fb950;">✅ 양호</td></tr>
-        <tr><td style="text-align:left;">📊 <strong>이익 성장률</strong></td><td style="text-align:left;">2025 영업이익 5,755억 (4Q 1,453억 · 9분기 연속 1조+ 매출)</td><td style="text-align:left;">-2.2% YoY (관세·화재 영향)</td><td style="color:#f0883e;">⚠️ 주의</td></tr>
-        <tr><td style="text-align:left;">📉 <strong>부채비율</strong></td><td style="text-align:left;">신용등급 A+ 상향 (현금흐름·판매 믹스 개선)</td><td style="text-align:left;">절대 % 미공개</td><td style="color:#8b949e;">⚪ 조사 필요</td></tr>
-      </tbody>
-    </table>
-    <div style="font-size:0.85em;color:#8b949e;margin-top:6px;">📰 <strong>주요 헤드라인</strong>: 2026 매출 5.1조 목표 (고인치 47% / EV 30%) · 미국 관세→유럽 매출 확대 상쇄 · 04-28 1Q 어닝 발표 (당일 오후) · 더블스타(중국) 대주주 ~45%</div>
-  </div>
+  <!--
+    ⛔ 펀더멘털 카드 (지표/최근실적/YoY/판정 4행: 모멘텀·매출·이익·부채) 영구 삭제 (2026-04-28 사용자 확정)
+    — 매출·이익·부채는 사용자가 따로 확인하므로 자동 포함 금지.
+      종목 카드에는 [업종 / 테마 / 모멘텀 카드] 4행만 남기고 펀더멘털 카드는 추가 금지.
+    근거: 메모리 feedback_sector_theme_card.md — "매출·이익·부채는 사용자가 따로 확인" 룰 재확인.
+  -->
 
   <div class="warn-box" style="background:#1a2838;border-left:4px solid #58a6ff;margin-bottom:12px;">
     🏷️ <strong>업종 / 테마 / 모멘텀 카드 (2026-04-28)</strong>

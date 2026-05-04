@@ -85,19 +85,28 @@
   .scenario-active { outline: 2px solid #58a6ff; outline-offset: -2px; background: #1f6feb18 !important; }
   /* 모바일: 테이블을 카드형 레이아웃으로 변환 */
   @media (max-width: 768px) {
-    body { padding: 10px; }
+    html, body { overflow-x: hidden; }
+    body { padding: 8px; }
     h1 { font-size: 1.3em; }
     h2 { font-size: 1.2em; }
-    .card { padding: 14px; }
+    .card { padding: 12px; }
     .card-header { flex-direction: column; align-items: flex-start; }
     .theory-grid { grid-template-columns: 1fr; }
-    .summary-grid { grid-template-columns: 1fr 1fr; }
-    .summary-item .value { font-size: 1.1em; }
+    /* 4배너 1열 — 긴 텍스트 안전 처리 */
+    .summary-grid { grid-template-columns: 1fr; }
+    .summary-item { text-align: left; }
+    .summary-item .value { font-size: 1.05em; word-break: keep-all; overflow-wrap: anywhere; }
+    /* weight-info chip 줄바꿈 */
+    .weight-info { flex-wrap: wrap; }
 
-    /* 종목 분석 테이블 → 카드형 */
+    /* 종목 분석 테이블 → 카드형 (table/tbody도 block 강제) */
+    table.stock-table { display: block; width: 100%; }
     table.stock-table thead { display: none; }
+    table.stock-table tbody { display: block; width: 100%; }
     table.stock-table tbody tr {
       display: block;
+      width: 100%;
+      box-sizing: border-box;
       background: #161b22;
       border: 1px solid #30363d;
       border-radius: 8px;
@@ -107,12 +116,16 @@
     table.stock-table tbody tr:hover { background: #1c2333; }
     table.stock-table tbody tr td {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
-      align-items: center;
+      align-items: baseline;
+      gap: 4px 8px;
       border: none;
       padding: 4px 0;
       text-align: right;
       font-size: 0.88em;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
     }
     table.stock-table tbody tr td::before {
       content: attr(data-label);
@@ -120,7 +133,7 @@
       color: #f0883e;
       text-align: left;
       flex-shrink: 0;
-      margin-right: 10px;
+      white-space: nowrap;
       font-size: 0.85em;
     }
     table.stock-table tbody tr td.condition-text {
@@ -132,9 +145,13 @@
     }
 
     /* 포트폴리오 요약 테이블 → 카드형 */
+    table.portfolio-table { display: block; width: 100%; }
     table.portfolio-table thead { display: none; }
+    table.portfolio-table tbody { display: block; width: 100%; }
     table.portfolio-table tbody tr {
       display: block;
+      width: 100%;
+      box-sizing: border-box;
       background: #161b22;
       border: 1px solid #30363d;
       border-radius: 8px;
@@ -143,12 +160,16 @@
     }
     table.portfolio-table tbody tr td {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
-      align-items: center;
+      align-items: baseline;
+      gap: 4px 8px;
       border: none;
       padding: 4px 0;
       text-align: right;
       font-size: 0.88em;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
     }
     table.portfolio-table tbody tr td::before {
       content: attr(data-label);
@@ -156,15 +177,19 @@
       color: #f0883e;
       text-align: left;
       flex-shrink: 0;
-      margin-right: 10px;
+      white-space: nowrap;
       font-size: 0.85em;
     }
+    table.portfolio-table tfoot { display: block; width: 100%; }
     table.portfolio-table tfoot tr {
       display: block;
+      width: 100%;
+      box-sizing: border-box;
       background: #21262d;
       border: 1px solid #30363d;
       border-radius: 8px;
       padding: 12px;
+      margin-bottom: 10px;
     }
     table.portfolio-table tfoot td {
       display: block;
@@ -172,9 +197,39 @@
       padding: 4px 0;
       text-align: center;
       font-size: 0.9em;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
     }
     table.portfolio-table tfoot td[colspan="4"] {
       margin-bottom: 6px;
+    }
+
+    /* 종목 카드 내부 일반 table (업종/테마/모멘텀 등) → 카드형 변환 */
+    .card .warn-box table { display: block; width: 100%; }
+    .card .warn-box table thead { display: none; }
+    .card .warn-box table tbody { display: block; width: 100%; }
+    .card .warn-box table tbody tr {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 6px 0;
+      border-bottom: 1px solid #30363d;
+    }
+    .card .warn-box table tbody tr:last-child { border-bottom: none; }
+    .card .warn-box table tbody tr td {
+      display: block;
+      width: 100% !important;
+      text-align: left !important;
+      border: none;
+      padding: 2px 0;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+
+    /* highlight 박스 줄바꿈 안전 */
+    .highlight, .warn-box {
+      word-break: keep-all;
+      overflow-wrap: anywhere;
     }
   }
 </style>

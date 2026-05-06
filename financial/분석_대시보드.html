@@ -83,6 +83,14 @@
   .scenario-row { transition: all 0.15s; }
   .scenario-row:hover { background: #1c2333 !important; }
   .scenario-active { outline: 2px solid #58a6ff; outline-offset: -2px; background: #1f6feb18 !important; }
+  /* 종목 클릭 링크 (요약/순위표) */
+  .stock-link { color: #58a6ff; text-decoration: none; cursor: pointer; border-bottom: 1px dashed #58a6ff66; transition: all 0.15s; }
+  .stock-link:hover { color: #79c0ff; border-bottom-color: #79c0ff; background: #1f6feb22; }
+  .card-flash { animation: cardFlash 1.6s ease-out; }
+  @keyframes cardFlash {
+    0% { box-shadow: 0 0 0 3px #58a6ff; }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
   /* 모바일: 테이블을 카드형 레이아웃으로 변환 */
   @media (max-width: 768px) {
     html, body { overflow-x: hidden; }
@@ -390,7 +398,7 @@
 한화솔루션 활성 카드 종료 (hidden) --></div>
 
 <!-- ===== 🆕 컨텍 (활성 스윙 · 05-06 잔량 트레일링 모드 · 26,350 돌파 시 신규 사이클) ===== -->
-<div class="card" style="border-left:4px solid #f0883e;">
+<div class="card" id="card-451760" style="border-left:4px solid #f0883e;">
   <div class="card-header">
     <div>
       <h3 style="margin:0;">🆕 컨텍 (451760) 🎯 잔량 트레일링 모드 (05-06 -4.31% · 잔량 3주 보유 + 26,350 돌파 시 신규 사이클)</h3>
@@ -521,7 +529,7 @@
 </div>
 
 <!-- ===== 🆕 지앤씨에너지 (활성 스윙 신규 이동, 04-29 1차a 4주 체결) ===== -->
-<div class="card" style="border-left:4px solid #3fb950;">
+<div class="card" id="card-119850" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
       <h3 style="margin:0;">🆕 지앤씨에너지 (119850) ✅ 1차a 4주 체결 (스윙 1:1:2 · 활성 진입)</h3>
@@ -640,7 +648,7 @@
 </div>
 
 <!-- ===== 🆕 클래시스 (활성 스윙 신규 이동, 04-29 1차a 2주 체결) ===== -->
-<div class="card" style="border-left:4px solid #3fb950;">
+<div class="card" id="card-214150" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
       <h3 style="margin:0;">🆕 클래시스 (214150) ✅ 1차a 2주 체결 (스윙 1:1:2 · 활성 진입)</h3>
@@ -761,7 +769,7 @@
 </div>
 
 <!-- ===== 🆕 펄어비스 (활성 스윙 신규 이동, 04-30 1차a 2주 체결) ===== -->
-<div class="card" style="border-left:4px solid #3fb950;">
+<div class="card" id="card-263750" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
       <h3 style="margin:0;">펄어비스 (263750) ✅ 1차a+b 4주 체결 (스윙 1:1:2 · 활성)</h3>
@@ -888,7 +896,7 @@
 <!-- ===== 중장기 탭 ===== -->
 <div class="tab-content" id="tab-long">
 
-<div class="card">
+<div class="card" id="card-066570">
   <div class="card-header">
     <div>
       <h3 style="margin:0;">LG전자 (066570) ✅ 1차 체결 · 분할익절 트레이딩 모드</h3>
@@ -1691,7 +1699,7 @@
 </div><!-- /펄어비스 후보 hidden 종료 --></div>
 
 <!-- ===== 🔥 #4 SKC (어닝 후 강양봉, 2026-04-27 갱신) ===== -->
-<div class="card" style="border-left:4px solid #3fb950;">
+<div class="card" id="card-011790" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
       <h3 style="margin:0;">🔥 #1 SKC (011790) ✅ 어닝 후 강양봉 · 1차 2분할 운용</h3>
@@ -1813,7 +1821,7 @@
 </div>
 
 <!-- ===== 🆕 #5 보령 (신규 편입, 2026-04-27 · 박스 안착 보수적 진입) ===== -->
-<div class="card" style="border-left:4px solid #58a6ff;">
+<div class="card" id="card-003850" style="border-left:4px solid #58a6ff;">
   <div class="card-header">
     <div>
       <h3 style="margin:0;">🆕 #2 보령 (003850) ⚓ 9,000~10,400 박스권 · 박스 돌파 매수</h3>
@@ -1938,7 +1946,7 @@
 </div>
 
 <!-- ===== 🆕 #6 금호타이어 (신규 편입, 2026-04-28 · 데드 기법 부채꼴 닫힘 · 어닝 직전 보류) ===== -->
-<div class="card" style="border-left:4px solid #58a6ff;">
+<div class="card" id="card-073240" style="border-left:4px solid #58a6ff;">
   <div class="card-header">
     <div>
       <h3 style="margin:0;">🆕 #3 금호타이어 (073240) ⚓ 5중 이평선 수렴 · 데드 기법 자리</h3>
@@ -2075,7 +2083,7 @@
 </div>
 
 <!-- ===== 🆕 엔젤로보틱스 (신규 편입, 2026-04-29 · 휴머노이드/외골격 로봇 테마) ===== -->
-<div class="card" style="border-left:4px solid #58a6ff;">
+<div class="card" id="card-455900" style="border-left:4px solid #58a6ff;">
   <div class="card-header">
     <div>
       <h3 style="margin:0;">🆕 #4 엔젤로보틱스 (455900) ⚓ 26~30K 박스 상단 횡보 · 휴머노이드 테마</h3>
@@ -2205,7 +2213,7 @@
 </div>
 
 <!-- ===== 🆕 오스코텍 (신규 편입, 2026-04-29 · Track A 박스 60K 돌파 매수 · 렉라자 로열티 수혜주) ===== -->
-<div class="card" style="border-left:4px solid #58a6ff;">
+<div class="card" id="card-039200" style="border-left:4px solid #58a6ff;">
   <div class="card-header">
     <div>
       <h3 style="margin:0;">🆕 #5 오스코텍 (039200) ⚓ 50~60K 박스 4개월 횡보 · 데드 기법 자리</h3>
@@ -2463,7 +2471,7 @@
   <tbody>
     <tr style="background:#1a2e1a;opacity:0.85;">
       <td data-label="순위" style="color:#3fb950;"><strong>✅ 활성</strong></td>
-      <td data-label="종목"><strong>지앤씨에너지</strong></td>
+      <td data-label="종목"><a class="stock-link" onclick="goToStock('swing','card-119850')"><strong>지앤씨에너지</strong></a></td>
       <td data-label="상태" style="color:#3fb950;">04-29 활성 스윙 이동 (1차a 4주 36,000 체결)</td>
       <td data-label="04-29 핵심 신호" class="condition-text">36,150 (+0.13%) / 1차a 체결 (평단 36,000) / 평가익 +600원 / 잔여 1차b 4주 35,500 지정가 대기</td>
       <td data-label="다음 액션" class="condition-text">→ 스윙 탭 활성 카드 참조 (분할 익절 운용 진입)</td>
@@ -2472,7 +2480,7 @@
     </tr>
     <tr style="background:#1a2e1a;opacity:0.85;">
       <td data-label="순위" style="color:#3fb950;"><strong>✅ 활성</strong></td>
-      <td data-label="종목"><strong>클래시스</strong></td>
+      <td data-label="종목"><a class="stock-link" onclick="goToStock('swing','card-214150')"><strong>클래시스</strong></a></td>
       <td data-label="상태" style="color:#3fb950;">04-29 활성 스윙 이동 (1차a 2주 58,500 체결)</td>
       <td data-label="04-29 핵심 신호" class="condition-text">58,500 (+1.73%) / 1차a 체결 (평단 58,500) / 평가익 0 / 잔여 1차b 2주 56,500 지정가 대기 / 손절 53,000 후퇴 금지</td>
       <td data-label="다음 액션" class="condition-text">→ 스윙 탭 활성 카드 참조 (50~60K 박스 회복 시도 / Track C 55K 2차)</td>
@@ -2481,7 +2489,7 @@
     </tr>
     <tr style="background:#1a2e1a;opacity:0.85;">
       <td data-label="순위" style="color:#3fb950;"><strong>✅ 활성</strong></td>
-      <td data-label="종목"><strong>펄어비스</strong></td>
+      <td data-label="종목"><a class="stock-link" onclick="goToStock('swing','card-263750')"><strong>펄어비스</strong></a></td>
       <td data-label="상태" style="color:#3fb950;">04-30 활성 스윙 이동 (1차a 2주 59,900 체결)</td>
       <td data-label="04-30 핵심 신호" class="condition-text">59,900 (1차a 체결가) / 1차a 체결 (평단 59,900) / 잔여 1차b 2주 59,000 지정가 대기 / 거래대금 80위 ✅ / 체강 110.23%</td>
       <td data-label="다음 액션" class="condition-text">→ 스윙 탭 활성 카드 참조 (1차b 59,000 5일선 눌림 양봉 시 / Track C 56,500 2차)</td>
@@ -2490,7 +2498,7 @@
     </tr>
     <tr style="background:#0d1f0d;">
       <td data-label="순위" style="color:#3fb950;"><strong>🔥 #1</strong></td>
-      <td data-label="종목"><strong>SKC</strong></td>
+      <td data-label="종목"><a class="stock-link" onclick="goToStock('candidate','card-011790')"><strong>SKC</strong></a></td>
       <td data-label="상태" style="color:#d29922;">어닝 후 첫 음봉 (-0.80%) → 1차a 보류, 04-29 재판정</td>
       <td data-label="04-29 핵심 신호" class="condition-text">123,700 (-0.80%) / 04-27 강양봉 후 첫 음봉 회귀 / RSI 66.36 강세 유지 / 외국인 53위 매수 전환 / 비중 1:1:2 (1+1+2+5 = 9주)</td>
       <td data-label="다음 액션" class="condition-text">04-29 양봉 회복 + 122K ±0.5% 영역 종가 양봉 시 1차a 1주 × 122,000 진입 / 1차b 1주 × 120,000 지정가 대기 · 2차 2주 × 113,000 / 3차 5주 × 105,000</td>
@@ -2499,7 +2507,7 @@
     </tr>
     <tr style="background:#1a2838;">
       <td data-label="순위" style="color:#58a6ff;"><strong>🆕 #2</strong></td>
-      <td data-label="종목"><strong>보령</strong></td>
+      <td data-label="종목"><a class="stock-link" onclick="goToStock('candidate','card-003850')"><strong>보령</strong></a></td>
       <td data-label="상태" style="color:#d29922;">박스 돌파 매수 대기 (9,000~10,400 박스, 1차a/b 박스 위)</td>
       <td data-label="04-29 핵심 신호" class="condition-text">9,940 (-1.09% 음봉) / 박스 안 +10.4% 부근 / 224일선(~9,000) 위 ✅ / RSI 53.12 중립 / 체강 33.61% (매도 우위) / 거래대금 100위 밖 ⚠️ / 비중 1:1:2 (12+12+26+54 = 104주, 박스 돌파 매수 정석)</td>
       <td data-label="다음 액션" class="condition-text">04-30~05-02 박스 10,400 돌파 종가 양봉 + 거래량 250K+ 시 1차a 12주 × 10,600 (박스 +1.9%) / 1차b 12주 × 10,500 (박스 +1.0%, 1차a -0.94%) — 2차 26주 × 9,700 / 3차 54주 × 9,200. 박스 안쪽 진입 금지(가짜 돌파 시 손실 영역)</td>
@@ -2508,7 +2516,7 @@
     </tr>
     <tr style="background:#1a2838;">
       <td data-label="순위" style="color:#58a6ff;"><strong>🆕 #3</strong></td>
-      <td data-label="종목"><strong>금호타이어</strong></td>
+      <td data-label="종목"><a class="stock-link" onclick="goToStock('candidate','card-073240')"><strong>금호타이어</strong></a></td>
       <td data-label="상태" style="color:#d29922;">04-28 1Q 어닝 직전 보류 · 04-29 재판정 (1차 2분할 대기)</td>
       <td data-label="04-29 핵심 신호" class="condition-text">6,140 (+0.49%) / 5/20/60/112/224 5중 이평선 수렴 (데드 기법 부채꼴 닫힘) / 224 위 안착 +10.5% / RSI 52.50 중립 / 외국인·기관 양쪽 100위 밖 ⚠️ / 비중 1:1:2 (21+21+44+92 = 178주)</td>
       <td data-label="다음 액션" class="condition-text">04-29 어닝 결과 양호 시 1차a 21주 × 6,000 (탐색) / 04-30~05-02 1~3일 추가 눌림 양봉 시 1차b 21주 × 5,950 (메인) — 2차 44주 × 5,700 / 3차 92주 × 5,400</td>
@@ -2517,7 +2525,7 @@
     </tr>
     <tr style="background:#1a2838;">
       <td data-label="순위" style="color:#58a6ff;"><strong>🆕 #4</strong></td>
-      <td data-label="종목"><strong>엔젤로보틱스</strong></td>
+      <td data-label="종목"><a class="stock-link" onclick="goToStock('candidate','card-455900')"><strong>엔젤로보틱스</strong></a></td>
       <td data-label="상태" style="color:#d29922;">04-29 신규 편입 · 박스 30K 돌파 대기 (1차 2분할 미발효)</td>
       <td data-label="04-29 핵심 신호" class="condition-text">29,950 (+0.16%) / 26~30K 박스 상단 횡보 / 5/20/60일선 수렴 + 일목구름 위 시도 / 224일선(~26K) 위 +15.2% / 체강 72% (매도 우위) / 외국인/기관 100위 밖 ⚠️ / RSI 53.80 중립 / 비중 1:1:2 (4+4+9+19 = 36주, 박스 돌파 매수 정석)</td>
       <td data-label="다음 액션" class="condition-text">04-30~05-02 박스 30K 돌파 종가 양봉 + 거래량 250K+ + 체강 100+ 회복 시 1차a 4주 × 31,000 (박스 +3.3%) / 1차b 4주 × 30,500 (박스 +1.7%, 1차a -1.61%) — 2차 9주 × 28,000 / 3차 19주 × 25,500. 박스 안쪽 진입 금지(가짜 돌파 시 손실 영역)</td>
@@ -2526,7 +2534,7 @@
     </tr>
     <tr style="background:#1a2838;">
       <td data-label="순위" style="color:#58a6ff;"><strong>🆕 #5</strong></td>
-      <td data-label="종목"><strong>오스코텍</strong></td>
+      <td data-label="종목"><a class="stock-link" onclick="goToStock('candidate','card-039200')"><strong>오스코텍</strong></a></td>
       <td data-label="상태" style="color:#d29922;">04-29 신규 편입 · Track A 박스 60K 돌파 대기 (1차 2분할 미발효)</td>
       <td data-label="04-29 핵심 신호" class="condition-text">53,800 (-0.18%) / 50~60K 박스 4개월 횡보 / 5/20/60일선 수렴 (데드 기법 부채꼴 닫힘) / 224일선(~46K) 위 +17% / 체강 75.95% (매도 우위) / 외국인/기관 100위 밖 ⚠️ / 거래량 224K (평균 0.6배) / 비중 1:1:2 (2+2+4+8 = 16주, Track A 박스 돌파 매수 정석) / 렉라자 로열티 수혜주</td>
       <td data-label="다음 액션" class="condition-text">04-30~05-09 박스 60K 종가 돌파 + 거래량 700K+ + 몸통양봉 시 1차a 2주 × 61,500 (박스 +2.5%) / 1차b 2주 × 60,500 (박스 +0.83%, 1차a -1.6%) — 2차 4주 × 56,000 / 3차 8주 × 50,000. 박스 안쪽 진입 금지(가짜 돌파 시 손실 영역)</td>
@@ -2549,7 +2557,7 @@
 </div>
 
 <!-- ===== 🆕 종료 종목 2: 한화솔루션 (2026-04-27 신규 종료) ===== -->
-<div class="card" style="border-left:4px solid #3fb950;">
+<div class="card" id="card-009830" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
       <h3 style="margin:0;">🆕 🏁 한화솔루션 (009830) <span style="color:#3fb950;">🏆 성공</span></h3>
@@ -2643,7 +2651,7 @@
 </div>
 
 <!-- ===== 종료 종목 1: DS단석 ===== -->
-<div class="card" style="border-left:4px solid #3fb950;">
+<div class="card" id="card-017860" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
       <h3 style="margin:0;">🏁 DS단석 (017860) <span style="color:#3fb950;">🏆 성공</span></h3>
@@ -2827,7 +2835,7 @@
     </thead>
     <tbody>
       <tr style="background:#1a2e1a; opacity:0.95;">
-        <td data-label="종목"><strong>🏁 한화솔루션</strong> <span style="color:#3fb950;">🏆 성공 (04-27 종료)</span></td>
+        <td data-label="종목"><a class="stock-link" onclick="goToStock('closed','card-009830')"><strong>🏁 한화솔루션</strong></a> <span style="color:#3fb950;">🏆 성공 (04-27 종료)</span></td>
         <td data-label="매매 타입"><span class="badge badge-closed">✅ 종료</span></td>
         <td data-label="총수량">19주 진입 → 13주 단테 매도 + 6주 NEXT (전량 청산)</td>
         <td data-label="매수금액" class="price">82.17만</td>
@@ -2840,7 +2848,7 @@
         <td data-label="손익비" class="ratio-good">🏆 성공</td>
       </tr>
       <tr style="background:#1a2e1a;">
-        <td data-label="종목"><strong>🆕 컨텍</strong> 22,150(05-06 -4.31%) · <span style="color:#f0883e;">🎯 잔량 트레일링 모드 (신규 분할매수 폐기) · 26,350 돌파 시 신규 사이클</span></td>
+        <td data-label="종목"><a class="stock-link" onclick="goToStock('swing','card-451760')"><strong>🆕 컨텍</strong></a> 22,150(05-06 -4.31%) · <span style="color:#f0883e;">🎯 잔량 트레일링 모드 (신규 분할매수 폐기) · 26,350 돌파 시 신규 사이클</span></td>
         <td data-label="매매 타입"><span class="badge badge-swing">스윙</span> <span class="badge badge-filled">05-06 잔량 트레일링 확정</span></td>
         <td data-label="총수량">잔량 3주 보유 (04-30 분할 3주 익절 完) · 신규 분할매수 진입 폐기</td>
         <td data-label="매수금액" class="price">6.45만 (잔량) · 신규 자금 94.29만은 26,350 돌파 후 사이클에 대기</td>
@@ -2853,7 +2861,7 @@
         <td data-label="손익비" class="ratio-good">트레일링 정리</td>
       </tr>
       <tr style="background:#1a2e1a; opacity:0.95;">
-        <td data-label="종목"><strong>🏁 DS단석</strong> <span style="color:#3fb950;">🏆 성공</span></td>
+        <td data-label="종목"><a class="stock-link" onclick="goToStock('closed','card-017860')"><strong>🏁 DS단석</strong></a> <span style="color:#3fb950;">🏆 성공</span></td>
         <td data-label="매매 타입"><span class="badge badge-closed">✅ 종료</span></td>
         <td data-label="총수량">18주 진입 → 18주 전량 청산</td>
         <td data-label="매수금액" class="price">35.94만</td>
@@ -2866,7 +2874,7 @@
         <td data-label="손익비" class="ratio-good">🏆 성공</td>
       </tr>
       <tr>
-        <td data-label="종목"><strong>LG전자</strong> 🚀 154,500(+24.20% 평가익) · 신고가 157K + 트레일링 강화</td>
+        <td data-label="종목"><a class="stock-link" onclick="goToStock('long','card-066570')"><strong>LG전자</strong></a> 🚀 154,500(+24.20% 평가익) · 신고가 157K + 트레일링 강화</td>
         <td data-label="매매 타입"><span class="badge badge-long">중장기</span> <span class="badge badge-filled">05-06 신고가 + 트레일링 갱신</span></td>
         <td data-label="총수량">1차 2주 체결 (2~4차 전량 취소)</td>
         <td data-label="매수금액" class="price">24.88만 (체결 종료)</td>
@@ -2879,7 +2887,7 @@
         <td data-label="손익비" class="ratio-good">트레일링 강화 정리</td>
       </tr>
       <tr style="background:#1a2e1a;">
-        <td data-label="종목">✅ 지앤씨에너지 (활성 스윙) 36,650(05-06 -1.07% / 평단 +1.81%)</td>
+        <td data-label="종목"><a class="stock-link" onclick="goToStock('swing','card-119850')">✅ 지앤씨에너지 (활성 스윙)</a> 36,650(05-06 -1.07% / 평단 +1.81%)</td>
         <td data-label="매매 타입"><span class="badge badge-swing">스윙</span> <span class="badge badge-filled">04-29 활성 이동</span></td>
         <td data-label="총수량">4주 체결 + 잔여 1차b 4 / 2차 8 / 3차 15 대기 (총 31주)</td>
         <td data-label="매수금액" class="price">14.40만 (체결) + 86.35만 (대기)</td>
@@ -2892,7 +2900,7 @@
         <td data-label="손익비" class="ratio-good">1.92 ⭐</td>
       </tr>
       <tr style="background:#1a2e1a;">
-        <td data-label="종목">✅ 클래시스 (활성 스윙) 55,000(05-06 -2.30% / 평단 -5.98% 📉) · 옵션 B 확정 (2차 55K 진입 트리거 대기)</td>
+        <td data-label="종목"><a class="stock-link" onclick="goToStock('swing','card-214150')">✅ 클래시스 (활성 스윙)</a> 55,000(05-06 -2.30% / 평단 -5.98% 📉) · 옵션 B 확정 (2차 55K 진입 트리거 대기)</td>
         <td data-label="매매 타입"><span class="badge badge-swing">스윙</span> <span class="badge badge-filled">04-29 활성 · 옵션 B 확정 (05-06)</span></td>
         <td data-label="총수량">2주 체결 + 1차b 2(매수가 통과 미진입 ❌) / 2차 5(옵션 B) / 3차 10 (총 17주)</td>
         <td data-label="매수금액" class="price">11.70만 (체결) + 27.50만 (옵션 B 2차) + 54.00만 (3차)</td>
@@ -2905,7 +2913,7 @@
         <td data-label="손익비" class="ratio-good">4.76 ⭐⭐⭐</td>
       </tr>
       <tr style="background:#1a2e1a;">
-        <td data-label="종목">✅ 펄어비스 (활성 스윙) 54,600(05-06 -6.66% / 평단 -8.16% 📉) · 옵션 B 확정 (3차 53,500 메인 진입 트리거 대기)</td>
+        <td data-label="종목"><a class="stock-link" onclick="goToStock('swing','card-263750')">✅ 펄어비스 (활성 스윙)</a> 54,600(05-06 -6.66% / 평단 -8.16% 📉) · 옵션 B 확정 (3차 53,500 메인 진입 트리거 대기)</td>
         <td data-label="매매 타입"><span class="badge badge-swing">스윙</span> <span class="badge badge-filled">05-04 1차b 체결 · 옵션 B 확정 (05-06)</span></td>
         <td data-label="총수량">4주 체결 + 2차 4(매수가 통과 미진입 ❌) / 3차 9(옵션 B) (총 13주)</td>
         <td data-label="매수금액" class="price">23.78만 (체결) + 48.15만 (옵션 B 3차)</td>
@@ -2918,7 +2926,7 @@
         <td data-label="손익비" class="ratio-good">2.36 ⭐⭐</td>
       </tr>
       <tr style="background:#0d1f0d;">
-        <td data-label="종목">🔥 #1 SKC (후보) 123,700(04-28 -0.80% 얕은 눌림) · 1차 2분할 (1차 25%만)</td>
+        <td data-label="종목"><a class="stock-link" onclick="goToStock('candidate','card-011790')">🔥 #1 SKC (후보)</a> 123,700(04-28 -0.80% 얕은 눌림) · 1차 2분할 (1차 25%만)</td>
         <td data-label="매매 타입"><span class="badge badge-swing">스윙</span> <span class="badge badge-candidate">04-29 비중 정확화</span></td>
         <td data-label="총수량">9주 (1+1+2+5)</td>
         <td data-label="매수금액" class="price">99.30만 (예산 100)</td>
@@ -2931,7 +2939,7 @@
         <td data-label="손익비" class="ratio-good">1.71 ⭐</td>
       </tr>
       <tr style="background:#0d1a2a;">
-        <td data-label="종목">🆕 #2 보령 (후보) 9,940(04-29 -1.09%) · 박스 돌파 매수 (1차 박스 위)</td>
+        <td data-label="종목"><a class="stock-link" onclick="goToStock('candidate','card-003850')">🆕 #2 보령 (후보)</a> 9,940(04-29 -1.09%) · 박스 돌파 매수 (1차 박스 위)</td>
         <td data-label="매매 타입"><span class="badge badge-swing">스윙</span> <span class="badge badge-candidate">04-29 박스 돌파 매수 정정</span></td>
         <td data-label="총수량">104주 (12+12+26+54)</td>
         <td data-label="매수금액" class="price">100.22만 (예산 100)</td>
@@ -2944,7 +2952,7 @@
         <td data-label="손익비" class="ratio-good">2.23 ⭐⭐</td>
       </tr>
       <tr style="background:#0d1a2a;">
-        <td data-label="종목">🆕 #3 금호타이어 (후보) 6,140(04-28 +0.49%) · 1차 2분할 · 어닝 직전 보류</td>
+        <td data-label="종목"><a class="stock-link" onclick="goToStock('candidate','card-073240')">🆕 #3 금호타이어 (후보)</a> 6,140(04-28 +0.49%) · 1차 2분할 · 어닝 직전 보류</td>
         <td data-label="매매 타입"><span class="badge badge-swing">스윙</span> <span class="badge badge-candidate">04-29 비중 정확화</span></td>
         <td data-label="총수량">178주 (21+21+44+92)</td>
         <td data-label="매수금액" class="price">99.85만 (예산 100)</td>
@@ -2957,7 +2965,7 @@
         <td data-label="손익비" class="ratio-good">2.17 ⭐⭐</td>
       </tr>
       <tr style="background:#0d1a2a;">
-        <td data-label="종목">🆕 #4 엔젤로보틱스 (후보 신규) 29,950(04-29 +0.16%) · 박스 돌파 매수 (1차 박스 위)</td>
+        <td data-label="종목"><a class="stock-link" onclick="goToStock('candidate','card-455900')">🆕 #4 엔젤로보틱스 (후보 신규)</a> 29,950(04-29 +0.16%) · 박스 돌파 매수 (1차 박스 위)</td>
         <td data-label="매매 타입"><span class="badge badge-swing">스윙</span> <span class="badge badge-candidate">04-29 박스 돌파 매수 정정</span></td>
         <td data-label="총수량">36주 (4+4+9+19)</td>
         <td data-label="매수금액" class="price">98.25만 (예산 100)</td>
@@ -2970,7 +2978,7 @@
         <td data-label="손익비" class="ratio-good">2.40 ⭐⭐</td>
       </tr>
       <tr style="background:#0d1a2a;">
-        <td data-label="종목">🆕 #5 오스코텍 (후보 신규) 53,800(04-29 -0.18%) · Track A 박스 돌파 매수 (1차 박스 위)</td>
+        <td data-label="종목"><a class="stock-link" onclick="goToStock('candidate','card-039200')">🆕 #5 오스코텍 (후보 신규)</a> 53,800(04-29 -0.18%) · Track A 박스 돌파 매수 (1차 박스 위)</td>
         <td data-label="매매 타입"><span class="badge badge-swing">스윙</span> <span class="badge badge-candidate">04-29 신규 편입</span></td>
         <td data-label="총수량">16주 (2+2+4+8)</td>
         <td data-label="매수금액" class="price">86.80만 (예산 100)</td>
@@ -3076,6 +3084,19 @@ function switchTab(type) {
       btns[k].className = 'tab-btn';
     }
   });
+}
+
+function goToStock(tab, cardId) {
+  switchTab(tab);
+  setTimeout(function() {
+    var card = document.getElementById(cardId);
+    if (!card) return;
+    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    card.classList.remove('card-flash');
+    void card.offsetWidth;
+    card.classList.add('card-flash');
+    setTimeout(function() { card.classList.remove('card-flash'); }, 1700);
+  }, 60);
 }
 
 </script>

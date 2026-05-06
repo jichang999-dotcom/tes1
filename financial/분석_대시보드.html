@@ -91,6 +91,37 @@
     0% { box-shadow: 0 0 0 3px #58a6ff; }
     100% { box-shadow: 0 0 0 0 transparent; }
   }
+  /* 종목 카드 접기/펼치기 */
+  .card.collapsible .card-header { cursor: pointer; user-select: none; }
+  .card.collapsible h3 { display: flex; align-items: center; gap: 8px; }
+  .card.collapsible h3::before {
+    content: "▼";
+    color: #8b949e;
+    font-size: 0.75em;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+    width: 14px;
+    text-align: center;
+  }
+  .card.collapsible.collapsed h3::before { content: "▶"; color: #58a6ff; }
+  .card.collapsible.collapsed > *:not(.card-header) { display: none !important; }
+  .card.collapsible.collapsed .card-header { margin-bottom: 0; }
+  .card.collapsible .card-header:hover h3::before { color: #58a6ff; }
+  /* 전체 토글 버튼 */
+  .expand-all-btn {
+    margin-left: 12px;
+    padding: 6px 14px;
+    border: 1px solid #30363d;
+    background: #161b22;
+    color: #8b949e;
+    font-size: 0.85em;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.15s;
+    vertical-align: middle;
+  }
+  .expand-all-btn:hover { background: #21262d; color: #c9d1d9; border-color: #58a6ff; }
   /* 모바일: 테이블을 카드형 레이아웃으로 변환 */
   @media (max-width: 768px) {
     html, body { overflow-x: hidden; }
@@ -266,6 +297,8 @@
   <button class="tab-btn" onclick="switchTab('closed')" id="btn-closed">🏁 종료</button>
   <button class="tab-btn" onclick="switchTab('summary')" id="btn-summary">📊 요약</button>
 </div>
+<button class="expand-all-btn" onclick="toggleAllCards(true)">📂 전체 펼치기</button>
+<button class="expand-all-btn" onclick="toggleAllCards(false)">📁 전체 접기</button>
 
 <!-- ===== 스윙 탭 ===== -->
 <div class="tab-content active" id="tab-swing">
@@ -3091,6 +3124,7 @@ function goToStock(tab, cardId) {
   setTimeout(function() {
     var card = document.getElementById(cardId);
     if (!card) return;
+    card.classList.remove('collapsed');
     card.scrollIntoView({ behavior: 'smooth', block: 'start' });
     card.classList.remove('card-flash');
     void card.offsetWidth;
@@ -3098,6 +3132,27 @@ function goToStock(tab, cardId) {
     setTimeout(function() { card.classList.remove('card-flash'); }, 1700);
   }, 60);
 }
+
+function toggleAllCards(expand) {
+  var cards = document.querySelectorAll('.card.collapsible');
+  cards.forEach(function(card) {
+    if (expand) card.classList.remove('collapsed');
+    else card.classList.add('collapsed');
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  var cards = document.querySelectorAll('.card[id^="card-"]');
+  cards.forEach(function(card) {
+    card.classList.add('collapsible', 'collapsed');
+    var header = card.querySelector('.card-header');
+    if (!header) return;
+    header.addEventListener('click', function(e) {
+      if (e.target.closest('a, button, .stock-link')) return;
+      card.classList.toggle('collapsed');
+    });
+  });
+});
 
 </script>
 </body>

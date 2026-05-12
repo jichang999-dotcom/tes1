@@ -73,11 +73,21 @@
   =====================================================================
 
   =====================================================================
-  🚨 탭 상단 차트 요약표 컬럼 표준 (2026-05-11 사용자 확정 · AI단테.md §4.6.11)
+  🚨 탭 상단 차트 요약표 컬럼 표준 (2026-05-11 사용자 확정 · 2026-05-12 5번째 컬럼 분기 갱신 · AI단테.md §4.6.11)
   =====================================================================
-  스윙·중장기·후보 탭 상단의 차트 요약표는 다음 6컬럼만 사용:
+  스윙·중장기·후보 탭 상단의 차트 요약표는 다음 6컬럼만 사용. 5번째 컬럼만 표 종류별 분기:
 
-    순위 | 종목 | 상태 | 핵심 포인트 | 1차 진입가 | 전량 손익비
+    [스윙/중장기 활성 표]  순위 | 종목 | 상태 | 핵심 포인트 | 목표가         | 전량 손익비
+    [후보 표]              순위 | 종목 | 상태 | 핵심 포인트 | 1차 진입가     | 전량 손익비
+
+  🎯 5번째 컬럼 분기 룰 (2026-05-12 사용자 확정):
+    • 활성 종목 = 이미 진입 → "1차 진입가"는 평단·매수 테이블에 중복. 익절 의사결정이 핵심 → "목표가" 컬럼.
+        예: "65,000원 ↔" / "9,500 / 10,000 / 11,000+" / "58K / 60K / 65K / 70K+" / "155K ✅ / 160K / 165~170K"
+        부가 정보 1줄: <span style="font-size:0.85em;color:#8b949e;">(평단·분할비율·예상 수익률)</span>
+        ✅ 발효된 트리거는 가격 뒤에 ✅ 표기 / 셀에 class="profit" 적용
+    • 후보 종목 = 미진입 → 진입 의사결정이 핵심 → "1차 진입가" 컬럼 유지.
+        예: "125,000 / 122,500" / "35,000 / 34,300" / "4,500 / 4,450"
+        셀에 class="price" 적용
 
   ❌ 영구 삭제 컬럼: "핵심 신호" + "다음 액션" 2개는 통합 → 핵심 포인트 하나
   ✅ 핵심 포인트 = 즉시 액션 또는 대기 사유 1~3줄 압축
@@ -388,7 +398,7 @@
 <h3 style="margin-top:8px;color:#f0883e;">🚦 스윙 활성 차트 요약 (2026-05-11 · 활성 3종)</h3>
 <table class="stock-table" style="font-size:0.88em;">
   <thead>
-    <tr><th>순위</th><th>종목</th><th>상태</th><th>핵심 포인트</th><th>1차 진입가</th><th>전량 손익비</th></tr>
+    <tr><th>순위</th><th>종목</th><th>상태</th><th>핵심 포인트</th><th>목표가</th><th>전량 손익비</th></tr>
   </thead>
   <tbody>
     <tr style="background:#1a2e1a;opacity:0.95;">
@@ -396,23 +406,23 @@
       <td data-label="종목"><a class="stock-link" onclick="goToStock('swing','card-214150')"><strong>클래시스</strong></a></td>
       <td data-label="상태" style="color:#d29922;">1차a 2주 체결 (평단 58,500, 평가손 -5.13% / -0.60만 📉)</td>
       <td data-label="핵심 포인트" class="condition-text"><strong style="color:#d29922;">⏸ 대기</strong> — 현재가 55,500은 옵션 C 54K +2.78% 위 + 손절 53K -4.5% 위 "관망 영역". 트레일링도 추가매수도 아님.<br><strong>발동 조건</strong>: ① 가격이 54K 도달 + 양봉 + 거래량 350K+ + 체강 100+ → 옵션 C 10주 진입 / ② 박스 60K 돌파 종가 확정 → 1차a 트레일링 모드.<br><strong>외국인 매수 98위 ⭐ 회복은 긍정 시그널</strong>이나 즉시 진입 트리거 X.</td>
-      <td data-label="1차 진입가" class="price">58,500 ✅ / 54,000 (옵션 C)</td>
+      <td data-label="목표가" class="profit"><strong>65,000원 ↔</strong><br><span style="font-size:0.85em;color:#8b949e;">(옵션 C 12주 평단 54,750 기준 +18.7%)</span></td>
       <td data-label="전량 손익비" class="ratio-good">5.86 ⭐⭐⭐</td>
     </tr>
     <tr style="background:#1a2e1a;opacity:0.95;">
       <td data-label="순위" style="color:#3fb950;"><strong>✅ 활성</strong></td>
       <td data-label="종목"><a class="stock-link" onclick="goToStock('swing','card-015750')"><strong>🆕 성우하이텍</strong></a></td>
-      <td data-label="상태" style="color:#3fb950;">1차a 15주 체결 (평단 9,257) · <strong>🎯 트레일링 모드 전환</strong> (05-12 +4.39% 양봉 회복 / 거래량 2.19M)</td>
-      <td data-label="핵심 포인트" class="condition-text"><strong style="color:#3fb950;">🎯 분할 익절 3단계 대기</strong> — 1차b 9,050 / 2차 8,700 / 3차 8,300 <strong>자동 취소</strong> (추가 매수 보류 확정). 1차a 15주 단독 트레일링.<br><strong>분할 익절</strong>: 9,500(5주) → 10,000(5주) → 11,000+ 트레일링(잔량 5주, 12,400 전고점 근접 시 정리).<br><strong>트레일링 룰</strong>: 음봉 + 거래량 급감 출현 시 잔량 즉시 청산 (한화솔루션·DS단석 룰 준용). 손절 8,200 후퇴 금지.</td>
-      <td data-label="1차 진입가" class="price">9,257 ✅ (15주 단독)</td>
-      <td data-label="전량 손익비" class="ratio-good">트레일링 +9.82%</td>
+      <td data-label="상태" style="color:#d29922;">1차a 15주 체결 (평단 9,257, 평가손 -4.07% / -0.57만 📉)</td>
+      <td data-label="핵심 포인트" class="condition-text"><strong style="color:#d29922;">⏸ 대기</strong> — 05-11 음봉 -2.41% 직후 추격 매수 금지. 1차b 9,050 -1.91% 하회 영역.<br><strong>발동 조건</strong>: 보합 회복 양봉 + 거래량 2M+ 회복 시 1차b 14주 진입 / 갭하 -2%(8,702↓) 시 2차 28주 × 8,700 직진 검토.<br><strong>손절 8,200</strong>(사용자 알림 정합) 종가 이탈 시 1차a 기계적 손절(-1.59만).</td>
+      <td data-label="목표가" class="profit"><strong>9,500 / 10,000 / 11,000+</strong><br><span style="font-size:0.85em;color:#8b949e;">(1차a 단독 분할 익절 · 평균 ~10,167원 +9.82% / 1차b~3차 추가 진입 시 평단↓ → 손익비 4.27 상승)</span></td>
+      <td data-label="전량 손익비" class="ratio-good">4.27 ⭐⭐⭐</td>
     </tr>
     <tr style="background:#1a2e1a;opacity:0.95;">
       <td data-label="순위" style="color:#3fb950;"><strong>✅ 활성</strong></td>
       <td data-label="종목"><a class="stock-link" onclick="goToStock('swing','card-263750')"><strong>펄어비스</strong></a></td>
       <td data-label="상태" style="color:#3fb950;">1차a+b+옵션B 13주 체결 (평단 55,331, 평가손 -3.31% 📉) · 분할 익절 모드</td>
       <td data-label="핵심 포인트" class="condition-text"><strong style="color:#3fb950;">🎯 분할 익절 4단계 대기</strong> — 58K(4주) → 60K(4주) → 65K(3주) → 70K+ 트레일링(2주). 평균 청산가 ~62,077원 (+12.2%).<br><strong>⚠️ 05-12 실적 발표</strong>: 서프라이즈+갭상 +5% → 1·2차 익절 동시 발동 / 미스+갭하 -5% → 손절선 점검.<br><strong>손절 49,500 변경 금지</strong>, 종가 이탈 시 전량 13주 기계적 손절(-7.58만).</td>
-      <td data-label="1차 진입가" class="price">59,450 ✅ / 53,500 ✅</td>
+      <td data-label="목표가" class="profit"><strong>58K / 60K / 65K / 70K+</strong><br><span style="font-size:0.85em;color:#8b949e;">(4:4:3:2 분할 익절 · 평균 ~62,077원 +12.2%)</span></td>
       <td data-label="전량 손익비" class="ratio-good">1.86~2.20 ⭐⭐</td>
     </tr>
   </tbody>
@@ -1069,26 +1079,26 @@
   </div>
 </div>
 
-<!-- ===== 🆕 성우하이텍 (활성 스윙, 2026-05-12 트레일링 모드 전환 · 1차a 15주 × 9,257 단독 / 1차b·2차·3차 자동 취소) ===== -->
+<!-- ===== 🆕 성우하이텍 (활성 스윙, 2026-05-08 1차a 체결 · 05-11 종가 기준 분할매수 대기 / 1차b·2차·3차 진입 대기) ===== -->
 <div class="card" id="card-015750" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 성우하이텍 (015750) 🎯 트레일링 모드 전환 (1차a 15주 단독 분할 익절)</h3>
+      <h3 style="margin:0;">🆕 성우하이텍 (015750) ⏸ 분할매수 대기 (1차a 15주 체결 · 1차b/2차/3차 진입 대기)</h3>
       <span class="badge badge-swing">스윙 (활성)</span>
-      <span class="badge badge-filled">05-12 트레일링 모드 · 1차a 15주 × 9,257</span>
+      <span class="badge badge-filled">05-08 1차a 15주 × 9,257 체결</span>
     </div>
     <div class="weight-info">
-      모드: <span class="weight-chip" style="background:#1a2e1a;color:#3fb950;">🎯 트레일링 (5:5:5)</span>
-      잔여 단계: <span class="weight-chip" style="background:#1c1012;color:#f85149;">1차b/2차/3차 자동 취소</span>
+      모드: <span class="weight-chip" style="background:#1a2e1a;color:#d29922;">⏸ 분할매수 대기 (1:1:2)</span>
+      잔여 단계: <span class="weight-chip" style="background:#1a2838;color:#79c0ff;">1차b 9,050 / 2차 8,700 / 3차 8,300 대기</span>
       체결: <span class="weight-chip" style="background:#1a2e1a;color:#3fb950;">15주 × 9,257 = 13.89만</span>
     </div>
   </div>
 
   <div class="summary-grid">
-    <div class="summary-item"><div class="label">현재가 (05-12 장중)</div><div class="value profit">~9,270원 (+4.39% / +390 ▲ 양봉 회복 ✅) 평단 +0.14% / +0.002만 🟢</div></div>
-    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#3fb950;">박스 8,800~9,400 상단 부근 양봉 회복 · 거래량 2.19M (1차b 트리거 2M+ 충족했으나 추가 매수 보류 확정 → 트레일링 전환)</div></div>
-    <div class="summary-item"><div class="label">파동 위치 (엘리엇)</div><div class="value" style="color:#79c0ff;">5파 종료 후 ABC 4파 조정 -25.24% 영역 · 박스 9K 회복 + 매물대 10K 재시도 진행</div></div>
-    <div class="summary-item"><div class="label">손절라인 (후퇴 금지)</div><div class="value stop">8,200원 (현재가 -11.54% 여유 / 사용자 알림 정합) + 트레일링 즉시 청산: 음봉 + 거래량 급감</div></div>
+    <div class="summary-item"><div class="label">현재가 (05-11 종가)</div><div class="value loss">8,880원 (-2.41% / -220 ▼ 음봉) 평단 -4.07% / -0.57만 📉</div></div>
+    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#d29922;">박스 8,800~9,400 하단 부근 음봉 / 1차b 9,050 -1.91% 하회 영역 · 거래량 953K (평균 -45% 약화)</div></div>
+    <div class="summary-item"><div class="label">파동 위치 (엘리엇)</div><div class="value" style="color:#79c0ff;">5파 종료 후 ABC 4파 조정 -25.24% 영역 · 박스 9K 하회 후 재시도 대기</div></div>
+    <div class="summary-item"><div class="label">손절라인 (후퇴 금지)</div><div class="value stop">8,200원 (현재가 -7.66% 여유 / 사용자 알림 정합) · 종가 이탈 시 1차a 기계적 손절 (-1.59만)</div></div>
   </div>
 
   <div class="warn-box" style="background:#1a2838;border-left:4px solid #58a6ff;margin-bottom:12px;">
@@ -1105,7 +1115,7 @@
     <div style="font-size:0.85em;color:#8b949e;margin-top:6px;">📰 <strong>주요 헤드라인</strong>: 성우하이텍 차체 모듈 글로벌 OEM 공급 / 2차전지 배터리 케이스 신사업 / 현대차·기아 글로벌 판매 호조 수혜 / 거래대금 100위 밖 수급 약점</div>
   </div>
 
-  <strong>🎯 트레일링 분할 익절 테이블 (1차a 15주 단독 · 5:5:5 균등 분할 · 평균 매도가 ~10,167원 +9.82%)</strong>
+  <strong>🎯 분할 익절 시나리오 (1차a 15주 단독 기준 · 5:5:5 균등 분할 · 평균 매도가 ~10,167원 +9.82% / 1차b~3차 추가 진입 시 시나리오 재산정)</strong>
   <table class="stock-table">
     <thead>
       <tr><th>단계</th><th>매도가</th><th>수량</th><th>발동 조건</th><th>매도금액</th><th>비중</th><th>이익률</th><th>이익금</th><th>비고</th></tr>
@@ -1120,7 +1130,7 @@
         <td data-label="비중">100% (15주)</td>
         <td data-label="이익률" class="profit">현재 +0.14%</td>
         <td data-label="이익금" class="profit">평가 +0.002만</td>
-        <td data-label="비고">트레일링 모드 진입 기준</td>
+        <td data-label="비고">분할 익절 시나리오 기준점 (1차a 단독)</td>
       </tr>
       <tr>
         <td data-label="단계"><strong>🟢 1차 익절</strong></td>
@@ -1169,10 +1179,10 @@
     </tbody>
   </table>
 
-  <!-- ===== 📊 차트 분석 (사용자 제공 2026-05-11 15:08 일봉, 05-12 장중 +4.39% 양봉 회복 트레일링 전환) ===== -->
+  <!-- ===== 📊 차트 분석 (사용자 제공 2026-05-11 15:08 일봉 · 05-11 종가 8,880원 -2.41% 음봉 · 분할매수 대기 mode) ===== -->
   <!-- 라벨 배치 룰: AI단테.md §4.6.9 — 캔들·이평선·거래량 막대 가리지 않도록 우측 미래 영역(right:1~10%) + 차트 상하단 여백만 사용 -->
   <div style="margin: 16px 0 8px;">
-    <strong>📊 차트 주석 분석 (2026-05-11 15:08 일봉 + 05-12 장중 +4.39% 양봉 회복 · 거래량 2.19M · 🎯 트레일링 분할 익절 3단계)</strong>
+    <strong>📊 차트 주석 분석 (2026-05-11 15:08 일봉 · 종가 8,880 -2.41% 음봉 · 분할매수 대기 · 1차b 9,050 / 2차 8,700 / 3차 8,300 진입 대기)</strong>
   </div>
   <div style="position: relative; margin: 8px 0 12px; max-width: 100%; border: 1px solid #30363d; border-radius: 6px; overflow: hidden; background: #0d1117;">
     <img src="images/성우하이텍_2026-05-11.png" alt="성우하이텍 015750 일봉 차트 2026-05-11 15:08" style="width: 100%; display: block;">
@@ -1203,26 +1213,27 @@
     <!-- 26.03.12 전고점 12,400 — 상단 빈 영역 -->
     <div style="position:absolute; top:6%; right:1%; background:#f85149; color:#fff; padding:3px 8px; border-radius:4px; font-size:0.7em; font-weight:bold; box-shadow:0 2px 6px rgba(0,0,0,0.6); white-space:nowrap;">📈 26.03.12 전고점 12,400 (-25.24% / 트레일링 도착지)</div>
 
-    <!-- 거래량 회복 — 거래량 영역 우측 미래 영역 -->
-    <div style="position:absolute; top:90%; right:2%; background:#21262d; color:#3fb950; padding:3px 8px; border-radius:4px; font-size:0.68em; font-weight:bold; border:1px solid #3fb950; white-space:nowrap;">✅ 거래량 2.19M (평균 +6%) + 양봉 +4.39% 회복 / 트레일링 모드 발동</div>
+    <!-- 거래량 약화 — 거래량 영역 우측 미래 영역 -->
+    <div style="position:absolute; top:90%; right:2%; background:#21262d; color:#d29922; padding:3px 8px; border-radius:4px; font-size:0.68em; font-weight:bold; border:1px solid #d29922; white-space:nowrap;">⚠️ 거래량 953K (평균 -45% 약화) + 음봉 -2.41% / 진입 트리거 미충족</div>
   </div>
 
   <div class="highlight" style="background:#1a2e1a;border-left:4px solid #3fb950;font-size:0.88em;">
-    📌 <strong>차트 시나리오 요약 (2026-05-12 장중 기준 · 박스 상단 회복 양봉 + 거래량 2.19M · 🎯 트레일링 모드 확정)</strong>
+    📌 <strong>차트 시나리오 요약 (2026-05-11 종가 기준 · 박스 8,800 하단 음봉 -2.41% · ⏸ 분할매수 대기)</strong>
     <ul style="margin:6px 0 0 18px;">
-      <li>🎯 <strong>트레일링 전환 사유</strong>: 05-12 +4.39% 양봉 회복 + 거래량 2.19M = 1차b 트리거(2M+) 충족했으나 사용자 판단 "추가 매수 보류 확정" → 1차b 9,050 / 2차 8,700 / 3차 8,300 <strong>자동 취소</strong>, 1차a 15주 단독 트레일링 모드 진입</li>
-      <li>🟢 <strong>1차 익절 9,500</strong> (5주, +2.62%) · 박스 상단 9,400 양봉 통과 직후 첫 매물대 소화 → +0.12만 실현</li>
-      <li>🟢 <strong>2차 익절 10,000</strong> (5주, +8.03%) · 5월 매물대 1만원 심리선 도달 + 거래량 2M+ 유지 시 → +0.37만 실현</li>
-      <li>🟢 <strong>3차 트레일링 11,000원+</strong> (잔량 5주) · 12,400 전고점 -2% 근접 시 정리 (+18.83~33.93%) / 음봉+거래량 급감 출현 시 즉시 청산 (한화솔루션·DS단석 룰)</li>
-      <li>☁️ <strong>일목 구름 위 안착 + 60/112/224일선 정배열 유지</strong> = 장기 추세 유효 (트레일링 도착지 12,400 전고점 매물대 도전 가능)</li>
+      <li>⏸ <strong>분할매수 대기</strong>: 1차a 15주 × 9,257 체결 후 05-11 음봉 -2.41% / 거래량 -45% 약화 → 추격 매수 금지. 1차b/2차/3차 매수 단계 대기 유지.</li>
+      <li>🟢 <strong>1차b 9,050 (14주)</strong> · 1차a -1.91% 영역 · 보합 회복 양봉 + 거래량 2M+ 회복 시 진입</li>
+      <li>🟢 <strong>2차 8,700 (28주)</strong> · 박스 하단 +1.14% · 갭하 -2%(8,702↓) + 양봉 첫 지지 시 직진 검토</li>
+      <li>🟢 <strong>3차 8,300 (자동 진입)</strong> · 박스 하단 -1% 양봉 회복 시 (전량 진입 평단 ↓ → 손익비 4.27 상승)</li>
+      <li>🎯 <strong>분할 익절 시나리오</strong> (1차a 단독 기준): 9,500(+2.62%) → 10,000(+8.03%) → 11,000+ 트레일링 (12,400 전고점 -2% 근접 시 정리)</li>
+      <li>☁️ <strong>일목 구름 위 안착 + 60/112/224일선 정배열 유지</strong> = 장기 추세 유효 (12,400 전고점 매물대 도전 가능)</li>
     </ul>
   </div>
   <div class="warn-box" style="font-size:0.85em;">
-    ⚠️ <strong>주의사항</strong>: ① <strong>거래대금 100위 밖 + 외국인/기관 100위 밖 = 수급 취약</strong> (DS단석·금호타이어 학습 재적용) → 트레일링 단계 음봉 + 거래량 급감 출현 시 즉시 잔량 청산 필수. ② <strong>박스 8,800 하단 종가 이탈 시 트레일링 무효화</strong> → 잔량 5주 일괄 청산 검토. ③ <strong>8,200 손절선 후퇴 금지</strong> 종가 이탈 시 잔량 -11.42% 기계적 손절(-1.59만). ④ 1차b/2차/3차 매수 단계는 자동 취소되었으나 박스 8,800 종가 이탈 + 신규 양봉 회복 시 재진입 검토 가능 (트레일링 → 분할매수 재전환 룰).
+    ⚠️ <strong>주의사항</strong>: ① <strong>거래대금 100위 밖 + 외국인/기관 100위 밖 = 수급 취약</strong> (DS단석·금호타이어 학습 재적용) → 1차b 진입 시 거래량 2M+ 회복 동반 필수. ② <strong>박스 8,800 하단 종가 이탈 시 분할매수 무효화</strong> → 1차a 단독 손절 라인 점검. ③ <strong>8,200 손절선 후퇴 금지</strong> 종가 이탈 시 1차a -11.42% 기계적 손절(-1.59만). ④ 거래량 2M+ 회복 + 박스 상단 9,400 양봉 통과 시 1차a 단독 트레일링 모드 전환 검토 가능 (1차b/2차/3차 보류 결정 시).
   </div>
 
   <div class="highlight" style="background:#1a2e1a;border-left:4px solid #3fb950;">
-    📐 <strong>05-13 자동 분기 룰 (현재가 ~9,270 +4.39% 양봉 / 평단 9,257 +0.14% / 손절 8,200 -11.54% 여유 / 🎯 트레일링 모드)</strong>: ① <strong>박스 상단 9,400 양봉 통과 + 거래량 2M+</strong> → 1차 익절 9,500 지정가 발동 (5주, +2.62% / +0.12만 실현) · ② <strong>9,400 돌파 후 매물대 10,000 도달</strong> → 2차 익절 10,000 지정가 발동 (5주, +8.03% / +0.37만 실현, 잔량 5주 트레일링 유지) · ③ <strong>10,000 돌파 + 12,400 전고점 -2% 근접</strong> → 3차 트레일링 11,000원+ 잔량 5주 정리 (+18.83~33.93% / +0.86~1.57만) · ④ <strong>음봉 + 거래량 급감 출현</strong> → 트레일링 단계 잔량 즉시 청산 (한화솔루션·DS단석 룰 준용) · ⑤ <strong>박스 8,800 하단 종가 이탈</strong> → 잔량 일괄 청산 검토 / 8,200 손절선 종가 이탈 → 잔량 기계적 손절(-1.59만).
+    📐 <strong>05-12 자동 분기 룰 (05-11 종가 8,880 -2.41% / 평단 9,257 -4.07% / 손절 8,200 -7.66% 여유 / ⏸ 분할매수 대기)</strong>: ① <strong>갭상 +2%(9,058+) + 양봉 + 거래량 2M+ 회복</strong> → 1차b 14주 × 9,050 진입 (평단 9,154, 분할매수 1차 완성) · ② <strong>보합(8,800~9,050) + 음봉 지속</strong> → 1차b 진입 대기 / 박스 하단 8,800 양봉 첫 지지 시 1차b 검토 · ③ <strong>갭하 -2%(8,702↓) + 양봉 첫 지지</strong> → 2차 28주 × 8,700 직진 검토 (1차b 통과 시) / 거래량 미충족 시 8,300 3차 대기 · ④ <strong>박스 8,800 하단 종가 이탈 + 거래량 회복 부재</strong> → 1차a 손절 라인(8,200) 임박 점검 · ⑤ <strong>8,200 손절선 종가 이탈</strong> → 1차a 15주 기계적 손절(-1.59만) + 전체 진입 전면 철회.
   </div>
 </div>
 
@@ -1398,7 +1409,7 @@
 <h3 style="margin-top:8px;color:#f0883e;">🚦 중장기 활성 차트 요약 (2026-05-11 · 활성 1종)</h3>
 <table class="stock-table" style="font-size:0.88em;">
   <thead>
-    <tr><th>순위</th><th>종목</th><th>상태</th><th>핵심 포인트</th><th>1차 진입가</th><th>전량 손익비</th></tr>
+    <tr><th>순위</th><th>종목</th><th>상태</th><th>핵심 포인트</th><th>목표가</th><th>전량 손익비</th></tr>
   </thead>
   <tbody>
     <tr style="background:#1a2e1a;opacity:0.95;">
@@ -1406,7 +1417,7 @@
       <td data-label="종목"><a class="stock-link" onclick="goToStock('long','card-066570')"><strong>LG전자</strong></a></td>
       <td data-label="상태" style="color:#3fb950;">1차 2주 체결 (평단 124,400, 평가익 +26.0% / +6.46만 🚀)</td>
       <td data-label="핵심 포인트" class="condition-text"><strong style="color:#3fb950;">🎯 1주 즉시 익절 권장 (+30,600원 실현 가능)</strong> — 분할 익절 a 155,000 트리거 발효 ✅ (현재가 156,700 = +1.10% 위).<br><strong>다음 단계</strong>: 160K 터치 시 잔량 1주 추가 정리(+35,600원) 또는 신고가 159,400 -2%(156,212↓) 이탈 종가 시 잔량 정리. 양봉 + 거래량 5M+ 지속 시 165~170K 트레일링 연장 검토.<br><strong>손절 102,000 변경 금지</strong>, 음봉 + 거래량 폭증 시 즉시 익절.</td>
-      <td data-label="1차 진입가" class="price">124,400 ✅</td>
+      <td data-label="목표가" class="profit"><strong>155K ✅ / 160K / 165~170K</strong><br><span style="font-size:0.85em;color:#8b949e;">(1:1 분할 익절 + 트레일링 · 평단 124,400 기준 +24.6~36.7%)</span></td>
       <td data-label="전량 손익비" class="ratio-good">트레일링 모드</td>
     </tr>
   </tbody>
@@ -3729,17 +3740,17 @@
         <td data-label="손익비" class="ratio-good">5.86 ⭐⭐⭐ (옵션 C)</td>
       </tr>
       <tr style="background:#1a2e1a;">
-        <td data-label="종목"><a class="stock-link" onclick="goToStock('swing','card-015750')">🆕 성우하이텍 (활성 스윙)</a> ~9,270(05-12 장중 +4.39% ▲ 양봉 회복 / 평단 +0.14% 🟢 거의 본전) · <strong>🎯 트레일링 모드 전환 (1차a 15주 단독 / 1차b·2차·3차 자동 취소) · 9,500→10,000→11,000+ 분할 익절</strong></td>
-        <td data-label="매매 타입"><span class="badge badge-swing">스윙</span> <span class="badge badge-filled">05-12 트레일링 모드 · 분할 익절 3단계</span></td>
-        <td data-label="총수량">15주 체결 · 분할 매도 5+5+5 (1차b/2차/3차 자동 취소)</td>
-        <td data-label="매수금액" class="price">13.89만 (체결 · 트레일링 단독)</td>
-        <td data-label="비율">활성 (트레일링)</td>
+        <td data-label="종목"><a class="stock-link" onclick="goToStock('swing','card-015750')">🆕 성우하이텍 (활성 스윙)</a> 8,880(05-11 종가 -2.41% ▼ 음봉 / 평단 -4.07% 📉) · <strong>⏸ 분할매수 대기 (1차a 15주 체결 / 1차b 9,050 / 2차 8,700 / 3차 8,300 진입 대기) · 1차a 단독 익절 ladder 9,500→10,000→11,000+</strong></td>
+        <td data-label="매매 타입"><span class="badge badge-swing">스윙</span> <span class="badge badge-filled">05-08 1차a 체결 · ⏸ 분할매수 대기</span></td>
+        <td data-label="총수량">15주 체결 (1차a) · 1차b 14 / 2차 28 / 3차 자동 진입 대기 (분할매수 1:1:2)</td>
+        <td data-label="매수금액" class="price">13.89만 (1차a 체결분)</td>
+        <td data-label="비율">활성 (분할매수 대기)</td>
         <td data-label="평단" class="price">9,257원 (1차a 15주 단독)</td>
-        <td data-label="최종 목표" class="profit">평균 매도가 ~10,167원 (+9.82%, 트레일링 5:5:5)</td>
-        <td data-label="이익금" class="profit">현재 <strong>+0.002만 (+0.14%) 🟢</strong> · 트레일링 +1.35~2.06만</td>
-        <td data-label="손절" class="stop">8,200원 (후퇴 금지 · -11.54% 여유)</td>
+        <td data-label="최종 목표" class="profit">1차a 단독 익절 ladder ~10,167원 (+9.82%) / 전량 진입 시 손익비 4.27 상승</td>
+        <td data-label="이익금" class="profit">현재 <strong>-0.57만 (-4.07%) 📉</strong> · 익절 ladder +1.35~2.06만</td>
+        <td data-label="손절" class="stop">8,200원 (후퇴 금지 · -7.66% 여유)</td>
         <td data-label="손절 손실" class="loss">-1.59만 (1차a 15주)</td>
-        <td data-label="손익비" class="ratio-good">트레일링 +9.82%</td>
+        <td data-label="손익비" class="ratio-good">4.27 ⭐⭐⭐</td>
       </tr>
       <tr style="background:#1a2e1a;">
         <td data-label="종목"><a class="stock-link" onclick="goToStock('swing','card-263750')">✅ 펄어비스 (활성 스윙)</a> 53,500(05-11 14:59 +1.90% ▲ 양봉 / 13주 평단 55,331 · 평가손 -3.31% 📉) · <strong>05-11 옵션 B 9주 × 53,500 체결 → 분할 익절 모드 전환 (58K/60K/65K/70K+) · ⚠️ 05-12 실적 발표</strong></td>
@@ -3842,7 +3853,7 @@
 </div>
 
 <div class="footer">
-  Powered by Claude Code | 주식단테 기법 기반 분석 | <strong>2026-05-12 장중</strong> (활성 4종 + 후보 3종 + 종결 4종 · <strong>🎯 성우하이텍 트레일링 모드 전환 (+4.39% 양봉 회복 / 거래량 2.19M / 1차a 15주 단독 5:5:5 분할 익절 9,500→10,000→11,000+)</strong> · 🚀 LG전자 분할 익절 a 155K 트리거 발효 ✅ · 🚢 한화오션 외국인 매수 3위 폭증 → 후보 #1 · 펄어비스 13주 평단 55,331 분할 익절 모드 (⚠️ 05-12 실적) · 클래시스 외국인 98위 회복 + 옵션 C 트리거 점검 · 후보 #1 한화오션 🚢 / #2 포스코DX / #3 모니터랩 · <strong>누적 실현이익 +98,046원 🎉</strong>)<br>
+  Powered by Claude Code | 주식단테 기법 기반 분석 | <strong>2026-05-11 종가 기준</strong> (활성 4종 + 후보 3종 + 종결 4종 · <strong>⏸ 성우하이텍 분할매수 대기 (1차a 15주 체결, 1차b 9,050 / 2차 8,700 / 3차 8,300 진입 대기)</strong> · 🚀 LG전자 분할 익절 a 155K 트리거 발효 ✅ · 🚢 한화오션 외국인 매수 3위 폭증 → 후보 #1 · 펄어비스 13주 평단 55,331 분할 익절 모드 (⚠️ 05-12 실적 발표 예정) · 클래시스 외국인 98위 회복 + 옵션 C 트리거 점검 · 후보 #1 한화오션 🚢 / #2 포스코DX / #3 모니터랩 · <strong>누적 실현이익 +98,046원 🎉</strong>)<br>
   출처: 주식단테사단 공식 커뮤니티 · 무료 기법강의 게시판
 </div>
 

@@ -442,14 +442,118 @@ body {
       <div class="icon" style="background:var(--accent-light);color:var(--accent);">👩‍🏫</div>
       교사별 지표(29일 누적)
     </div>
-    <p style="padding:12px;color:var(--muted);">교사 지표 데이터가 없습니다.</p>
+    <table class="data-table">
+      <colgroup>
+        <col style="width:30%">
+        <col style="width:23%">
+        <col style="width:23%">
+        <col style="width:24%">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>교사명</th>
+          <th>상담 건수</th>
+          <th>부정 건수</th>
+          <th>등급</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="clickable" onclick="showTeacherRaw('김혜진')">
+          <td>김혜진</td>
+          <td>24</td>
+          <td><strong>11</strong></td>
+          <td><span class="tag danger">위험</span></td>
+        </tr>
+        <tr class="clickable" onclick="showTeacherRaw('고희주')">
+          <td>고희주</td>
+          <td>48</td>
+          <td><strong>10</strong></td>
+          <td><span class="tag danger">위험</span></td>
+        </tr>
+        <tr class="clickable" onclick="showTeacherRaw('이명랑')">
+          <td>이명랑</td>
+          <td>17</td>
+          <td><strong>10</strong></td>
+          <td><span class="tag danger">위험</span></td>
+        </tr>
+        <tr class="clickable" onclick="showTeacherRaw('이진경')">
+          <td>이진경</td>
+          <td>16</td>
+          <td><strong>6</strong></td>
+          <td><span class="tag success">관심</span></td>
+        </tr>
+        <tr class="clickable" onclick="showTeacherRaw('이남희')">
+          <td>이남희</td>
+          <td>12</td>
+          <td><strong>5</strong></td>
+          <td><span class="tag success">관심</span></td>
+        </tr>
+        <tr class="clickable" onclick="showTeacherRaw('김근혜')">
+          <td>김근혜</td>
+          <td>18</td>
+          <td><strong>4</strong></td>
+          <td>—</td>
+        </tr>
+        <tr class="clickable" onclick="showTeacherRaw('김희수')">
+          <td>김희수</td>
+          <td>8</td>
+          <td><strong>4</strong></td>
+          <td>—</td>
+        </tr>
+        <tr class="clickable" onclick="showTeacherRaw('최명진')">
+          <td>최명진</td>
+          <td>10</td>
+          <td><strong>3</strong></td>
+          <td>—</td>
+        </tr>
+        <tr class="clickable" onclick="showTeacherRaw('김도훈')">
+          <td>김도훈</td>
+          <td>10</td>
+          <td><strong>0</strong></td>
+          <td>—</td>
+        </tr>
+        <tr class="clickable" onclick="showTeacherRaw('신창응')">
+          <td>신창응</td>
+          <td>7</td>
+          <td><strong>0</strong></td>
+          <td>—</td>
+        </tr>
+        <tr class="clickable" onclick="showTeacherRaw('조준범')">
+          <td>조준범</td>
+          <td>4</td>
+          <td><strong>0</strong></td>
+          <td>—</td>
+        </tr>
+        <tr class="clickable" onclick="showTeacherRaw('서수지')">
+          <td>서수지</td>
+          <td>1</td>
+          <td><strong>0</strong></td>
+          <td>—</td>
+        </tr>
+        <tr class="clickable" onclick="showTeacherRaw('정재연')">
+          <td>정재연</td>
+          <td>1</td>
+          <td><strong>0</strong></td>
+          <td>—</td>
+        </tr>
+        <tr style="background:var(--bg);font-weight:600;">
+          <td>합계 (13명)</td>
+          <td>176</td>
+          <td>53</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:11px;color:var(--muted);margin-top:10px;line-height:1.5;">
+      ※ 집계 대상: 반 배정 상담만 (<code>class_ogn_nm</code> 있는 상담) · 교사 평균: <strong>4.1건</strong>
+    </p>
   </div>
 
   
   <div class="alertBanner danger">
     <div class="alert-icon">🚨</div>
     <div>
-      <strong>위험 학생 5명 감지</strong><br>
+      <strong>위험 학생 3명 감지</strong><br>
       평균 대비 부정 감성 빈도가 높은 학생이 발견되었습니다. 아래 상세 내역을 확인해주세요.
     </div>
   </div>
@@ -469,7 +573,7 @@ body {
       평균 초과 학생 리스트(29일 누적)
     </div>
     <p style="font-size:12px;color:var(--muted);margin-bottom:8px;">
-      와이즈만 대치센터 내 학생 평균 부정 건수: <strong style="color:var(--text);">1.4건</strong> — 평균 초과 학생 전체를 표시합니다.
+      와이즈만 대치센터 내 학생 평균 부정 건수: <strong style="color:var(--text);">1.3건</strong> — 평균 초과 학생 전체를 표시합니다.
     </p>
     <div class="legend">
       <span class="legend-item"><span class="tag-reset">🔄</span> <strong>휴회 리셋</strong> — 휴회 프로그램 발생시 이전 부정 이력을 집계에서 제외</span>
@@ -492,26 +596,12 @@ body {
         </tr>
       </thead>
       <tbody>
-        <tr class="clickable" onclick="showStudentRaw('CS240800727','김휘')">
-          <td>김휘</td>
-          <td><strong>3건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-          <td></td>
-        </tr>
         <tr class="clickable" onclick="showStudentRaw('CS240902057','이시아')">
           <td>이시아</td>
           <td><strong>3건</strong></td>
           <td><span class="tag danger">위험</span></td>
           <td></td>
-          <td></td>
-        </tr>
-        <tr class="clickable" onclick="showStudentRaw('CS210801360','이예현')">
-          <td>이예현</td>
-          <td><strong>3건</strong></td>
-          <td><span class="tag danger">위험</span></td>
-          <td></td>
-          <td></td>
+          <td><span class="tag unpaid">미납</span></td>
         </tr>
         <tr class="clickable" onclick="showStudentRaw('CS250700935','이상윤')">
           <td>이상윤</td>
@@ -569,12 +659,19 @@ body {
           <td></td>
           <td></td>
         </tr>
+        <tr class="clickable" onclick="showStudentRaw('CS210801360','이예현')">
+          <td>이예현 <span class="tag-reset" title="휴회 리셋">🔄</span></td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+          <td></td>
+        </tr>
         <tr class="clickable" onclick="showStudentRaw('CS260200038','양시하')">
           <td>양시하</td>
           <td><strong>2건</strong></td>
           <td><span class="tag success">관심</span></td>
           <td></td>
-          <td></td>
+          <td><span class="tag unpaid">미납</span></td>
         </tr>
         <tr class="clickable" onclick="showStudentRaw('BS190800188','박지원')">
           <td>박지원</td>
@@ -585,13 +682,6 @@ body {
         </tr>
         <tr class="clickable" onclick="showStudentRaw('BS160500207','김준수')">
           <td>김준수</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag success">관심</span></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr class="clickable" onclick="showStudentRaw('CS220501623','강구율')">
-          <td>강구율</td>
           <td><strong>2건</strong></td>
           <td><span class="tag success">관심</span></td>
           <td></td>
@@ -625,13 +715,6 @@ body {
           <td></td>
           <td></td>
         </tr>
-        <tr class="clickable" onclick="showStudentRaw('CS251200225','김단우')">
-          <td>김단우</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag success">관심</span></td>
-          <td></td>
-          <td></td>
-        </tr>
         <tr class="clickable" onclick="showStudentRaw('CS241001176','윤재준')">
           <td>윤재준</td>
           <td><strong>2건</strong></td>
@@ -639,8 +722,8 @@ body {
           <td></td>
           <td></td>
         </tr>
-        <tr class="clickable" onclick="showStudentRaw('CS231103283','김서준')">
-          <td>김서준</td>
+        <tr class="clickable" onclick="showStudentRaw('CS251200225','김단우')">
+          <td>김단우</td>
           <td><strong>2건</strong></td>
           <td><span class="tag success">관심</span></td>
           <td></td>
@@ -648,6 +731,13 @@ body {
         </tr>
         <tr class="clickable" onclick="showStudentRaw('CS231203818','박영광')">
           <td>박영광</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="clickable" onclick="showStudentRaw('CS231103283','김서준')">
+          <td>김서준</td>
           <td><strong>2건</strong></td>
           <td><span class="tag success">관심</span></td>
           <td></td>
@@ -667,15 +757,15 @@ body {
           <td></td>
           <td></td>
         </tr>
-        <tr class="clickable" onclick="showStudentRaw('CS240100955','윤재열')">
-          <td>윤재열</td>
+        <tr class="clickable" onclick="showStudentRaw('CS241001537','이재운')">
+          <td>이재운</td>
           <td><strong>2건</strong></td>
           <td><span class="tag success">관심</span></td>
           <td></td>
           <td></td>
         </tr>
-        <tr class="clickable" onclick="showStudentRaw('CS241001537','이재운')">
-          <td>이재운</td>
+        <tr class="clickable" onclick="showStudentRaw('CS240100955','윤재열')">
+          <td>윤재열</td>
           <td><strong>2건</strong></td>
           <td><span class="tag success">관심</span></td>
           <td></td>
@@ -694,7 +784,7 @@ body {
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-05-18 11:50<br>
+    분석 모델: Claude API | 생성일: 2026-05-18 12:14<br>
     데이터 기준<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>
@@ -719,7 +809,7 @@ body {
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--accent-light);color:var(--accent);">📋</div>
-      <span id="raw-card-title">키워드 raw (부정 판정 119건)</span>
+      <span id="raw-card-title">키워드 raw (부정 판정 118건)</span>
     </div>
 
     <div class="legend">
@@ -760,26 +850,18 @@ body {
           <td>하누리</td>
           <td>CS251104032</td>
           <td class="td-title">휴회 신청 전화</td>
-          <td><span class="tag-kw">휴회</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS251001530" data-name="이채원" data-date="2026-05-15" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS251001530" data-name="이채원" data-date="2026-05-15" data-teacher="김혜진" data-masked="0">
           <td>2026-05-15</td>
           <td>이채원</td>
           <td>CS251001530</td>
           <td class="td-title">4월 정기상담</td>
-          <td><span class="tag-kw">휴회</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS231102819" data-name="한선재" data-date="2026-05-14" data-teacher="" data-masked="0">
-          <td>2026-05-14</td>
-          <td>한선재</td>
-          <td>CS231102819</td>
-          <td class="td-title">과학영재반 통화</td>
-          <td><span class="tag-kw">스트레스/압박감</span></td>
-          <td><span class="tag-kw">스트레스/압박감</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS250401446" data-name="유지원" data-date="2026-05-14" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS250401446" data-name="유지원" data-date="2026-05-14" data-teacher="김혜진" data-masked="0">
           <td>2026-05-14</td>
           <td>유지원</td>
           <td>CS250401446</td>
@@ -787,7 +869,7 @@ body {
           <td><span class="tag-kw">이탈/포기 의사</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS240303352" data-name="김시완T" data-date="2026-05-14" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS240303352" data-name="김시완T" data-date="2026-05-14" data-teacher="김혜진" data-masked="0">
           <td>2026-05-14</td>
           <td>김시완T</td>
           <td>CS240303352</td>
@@ -811,7 +893,7 @@ body {
           <td><span class="tag-kw">학습 어려움</span></td>
           <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS240300196" data-name="정희재" data-date="2026-05-14" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS240300196" data-name="정희재" data-date="2026-05-14" data-teacher="김혜진" data-masked="0">
           <td>2026-05-14</td>
           <td>정희재</td>
           <td>CS240300196</td>
@@ -819,7 +901,7 @@ body {
           <td><span class="tag-kw">학습 어려움</span></td>
           <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS240800727" data-name="김휘" data-date="2026-05-13" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS240800727" data-name="김휘" data-date="2026-05-13" data-teacher="고희주" data-masked="0">
           <td>2026-05-13</td>
           <td>김휘</td>
           <td>CS240800727</td>
@@ -827,7 +909,7 @@ body {
           <td><span class="tag-kw">학습 어려움</span></td>
           <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS220803937" data-name="유지환" data-date="2026-05-13" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS220803937" data-name="유지환" data-date="2026-05-13" data-teacher="고희주" data-masked="0">
           <td>2026-05-13</td>
           <td>유지환</td>
           <td>CS220803937</td>
@@ -835,7 +917,7 @@ body {
           <td><span class="tag-kw">학습 어려움</span></td>
           <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS210100395" data-name="이상우" data-date="2026-05-13" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS210100395" data-name="이상우" data-date="2026-05-13" data-teacher="김근혜" data-masked="0">
           <td>2026-05-13</td>
           <td>이상우</td>
           <td>CS210100395</td>
@@ -843,23 +925,23 @@ body {
           <td><span class="tag-kw">학습 어려움</span></td>
           <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS260500449" data-name="김리호" data-date="2026-05-12" data-teacher="" data-masked="0">
-          <td>2026-05-12</td>
-          <td>김리호</td>
-          <td>CS260500449</td>
-          <td class="td-title">원장님과 통화해서 WTC선발고사 비용 무료 안내 받으셨다고 함 / 금요일에 평가, 토요일에 결과상담 받기 원하셔서 일정 보시고 다시 연락주신다고 함 / ★평가 예약 시, 토요일 결과상담 일정 미리 잡아야 함</td>
-          <td><span class="tag-kw">불안/걱정</span></td>
-          <td><span class="tag-kw">불안/걱정</span></td>
-        </tr>
-        <tr class="raw-row" data-std="BS190900026" data-name="허예원" data-date="2026-05-12" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="BS190900026" data-name="허예원" data-date="2026-05-12" data-teacher="이명랑" data-masked="0">
           <td>2026-05-12</td>
           <td>허예원</td>
           <td>BS190900026</td>
           <td class="td-title">5월 정기상담</td>
-          <td><span class="tag-kw">휴회</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS220601287" data-name="최용재" data-date="2026-05-12" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS260500449" data-name="김리호" data-date="2026-05-12" data-teacher="" data-masked="0">
+          <td>2026-05-12</td>
+          <td>김리호</td>
+          <td>CS260500449</td>
+          <td class="td-title">금요일 7시로 평가 예약 / 토요일 2시 결과상담 예약</td>
+          <td><span class="tag-kw">불안/걱정</span></td>
+          <td><span class="tag-kw">불안/걱정</span></td>
+        </tr>
+        <tr class="raw-row" data-std="CS220601287" data-name="최용재" data-date="2026-05-12" data-teacher="이명랑" data-masked="0">
           <td>2026-05-12</td>
           <td>최용재</td>
           <td>CS220601287</td>
@@ -867,7 +949,7 @@ body {
           <td><span class="tag-kw">학습 어려움</span></td>
           <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS210800714" data-name="백호연" data-date="2026-05-12" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS210800714" data-name="백호연" data-date="2026-05-12" data-teacher="이명랑" data-masked="0">
           <td>2026-05-12</td>
           <td>백호연</td>
           <td>CS210800714</td>
@@ -875,7 +957,7 @@ body {
           <td><span class="tag-kw">건강문제</span></td>
           <td><span class="tag-kw">건강문제</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS251203589" data-name="손재민" data-date="2026-05-12" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS251203589" data-name="손재민" data-date="2026-05-12" data-teacher="고희주" data-masked="0">
           <td>2026-05-12</td>
           <td>손재민</td>
           <td>CS251203589</td>
@@ -903,7 +985,7 @@ body {
           <td>2026-05-09</td>
           <td>임선우</td>
           <td>CS220401262</td>
-          <td class="td-title">교사 변경후 인사</td>
+          <td class="td-title">교사 변경후 인사 </td>
           <td><span class="tag-kw">학습 어려움</span></td>
           <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
@@ -919,7 +1001,7 @@ body {
           <td>2026-05-09</td>
           <td>백호연</td>
           <td>CS210800714</td>
-          <td class="td-title">5/9 11:30 수업결석->2시 학급보강</td>
+          <td class="td-title">2시 학급보강 출석 어려워 결석 연락주심</td>
           <td><span class="tag-kw">건강문제</span></td>
           <td><span class="tag-kw">건강문제</span></td>
         </tr>
@@ -939,7 +1021,7 @@ body {
           <td><span class="tag-kw">이탈/포기 의사</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS251000700" data-name="이지효" data-date="2026-05-08" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS251000700" data-name="이지효" data-date="2026-05-08" data-teacher="김근혜" data-masked="0">
           <td>2026-05-08</td>
           <td>이지효</td>
           <td>CS251000700</td>
@@ -947,7 +1029,7 @@ body {
           <td><span class="tag-kw">이탈/포기 의사</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS250501225" data-name="김유이" data-date="2026-05-08" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS250501225" data-name="김유이" data-date="2026-05-08" data-teacher="김혜진" data-masked="0">
           <td>2026-05-08</td>
           <td>김유이</td>
           <td>CS250501225</td>
@@ -955,13 +1037,21 @@ body {
           <td><span class="tag-kw">학습 어려움</span></td>
           <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS230400461" data-name="강하준" data-date="2026-05-07" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS210801360" data-name="이예현" data-date="2026-05-07" data-teacher="이남희" data-masked="0">
           <td>2026-05-07</td>
-          <td>강하준</td>
-          <td>CS230400461</td>
-          <td class="td-title">교과학원에서 4-1기응완료(주1회 2시간) / 심화가 부족하여 지난주부터 진도잠깐 스탑하고 3-1최상위S 시작함 / 레벨제 시작하고부터 사고력 수업이 쉽지 않아서 WTC합류가 가능할까 고민 / 화목 2교시, 수토 수업 가능</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
+          <td>이예현</td>
+          <td>CS210801360</td>
+          <td class="td-title">첫 수업 후 상담 / 휴회상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr class="raw-row" data-std="CS210801360" data-name="이예현" data-date="2026-05-07" data-teacher="" data-masked="0">
+          <td>2026-05-07</td>
+          <td>이예현</td>
+          <td>CS210801360</td>
+          <td class="td-title">휴회 요청</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
         <tr class="raw-row" data-std="CS250901621" data-name="김진영" data-date="2026-05-07" data-teacher="" data-masked="0">
           <td>2026-05-07</td>
@@ -971,31 +1061,39 @@ body {
           <td><span class="tag-kw">학습 어려움</span></td>
           <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS210801360" data-name="이예현" data-date="2026-05-07" data-teacher="" data-masked="0">
-          <td>2026-05-07</td>
-          <td>이예현</td>
-          <td>CS210801360</td>
-          <td class="td-title">첫 수업 후 상담 / 휴회상담</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS251100941" data-name="여은수" data-date="2026-05-07" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS251100941" data-name="여은수" data-date="2026-05-07" data-teacher="김혜진" data-masked="0">
           <td>2026-05-07</td>
           <td>여은수</td>
           <td>CS251100941</td>
           <td class="td-title">4월 정기상담</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr class="raw-row" data-std="CS230400461" data-name="강하준" data-date="2026-05-07" data-teacher="" data-masked="0">
+          <td>2026-05-07</td>
+          <td>강하준</td>
+          <td>CS230400461</td>
+          <td class="td-title">과학수강 관심 / 시간표가 너무 불편해서 고민하셨으나 16일 체험수업 해보겠다고 하심</td>
           <td><span class="tag-kw">스트레스/압박감</span></td>
           <td><span class="tag-kw">스트레스/압박감</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS210801360" data-name="이예현" data-date="2026-05-07" data-teacher="" data-masked="0">
-          <td>2026-05-07</td>
+        <tr class="raw-row masked" data-std="CS210801360" data-name="이예현" data-date="2026-05-06" data-teacher="이남희" data-masked="1">
+          <td>2026-05-06</td>
           <td>이예현</td>
           <td>CS210801360</td>
-          <td class="td-title">휴회 요청</td>
-          <td><span class="tag-kw">휴회</span></td>
+          <td class="td-title"><span title="휴회 리셋 — 집계 제외">🔄</span> 첫 수업 전 상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS250500525" data-name="이아윤" data-date="2026-05-06" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS250701765" data-name="이서형" data-date="2026-05-06" data-teacher="" data-masked="0">
+          <td>2026-05-06</td>
+          <td>이서형</td>
+          <td>CS250701765</td>
+          <td class="td-title">2주차 학사 결석 / 토3:20 점프업 학급보강 등록 </td>
+          <td><span class="tag-kw">건강문제</span></td>
+          <td><span class="tag-kw">건강문제</span></td>
+        </tr>
+        <tr class="raw-row" data-std="CS250500525" data-name="이아윤" data-date="2026-05-06" data-teacher="고희주" data-masked="0">
           <td>2026-05-06</td>
           <td>이아윤</td>
           <td>CS250500525</td>
@@ -1003,7 +1101,7 @@ body {
           <td><span class="tag-kw">학습 어려움</span></td>
           <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS250700935" data-name="이상윤" data-date="2026-05-06" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS250700935" data-name="이상윤" data-date="2026-05-06" data-teacher="김혜진" data-masked="0">
           <td>2026-05-06</td>
           <td>이상윤</td>
           <td>CS250700935</td>
@@ -1011,23 +1109,7 @@ body {
           <td><span class="tag-kw">학습 어려움</span></td>
           <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS210801360" data-name="이예현" data-date="2026-05-06" data-teacher="" data-masked="0">
-          <td>2026-05-06</td>
-          <td>이예현</td>
-          <td>CS210801360</td>
-          <td class="td-title">첫 수업 전 상담</td>
-          <td><span class="tag-kw">수업 거부</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS250701765" data-name="이서형" data-date="2026-05-06" data-teacher="" data-masked="0">
-          <td>2026-05-06</td>
-          <td>이서형</td>
-          <td>CS250701765</td>
-          <td class="td-title">2주차 학사 결석 / 토3:20 점프업 학급보강 등록</td>
-          <td><span class="tag-kw">건강문제</span></td>
-          <td><span class="tag-kw">건강문제</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS260200038" data-name="양시하" data-date="2026-05-05" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS260200038" data-name="양시하" data-date="2026-05-05" data-teacher="고희주" data-masked="0">
           <td>2026-05-05</td>
           <td>양시하</td>
           <td>CS260200038</td>
@@ -1043,7 +1125,7 @@ body {
           <td><span class="tag-kw">불만/분노</span></td>
           <td><span class="tag-kw">불만/분노</span></td>
         </tr>
-        <tr class="raw-row" data-std="BS190800188" data-name="박지원" data-date="2026-05-03" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="BS190800188" data-name="박지원" data-date="2026-05-03" data-teacher="김혜진" data-masked="0">
           <td>2026-05-03</td>
           <td>박지원</td>
           <td>BS190800188</td>
@@ -1051,7 +1133,7 @@ body {
           <td><span class="tag-kw">스트레스/압박감</span></td>
           <td><span class="tag-kw">스트레스/압박감</span></td>
         </tr>
-        <tr class="raw-row" data-std="BS160500207" data-name="김준수" data-date="2026-05-02" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="BS160500207" data-name="김준수" data-date="2026-05-02" data-teacher="이남희" data-masked="0">
           <td>2026-05-02</td>
           <td>김준수</td>
           <td>BS160500207</td>
@@ -1064,16 +1146,16 @@ body {
           <td>김준수</td>
           <td>BS160500207</td>
           <td class="td-title">중간고사 40점 / 희망 없는거 아니냐, 아이가 안한게 가장 큰 문제인건 아는데 선생님이 해주시기로 한 것도 하나도 되지 않았다</td>
-          <td><span class="tag-kw">불만/분노</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
         <tr class="raw-row" data-std="CS250700935" data-name="이상윤" data-date="2026-05-02" data-teacher="" data-masked="0">
           <td>2026-05-02</td>
           <td>이상윤</td>
           <td>CS250700935</td>
-          <td class="td-title">WTC수학 결과 전화상담(58/200) / 3학년 교과+어드밴스(토) 병강 권유 / 소마만 계속 다녀서 점검이 한번 필요했다고 함 / 고민해보고 연락주시기로</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
+          <td class="td-title">5월 2주차 신규 / 가방미지급</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
         </tr>
         <tr class="raw-row" data-std="CS260300017" data-name="이도현" data-date="2026-05-02" data-teacher="" data-masked="0">
           <td>2026-05-02</td>
@@ -1083,28 +1165,36 @@ body {
           <td><span class="tag-kw">건강문제</span></td>
           <td><span class="tag-kw">건강문제</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS220501623" data-name="강구율" data-date="2026-05-01" data-teacher="" data-masked="0">
+        <tr class="raw-row masked" data-std="CS220501623" data-name="강구율" data-date="2026-05-01" data-teacher="김희수" data-masked="1">
           <td>2026-05-01</td>
           <td>강구율</td>
           <td>CS220501623</td>
-          <td class="td-title">휴회고려상담</td>
-          <td><span class="tag-kw">휴회</span></td>
+          <td class="td-title"><span title="휴회 리셋 — 집계 제외">🔄</span> 휴회고려상담</td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS251000946" data-name="이서진(대곡)" data-date="2026-05-01" data-teacher="" data-masked="0">
-          <td>2026-05-01</td>
-          <td>이서진(대곡)</td>
-          <td>CS251000946</td>
-          <td class="td-title">askwhy 첫수업 후</td>
-          <td><span class="tag-kw">불만/분노</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
         <tr class="raw-row" data-std="CS220501623" data-name="강구율" data-date="2026-05-01" data-teacher="" data-masked="0">
           <td>2026-05-01</td>
           <td>강구율</td>
           <td>CS220501623</td>
           <td class="td-title">휴회 요청 전화/ 담당선생님과 통화연결</td>
-          <td><span class="tag-kw">휴회</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr class="raw-row" data-std="CS211200362" data-name="이주헌" data-date="2026-05-01" data-teacher="" data-masked="0">
+          <td>2026-05-01</td>
+          <td>이주헌</td>
+          <td>CS211200362</td>
+          <td class="td-title">진단결과상담-점프업 토반 신청</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr class="raw-row" data-std="CS251000946" data-name="이서진(대곡)" data-date="2026-05-01" data-teacher="" data-masked="0">
+          <td>2026-05-01</td>
+          <td>이서진(대곡)</td>
+          <td>CS251000946</td>
+          <td class="td-title">askwhy 첫수업 후 </td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
         <tr class="raw-row" data-std="CS201103144" data-name="성지훈" data-date="2026-05-01" data-teacher="" data-masked="0">
@@ -1112,32 +1202,24 @@ body {
           <td>성지훈</td>
           <td>CS201103144</td>
           <td class="td-title">재입회 상담</td>
-          <td><span class="tag-kw">스트레스/압박감</span></td>
-          <td><span class="tag-kw">스트레스/압박감</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS211200362" data-name="이주헌" data-date="2026-05-01" data-teacher="" data-masked="0">
-          <td>2026-05-01</td>
-          <td>이주헌</td>
-          <td>CS211200362</td>
-          <td class="td-title">진단결과상담-점프업 토반 신청</td>
-          <td><span class="tag-kw">그만두</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS240800727" data-name="김휘" data-date="2026-05-01" data-teacher="" data-masked="0">
+        <tr class="raw-row masked" data-std="CS240800727" data-name="김휘" data-date="2026-05-01" data-teacher="고희주" data-masked="1">
           <td>2026-05-01</td>
           <td>김휘</td>
           <td>CS240800727</td>
-          <td class="td-title">보강 수업 후 전화_부재중</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
+          <td class="td-title"><span title="휴회 리셋 — 집계 제외">🔄</span> 보강 수업 후 전화_부재중</td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
         </tr>
         <tr class="raw-row" data-std="CS260301599" data-name="성채원" data-date="2026-05-01" data-teacher="" data-masked="0">
           <td>2026-05-01</td>
           <td>성채원</td>
           <td>CS260301599</td>
           <td class="td-title">수학 진단검사 취소 / 과학은 다른 학원 등록했지만 토요일 대기 유지하고, 대기 풀리면 연락달라고 하심</td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
         <tr class="raw-row" data-std="CS241000614" data-name="최재이" data-date="2026-04-30" data-teacher="" data-masked="0">
           <td>2026-04-30</td>
@@ -1147,11 +1229,11 @@ body {
           <td><span class="tag-kw">이탈/포기 의사</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS240800727" data-name="김휘" data-date="2026-04-30" data-teacher="" data-masked="0">
+        <tr class="raw-row masked" data-std="CS240800727" data-name="김휘" data-date="2026-04-30" data-teacher="고희주" data-masked="1">
           <td>2026-04-30</td>
           <td>김휘</td>
           <td>CS240800727</td>
-          <td class="td-title">휴회 신청_카톡</td>
+          <td class="td-title"><span title="휴회 리셋 — 집계 제외">🔄</span> 휴회 신청_카톡</td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
@@ -1179,36 +1261,28 @@ body {
           <td><span class="tag-kw">학습 어려움</span></td>
           <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS210102786" data-name="이민재" data-date="2026-04-29" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS210102786" data-name="이민재" data-date="2026-04-29" data-teacher="김희수" data-masked="0">
           <td>2026-04-29</td>
           <td>이민재</td>
           <td>CS210102786</td>
           <td class="td-title">5월6일 6:20분보강</td>
-          <td><span class="tag-kw">휴회</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS251200225" data-name="김단우" data-date="2026-04-29" data-teacher="" data-masked="0">
-          <td>2026-04-29</td>
-          <td>김단우</td>
-          <td>CS251200225</td>
-          <td class="td-title">첫 수업 후 상담(대면)</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
         <tr class="raw-row" data-std="BS180100722" data-name="김지한" data-date="2026-04-29" data-teacher="" data-masked="0">
           <td>2026-04-29</td>
           <td>김지한</td>
           <td>BS180100722</td>
           <td class="td-title">5월 휴회 예감 / 담당선생님과 상담해보시도록 권유드림 / 오늘 중 전화 주실 것이라 안내</td>
-          <td><span class="tag-kw">휴회</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
         <tr class="raw-row" data-std="CS241001176" data-name="윤재준" data-date="2026-04-29" data-teacher="" data-masked="0">
           <td>2026-04-29</td>
           <td>윤재준</td>
           <td>CS241001176</td>
-          <td class="td-title">4/28 기존 담당교사상담에 대해 불만, 교사 변동 안내</td>
-          <td><span class="tag-kw">그만 두</span></td>
+          <td class="td-title">가족여행으로 4/30일 결석,개인보강 신청</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
         <tr class="raw-row" data-std="CS250301836" data-name="이유빈" data-date="2026-04-29" data-teacher="" data-masked="0">
@@ -1219,27 +1293,11 @@ body {
           <td><span class="tag-kw">불안/걱정</span></td>
           <td><span class="tag-kw">불안/걱정</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS220300513" data-name="정승원" data-date="2026-04-28" data-teacher="" data-masked="0">
-          <td>2026-04-28</td>
-          <td>정승원</td>
-          <td>CS220300513</td>
-          <td class="td-title">5월 1주차 결석 _ 4월 29일 12:30-2:00 개인 보강</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS230501565" data-name="김현" data-date="2026-04-28" data-teacher="" data-masked="0">
-          <td>2026-04-28</td>
-          <td>김현</td>
-          <td>CS230501565</td>
-          <td class="td-title">자소서 특강 상담/학생이 힘들어서 안하겠다고 함</td>
-          <td><span class="tag-kw">스트레스/압박감</span></td>
-          <td><span class="tag-kw">스트레스/압박감</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS250501225" data-name="김유이" data-date="2026-04-28" data-teacher="" data-masked="0">
-          <td>2026-04-28</td>
-          <td>김유이</td>
-          <td>CS250501225</td>
-          <td class="td-title">4월 정기상담</td>
+        <tr class="raw-row" data-std="CS251200225" data-name="김단우" data-date="2026-04-29" data-teacher="고희주" data-masked="0">
+          <td>2026-04-29</td>
+          <td>김단우</td>
+          <td>CS251200225</td>
+          <td class="td-title">첫 수업 후 상담(대면)</td>
           <td><span class="tag-kw">학습 어려움</span></td>
           <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
@@ -1248,26 +1306,50 @@ body {
           <td>박지원</td>
           <td>BS190800188</td>
           <td class="td-title">5월 휴회 예감 / 5월 가족 행사부터 여행, 친구생일까지 일정도 너무 많고 보강 잡기도 민망 / 한 달만 쉬면서 일정 정돈하고 6월 재입회 고민</td>
-          <td><span class="tag-kw">휴회</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS231103283" data-name="김서준" data-date="2026-04-28" data-teacher="" data-masked="0">
-          <td>2026-04-28</td>
-          <td>김서준</td>
-          <td>CS231103283</td>
-          <td class="td-title">4월 정기상담</td>
-          <td><span class="tag-kw">위험행동</span></td>
-          <td><span class="tag-kw">위험행동</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
         <tr class="raw-row" data-std="CS231203818" data-name="박영광" data-date="2026-04-28" data-teacher="" data-masked="0">
           <td>2026-04-28</td>
           <td>박영광</td>
           <td>CS231203818</td>
           <td class="td-title">4-6월 휴회 신청 & 상담</td>
-          <td><span class="tag-kw">휴회</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS240805014" data-name="윤하준" data-date="2026-04-28" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS231203818" data-name="박영광" data-date="2026-04-28" data-teacher="" data-masked="0">
+          <td>2026-04-28</td>
+          <td>박영광</td>
+          <td>CS231203818</td>
+          <td class="td-title">6월까지 wmo휴회 고민/ 1-1선행을 와이즈만 특강으로 하면서 휴회 안하는 방법 연락드리기로 </td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr class="raw-row" data-std="CS250300307" data-name="김민우" data-date="2026-04-28" data-teacher="" data-masked="0">
+          <td>2026-04-28</td>
+          <td>김민우</td>
+          <td>CS250300307</td>
+          <td class="td-title">askwhy (금)반 휴회 요청</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr class="raw-row" data-std="CS250501225" data-name="김유이" data-date="2026-04-28" data-teacher="김혜진" data-masked="0">
+          <td>2026-04-28</td>
+          <td>김유이</td>
+          <td>CS250501225</td>
+          <td class="td-title">4월 정기상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr class="raw-row" data-std="CS231103283" data-name="김서준" data-date="2026-04-28" data-teacher="이명랑" data-masked="0">
+          <td>2026-04-28</td>
+          <td>김서준</td>
+          <td>CS231103283</td>
+          <td class="td-title">4월 정기상담</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+        </tr>
+        <tr class="raw-row" data-std="CS240805014" data-name="윤하준" data-date="2026-04-28" data-teacher="이진경" data-masked="0">
           <td>2026-04-28</td>
           <td>윤하준</td>
           <td>CS240805014</td>
@@ -1275,15 +1357,15 @@ body {
           <td><span class="tag-kw">학습 어려움</span></td>
           <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS251203589" data-name="손재민" data-date="2026-04-28" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS251203589" data-name="손재민" data-date="2026-04-28" data-teacher="고희주" data-masked="0">
           <td>2026-04-28</td>
           <td>손재민</td>
           <td>CS251203589</td>
-          <td class="td-title">꽃가루 알러지 심해 4/28 결석 / 카카오채널</td>
-          <td><span class="tag-kw">건강문제</span></td>
-          <td><span class="tag-kw">건강문제</span></td>
+          <td class="td-title">5월 1주 결석 보강 체크 _ 부재중</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS211104288" data-name="이하민" data-date="2026-04-28" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS211104288" data-name="이하민" data-date="2026-04-28" data-teacher="이진경" data-masked="0">
           <td>2026-04-28</td>
           <td>이하민</td>
           <td>CS211104288</td>
@@ -1295,67 +1377,75 @@ body {
           <td>2026-04-28</td>
           <td>김주완</td>
           <td>CS220601295</td>
-          <td class="td-title">정기 상담</td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS231203818" data-name="박영광" data-date="2026-04-28" data-teacher="" data-masked="0">
-          <td>2026-04-28</td>
-          <td>박영광</td>
-          <td>CS231203818</td>
-          <td class="td-title">6월까지 wmo휴회 고민/ 1-1선행을 와이즈만 특강으로 하면서 휴회 안하는 방법 연락드리기로</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td class="td-title">교사변동안내드림</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
         <tr class="raw-row" data-std="CS220901577" data-name="송민정" data-date="2026-04-28" data-teacher="" data-masked="0">
           <td>2026-04-28</td>
           <td>송민정</td>
           <td>CS220901577</td>
-          <td class="td-title">정기상담</td>
+          <td class="td-title">교사변동안내드림</td>
           <td><span class="tag-kw">학습 어려움</span></td>
           <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS250601035" data-name="김호연" data-date="2026-04-28" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS250601035" data-name="김호연" data-date="2026-04-28" data-teacher="이진경" data-masked="0">
           <td>2026-04-28</td>
           <td>김호연</td>
           <td>CS250601035</td>
-          <td class="td-title">형성평가 후 정기상담</td>
+          <td class="td-title">형성평가 후 정기상담 </td>
           <td><span class="tag-kw">학습 어려움</span></td>
           <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS250300307" data-name="김민우" data-date="2026-04-28" data-teacher="" data-masked="0">
-          <td>2026-04-28</td>
-          <td>김민우</td>
-          <td>CS250300307</td>
-          <td class="td-title">askwhy (금)반 휴회 요청</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS250601067" data-name="임지윤" data-date="2026-04-28" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS250601067" data-name="임지윤" data-date="2026-04-28" data-teacher="김혜진" data-masked="0">
           <td>2026-04-28</td>
           <td>임지윤</td>
           <td>CS250601067</td>
           <td class="td-title">4월 정기상담</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">위험행동</span></td>
+          <td><span class="tag-kw">위험행동</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS241001176" data-name="윤재준" data-date="2026-04-28" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS241001176" data-name="윤재준" data-date="2026-04-28" data-teacher="이진경" data-masked="0">
           <td>2026-04-28</td>
           <td>윤재준</td>
           <td>CS241001176</td>
-          <td class="td-title">3월 정기상담</td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td class="td-title">3월 정기상담 </td>
+          <td><span class="tag-kw">건강문제</span></td>
+          <td><span class="tag-kw">건강문제</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS241100573" data-name="방성현" data-date="2026-04-28" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS241100573" data-name="방성현" data-date="2026-04-28" data-teacher="이진경" data-masked="0">
           <td>2026-04-28</td>
           <td>방성현</td>
           <td>CS241100573</td>
-          <td class="td-title">3월 정기상담</td>
+          <td class="td-title">3월 정기상담 </td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+        </tr>
+        <tr class="raw-row" data-std="CS220300513" data-name="정승원" data-date="2026-04-28" data-teacher="고희주" data-masked="0">
+          <td>2026-04-28</td>
+          <td>정승원</td>
+          <td>CS220300513</td>
+          <td class="td-title">5월 1주차 결석 _ 4월 29일 12:30-2:00 개인 보강</td>
           <td><span class="tag-kw">부적응</span></td>
           <td><span class="tag-kw">부적응</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS250400398" data-name="김현찬" data-date="2026-04-25" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS230501565" data-name="김현" data-date="2026-04-28" data-teacher="" data-masked="0">
+          <td>2026-04-28</td>
+          <td>김현</td>
+          <td>CS230501565</td>
+          <td class="td-title">자소서 특강 상담/학생이 힘들어서 안하겠다고 함</td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+        </tr>
+        <tr class="raw-row" data-std="CS251000946" data-name="이서진(대곡)" data-date="2026-04-25" data-teacher="" data-masked="0">
+          <td>2026-04-25</td>
+          <td>이서진(대곡)</td>
+          <td>CS251000946</td>
+          <td class="td-title">WTC수학응시예약(5/1) / 와이승급가능여부 궁금 / 교사변경 안내드림</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr class="raw-row" data-std="CS250400398" data-name="김현찬" data-date="2026-04-25" data-teacher="김근혜" data-masked="0">
           <td>2026-04-25</td>
           <td>김현찬</td>
           <td>CS250400398</td>
@@ -1363,52 +1453,44 @@ body {
           <td><span class="tag-kw">불안/걱정</span></td>
           <td><span class="tag-kw">불안/걱정</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS241101497" data-name="권은성" data-date="2026-04-25" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS241101497" data-name="권은성" data-date="2026-04-25" data-teacher="김근혜" data-masked="0">
           <td>2026-04-25</td>
           <td>권은성</td>
           <td>CS241101497</td>
           <td class="td-title">4월정기상담</td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
+          <td><span class="tag-kw">불안/걱정</span></td>
+          <td><span class="tag-kw">불안/걱정</span></td>
         </tr>
         <tr class="raw-row" data-std="CS241103087" data-name="강서연" data-date="2026-04-25" data-teacher="" data-masked="0">
           <td>2026-04-25</td>
           <td>강서연</td>
           <td>CS241103087</td>
-          <td class="td-title">전화결과상담(askwhat) / 과학에 관심 없고 흥미 없어서 방문하셨다고 함 / 과학 수업 시급함, 개념도 정확하지 않고 논리적 사고도 연습되어 있지 않음 / 빨리 결정해서 연락달라 말씀드림</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
+          <td class="td-title">전화결과상담(askwhat) / 과학에 관심 없고 흥미 없어서 방문하셨다고 함 / 과학 수업 시급함, 개념도 정확하지 않고 논리적 사고도 연습되어 있지 않음 / 빨리 결정해서 연락달라 말씀드림 </td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS251000946" data-name="이서진(대곡)" data-date="2026-04-25" data-teacher="" data-masked="0">
-          <td>2026-04-25</td>
-          <td>이서진(대곡)</td>
-          <td>CS251000946</td>
-          <td class="td-title">WTC수학응시예약(5/1) / 와이승급가능여부 궁금 / 교사변경 안내드림</td>
-          <td><span class="tag-kw">교사변경</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS211204763" data-name="김이준" data-date="2026-04-25" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS211204763" data-name="김이준" data-date="2026-04-25" data-teacher="김혜진" data-masked="0">
           <td>2026-04-25</td>
           <td>김이준</td>
           <td>CS211204763</td>
-          <td class="td-title">4/25 결석 / 병원왔는데 컨디션이 너무 안좋고 오늘 어차피 1시간밖에 수업 못하는 일정이라 결석 / 보강상담 요청</td>
-          <td><span class="tag-kw">건강문제</span></td>
-          <td><span class="tag-kw">건강문제</span></td>
+          <td class="td-title">4월 25일 수업 일정 관련 상담</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
         <tr class="raw-row" data-std="CS250700509" data-name="김도윤" data-date="2026-04-25" data-teacher="" data-masked="0">
           <td>2026-04-25</td>
           <td>김도윤</td>
           <td>CS250700509</td>
           <td class="td-title">WTC가 어떤 반인지 문의 / 서술이 안되어서 떨어질까 걱정/ 도윤이가 보기보다 욕심이 많다고 하심</td>
-          <td><span class="tag-kw">불안/걱정</span></td>
-          <td><span class="tag-kw">불안/걱정</span></td>
+          <td><span class="tag-kw">건강문제</span></td>
+          <td><span class="tag-kw">건강문제</span></td>
         </tr>
         <tr class="raw-row" data-std="CS250601402" data-name="서은채" data-date="2026-04-24" data-teacher="" data-masked="0">
           <td>2026-04-24</td>
           <td>서은채</td>
           <td>CS250601402</td>
           <td class="td-title">5월 휴회 /가족여행으로 3번 결석 확정이고, 4번째 수업도 빠질 가능성 있음 / 6월 재입회 확정이라 선납하겠다고 하심</td>
-          <td><span class="tag-kw">휴회</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
         <tr class="raw-row" data-std="BS190900026" data-name="허예원" data-date="2026-04-24" data-teacher="" data-masked="0">
@@ -1416,10 +1498,10 @@ body {
           <td>허예원</td>
           <td>BS190900026</td>
           <td class="td-title">예중 준비 예정 / 토요일 8~9시간 입시반 미술수업 듣게 됨 / 5월 과학 휴회, 25일 수업 결석 / 아직은 확정된 것 아니니 선생님들께는 말하지 말아달라고 하심</td>
-          <td><span class="tag-kw">휴회</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS251201916" data-name="김경재" data-date="2026-04-24" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS251201916" data-name="김경재" data-date="2026-04-24" data-teacher="고희주" data-masked="0">
           <td>2026-04-24</td>
           <td>김경재</td>
           <td>CS251201916</td>
@@ -1427,52 +1509,36 @@ body {
           <td><span class="tag-kw">학습 어려움</span></td>
           <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS251200225" data-name="김단우" data-date="2026-04-24" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS251200225" data-name="김단우" data-date="2026-04-24" data-teacher="이진경" data-masked="0">
           <td>2026-04-24</td>
           <td>김단우</td>
           <td>CS251200225</td>
-          <td class="td-title">3월 정기상담</td>
+          <td class="td-title">3월 정기상담 </td>
           <td><span class="tag-kw">학습 어려움</span></td>
           <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS250700935" data-name="이상윤" data-date="2026-04-23" data-teacher="" data-masked="0">
-          <td>2026-04-23</td>
-          <td>이상윤</td>
-          <td>CS250700935</td>
-          <td class="td-title">소마 탑반 재원 중이나, 실제 상윤이 실력이 그 정도인 것 같지는 않다고 하시며 어느 정도인지 객관적으로 점검하고 싶어하심 / WTC선발고사 권유(2~3학년 교과범위) / 연락주시기로 함</td>
-          <td><span class="tag-kw">불안/걱정</span></td>
-          <td><span class="tag-kw">불안/걱정</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS231103283" data-name="김서준" data-date="2026-04-23" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS231103283" data-name="김서준" data-date="2026-04-23" data-teacher="이명랑" data-masked="0">
           <td>2026-04-23</td>
           <td>김서준</td>
           <td>CS231103283</td>
           <td class="td-title">4월 정기상담</td>
-          <td><span class="tag-kw">컴플</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
           <td><span class="tag-kw">불만/분노</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS240200954" data-name="정시윤" data-date="2026-04-23" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS240200954" data-name="정시윤" data-date="2026-04-23" data-teacher="이명랑" data-masked="0">
           <td>2026-04-23</td>
           <td>정시윤</td>
           <td>CS240200954</td>
           <td class="td-title">4월 정기상담</td>
-          <td><span class="tag-kw">컴플레인</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
           <td><span class="tag-kw">불만/분노</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS240202542" data-name="전솔" data-date="2026-04-23" data-teacher="" data-masked="0">
-          <td>2026-04-23</td>
-          <td>전솔</td>
-          <td>CS240202542</td>
-          <td class="td-title">4월 정기상담</td>
-          <td><span class="tag-kw">건강문제</span></td>
-          <td><span class="tag-kw">건강문제</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS251101593" data-name="김주원" data-date="2026-04-23" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS251101593" data-name="김주원" data-date="2026-04-23" data-teacher="이명랑" data-masked="0">
           <td>2026-04-23</td>
           <td>김주원</td>
           <td>CS251101593</td>
           <td class="td-title">4월 정기상담</td>
-          <td><span class="tag-kw">휴회</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
         <tr class="raw-row" data-std="CS251101593" data-name="김주원" data-date="2026-04-23" data-teacher="" data-masked="0">
@@ -1480,64 +1546,72 @@ body {
           <td>김주원</td>
           <td>CS251101593</td>
           <td class="td-title">5월 휴회 / 집에 일이 있어 당분간 수업 불가, 라이딩 어려움 /집안일이라 구체적 사유는 말씀하지 않으심</td>
-          <td><span class="tag-kw">휴회</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS260400981" data-name="이재범" data-date="2026-04-22" data-teacher="" data-masked="0">
-          <td>2026-04-22</td>
-          <td>이재범</td>
-          <td>CS260400981</td>
-          <td class="td-title">4/29(수) 과학진단평가 예약 / 과학고진학목표인데 과학을 너무 안해서 WTC과학 커리큘럼 듣고 생각많으신 듯 / 우선 진단부터 보고 학습계획 세우자 권유드림</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
+        <tr class="raw-row" data-std="CS250700935" data-name="이상윤" data-date="2026-04-23" data-teacher="" data-masked="0">
+          <td>2026-04-23</td>
+          <td>이상윤</td>
+          <td>CS250700935</td>
+          <td class="td-title">WTC진단고사 보고싶어하셔서 연락/ 일정 고민하셔서 다시 전화하겠다하심/</td>
+          <td><span class="tag-kw">불안/걱정</span></td>
+          <td><span class="tag-kw">불안/걱정</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS250303915" data-name="이서진" data-date="2026-04-22" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS240202542" data-name="전솔" data-date="2026-04-23" data-teacher="이명랑" data-masked="0">
+          <td>2026-04-23</td>
+          <td>전솔</td>
+          <td>CS240202542</td>
+          <td class="td-title">4월 정기상담</td>
+          <td><span class="tag-kw">건강문제</span></td>
+          <td><span class="tag-kw">건강문제</span></td>
+        </tr>
+        <tr class="raw-row" data-std="CS250303915" data-name="이서진" data-date="2026-04-22" data-teacher="김희수" data-masked="0">
           <td>2026-04-22</td>
           <td>이서진</td>
           <td>CS250303915</td>
           <td class="td-title">상담</td>
-          <td><span class="tag-kw">휴회</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS210304680" data-name="조윤상" data-date="2026-04-22" data-teacher="" data-masked="0">
-          <td>2026-04-22</td>
-          <td>조윤상</td>
-          <td>CS210304680</td>
-          <td class="td-title">성취도평가상담</td>
-          <td><span class="tag-kw">건강문제</span></td>
-          <td><span class="tag-kw">건강문제</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
         <tr class="raw-row" data-std="CS240200954" data-name="정시윤" data-date="2026-04-22" data-teacher="" data-masked="0">
           <td>2026-04-22</td>
           <td>정시윤</td>
           <td>CS240200954</td>
           <td class="td-title">어머니께서 컴플레인 전화하심</td>
-          <td><span class="tag-kw">컴플레인</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS210102786" data-name="이민재" data-date="2026-04-22" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS210102786" data-name="이민재" data-date="2026-04-22" data-teacher="김희수" data-masked="0">
           <td>2026-04-22</td>
           <td>이민재</td>
           <td>CS210102786</td>
           <td class="td-title">4월휴회후 5월등원에 대한 상담</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
+        </tr>
+        <tr class="raw-row" data-std="CS210304680" data-name="조윤상" data-date="2026-04-22" data-teacher="김희수" data-masked="0">
+          <td>2026-04-22</td>
+          <td>조윤상</td>
+          <td>CS210304680</td>
+          <td class="td-title">성취도평가상담</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
         </tr>
         <tr class="raw-row" data-std="CS260301599" data-name="성채원" data-date="2026-04-22" data-teacher="" data-masked="0">
           <td>2026-04-22</td>
           <td>성채원</td>
           <td>CS260301599</td>
-          <td class="td-title">SAW-C-명랑-수-1510 5/6 2회차 수업부터 입반</td>
-          <td><span class="tag-kw">우울/무기력</span></td>
-          <td><span class="tag-kw">우울/무기력</span></td>
+          <td class="td-title">영재교육원 대비 특강 문의 / 토요일 1교시 WMO 권유 / 5월 1일 금요일 11시 30분 수학사고력 진단보기로 함.</td>
+          <td><span class="tag-kw">건강문제</span></td>
+          <td><span class="tag-kw">건강문제</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS230501199" data-name="임승아" data-date="2026-04-22" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS230501199" data-name="임승아" data-date="2026-04-22" data-teacher="고희주" data-masked="0">
           <td>2026-04-22</td>
           <td>임승아</td>
           <td>CS230501199</td>
           <td class="td-title">수업 전 상담 전화</td>
-          <td><span class="tag-kw">불만/분노</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">우울/무기력</span></td>
+          <td><span class="tag-kw">우울/무기력</span></td>
         </tr>
         <tr class="raw-row" data-std="CS260400786" data-name="오현지" data-date="2026-04-22" data-teacher="" data-masked="0">
           <td>2026-04-22</td>
@@ -1555,39 +1629,31 @@ body {
           <td><span class="tag-kw">학습 어려움</span></td>
           <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
-        <tr class="raw-row" data-std="AS121505683" data-name="권도준" data-date="2026-04-21" data-teacher="" data-masked="0">
-          <td>2026-04-21</td>
-          <td>권도준</td>
-          <td>AS121505683</td>
-          <td class="td-title">4월 정기 상담 (물리2)</td>
-          <td><span class="tag-kw">스트레스/압박감</span></td>
-          <td><span class="tag-kw">스트레스/압박감</span></td>
-        </tr>
-        <tr class="raw-row" data-std="AS121505683" data-name="권도준" data-date="2026-04-21" data-teacher="" data-masked="0">
-          <td>2026-04-21</td>
-          <td>권도준</td>
-          <td>AS121505683</td>
-          <td class="td-title">4월 정기 상담 (지학문풀)</td>
-          <td><span class="tag-kw">스트레스/압박감</span></td>
-          <td><span class="tag-kw">스트레스/압박감</span></td>
-        </tr>
-        <tr class="raw-row" data-std="AS121505683" data-name="권도준" data-date="2026-04-21" data-teacher="" data-masked="0">
-          <td>2026-04-21</td>
-          <td>권도준</td>
-          <td>AS121505683</td>
-          <td class="td-title">4월 정기 상담 (생명문풀)</td>
-          <td><span class="tag-kw">스트레스/압박감</span></td>
-          <td><span class="tag-kw">스트레스/압박감</span></td>
+        <tr class="raw-row" data-std="CS260400981" data-name="이재범" data-date="2026-04-22" data-teacher="" data-masked="0">
+          <td>2026-04-22</td>
+          <td>이재범</td>
+          <td>CS260400981</td>
+          <td class="td-title">4/29(수) 과학진단평가 예약 / 과학고진학목표인데 과학을 너무 안해서 WTC과학 커리큘럼 듣고 생각많으신 듯 / 우선 진단부터 보고 학습계획 세우자 권유드림</td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
         <tr class="raw-row" data-std="CS250400073" data-name="이서진" data-date="2026-04-21" data-teacher="" data-masked="0">
           <td>2026-04-21</td>
           <td>이서진</td>
           <td>CS250400073</td>
           <td class="td-title">4월부터 영어학원때문에 휴회 고려</td>
-          <td><span class="tag-kw">휴회</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS240100955" data-name="윤재열" data-date="2026-04-21" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS241001537" data-name="이재운" data-date="2026-04-21" data-teacher="이명랑" data-masked="0">
+          <td>2026-04-21</td>
+          <td>이재운</td>
+          <td>CS241001537</td>
+          <td class="td-title">4월 정기상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr class="raw-row" data-std="CS240100955" data-name="윤재열" data-date="2026-04-21" data-teacher="이명랑" data-masked="0">
           <td>2026-04-21</td>
           <td>윤재열</td>
           <td>CS240100955</td>
@@ -1600,48 +1666,88 @@ body {
           <td>김윤종</td>
           <td>CS260400986</td>
           <td class="td-title">과학진단평가 예약 4/23(목) 3시 / 강남서초영재원 과학으로 다니고 있는데 산출물 과제,발표하는걸 아이가 너무 어려워해서 도움 받을 수 있는지 / 산출물 준비를 목적으로 하는 특강은 없으나 정규수업을 통해 아이디어 얻을 수 있고 탐구수행과정 연습할 수 있다 안내드림</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS241001537" data-name="이재운" data-date="2026-04-21" data-teacher="" data-masked="0">
-          <td>2026-04-21</td>
-          <td>이재운</td>
-          <td>CS241001537</td>
-          <td class="td-title">4월 정기상담</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
         </tr>
         <tr class="raw-row" data-std="CS260200038" data-name="양시하" data-date="2026-04-21" data-teacher="" data-masked="0">
           <td>2026-04-21</td>
           <td>양시하</td>
           <td>CS260200038</td>
-          <td class="td-title">숙제 안해서 숙제 하는 중 / 모르는게 많다고 해서 수업 끝나고 클리닉 더 하고 갈 수 있는지 문의 / 남겨서 클리닉 시키기로 함</td>
+          <td class="td-title">4월 정기상담 (첫상담)</td>
           <td><span class="tag-kw">학습 어려움</span></td>
           <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS230600265" data-name="송하율" data-date="2026-04-21" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS230600265" data-name="송하율" data-date="2026-04-21" data-teacher="최명진" data-masked="0">
           <td>2026-04-21</td>
           <td>송하율</td>
           <td>CS230600265</td>
           <td class="td-title">정기 상담</td>
-          <td><span class="tag-kw">부적응</span></td>
-          <td><span class="tag-kw">부적응</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS221103535" data-name="남궁찬" data-date="2026-04-21" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS221103535" data-name="남궁찬" data-date="2026-04-21" data-teacher="최명진" data-masked="0">
           <td>2026-04-21</td>
           <td>남궁찬</td>
           <td>CS221103535</td>
           <td class="td-title">정기 상담</td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
-          <td><span class="tag-kw">대인관계 갈등</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">학습 어려움</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS250500464" data-name="이서연" data-date="2026-04-21" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS250500464" data-name="이서연" data-date="2026-04-21" data-teacher="최명진" data-masked="0">
           <td>2026-04-21</td>
           <td>이서연</td>
           <td>CS250500464</td>
           <td class="td-title">정기 상담</td>
-          <td><span class="tag-kw">학습 어려움</span></td>
-          <td><span class="tag-kw">학습 어려움</span></td>
+          <td><span class="tag-kw">부적응</span></td>
+          <td><span class="tag-kw">부적응</span></td>
+        </tr>
+        <tr class="raw-row" data-std="AS121505683" data-name="권도준" data-date="2026-04-21" data-teacher="이남희" data-masked="0">
+          <td>2026-04-21</td>
+          <td>권도준</td>
+          <td>AS121505683</td>
+          <td class="td-title">4월 정기 상담 (물리2)</td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+        </tr>
+        <tr class="raw-row" data-std="AS121505683" data-name="권도준" data-date="2026-04-21" data-teacher="이남희" data-masked="0">
+          <td>2026-04-21</td>
+          <td>권도준</td>
+          <td>AS121505683</td>
+          <td class="td-title">4월 정기 상담 (지학문풀)</td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+        </tr>
+        <tr class="raw-row" data-std="AS121505683" data-name="권도준" data-date="2026-04-21" data-teacher="이남희" data-masked="0">
+          <td>2026-04-21</td>
+          <td>권도준</td>
+          <td>AS121505683</td>
+          <td class="td-title">4월 정기 상담 (생명문풀)</td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+          <td><span class="tag-kw">스트레스/압박감</span></td>
+        </tr>
+        <tr class="raw-row" data-std="CS240902057" data-name="이시아" data-date="2026-04-18" data-teacher="" data-masked="0">
+          <td>2026-04-18</td>
+          <td>이시아</td>
+          <td>CS240902057</td>
+          <td class="td-title">4월 정기상담</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr class="raw-row" data-std="CS241001537" data-name="이재운" data-date="2026-04-18" data-teacher="" data-masked="0">
+          <td>2026-04-18</td>
+          <td>이재운</td>
+          <td>CS241001537</td>
+          <td class="td-title">4월 휴회 / 어머님 복직으로 라이딩 불가, 토요일도 일정도 뒤죽박죽이라 수업 어려움</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+        </tr>
+        <tr class="raw-row" data-std="CS250600864" data-name="김후영" data-date="2026-04-18" data-teacher="" data-masked="0">
+          <td>2026-04-18</td>
+          <td>김후영</td>
+          <td>CS250600864</td>
+          <td class="td-title">5월 재입회</td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
         <tr class="raw-row" data-std="CS260302632" data-name="박재원" data-date="2026-04-18" data-teacher="" data-masked="0">
           <td>2026-04-18</td>
@@ -1656,32 +1762,8 @@ body {
           <td>이서진</td>
           <td>CS210304136</td>
           <td class="td-title">첫 수업 후 상담</td>
-          <td><span class="tag-kw">불안/걱정</span></td>
-          <td><span class="tag-kw">불안/걱정</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS230700105" data-name="신우진" data-date="2026-04-18" data-teacher="" data-masked="0">
-          <td>2026-04-18</td>
-          <td>신우진</td>
-          <td>CS230700105</td>
-          <td class="td-title">오늘 우진이 컨디션이 안좋아서 어머님이 픽업 예정</td>
           <td><span class="tag-kw">건강문제</span></td>
           <td><span class="tag-kw">건강문제</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS240902057" data-name="이시아" data-date="2026-04-18" data-teacher="" data-masked="0">
-          <td>2026-04-18</td>
-          <td>이시아</td>
-          <td>CS240902057</td>
-          <td class="td-title">4월 정기상담</td>
-          <td><span class="tag-kw">안다니</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS240100955" data-name="윤재열" data-date="2026-04-18" data-teacher="" data-masked="0">
-          <td>2026-04-18</td>
-          <td>윤재열</td>
-          <td>CS240100955</td>
-          <td class="td-title">같은 반 학생 중 문제행동 하는 학생 있음 / 선생님과 학원측에서 조치 취해주길 요청 / 분리를 시키거나 약을 먹어야 하는거 아니냐 하심</td>
-          <td><span class="tag-kw">불만/분노</span></td>
-          <td><span class="tag-kw">불만/분노</span></td>
         </tr>
         <tr class="raw-row" data-std="CS210304136" data-name="이서진" data-date="2026-04-18" data-teacher="" data-masked="0">
           <td>2026-04-18</td>
@@ -1691,21 +1773,21 @@ body {
           <td><span class="tag-kw">건강문제</span></td>
           <td><span class="tag-kw">건강문제</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS241001537" data-name="이재운" data-date="2026-04-18" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS230700105" data-name="신우진" data-date="2026-04-18" data-teacher="" data-masked="0">
           <td>2026-04-18</td>
-          <td>이재운</td>
-          <td>CS241001537</td>
-          <td class="td-title">4월 휴회 / 어머님 복직으로 라이딩 불가, 토요일도 일정도 뒤죽박죽이라 수업 어려움</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td>신우진</td>
+          <td>CS230700105</td>
+          <td class="td-title">오늘 우진이 컨디션이 안좋아서 어머님이 픽업 예정</td>
+          <td><span class="tag-kw">불안/걱정</span></td>
+          <td><span class="tag-kw">불안/걱정</span></td>
         </tr>
-        <tr class="raw-row" data-std="CS250600864" data-name="김후영" data-date="2026-04-18" data-teacher="" data-masked="0">
+        <tr class="raw-row" data-std="CS240100955" data-name="윤재열" data-date="2026-04-18" data-teacher="" data-masked="0">
           <td>2026-04-18</td>
-          <td>김후영</td>
-          <td>CS250600864</td>
-          <td class="td-title">5월 재입회</td>
-          <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
+          <td>윤재열</td>
+          <td>CS240100955</td>
+          <td class="td-title">같은 반 학생 중 문제행동 하는 학생 있음 / 선생님과 학원측에서 조치 취해주길 요청 / 분리를 시키거나 약을 먹어야 하는거 아니냐 하심</td>
+          <td><span class="tag-kw">불만/분노</span></td>
+          <td><span class="tag-kw">불만/분노</span></td>
         </tr>
       </tbody>
     </table>

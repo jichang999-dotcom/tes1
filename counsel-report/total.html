@@ -228,7 +228,7 @@ body {
   <div class="tab-nav">
     <button class="tab-btn active" onclick="switchTab('overview')">센터 현황</button>
     <button class="tab-btn" onclick="switchTab('ranking')">센터 순위</button>
-    <button class="tab-btn" onclick="switchTab('keywords')">키워드 분석</button>
+    <button class="tab-btn" onclick="switchTab('keywords')">교사별 지표</button>
     <button class="tab-btn" onclick="switchTab('students')">주의 학생</button>
   </div>
 
@@ -663,68 +663,28 @@ body {
     </div>
   </div>
 
-  <!-- 탭3: 키워드 분석 -->
+  <!-- 탭3: 교사별 지표 (전 센터 통합) — SOP §7 -->
   <div id="tab-keywords" class="tab-panel">
     <div class="card">
-      <div class="card-title">전체 부정 감성 키워드 (13개 센터 합산)</div>
-      <ul class="keywordList">
-      <li class="keywordItem">
-        <div class="kw">🏃 이탈/포기 의사</div>
-        <div class="cnt">473건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:100%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">📚 학습 어려움</div>
-        <div class="cnt">431건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:91%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">📌 건강문제</div>
-        <div class="cnt">127건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:27%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">😠 불만/분노</div>
-        <div class="cnt">72건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:15%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">😤 스트레스/압박감</div>
-        <div class="cnt">60건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:13%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">😰 불안/걱정</div>
-        <div class="cnt">60건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:13%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">😣 부적응</div>
-        <div class="cnt">46건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:10%"></div></div>
-      </li>
-      <li class="keywordItem">
-        <div class="kw">😢 대인관계 갈등</div>
-        <div class="cnt">32건</div>
-      </li>
-      <li>
-        <div class="bar-bg"><div class="bar-fill" style="width:7%"></div></div>
-      </li>
-      </ul>
+      <div class="card-title">교사별 지표 (전 센터 통합 · 부정 건수 상위 30명)</div>
+      <div style="overflow-x:auto;"><table class="data-table">
+          <thead><tr>
+            <th style="width:34%;text-align:left;">센터</th>
+            <th style="width:18%;text-align:left;">교사명</th>
+            <th style="width:14%;">상담</th>
+            <th style="width:14%;">부정</th>
+            <th style="width:14%;">등급</th>
+          </tr></thead>
+          <tbody>
+          <tr>
+            <td style="text-align:left;">분당 영재입시센터 [중등관]</td>
+            <td style="text-align:left;">윤이현</td>
+            <td>1</td>
+            <td><strong>0</strong></td>
+            <td>—</td>
+          </tr>
+          </tbody>
+        </table></div>
     </div>
   </div>
 
@@ -961,7 +921,7 @@ body {
   </div>
 
   <div class="footer">
-    생성: 2026-05-18 11:30 KST · 분석 기간 29일 · 전체 13개 센터
+    생성: 2026-05-18 11:50 KST · 분석 기간 29일 · 전체 13개 센터
   </div>
 
 </div>

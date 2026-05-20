@@ -162,9 +162,10 @@
   .tab-btn.active-swing { background: #1f6feb33; color: #58a6ff; border-color: #1f6feb; }
   .tab-btn.active-long { background: #da363333; color: #f85149; border-color: #da3633; }
   .tab-btn.active-candidate { background: #f0883e33; color: #f0883e; border-color: #f0883e; }
+  .tab-btn.active-recommend { background: #8957e533; color: #b794f4; border-color: #8957e5; }
   .tab-btn.active-closed { background: #6e768133; color: #adbac7; border-color: #6e7681; }
   .tab-btn.active-summary { background: #3fb95033; color: #3fb950; border-color: #3fb950; }
-  .tab-btn:hover:not(.active-swing):not(.active-long):not(.active-candidate):not(.active-closed):not(.active-summary) { background: #21262d; color: #c9d1d9; }
+  .tab-btn:hover:not(.active-swing):not(.active-long):not(.active-candidate):not(.active-recommend):not(.active-closed):not(.active-summary) { background: #21262d; color: #c9d1d9; }
   .badge-candidate { background: #f0883e33; color: #f0883e; border: 1px solid #f0883e; }
   .badge-closed { background: #6e768133; color: #adbac7; border: 1px solid #6e7681; }
   .badge-realized { background: #23883233; color: #3fb950; border: 1px solid #238832; }
@@ -385,6 +386,7 @@
   <button class="tab-btn active-swing" onclick="switchTab('swing')" id="btn-swing">스윙</button>
   <button class="tab-btn" onclick="switchTab('long')" id="btn-long">중장기</button>
   <button class="tab-btn" onclick="switchTab('candidate')" id="btn-candidate">후보</button>
+  <button class="tab-btn" onclick="switchTab('recommend')" id="btn-recommend">🎯 추천</button>
   <button class="tab-btn" onclick="switchTab('closed')" id="btn-closed">🏁 종료</button>
   <button class="tab-btn" onclick="switchTab('summary')" id="btn-summary">📊 요약</button>
 </div>
@@ -4751,6 +4753,75 @@
 
 </div><!-- /tab-candidate -->
 
+<!-- ===== 🎯 추천 탭 (sop_테마발굴_보조지표.md §6 / 19:00 회차 collect_theme_flow.py 산출물 합류 지점) ===== -->
+<div class="tab-content" id="tab-recommend">
+
+<div class="highlight" style="margin-bottom:16px;background:#8957e522;border-left:4px solid #8957e5;">
+  🎯 <strong>추천 탭 (테마 발굴 + 외국인·기관 수급 보조지표)</strong> — 매일 <strong>19:00 회차에만</strong> 갱신됩니다 (장중 수급 미확정 → 10:30·15:10 회차는 영향 없음).<br>
+  <strong style="color:#b794f4;">데이터 소스</strong>: PyKRX (KRX 공식) · <strong style="color:#b794f4;">산출 흐름</strong>: collect_theme_flow.py → data/holdings_flow_{date}.json + data/theme_flow_{date}.json → claude_dante_analyze.js 정성 판단 → 본 탭 패치<br>
+  <span style="color:#d29922;">⚠️ 추천 종목은 차트 미확인 상태입니다. 사용자가 직접 차트 검토 후 §4.6.13 4지 선다(매수 / 후보 풀 편입 / 보류 / 패스) 응답 시에만 후보 풀 편입.</span>
+</div>
+
+<!-- ===== § A. 보유종목 외국인·기관 수급 현황 ===== -->
+<section id="holdings-flow-section">
+  <h2 style="color:#b794f4;">📊 A. 보유종목 외국인·기관 수급 현황</h2>
+  <p style="font-size:0.9em;color:#8b949e;margin:0 0 12px;">
+    활성·후보 종목별 외국인·기관 1일 / 5일 누적 / 20일 누적 순매수(억원) + 신호등. <strong>신호 기준</strong>: 🟢 호재(5일 +200억↑) / 🟡 중립 / 🔴 경고(5일 -100억↓ 또는 외국인·기관 동시 매도). 데이터는 <strong>당일 16:30 KRX 잠정치</strong> (다음 영업일 오전 최종 확정).
+  </p>
+  <div id="holdings-flow-table-wrapper" class="card" style="border-left:4px solid #b794f4;">
+    <p style="color:#8b949e;text-align:center;padding:24px 0;font-size:0.95em;">
+      ⏳ 다음 19:00 회차 (collect_theme_flow.py 실행) 후 자동 표시됩니다.<br>
+      <span style="font-size:0.85em;color:#6e7681;">claude_dante_analyze.js가 holdings_flow_{date}.json 을 읽어 본 영역을 자동 패치합니다.</span>
+    </p>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ===== § B. 신규 추천 (테마 발굴) ===== -->
+<section id="new-recommendations-section">
+  <h2 style="color:#b794f4;">🎯 B. 오늘의 신규 추천 (테마 발굴)</h2>
+  <p style="font-size:0.9em;color:#8b949e;margin:0 0 12px;">
+    KRX 21개 업종 + 코스닥 업종 중 <strong>5일 외국인+기관 순매수 합산 1위 업종</strong> 자동 선정 → 해당 업종 종목 중 <strong>단테 정량 1차 필터</strong>(§4.6.12 정합) 통과 5~10개에서 단테 점수 상위 <strong>3개</strong> 추출.
+  </p>
+
+  <div id="selected-sector-banner" class="highlight" style="background:#1a2838;border-left:4px solid #58a6ff;margin-bottom:16px;">
+    <strong style="color:#58a6ff;">📌 선정 업종</strong>: <span id="sector-name">(다음 19:00 회차 후 표시)</span> · <strong>5일 외국인+기관 누적</strong>: <span id="sector-flow-5d">—</span> · <strong>20일 누적</strong>: <span id="sector-flow-20d">—</span> · <strong>단테 통과 종목</strong>: <span id="sector-pass-count">—</span> / <span id="sector-total-count">—</span> (모집단)
+  </div>
+
+  <div id="recommendation-cards-wrapper">
+    <!-- collect_theme_flow.py + claude_dante_analyze.js 가 이 영역에 카드 3개 자동 삽입 -->
+    <div class="card" style="border-left:4px solid #8957e5;">
+      <p style="color:#8b949e;text-align:center;padding:32px 0;font-size:0.95em;">
+        ⏳ <strong>다음 19:00 회차 후 추천 종목 3개 카드가 자동 표시됩니다.</strong><br><br>
+        <span style="font-size:0.85em;color:#6e7681;">각 카드 구성 (sop_테마발굴_보조지표.md §5 정합):</span><br>
+        <span style="font-size:0.85em;color:#6e7681;">① 종목명·티커·시총 ② 단테 별점 ⭐1~5 + 단테 점수 0~100 ③ 파동 위치(엘리엇) + 추세 등급 ④ 외국인+기관 5일/20일 순매수 ⑤ 진입 시나리오 (1차a / 1차b / 2차 / 손절) ⑥ 진단 한 줄 ⑦ <strong style="color:#d29922;">⚠️ 차트 미확인 · 사용자 4지 선다 검토 필요 (§4.6.13)</strong></span>
+      </p>
+    </div>
+  </div>
+
+  <div class="warn-box" style="margin-top:16px;font-size:0.88em;">
+    ⚠️ <strong>주의사항</strong>:
+    ① <strong>추천 종목 = 자동 산출물</strong> · 차트 분석 미수행 → 사용자가 직접 차트 검토 필수.
+    ② <strong>4지 선다 응답 후에만 후보 풀 편입</strong> ([[feedback_buy_hold_decision_workflow]] / §4.6.13) — 자동 후보 편입 금지.
+    ③ <strong>1회성 산출</strong>: 4지 응답 후 stocks.json / AI단테.md §6 갱신 시에만 다음 회차 토스 자동 캡처 대상 추가.
+    ④ <strong>거부(패스) 시</strong>: 본 탭에서 다음 회차 자동 갱신으로 사라짐 + 메모리 기록 X (1회성).
+  </div>
+</section>
+
+<!-- ===== § C. 단테 정량 필터 + 동적 임계값 (디버그/참조용) ===== -->
+<section id="filter-debug-section" style="margin-top:24px;">
+  <h3 style="color:#8b949e;">🔧 C. 단테 정량 필터 임계값 (참조용)</h3>
+  <p style="font-size:0.85em;color:#8b949e;margin:0 0 8px;">
+    <strong>고정 조건</strong>: 112일선 위 + 224일선 위 + 이평 정렬 점수 ≥ 3 + 거래량 비율 0.7~1.5(눌림) 또는 1.5+(불타기 양봉 한정) + 시총 ≥ 1,000억 + 외국인+기관 5일 순매수 ≥ 100억. <strong>동적 조정</strong>: 통과 종목 5개 미만 시 완화 / 15개 초과 시 강화 (자동 1단계씩).
+  </p>
+  <p style="font-size:0.85em;color:#8b949e;margin:0;">
+    <strong>참조</strong>: <a href="sop_테마발굴_보조지표.md" style="color:#58a6ff;">sop_테마발굴_보조지표.md</a> §4 (1차 필터 룰) · §5 (Claude 정성 판단) · §7 (운영 룰)
+  </p>
+</section>
+
+</div><!-- /tab-recommend -->
+
 <!-- ===== 종료 (매매일지) 탭 ===== -->
 <div class="tab-content" id="tab-closed">
 
@@ -5868,6 +5939,7 @@ function switchTab(type) {
     swing: document.getElementById('tab-swing'),
     long: document.getElementById('tab-long'),
     candidate: document.getElementById('tab-candidate'),
+    recommend: document.getElementById('tab-recommend'),
     closed: document.getElementById('tab-closed'),
     summary: document.getElementById('tab-summary')
   };
@@ -5875,10 +5947,11 @@ function switchTab(type) {
     swing: document.getElementById('btn-swing'),
     long: document.getElementById('btn-long'),
     candidate: document.getElementById('btn-candidate'),
+    recommend: document.getElementById('btn-recommend'),
     closed: document.getElementById('btn-closed'),
     summary: document.getElementById('btn-summary')
   };
-  var activeClass = { swing: 'active-swing', long: 'active-long', candidate: 'active-candidate', closed: 'active-closed', summary: 'active-summary' };
+  var activeClass = { swing: 'active-swing', long: 'active-long', candidate: 'active-candidate', recommend: 'active-recommend', closed: 'active-closed', summary: 'active-summary' };
 
   Object.keys(tabs).forEach(function(k) {
     if (k === type) {

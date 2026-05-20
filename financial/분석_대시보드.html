@@ -4799,49 +4799,49 @@
 
 </div><!-- /tab-candidate -->
 
-<!-- ===== 🎯 추천 탭 (sop_테마발굴_보조지표.md §6 / 19:00 회차 collect_theme_flow.py 산출물 합류 지점) ===== -->
+<!-- ===== 🎯 추천 탭 (sop_테마발굴_보조지표.md §6 / 08:15 회차 밥그릇 2→3 전환 스캐너 합류 지점 · 2026-05-20 KRX OpenAPI 전환 재설계) ===== -->
 <div class="tab-content" id="tab-recommend">
 
 <div class="highlight" style="margin-bottom:16px;background:#8957e522;border-left:4px solid #8957e5;">
-  🎯 <strong>추천 탭 (테마 발굴 + 외국인·기관 수급 보조지표)</strong> — 매일 <strong>19:00 회차에만</strong> 갱신됩니다 (장중 수급 미확정 → 10:30·15:10 회차는 영향 없음).<br>
-  <strong style="color:#b794f4;">데이터 소스</strong>: PyKRX (KRX 공식) · <strong style="color:#b794f4;">산출 흐름</strong>: collect_theme_flow.py → data/holdings_flow_{date}.json + data/theme_flow_{date}.json → claude_dante_analyze.js 정성 판단 → 본 탭 패치<br>
+  🎯 <strong>추천 탭 (밥그릇 2→3 전환 스캐너 · 단테 §2.1 + §2.5.2 정합)</strong> — 매일 <strong>08:15 KST 회차에만</strong> 갱신됩니다 (장 시작 전 KRX 전일 확정 OHLCV 기준 · 10:30·15:10·19:00 회차는 토스 캡처 + 종목 분석으로 영향 없음).<br>
+  <strong style="color:#b794f4;">데이터 소스</strong>: KRX OpenAPI (<code>data-dbg.krx.co.kr/svc/apis</code>) · <strong style="color:#b794f4;">산출 흐름</strong>: collect_theme_flow.py (전 종목 OHLCV + 밥그릇 2→3 스캔) → data/theme_flow_{date}.json → claude_dante_analyze.js <code>--recommend-only</code> (Claude 정성 판단 + 진입 시나리오) → 본 탭 패치<br>
+  <strong style="color:#f0883e;">🚫 2026-05-20 폐지</strong>: 외국인·기관 수급(holdings_flow) 모듈 — KRX OpenAPI 미제공 / pykrx 라이브러리 유지보수 중단. 보유종목 수급 §A 섹션 완전 폐지 + 업종 단위 선정 → 시장 전체 일괄 밥그릇 스캔으로 전환.<br>
   <span style="color:#d29922;">⚠️ 추천 종목은 차트 미확인 상태입니다. 사용자가 직접 차트 검토 후 §4.6.13 4지 선다(매수 / 후보 풀 편입 / 보류 / 패스) 응답 시에만 후보 풀 편입.</span>
 </div>
 
-<!-- ===== § A. 보유종목 외국인·기관 수급 현황 ===== -->
-<section id="holdings-flow-section">
-  <h2 style="color:#b794f4;">📊 A. 보유종목 외국인·기관 수급 현황</h2>
-  <p style="font-size:0.9em;color:#8b949e;margin:0 0 12px;">
-    활성·후보 종목별 외국인·기관 1일 / 5일 누적 / 20일 누적 순매수(억원) + 신호등. <strong>신호 기준</strong>: 🟢 호재(5일 +200억↑) / 🟡 중립 / 🔴 경고(5일 -100억↓ 또는 외국인·기관 동시 매도). 데이터는 <strong>당일 16:30 KRX 잠정치</strong> (다음 영업일 오전 최종 확정).
-  </p>
-  <div id="holdings-flow-table-wrapper" class="card" style="border-left:4px solid #b794f4;">
-    <p style="color:#8b949e;text-align:center;padding:24px 0;font-size:0.95em;">
-      ⏳ 다음 19:00 회차 (collect_theme_flow.py 실행) 후 자동 표시됩니다.<br>
-      <span style="font-size:0.85em;color:#6e7681;">claude_dante_analyze.js가 holdings_flow_{date}.json 을 읽어 본 영역을 자동 패치합니다.</span>
+<!-- ===== § A. 보유종목 외국인·기관 수급 현황 — 2026-05-20 폐지 (KRX OpenAPI 미제공) ===== -->
+<section id="holdings-flow-section-deprecated">
+  <h2 style="color:#6e7681;text-decoration:line-through;">📊 A. 보유종목 외국인·기관 수급 현황 <span style="font-size:0.6em;color:#f85149;">🚫 폐지 (2026-05-20)</span></h2>
+  <div class="card" style="border-left:4px solid #6e7681;background:#1c1c2a;">
+    <p style="color:#8b949e;text-align:center;padding:20px 0;font-size:0.92em;">
+      🚫 <strong>본 섹션은 2026-05-20부로 완전 폐지되었습니다</strong> (sop_테마발굴_보조지표.md 2026-05-20 KRX OpenAPI 전환 결정).<br><br>
+      <span style="font-size:0.85em;color:#6e7681;">사유: KRX OpenAPI(공식)는 외국인·기관 보유종목 수급 데이터를 제공하지 않으며, 종전 PyKRX 라이브러리는 KRX 서버 응답 변경 + 유지보수 중단으로 신뢰도 확보 불가. holdings_flow 모듈 자체가 폐지되어 본 섹션은 영구 표시 불가합니다.<br>
+      대체 운영: 보유 종목의 단테 정합성 점검은 <strong>활성·후보 카드 5블록 차트 분석</strong>(§4.6.0 / [[reference_chart_image_overlay]])에서 관리.</span>
     </p>
   </div>
 </section>
 
 <hr class="section-divider">
 
-<!-- ===== § B. 신규 추천 (테마 발굴) ===== -->
+<!-- ===== 🎯 오늘의 밥그릇 2→3 전환 후보 (단일 추천 섹션) ===== -->
 <section id="new-recommendations-section">
-  <h2 style="color:#b794f4;">🎯 B. 오늘의 신규 추천 (테마 발굴)</h2>
+  <!-- RECOMMENDATIONS_PLACEHOLDER -->
+  <h2 style="color:#b794f4;">🎯 오늘의 밥그릇 2→3 전환 후보</h2>
   <p style="font-size:0.9em;color:#8b949e;margin:0 0 12px;">
-    KRX 21개 업종 + 코스닥 업종 중 <strong>5일 외국인+기관 순매수 합산 1위 업종</strong> 자동 선정 → 해당 업종 종목 중 <strong>단테 정량 1차 필터</strong>(§4.6.12 정합) 통과 5~10개에서 단테 점수 상위 <strong>3개</strong> 추출.
+    KRX OpenAPI 전 종목(KOSPI + KOSDAQ) OHLCV를 일괄 스캔하여 <strong>단테 §2.1 (밥그릇 4구간) + §2.5.2 (장기 이평 릴레이)</strong> 정합 <strong>밥그릇 2→3 전환</strong> 종목을 추출 → Claude 정성 판단으로 <strong>상위 3개</strong>를 추천. 종전 "업종 5일 합산 1위 → 해당 업종 통과 종목" 방식은 폐지.
   </p>
 
-  <div id="selected-sector-banner" class="highlight" style="background:#1a2838;border-left:4px solid #58a6ff;margin-bottom:16px;">
-    <strong style="color:#58a6ff;">📌 선정 업종</strong>: <span id="sector-name">(다음 19:00 회차 후 표시)</span> · <strong>5일 외국인+기관 누적</strong>: <span id="sector-flow-5d">—</span> · <strong>20일 누적</strong>: <span id="sector-flow-20d">—</span> · <strong>단테 통과 종목</strong>: <span id="sector-pass-count">—</span> / <span id="sector-total-count">—</span> (모집단)
+  <div id="scanner-stats-banner" class="highlight" style="background:#1a2838;border-left:4px solid #58a6ff;margin-bottom:16px;">
+    <strong style="color:#58a6ff;">📊 스캐너 통계</strong>: <strong>모집단</strong> <span id="universe-size">(다음 08:15 회차 후 표시)</span> 종목 · <strong>필터 통과</strong> <span id="passed-count">—</span>개 · <strong>점수 분포</strong> <span id="score-min">—</span>~<span id="score-max">—</span> · <strong>스캐너 버전</strong> <span id="scanner-version">bowl_2to3_v1 (2026-05-20)</span>
   </div>
 
   <div id="recommendation-cards-wrapper">
-    <!-- collect_theme_flow.py + claude_dante_analyze.js 가 이 영역에 카드 3개 자동 삽입 -->
+    <!-- claude_dante_analyze.js --recommend-only 가 이 영역에 카드 3개 자동 삽입 -->
     <div class="card" style="border-left:4px solid #8957e5;">
       <p style="color:#8b949e;text-align:center;padding:32px 0;font-size:0.95em;">
-        ⏳ <strong>다음 19:00 회차 후 추천 종목 3개 카드가 자동 표시됩니다.</strong><br><br>
-        <span style="font-size:0.85em;color:#6e7681;">각 카드 구성 (sop_테마발굴_보조지표.md §5 정합):</span><br>
-        <span style="font-size:0.85em;color:#6e7681;">① 종목명·티커·시총 ② 단테 별점 ⭐1~5 + 단테 점수 0~100 ③ 파동 위치(엘리엇) + 추세 등급 ④ 외국인+기관 5일/20일 순매수 ⑤ 진입 시나리오 (1차a / 1차b / 2차 / 손절) ⑥ 진단 한 줄 ⑦ <strong style="color:#d29922;">⚠️ 차트 미확인 · 사용자 4지 선다 검토 필요 (§4.6.13)</strong></span>
+        ⏳ <strong>다음 08:15 KST 회차 후 추천 종목 3개 카드가 자동 표시됩니다.</strong><br><br>
+        <span style="font-size:0.85em;color:#6e7681;">각 카드 구성 (sop_테마발굴_보조지표.md §5·§6 정합):</span><br>
+        <span style="font-size:0.85em;color:#6e7681;">① 종목명·티커·시장(KOSPI/KOSDAQ) ② 단테 별점 ⭐1~5 + 밥그릇 점수 0~100 ③ 돌파 종류 (224일선 신규 / 112일선 신규 / 릴레이 단계) ④ MA112·MA224·거래량 비율·매집 일수·박스 폭 ⑤ 진입 시나리오 4단 (1차a / 1차b / 2차 / 손절) ⑥ 진단 한 줄 ⑦ <strong style="color:#d29922;">⚠️ 차트 미확인 · 사용자 4지 선다 검토 필요 (§4.6.13)</strong></span>
       </p>
     </div>
   </div>
@@ -4852,17 +4852,30 @@
     ② <strong>4지 선다 응답 후에만 후보 풀 편입</strong> ([[feedback_buy_hold_decision_workflow]] / §4.6.13) — 자동 후보 편입 금지.
     ③ <strong>1회성 산출</strong>: 4지 응답 후 stocks.json / AI단테.md §6 갱신 시에만 다음 회차 토스 자동 캡처 대상 추가.
     ④ <strong>거부(패스) 시</strong>: 본 탭에서 다음 회차 자동 갱신으로 사라짐 + 메모리 기록 X (1회성).
+    ⑤ <strong>외국인·기관 수급 정보는 본 탭에서 제공하지 않습니다</strong> (KRX OpenAPI 미제공 / 2026-05-20 폐지).
   </div>
 </section>
 
-<!-- ===== § C. 단테 정량 필터 + 동적 임계값 (디버그/참조용) ===== -->
+<!-- ===== 🔧 단테 정량 필터 임계값 (밥그릇 2→3 전환 판정 룰) ===== -->
 <section id="filter-debug-section" style="margin-top:24px;">
-  <h3 style="color:#8b949e;">🔧 C. 단테 정량 필터 임계값 (참조용)</h3>
+  <h3 style="color:#8b949e;">🔧 단테 정량 필터 임계값 (밥그릇 2→3 전환 판정 · 참조용)</h3>
   <p style="font-size:0.85em;color:#8b949e;margin:0 0 8px;">
-    <strong>고정 조건</strong>: 112일선 위 + 224일선 위 + 이평 정렬 점수 ≥ 3 + 거래량 비율 0.7~1.5(눌림) 또는 1.5+(불타기 양봉 한정) + 시총 ≥ 1,000억 + 외국인+기관 5일 순매수 ≥ 100억. <strong>동적 조정</strong>: 통과 종목 5개 미만 시 완화 / 15개 초과 시 강화 (자동 1단계씩).
+    <strong>필수 조건 (모두 충족)</strong>:<br>
+    ① <strong>장기 이평 신규 돌파</strong> — 어제 종가 ≤ ma224(or ma112), 오늘 종가 > ma224(or ma112) (§2.5.2 "112/224일선 종가 돌파")<br>
+    ② <strong>양봉</strong> 시가 < 종가 (§2.5.2 "음봉 돌파는 가짜")<br>
+    ③ <strong>거래량 동반</strong> 당일 거래량 ≥ 20일 평균 × <strong>1.5배</strong><br>
+    ④ <strong>매집 기간</strong> 직전 120영업일 중 224일선 아래 머문 일수 ≥ <strong>70일</strong> (§2.1 "1·2구간 = 224일 아래 매집")<br>
+    ⑤ <strong>박스 폭 240일 ≤ 30%</strong> (§2.1 "좁은 횡보 매집" 정합 · 진동 큰 박스권 종목 컷 · 🆕 2026-05-20 추가)<br>
+    ⑥ <strong>시총 ≥ 1,000억</strong> (유동성 확보)
+  </p>
+  <p style="font-size:0.85em;color:#8b949e;margin:0 0 8px;">
+    <strong>제외 조건 (1개라도 해당 시 컷)</strong>: 음봉 + 거래량 2배+ (가짜 돌파 / 투매) · 224일선 위 +30%+ (3구간 중반 이상) · 매집 < 70일 · <strong>박스 폭 240일 > 30%</strong> · 신규 상장 224일 미만 · 시총 < 1,000억
+  </p>
+  <p style="font-size:0.85em;color:#8b949e;margin:0 0 8px;">
+    <strong>점수화 (0~100)</strong>: +35 돌파 종류(224 신규 35 / 112 신규+224위 30 / 112 신규+224아래 25) · +20 거래량 비율(≥2.0배 20 / 1.5~2.0 15 / 1.0~1.5 5) · +15 시가 대비 상승률(+3%↑ 15 / +1~3% 10 / 0~1% 5) · +15 112·224 수렴 보너스(≤3% 15 / ≤5% 10) · +10 매집 기간(≥90일 10 / ≥70일 5) · +5 MA5 > MA20 · <strong>상위 컷</strong>: score ≥ 50 → 상위 10개 저장 → Claude 정성 판단 후 <strong>상위 3개</strong> 노출
   </p>
   <p style="font-size:0.85em;color:#8b949e;margin:0;">
-    <strong>참조</strong>: <a href="sop_테마발굴_보조지표.md" style="color:#58a6ff;">sop_테마발굴_보조지표.md</a> §4 (1차 필터 룰) · §5 (Claude 정성 판단) · §7 (운영 룰)
+    <strong>참조</strong>: <a href="sop_테마발굴_보조지표.md" style="color:#58a6ff;">sop_테마발굴_보조지표.md</a> §4 (밥그릇 2→3 판정 룰) · §5 (Claude 정성 판단) · §7 (운영 룰) · AI단테.md §2.1 (밥그릇 4구간) · §2.5.2 (장기 이평 릴레이) · §4.8 (08:15 회차 추천 워크플로우 합류 지점)
   </p>
 </section>
 

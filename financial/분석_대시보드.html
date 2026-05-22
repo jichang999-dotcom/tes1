@@ -4805,11 +4805,7 @@
 <!-- ===== 🎯 오늘의 밥그릇 2→3 전환 후보 (단일 추천 섹션) ===== -->
 <section id="new-recommendations-section">
   
-<section id="new-recommendations" style="margin:24px 0;padding:16px;background:#161b22;border:1px solid #30363d;border-radius:8px;">
-  <h3 style="margin-top:0;">🎯 오늘의 밥그릇 2→3 전환 후보</h3>
-  <p style="color:#f0883e;">밥그릇 2→3 전환 후보 없음 (정량 필터 통과 0개)</p>
-</section>
-  <h2 style="color:#b794f4;">🎯 오늘의 밥그릇 2→3 전환 후보</h2>
+<h2 style="color:#b794f4;">🎯 오늘의 밥그릇 2→3 전환 후보</h2>
   <p style="font-size:0.9em;color:#8b949e;margin:0 0 12px;">
     KRX OpenAPI 전 종목(KOSPI + KOSDAQ) OHLCV를 일괄 스캔하여 <strong>단테 §2.1 (밥그릇 4구간) + §2.5.2 (장기 이평 릴레이)</strong> 정합 <strong>밥그릇 2→3 전환</strong> 종목을 추출 → Claude 정성 판단으로 <strong>상위 3개</strong>를 추천. 종전 "업종 5일 합산 1위 → 해당 업종 통과 종목" 방식은 폐지.
   </p>
@@ -6012,71 +6008,53 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 
-<section id="new-recommendations" style="margin:24px 0;padding:16px;background:#161b22;border:1px solid #30363d;border-radius:8px;">
-  <h3 style="margin-top:0;">🎯 오늘의 밥그릇 2→3 전환 후보</h3>
-  <p style="color:#f0883e;">KRX OpenAPI 스캐너(bowl_2to3_v1) 결과 candidates 배열이 비어있음(passed: 0 / scanned: 2886). 1차 정량 필터(시총 1000억+ · 거래량 1.5배+ · 224일선 정합) 통과 종목 0건으로 정성 판단 진입 불가. 다음 회차 스캐너 임계값 조정 또는 사용자 수동 후보 입력 후 재산출 필요.</p>
-</section>
 
 <section id="new-recommendations" style="margin:24px 0;padding:16px;background:#161b22;border:1px solid #30363d;border-radius:8px;">
-  <h3 style="margin-top:0;">🎯 오늘의 밥그릇 2→3 전환 후보</h3>
-  <p style="color:#f0883e;">1차 정량 필터(bowl_2to3_v1) 통과 종목 0건 - candidates 배열이 비어있어 단테 정성 판단 적용 불가. 다음 스캔 회차에서 통과 종목 발생 시 top3 재선정 예정</p>
-</section>
-
-<section id="new-recommendations" style="margin:24px 0;padding:16px;background:#161b22;border:1px solid #30363d;border-radius:8px;">
-  <h3 style="margin-top:0;">🎯 오늘의 밥그릇 2→3 전환 후보</h3>
-  <p style="color:#f0883e;">KRX OpenAPI 스캐너 결과 candidates 배열이 비어 있음 (universe 2886개 중 passed 0건 / min_score=0). 1차 정량 필터 통과 종목이 없어 단테 정통 정성 판단 적용할 모집단 자체가 부재. 다음 회차 스캐너 임계치(min_score_for_candidate=50 등) 재조정 또는 시장 회복 확인 후 재스캔 필요.</p>
-</section>
-
-<section id="new-recommendations" style="margin:24px 0;padding:16px;background:#161b22;border:1px solid #30363d;border-radius:8px;">
-  <h3 style="margin-top:0;">🎯 오늘의 밥그릇 2→3 전환 후보</h3>
-  <p style="color:#f0883e;">밥그릇 2→3 전환 후보 없음 (정량 필터 통과 0개)</p>
-</section>
-
-<section id="new-recommendations" style="margin:24px 0;padding:16px;background:#161b22;border:1px solid #30363d;border-radius:8px;">
-  <h3 style="margin-top:0;">🎯 오늘의 밥그릇 2→3 전환 후보</h3>
-  <p style="color:#f0883e;">KRX 스캐너 candidates 배열 비어있음 (passed: 0). 1차 정량 필터(밥그릇 2→3 구간 + 거래량 1.5배+ + 시총 1000억+ + 224일선 수렴) 통과 종목 부재 → 정성 판단 적용 대상 없음. 다음 회차 스캐너 결과 대기 권장</p>
-</section>
-
-<section id="new-recommendations" style="margin:24px 0;padding:16px;background:#161b22;border:1px solid #30363d;border-radius:8px;">
-  <h3 style="margin-top:0;">🎯 오늘의 밥그릇 2→3 전환 후보</h3>
-  <p style="color:#79c0ff;">밥그릇 2→3 전환 정량 통과 5종 중 §2.5.2 장기 이평 릴레이 + 양봉 정합 3종 선별 (음봉 1종·과도 눌림 1종 제외)</p>
+  <h3 style="margin-top:0;">🎯 오늘의 2구간 후반 눌림 후보</h3>
+  <p style="color:#79c0ff;">224 돌파 후 첫 눌림(2구간 후반) 정량 후보 3종 — 코웨이 신선 8일 + 서연이화·현대코퍼홀딩스 장기 이평 릴레이</p>
   
     <div style="background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:12px;margin-bottom:8px;">
       <div style="display:flex;justify-content:space-between;align-items:baseline;">
-        <strong style="font-size:1.05em;">#1 서연이화 <span style="color:#8b949e;font-size:0.85em;">200880 · KOSPI</span></strong>
-        <span style="color:#79c0ff;">⭐⭐⭐ 밥그릇 점수 77/100</span>
+        <strong style="font-size:1.05em;">#1 코웨이 <span style="color:#8b949e;font-size:0.85em;">021240 · KOSPI</span></strong>
+        <span style="color:#79c0ff;">⭐⭐⭐⭐ 눌림 점수 100/100</span>
       </div>
-      <div style="color:#3fb950;font-size:0.9em;margin:4px 0;font-weight:600;">112일선 ±3% 정확 지지 + 224일선 위 9.4% 안착 (밥그릇 3구간 안정기 진입 — fresh 29일 보통)</div>
-      <div style="color:#8b949e;font-size:0.85em;margin:2px 0;">MA112 14,100 · MA224 13,089 · 거래량 0.87배</div>
-      <div style="margin:6px 0;color:#c9d1d9;">5중 이평선(20·60·112·224) 정배열 + near_112 1.56% 정확 지지 + 건강 눌림 -4.91% + 양봉 = 정량/정성 모두 가장 안정적인 1순위 (시총 3,870억 유동성 OK)</div>
+      <div style="color:#3fb950;font-size:0.9em;margin:4px 0;font-weight:600;">224 돌파 8일전 신선 + 첫 눌림 (224 ±5% 지지, above_ma224 +3.65%) + 양봉 + 건강 눌림(-5.26%) + 거래량 0.9배 위축</div>
+      <div style="color:#8b949e;font-size:0.85em;margin:2px 0;">MA112 81,996 · MA224 90,397 · 돌파 8일전 · 눌림 -5.26% · 거래량 ×0.9</div>
+      <div style="color:#8b949e;font-size:0.85em;margin:2px 0;">🌊 엘리엇 2파 조정 마무리 → 3파 본격 진입 임박 (§2.1 밥그릇 3구간 진입 후보)</div>
+      <div style="margin:6px 0;font-size:0.85em;"><span style="display:inline-block;margin-right:6px;padding:2px 6px;background:#1f6feb22;border-radius:3px;color:#79c0ff;">✅ 2025 연간 영업이익 YoY +10.5%</span><span style="display:inline-block;margin-right:6px;padding:2px 6px;background:#1f6feb22;border-radius:3px;color:#79c0ff;">➕ 영업(잠정)실적(공정공시) (20260508)</span><span style="display:inline-block;margin-right:6px;padding:2px 6px;background:#1f6feb22;border-radius:3px;color:#79c0ff;">➕ 현금ㆍ현물배당결정 (20260507)</span></div>
+      <div style="margin:6px 0;color:#c9d1d9;">정량 100점 만점 + 신선 8일 + 영업이익 YoY +10.5% + 잠정실적 공시 가산 — 시총 6.6조 대형주 안정성 + 첫 눌림 신뢰도 최상위</div>
       <div style="font-size:0.9em;color:#c9d1d9;">
-        1차a <strong>14,400원 (당일 종가 14,320 위 양봉 안착 + 20일선 14,064 양봉 첫 돌파 확인 트리거)</strong> · 1차b <strong>14,180원 (1차a -1.5% 눌림 = 112일선 14,100 권역 정확 터치 시)</strong> · 2차 <strong>13,100원 (224일선 13,089 권역 — 밥그릇 3구간 하단 재시험 시 추가 분할)</strong> · 손절 <strong style="color:#f85149;">12,958원 (224일선 13,089 -1% 종가 이탈 — 밥그릇 2구간 회귀로 판정)</strong>
+        1차a <strong>91,000원 (224일선 90,397 +0.7% 안착 양봉 + 거래량 평균 1배 회복 시)</strong> · 1차b <strong>89,500원 (1차a -1.6% 추가 눌림 / 224일선 -1% 권역)</strong> · 2차 <strong>82,500원 (112일선 81,996 권역 / 직전 저점)</strong> · 손절 <strong style="color:#f85149;">88,300원 (1차a 91,000 -3% / 112일선 -1% 81,176보다 우선 발효)</strong>
       </div>
     </div>
 
     <div style="background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:12px;margin-bottom:8px;">
       <div style="display:flex;justify-content:space-between;align-items:baseline;">
-        <strong style="font-size:1.05em;">#2 KPX케미칼 <span style="color:#8b949e;font-size:0.85em;">025000 · KOSPI</span></strong>
-        <span style="color:#79c0ff;">⭐⭐⭐ 밥그릇 점수 70/100</span>
+        <strong style="font-size:1.05em;">#2 서연이화 <span style="color:#8b949e;font-size:0.85em;">200880 · KOSPI</span></strong>
+        <span style="color:#79c0ff;">⭐⭐⭐⭐ 눌림 점수 92/100</span>
       </div>
-      <div style="color:#3fb950;font-size:0.9em;margin:4px 0;font-weight:600;">§2.5.2 장기 이평 릴레이 교과서 — 112일선(50,564) ↔ 224일선(50,401) 차이 0.32% 극단 수렴 + 224 ±3% 정확 지지</div>
-      <div style="color:#8b949e;font-size:0.85em;margin:2px 0;">MA112 50,564 · MA224 50,401 · 거래량 0.9배</div>
-      <div style="margin:6px 0;color:#c9d1d9;">장기 이평 수렴도 1위 (112-224 차이 0.32%) — §2.5.2 정합 최강 신호. 단 pullback -10.18% 깊음·시총 2,242억 중소형 = 분할 진입 필수</div>
+      <div style="color:#3fb950;font-size:0.9em;margin:4px 0;font-weight:600;">224 돌파 29일 + 첫 눌림 (112 ±3% 정확 지지, near_112 +1.56%) + 양봉 + 건강 눌림(-4.91%) + 거래량 0.87배 위축</div>
+      <div style="color:#8b949e;font-size:0.85em;margin:2px 0;">MA112 14,100 · MA224 13,089 · 돌파 29일전 · 눌림 -4.91% · 거래량 ×0.87</div>
+      <div style="color:#8b949e;font-size:0.85em;margin:2px 0;">🌊 §2.5.2 장기 이평 릴레이 — 112일선 정확 지지 + 224일선 9.4% 이격 = 우상향 정배열 유효</div>
+      <div style="margin:6px 0;font-size:0.85em;"><span style="display:inline-block;margin-right:6px;padding:2px 6px;background:#1f6feb22;border-radius:3px;color:#79c0ff;">✅ 2025 연간 영업이익 YoY +4.8%</span><span style="display:inline-block;margin-right:6px;padding:2px 6px;background:#1f6feb22;border-radius:3px;color:#79c0ff;">➕ 현금ㆍ현물배당결정 (20260310)</span></div>
+      <div style="margin:6px 0;color:#c9d1d9;">112일선 ±1.56% 정확 지지 + 양봉 + 거래량 0.87배 = §4.4 1차a 안착 진입 정합 — 시총 3,870억 중형주 유동성 양호</div>
       <div style="font-size:0.9em;color:#c9d1d9;">
-        1차a <strong>51,800원 (당일 종가 51,200 위 양봉 + 20일선 52,610 회복 트리거)</strong> · 1차b <strong>51,000원 (1차a -1.5% = 60·112·224일선 3중 수렴 권역 51,000~50,400 첫 진입)</strong> · 2차 <strong>50,500원 (112일선 50,564 정확 터치 + 224일선 50,401 권역 동시 지지)</strong> · 손절 <strong style="color:#f85149;">49,900원 (224일선 50,401 -1% 종가 이탈 — 장기 이평 릴레이 실패 판정)</strong>
+        1차a <strong>14,200원 (112일선 14,100 +0.7% 안착 양봉 + 거래량 0.7~1.5배 트리거)</strong> · 1차b <strong>13,950원 (1차a -1.8% 추가 눌림 / 112일선 -1% 권역 13,959 정합)</strong> · 2차 <strong>13,200원 (224일선 13,089 권역 / 직전 저점 대기)</strong> · 손절 <strong style="color:#f85149;">13,750원 (1차a 14,200 -3% / 224일선 -1% 12,958보다 우선 발효)</strong>
       </div>
     </div>
 
     <div style="background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:12px;margin-bottom:8px;">
       <div style="display:flex;justify-content:space-between;align-items:baseline;">
-        <strong style="font-size:1.05em;">#3 코웨이 <span style="color:#8b949e;font-size:0.85em;">021240 · KOSPI</span></strong>
-        <span style="color:#79c0ff;">⭐⭐ 밥그릇 점수 82/100</span>
+        <strong style="font-size:1.05em;">#3 현대코퍼레이션홀딩스 <span style="color:#8b949e;font-size:0.85em;">227840 · KOSPI</span></strong>
+        <span style="color:#79c0ff;">⭐⭐⭐ 눌림 점수 75/100</span>
       </div>
-      <div style="color:#3fb950;font-size:0.9em;margin:4px 0;font-weight:600;">224일선 신규 돌파 (fresh 8일 신선) + 224 ±5% 권역 1차 눌림 회복 양봉 — §2.1 밥그릇 2→3 전환 본격 신호</div>
-      <div style="color:#8b949e;font-size:0.85em;margin:2px 0;">MA112 81,996 · MA224 90,397 · 거래량 0.9배</div>
-      <div style="margin:6px 0;color:#c9d1d9;">정량 점수 1위(82) + 시총 6.6조 대형주 안정성 + 신선 8일 돌파 = 후보군 내 추세 가장 빠름. 단 near_112 14.27% (112-224 수렴 약함) = §2.5.2 신호는 약하나 §2.1 신규 돌파 우위로 보완</div>
+      <div style="color:#3fb950;font-size:0.9em;margin:4px 0;font-weight:600;">224 돌파 25일 + 첫 눌림 (224 ±3% 지지, above_ma224 +1.84%) + 음봉 + 깊은 눌림(-11.36%) + 거래량 0.91배 위축</div>
+      <div style="color:#8b949e;font-size:0.85em;margin:2px 0;">MA112 12,578 · MA224 12,569 · 돌파 25일전 · 눌림 -11.36% · 거래량 ×0.91</div>
+      <div style="color:#8b949e;font-size:0.85em;margin:2px 0;">🌊 224·112일선 정확 수렴(12,569≈12,578) 권역 → 2파 깊은 조정 마무리 추정, 반등 트리거 대기 (음봉 진입 금지 §4.6.12)</div>
+      <div style="margin:6px 0;font-size:0.85em;"><span style="display:inline-block;margin-right:6px;padding:2px 6px;background:#1f6feb22;border-radius:3px;color:#79c0ff;">✅ 2025 연간 영업이익 YoY +9.6%</span><span style="display:inline-block;margin-right:6px;padding:2px 6px;background:#1f6feb22;border-radius:3px;color:#79c0ff;">➕ 현금ㆍ현물배당결정 (20260206)</span></div>
+      <div style="margin:6px 0;color:#c9d1d9;">224·112일선 정확 수렴 + 영업이익 YoY +9.6% — 단 음봉 -11.36% 깊은 눌림이라 §4.6.12 양봉 + 거래량 회복 트리거 발효 후 진입 필수, 시총 1,165억 소형주 유동성 주의</div>
       <div style="font-size:0.9em;color:#c9d1d9;">
-        1차a <strong>94,000원 (당일 종가 93,700 위 양봉 안착 + 신고가 갱신 시도 트리거)</strong> · 1차b <strong>92,600원 (1차a -1.5% 얕은 눌림 — 224일선 90,397 위 안전 권역)</strong> · 2차 <strong>90,500원 (224일선 90,397 권역 — 밥그릇 3구간 첫 지지 재시험 시 추가 분할)</strong> · 손절 <strong style="color:#f85149;">89,500원 (224일선 90,397 -1% 종가 이탈 — 가짜 돌파 판정 즉시 컷)</strong>
+        1차a <strong>12,700원 (224·112 수렴선 12,569 +1.0% 안착 양봉 + 거래량 평균 1배 회복 필수 / 음봉 -11.36% 깊음 → 양봉 첫 회복 확인 후 진입)</strong> · 1차b <strong>12,450원 (1차a -2.0% 추가 눌림 / 112일선 -1% 권역 12,452 정합)</strong> · 2차 <strong>12,200원 (직전 저점 / 224일선 -2.9% 권역 → 추가 이탈 시 손절 트리거)</strong> · 손절 <strong style="color:#f85149;">12,320원 (1차a 12,700 -3% / 112일선 -1% 12,452보다 우선 발효)</strong>
       </div>
     </div>
   <p class="highlight" style="margin-top:12px;padding:8px;background:#1f6feb22;border-left:3px solid #1f6feb;color:#79c0ff;font-size:0.9em;">⚠️ 신규 추천은 차트 미확인 상태. 사용자 차트 검토 후 §4.6.13 4지 선다(매수/후보 풀/보류/패스) 결정 필요.</p>

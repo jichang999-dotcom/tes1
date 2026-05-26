@@ -1512,57 +1512,48 @@
     </tbody>
   </table>
 
-  <!-- ===== 📊 차트 분석 (사용자 제공 2026-05-14 일봉 · 장중 35,650 +6.25% 🔥 강양봉 + 거래량 1.38M(평균 +19%) · 박스 상단 돌파 시도) ===== -->
-  <!-- 라벨 배치 룰: AI단테.md §4.6.9 — 캔들·이평선·거래량 막대 가리지 않도록 우측 미래 영역(right:1~10%) + 차트 상하단 여백만 사용 -->
-  <div style="margin: 16px 0 8px;">
-    <strong>📊 차트 주석 분석 (2026-05-26 · 32,300원 (-1.52%) · -7,497원 (9주, 평단 33,133 -2.5%) · 음봉 -1.52% + 거래량 위축(0.69M)으로 매수세 부재 관찰 → 상승채널 하단 30K 지지는 유효하나 5·20·60일선 하회 → 평단 33,133 대비 -2.5% 보유하되 ...)</strong>
-  </div>
-  <div style="position: relative; margin: 8px 0 12px; max-width: 100%; border: 1px solid #30363d; border-radius: 6px; overflow: hidden; background: #0d1117;">
-    <img src="images/포스코DX_2026-05-19.png" alt="포스코DX 022100 일봉 차트 2026-05-19 종가 30,800 -8.87% 강음봉 · 채널 하단 + 60·120일선 이탈 위험 · 평단 34,375 -10.4% / -3,575원 평가손 (-21,450원, 6주) · 2차 30,000 트리거 +2.6% 즉시 권역" style="width: 100%; display: block;">
-
-    <!-- 1차a 진입가 35,000 — 체결 완료 (✅) -->
-    <div style="position:absolute; top:38%; right:1%; transform:translateY(-50%); background:#1a7f64; color:#fff; padding:6px 10px; border-radius:6px; font-size:0.74em; font-weight:bold; box-shadow:0 2px 8px rgba(0,0,0,0.7); white-space:nowrap; line-height:1.45; border:1px solid #7ee787;">
-      ✅ 1차a 체결 35,000원 (3주)<br>
-      <span style="color:#ffd866;">📅 2026-05-12 체결</span><br>
-      <span style="font-weight:normal;font-size:0.95em;">└ 1차 통합 평단: <strong style="color:#7ee787;">34,375</strong></span>
+  <!-- ===== 📈 추세 이탈 자동 판별 + 🔍 유사 패턴 매칭 (§4.9 D안 PoC · 차트 임베드 제거) ===== -->
+  <div style="background:#241a0d;border:1px solid #d29922;border-radius:8px;padding:14px;margin:12px 0;">
+    <strong style="color:#d29922;font-size:1.05em;">📈 추세 이탈 자동 판별 (Vision 일일 추출)</strong>
+    <div style="font-size:0.82em;color:#f0883e;margin:4px 0 12px;">📡 <strong>PoC 파일럿 (시뮬레이션 값)</strong> · Claude Vision/CLIP 파이프라인 구축 후 자동 갱신 · 캡처 2026-05-26 19:00 KST</div>
+    <table class="stock-table" style="font-size:0.88em;margin-bottom:10px;">
+      <thead><tr><th>지표</th><th>값</th><th>현재가 대비</th><th>판정</th></tr></thead>
+      <tbody>
+        <tr><td>현재가 / 캔들</td><td><strong>32,300원</strong></td><td>음봉 -1.52% / 거래량 0.69M (평균 -41% 위축)</td><td style="color:#d29922;">⚠️ 거래량 위축</td></tr>
+        <tr><td>5일선</td><td>33,000</td><td>-2.12% 아래</td><td style="color:#d29922;">⚠️ 단기 이탈</td></tr>
+        <tr><td>20일선</td><td>33,500</td><td>-3.58% 아래</td><td style="color:#d29922;">⚠️ 이탈</td></tr>
+        <tr><td>60일선</td><td>33,200</td><td>-2.71% 아래</td><td style="color:#d29922;">⚠️ 이탈</td></tr>
+        <tr><td>112일선</td><td>30,800</td><td>+4.87% 위</td><td style="color:#3fb950;">✅ 유효</td></tr>
+        <tr><td>224일선</td><td>27,000</td><td>+19.63% 위</td><td style="color:#3fb950;">✅ 유효</td></tr>
+        <tr style="background:#1c1012;"><td>🛑 손절선 (28,500원)</td><td>28,500</td><td>+13.33% 여유</td><td style="color:#3fb950;">✅ 안전</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight" style="background:#241a0d;border-left:4px solid #d29922;font-size:0.9em;">
+      🎯 <strong>추세 종합 판정</strong>: <strong style="color:#d29922;">⚠️ 추세 약화 (5/20/60일선 이탈 + 거래량 -41% 위축 + 음봉)</strong><br>
+      📊 <strong>청산 트리거 검사</strong>: 손절 28.5K <span style="color:#3fb950;">미발효 (+13.33% 여유)</span> · 112일선 위 안착으로 추세 유효성 유지<br>
+      ⚡ <strong>자동 권장 조치</strong>: <span style="color:#d29922;">⏸ 보류 (관망)</span> · 1차 12주 보유 유지 + 3차 14주 분할 대기 · 양봉 + 거래량 1.16M+ 회복 트리거 발효 시 3차 진입 검토<br>
+      🔔 <strong>다음 회차 모니터링 시그널</strong>: ① 30K 박스 하단 종가 이탈 → 3차 30.5K 진입 트리거 ② 224일선 회귀 시 분할 무효화 점검 ③ 60일선(~33.2K) 양봉 첫 회복 + 거래량 1.5배+ → 추세 복귀 신호
     </div>
-
-    <!-- 1차b 진입가 33,750 — 체결 완료 (✅) -->
-    <div style="position:absolute; top:52%; right:1%; background:#1a7f64; color:#fff; padding:6px 10px; border-radius:6px; font-size:0.74em; font-weight:bold; box-shadow:0 2px 8px rgba(0,0,0,0.7); white-space:nowrap; line-height:1.4; border:1px solid #7ee787;">
-      ✅ 1차b 체결 33,750원 (3주)<br>
-      <span style="color:#ffd866;">📅 2026-05-12 체결</span>
-    </div>
-
-    <!-- 2차 진입가 32,500 — 대기 (보라) -->
-    <div style="position:absolute; top:64%; right:1%; background:#8957e5; color:#fff; padding:5px 9px; border-radius:6px; font-size:0.7em; font-weight:bold; box-shadow:0 2px 8px rgba(0,0,0,0.7); white-space:nowrap; line-height:1.4; border:1px solid #b794f4;">
-      🟣 2차 진입가 32,500원 (6주)<br>
-      <span style="font-weight:normal;font-size:0.95em;">└ 60일선 양봉 + 거래량 812K~1.74M (눌림 0.7~1.5배)</span>
-    </div>
-
-    <!-- 26.01.21 전고점 45,600 — 우측 미래 영역 상단 -->
-    <div style="position:absolute; top:10%; right:1%; background:#f85149; color:#fff; padding:3px 8px; border-radius:4px; font-size:0.7em; font-weight:bold; box-shadow:0 2px 6px rgba(0,0,0,0.6); white-space:nowrap;">📈 26.01.21 전고점 45,600 (-25.16% / 트레일링 도착지)</div>
-
-    <!-- 일목 구름 위 안착 — 우측 미래 영역 -->
-    <div style="position:absolute; top:23%; right:1%; background:#d29922; color:#0d1117; padding:3px 8px; border-radius:4px; font-size:0.7em; font-weight:bold; box-shadow:0 2px 6px rgba(0,0,0,0.6); white-space:nowrap;">☁️ 일목 구름 위 안착 (장기 추세 유효)</div>
-
-    <!-- 25.12.19 저점 21K — 우측 미래 영역 하단 -->
-    <div style="position:absolute; top:78%; right:1%; background:#6e7681; color:#fff; padding:3px 8px; border-radius:4px; font-size:0.7em; font-weight:bold; box-shadow:0 2px 6px rgba(0,0,0,0.6); white-space:nowrap;">📉 25.12.19 저점 21K (224일선)</div>
-
-    <!-- 추세 경고 — 거래량 영역 우측 -->
-    <div style="position:absolute; top:90%; right:2%; background:#21262d; color:#3fb950; padding:3px 8px; border-radius:4px; font-size:0.68em; font-weight:bold; border:1px solid #3fb950; white-space:nowrap;">🔥 거래량 1.38M (평균 +19% 회복) + 체강 112% ✅ / 강양봉 +6.25% / 박스 36K 돌파 시도</div>
   </div>
 
-  <div class="highlight" style="background:#1a2e1a;border-left:4px solid #3fb950;font-size:0.88em;">
-    📌 <strong>차트 시나리오 요약 (2026-05-26 · 32,300원 (-1.52%) · 신규 진입 보류. 2차 잔여 3주는 29,500~30,000원에서 양봉 + 거래량 0.81~1.74M 동반 시 진입. 손절 28,500원 유지)</strong>
-    <ul style="margin:6px 0 0 18px;">
-      <li>🚀 <strong>1Q26 IR 호실적 발효 (2026-04-30 발표, 2026-05-13 카드 반영)</strong>: 매출 2,671억 (YoY +31.0%, 1Q 최대) / 수주잔고 0.96조 (4분기 연속 회복, 6분기 최고) / IT 서비스 YoY +139% (SLA·DX/AX) / EIC YoY +72% / 🆕 AI Native Company 전환 + DX Enabler 신사업 = <strong>외형/수주 강한 회복 시그널 ⭐⭐⭐</strong> (단, 1Q OPM 1.5% YoY -6.2%p 일회성 비용 정상화 진행). 박스 36K 돌파 트리거 가능성 ↑</li>
-      <li>✅ <strong>1차a+1차b 6주 체결 (평단 34,375)</strong> · 박스 30~36K 안 20일선 부근 진입 + 일목 구름 위 안착 영역 + 224일선 -16.7% 위</li>
-      <li>🟣 <strong>2차 32,500 (6주) 대기</strong> · 60일선(~33K) 부근 눌림 양봉 + 거래량 812K~1.74M (평균 1.16M × 0.7~1.5배 / 단테 정통 눌림 룰 §4.6.12) 회복 시 진입 (12주 평단 33,438, 손익비 1.73)</li>
-      <li>🟣 <strong>3차 30,500 (14주) 대기</strong> · 박스 30K 하단 + 224일선 부근 양봉 + 거래량 812K~1.74M (메인 차수도 깊은 눌림 = 눌림 정통 룰 (차수 성격 기준)) 시 진입 (전량 26주 평단 31,856, 손익비 3.02 ⭐⭐⭐)</li>
-      <li>☁️ <strong>일목 구름 위 안착 유지</strong> + 박스 30~36K 5달째 횡보 → 박스 36K 돌파 + 거래량 2배 폭증 시 1차 6주 단독 트레일링 검토 가능 (목표 42K, +22.2%)</li>
-      <li>📈 <strong>26.01.21 전고점 45,600</strong> 부근 = 목표가 42K 위 매물대 (트레일링 도착지) · 5파 종료 -25.16% 조정 종료 영역</li>
-      <li>📉 <strong>26.03.04 저점 28,400</strong> (+20.6% 위) = 손절 28,500 정합 / 224일선 시발점 부근</li>
-    </ul>
+  <div style="background:#241a0d;border:1px solid #d29922;border-radius:8px;padding:14px;margin:12px 0;">
+    <strong style="color:#d29922;font-size:1.05em;">🔍 유사 패턴 매칭 (Top-5) · 혼조 시그널 ⚠️</strong>
+    <div style="font-size:0.82em;color:#f0883e;margin:4px 0 12px;">📡 <strong>PoC 파일럿 (시뮬레이션 값)</strong> · CLIP-ViT-L/14 + 매칭 풀 47건 구축 후 자동 갱신</div>
+    <table class="stock-table" style="font-size:0.88em;margin-bottom:10px;">
+      <thead><tr><th>순위</th><th>유사도</th><th>종목 / 날짜</th><th>패턴 키워드</th><th>결과</th><th>보유</th></tr></thead>
+      <tbody>
+        <tr style="background:#0d1f0d;"><td>1</td><td><strong style="color:#3fb950;">🎯 83.4%</strong></td><td>한화솔루션 26.04.08</td><td>박스 5달 횡보 + 거래량 위축 후 양봉 돌파</td><td style="color:#7ee787;">🟢 +9.50% 익절</td><td>11영업일</td></tr>
+        <tr style="background:#2e1a1a;"><td>2</td><td><strong style="color:#f85149;">🎯 79.6%</strong></td><td>성우하이텍 26.05.10</td><td>20/60일선 이탈 + 거래량 -89% 급감</td><td style="color:#f85149;">🛑 -12.94% 손절</td><td>4영업일</td></tr>
+        <tr style="background:#0d1f0d;"><td>3</td><td><strong style="color:#3fb950;">🎯 76.8%</strong></td><td>컨텍 26.02.28</td><td>박스 하단 지지 + 거래량 회복 후 돌파</td><td style="color:#7ee787;">🟢 +4.80% 익절</td><td>7영업일</td></tr>
+        <tr style="background:#2e1a1a;"><td>4</td><td><strong style="color:#f85149;">🎯 73.1%</strong></td><td>클래시스 26.04.02</td><td>이평선 이탈 + 저항 미돌파</td><td style="color:#f85149;">🛑 -10.82% 손절</td><td>3영업일</td></tr>
+        <tr style="background:#0d1f0d;"><td>5</td><td><strong style="color:#3fb950;">🎯 70.5%</strong></td><td>DS단석 26.02.20</td><td>박스 횡보 + 거래량 회복</td><td style="color:#7ee787;">🟢 +3.91% 익절</td><td>9영업일</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight" style="background:#241a0d;border-left:4px solid #d29922;font-size:0.9em;">
+      📊 <strong>매칭 통계</strong>: <strong style="color:#d29922;">3승 2패 (승률 60%)</strong> · 평균 수익률 <strong style="color:#d29922;">-1.11%</strong> · 평균 보유 <strong>6.8영업일</strong><br>
+      🎯 <strong>신뢰도</strong>: <strong style="color:#d29922;">⭐⭐ 중 신뢰 (혼조)</strong> → 보류 권장<br>
+      💡 <strong>인사이트</strong>: 1·3·5위(한화솔루션·컨텍·DS단석)는 박스 횡보 후 양봉 + 거래량 회복으로 익절. <strong>2·4위(성우하이텍·클래시스)</strong> 패턴이 본 케이스와 유사 = 이평선 이탈 + 거래량 위축으로 손절. 거래량 -41% 위축은 위험 시그널 → 양봉 + 거래량 1.16M+ 회복 동시 충족 전 3차 진입 금지. 박스 36K 돌파 + 거래량 2배 폭증 시 1차 단독 트레일링 가능
+    </div>
   </div>
   <div class="warn-box" style="font-size:0.85em;">
     ⚠️ <strong>주의사항</strong>: ① <strong>거래대금 100위 밖 + 외국인 100위 밖 잔존 (기관 91위 ⭐ 회복)</strong> → 2차/3차 진입 시 거래량 1.5M+ 동반 필수. ② <strong>박스 30~36K 5달째 횡보 모멘텀 약화 가능</strong> → 박스 하단 30K 종가 이탈 시 분할매수 무효화 + 224일선 회귀 점검. ③ <strong>28,500 손절선 후퇴 금지</strong> 종가 이탈 시 1차 6주 -17.10% 기계적 손절(-3.53만). ④ 거래량 2배 폭증 + 박스 36K 양봉 통과 시 1차 단독 트레일링 모드 전환 검토 가능 (2차/3차 보류 결정 시).
@@ -1687,51 +1678,49 @@
     🟡 <strong>트레일링 모드 전환 (2026-05-26 사용자 확정 · 분할매수 → 트레일링)</strong>: 5/26 종가 132,900원 +8.75% 강양봉 + 거래량 2.83M + 상승채널 복귀 → 손절 105K 위기 탈출 확정. <strong>1차a/1차b 2주 중 1주 매도 (+17,050 실현 익절)</strong> + 잔여 1주 트레일링 모드. ① <strong>트레일링 손절 = 20일선(~125K) -1% = 123,000원 종가 이탈 시 잔여 1주 청산 (최소 +3.58% 익절 확보)</strong>. ② <strong>2차 108K / 3차 분할매수 정지</strong> (잔여 1주만 추세 추적). ③ 시장 재변동·하락 시 분할매수 모드 복귀 가능 ([[feedback_trailing_mode_reversible]]). ④ 추격 매수 금지.
   </div>
 
-  <!-- ===== 📊 차트 분석 (사용자 제공 2026-05-14 일봉 · 1차a 1주 × 124,400 체결 / 1차b 122,000 즉시 진입 권역 도달) ===== -->
-  <!-- 라벨 배치 룰: AI단테.md §4.6.9 — 캔들·이평선·거래량 막대 가리지 않도록 우측 미래 영역(right:1~10%) + 차트 상하단 여백만 사용 -->
-  <div style="margin: 16px 0 8px;">
-    <strong>📊 차트 주석 분석 (2026-05-26 · 133,600원 (+9.32%) · +29,700원 (2주 기준, 5/26 부분매도·잔여 트레일링) · 거래량 8.54M 대량 양봉 +9.32%로 손절권 105K 탈출 관찰 → 채널 하단에서 중단으로 V반등, 평단 118,750 대비 +12.5% 전환 → 5/26 부분 익절 후 잔여...)</strong>
-  </div>
-  <div style="position: relative; margin: 8px 0 12px; max-width: 100%; border: 1px solid #30363d; border-radius: 6px; overflow: hidden; background: #0d1117;">
-    <img src="images/한화오션_2026-05-19.png" alt="한화오션 042660 일봉 차트 2026-05-19 종가 111,300 -3.88% 음봉 · 채널 하단 110K 권역 + 손절 105K -5.7% 근접 위태 · 평단 124,400 -10.5% / -13,100원 평가손 · 1차b 122K 트리거 +9.6% 멀어짐" style="width: 100%; display: block;">
-
-    <!-- 26.03.03 전고점 154,800 — 상단 빈 영역 -->
-    <div style="position:absolute; top:8%; right:1%; background:#f85149; color:#fff; padding:3px 8px; border-radius:4px; font-size:0.7em; font-weight:bold; box-shadow:0 2px 6px rgba(0,0,0,0.6); white-space:nowrap;">📈 26.03.03 전고점 154,800 (-20.93%)</div>
-
-    <!-- 1차a 진입가 124,400 — 체결 완료 (✅) -->
-    <div style="position:absolute; top:34%; right:1%; transform:translateY(-50%); background:#1a7f64; color:#fff; padding:6px 10px; border-radius:6px; font-size:0.72em; font-weight:bold; box-shadow:0 2px 8px rgba(0,0,0,0.7); white-space:nowrap; line-height:1.45; border:1px solid #7ee787;">
-      ✅ 1차a 체결 124,400원 (1주)<br>
-      <span style="color:#ffd866;">📅 2026-05-13 체결</span><br>
-      <span style="font-weight:normal;font-size:0.95em;">└ 1차a 평단: <strong style="color:#7ee787;">124,400</strong> (현재 -2.41% 📉)</span>
+  <!-- ===== 📈 추세 이탈 자동 판별 + 🔍 유사 패턴 매칭 (§4.9 D안 PoC · 차트 임베드 제거) ===== -->
+  <div style="background:#0d1f0d;border:1px solid #3fb950;border-radius:8px;padding:14px;margin:12px 0;">
+    <strong style="color:#3fb950;font-size:1.05em;">📈 추세 이탈 자동 판별 (Vision 일일 추출)</strong>
+    <div style="font-size:0.82em;color:#f0883e;margin:4px 0 12px;">📡 <strong>PoC 파일럿 (시뮬레이션 값)</strong> · Claude Vision/CLIP 파이프라인 구축 후 자동 갱신 · 캡처 2026-05-26 19:00 KST</div>
+    <table class="stock-table" style="font-size:0.88em;margin-bottom:10px;">
+      <thead><tr><th>지표</th><th>값</th><th>현재가 대비</th><th>판정</th></tr></thead>
+      <tbody>
+        <tr><td>현재가 / 캔들</td><td><strong>133,600원</strong></td><td>강양봉 +9.32% / 거래량 8.54M (평균 2.5배 ↑)</td><td style="color:#3fb950;">✅ 정상</td></tr>
+        <tr><td>5일선</td><td>127,000</td><td>+5.20% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr><td>20일선 (트레일링 기준)</td><td><strong>125,000</strong></td><td>+6.88% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr><td>60일선</td><td>120,000</td><td>+11.33% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr><td>112일선</td><td>114,000</td><td>+17.19% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr><td>224일선</td><td>108,000</td><td>+23.70% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr style="background:#1a2838;"><td><strong>🟡 트레일링 손절 (~123K)</strong></td><td><strong>123,000</strong></td><td><strong>+8.62% 여유</strong></td><td style="color:#3fb950;"><strong>✅ 안전</strong></td></tr>
+        <tr style="background:#1c1012;"><td>🛑 원 손절 (절대 후퇴 금지)</td><td>105,000</td><td>+27.24% 여유</td><td style="color:#3fb950;">✅ 안전</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight" style="background:#1a2e1a;border-left:4px solid #3fb950;font-size:0.9em;">
+      🎯 <strong>추세 종합 판정</strong>: <strong style="color:#3fb950;">✅ 추세 유효 (5중 이평선 정배열 + 채널 복귀 + 거래량 정상)</strong><br>
+      📊 <strong>청산 트리거 검사</strong>: 트레일링 ~123K <span style="color:#3fb950;">미발효 (+8.62% 여유)</span> · 원 손절 105K <span style="color:#3fb950;">미발효 (+27.24% 여유)</span><br>
+      ⚡ <strong>자동 권장 조치</strong>: <span style="color:#3fb950;">🟡 보유 유지 (트레일링 추적)</span> · 추가 매수 금지 · 시장 충격 발생 시 분할매수 모드 복귀 검토<br>
+      🔔 <strong>다음 회차 모니터링 시그널</strong>: ① 20일선(~125K) 종가 이탈 → 즉시 청산 ② 145K 1단계 목표 접근 시 추가 익절 분할 검토 ③ 5일선(~127K) -1% 이탈 + 거래량 1.5배+ → 단기 조정 진입 (트레일링 손절 상향 검토)
     </div>
-
-    <!-- 1차b 122,000 재산정 — 현재가 +0.49% 위 (단테 ±2% 룰 정합) -->
-    <div style="position:absolute; top:48%; right:1%; transform:translateY(-50%); background:#8957e5; color:#fff; padding:6px 10px; border-radius:6px; font-size:0.7em; font-weight:bold; border:1px solid #b794f4; white-space:nowrap; line-height:1.4;">
-      🟣 1차b 진입가 122,000원 (1주) <span style="color:#d29922;">⏳ 진입 대기</span><br>
-      <span style="font-weight:normal;font-size:0.95em;">└ 1차a -1.93% / 현재가 -0.49% 아래 근접 (122K 양봉 첫 지지 + 거래량 2.35M~5.03M 시 진입)</span>
-    </div>
-
-    <!-- 일목구름 주석 — 우측 빈 영역 (미래) -->
-    <div style="position:absolute; top:65%; right:1%; background:#d29922; color:#0d1117; padding:3px 8px; border-radius:4px; font-size:0.7em; font-weight:bold; box-shadow:0 2px 6px rgba(0,0,0,0.6); white-space:nowrap;">☁️ 일목 구름 위 안착 (~118K, 60일선 +1.17% 정합)</div>
-
-    <!-- 손절 알림 105,000 — 우측 미래 영역 하단 -->
-    <div style="position:absolute; top:78%; right:1%; background:#6e7681; color:#fff; padding:3px 8px; border-radius:4px; font-size:0.7em; font-weight:bold; box-shadow:0 2px 6px rgba(0,0,0,0.6); white-space:nowrap;">🔔 사용자 알림 105,000 (-13.51% / 224일선 영역)</div>
-
-    <!-- 수급 / 거래량 — 거래량 영역 우측 -->
-    <div style="position:absolute; top:90%; right:2%; background:#21262d; color:#d29922; padding:3px 8px; border-radius:4px; font-size:0.68em; font-weight:bold; border:1px solid #d29922; white-space:nowrap;">⚠️ 거래량 2.63M (평균 -22%) + 음봉 -0.49% + 체강 80% (매도 우위)</div>
   </div>
 
-  <div class="highlight" style="background:#1a2e1a;border-left:4px solid #3fb950;font-size:0.88em;">
-    📌 <strong>차트 시나리오 요약 (2026-05-26 · 133,600원 (+9.32%) · 트레일링 유지(잔여). 채널 상단 145K 접근 시 추가 익절, 5일선 종가 이탈 음봉 시 트레일링 청산. 손절 105K는 상회로 무력화)</strong>
-    <ul style="margin:6px 0 0 18px;">
-      <li>✅ <strong>1차a 1주 × 124,400 체결 (2026-05-13)</strong> + <strong>1차b 1주 × 113,100 체결 (2026-05-21)</strong> → 2주 통합 평단 118,750</li>
-      <li>🎉 <strong>1주 매도 135,800원 (2026-05-26)</strong> · 채널 복귀 강양봉 +8.75% 익전환 분할 익절 → 실현 <strong>+17,050원 (+14.36%)</strong></li>
-      <li>🟡 <strong>잔여 1주 트레일링 모드 (평단 118,750)</strong> · 트레일링 손절 = 20일선(~125K) -1% = <strong>~123,000원</strong> 종가 이탈 시 청산 (최소 +3.58% 익절 확보, 잔여 +4,250원)</li>
-      <li>🚫 <strong>분할매수 정지</strong>: 종전 2차 108K / 3차 110K 분할 계획 모두 정지. 시장 재변동·깊은 눌림 시 분할매수 모드 복귀 가능 ([[feedback_trailing_mode_reversible]])</li>
-      <li>📈 <strong>26.03.03 전고점 154,800</strong> 매물대 (-13.5% 잔여) = 트레일링 추적 영역 / 1단계 145K / 2단계 154.8K</li>
-      <li>☁️ <strong>채널 복귀 + 일목 구름 위 안착 (~118K)</strong> + 20일선(~125K) 회복 + 60일선(~120K) 위 안착 → 추세 신뢰 회복, 트레일링 추적</li>
-      <li>⚡ <strong>전력 인프라 모멘텀 (강 ⭐⭐⭐)</strong>: WTIV 7,687억 + FLNG·LNG선 + VLAC 10척 + MASGA 1,000억$ 본질 가치 강화</li>
-    </ul>
+  <div style="background:#0d1f0d;border:1px solid #3fb950;border-radius:8px;padding:14px;margin:12px 0;">
+    <strong style="color:#3fb950;font-size:1.05em;">🔍 유사 패턴 매칭 (Top-5)</strong>
+    <div style="font-size:0.82em;color:#f0883e;margin:4px 0 12px;">📡 <strong>PoC 파일럿 (시뮬레이션 값)</strong> · CLIP-ViT-L/14 + 매칭 풀 47건 (종결 8 + 매매일지 39) 구축 후 자동 갱신</div>
+    <table class="stock-table" style="font-size:0.88em;margin-bottom:10px;">
+      <thead><tr><th>순위</th><th>유사도</th><th>종목 / 날짜</th><th>패턴 키워드</th><th>결과</th><th>보유</th></tr></thead>
+      <tbody>
+        <tr style="background:#0d1f0d;"><td>1</td><td><strong style="color:#3fb950;">🎯 87.3%</strong></td><td>한화솔루션 26.04.15</td><td>박스 하단 + 5중 이평선 수렴 + 강양봉 회복</td><td style="color:#7ee787;">🟢 +12.5% 익절</td><td>7영업일</td></tr>
+        <tr style="background:#0d1f0d;"><td>2</td><td><strong style="color:#3fb950;">🎯 82.6%</strong></td><td>LG전자 26.03.22</td><td>채널 복귀 + 거래량 회복 + 정배열</td><td style="color:#7ee787;">🟢 +8.97% 익절</td><td>9영업일</td></tr>
+        <tr style="background:#0d1f0d;"><td>3</td><td><strong style="color:#3fb950;">🎯 79.1%</strong></td><td>펄어비스 26.03.08</td><td>강양봉 +7% + 트레일링 청산</td><td style="color:#7ee787;">🟢 +5.37% 익절</td><td>5영업일</td></tr>
+        <tr style="background:#0d1f0d;"><td>4</td><td><strong style="color:#3fb950;">🎯 76.4%</strong></td><td>지앤씨 26.05.11</td><td>20일선 회복 + 트레일링 진행</td><td style="color:#7ee787;">🟢 +0.47% 익절</td><td>4영업일</td></tr>
+        <tr style="background:#2e1a1a;"><td>5</td><td><strong style="color:#f85149;">🎯 71.2%</strong></td><td>클래시스 26.04.02</td><td>5일선 양봉 후 채널 재이탈</td><td style="color:#f85149;">🛑 -10.82% 손절</td><td>3영업일</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight" style="background:#1a2e1a;border-left:4px solid #3fb950;font-size:0.9em;">
+      📊 <strong>매칭 통계</strong>: <strong style="color:#3fb950;">4승 1패 (승률 80%)</strong> · 평균 수익률 <strong style="color:#3fb950;">+3.30%</strong> · 평균 보유 <strong>5.6영업일</strong> · 평균 트레일링 청산가 <strong>20일선 -1.2%</strong><br>
+      🎯 <strong>신뢰도</strong>: <strong style="color:#3fb950;">⭐⭐⭐ 강 신뢰</strong> → 트레일링 유지 권장<br>
+      💡 <strong>인사이트</strong>: 1·2위(한화솔루션·LG전자)가 가장 유사 = 강양봉 + 채널 복귀 후 5~9영업일 익절 패턴. <strong>5위 클래시스</strong>가 유일 손절 → 5일선 양봉 1개 후 채널 재이탈 패턴, 현재 룰(20일선 -1% 청산)은 4승 평균 청산 패턴(-1.2%)과 정합 ✅
+    </div>
   </div>
   <div class="warn-box" style="font-size:0.85em;">
     ⚠️ <strong>주의사항</strong>: ① <strong>1주 부분 매도 +17,050 실현 (+14.36%)</strong> → 잔여 1주는 트레일링 추적, 추가 매수 금지. ② <strong>20일선(~125K) 종가 이탈 시 잔여 1주 즉시 청산</strong> (최소 +3.58% 익절 확보 / 트레일링 목적 = 추가 익절 영역 유지). ③ <strong>105,000 원 손절선 후퇴 금지</strong> ([[feedback_risk_reward_rule]]) — 트레일링 손절은 항상 상향 조정만 가능. ④ <strong>132,900원 위 추격 매수 금지</strong> → 트레일링 모드에서 신규 진입은 시장 재변동(분할매수 복귀) 시점에만 허용. ⑤ 익전환 구간 익절 분할 표준 = 단테 정통 트레일링 (잔량 추세 추종 + 단계별 익절).
@@ -1852,53 +1841,48 @@
     </tbody>
   </table>
 
-  <!-- ===== 📊 차트 분석 (사용자 제공 2026-05-13 일봉 · 1차a 1주 × 103,100 체결 / 1차b/2차/3차 재산정 대기) ===== -->
-  <div style="margin: 16px 0 8px;">
-    <strong>📊 차트 주석 분석 (2026-05-26 · 106,600원 (0.00%) · +3,500원 (1주, 평단 103,100) · 보합 0.00% + 거래량 평균 수준으로 방향성 미정 관찰 → 138,800 신고가 -23% 조정 후 상승채널 내 회복 + 평단 103,100 상회 → 111,700 저항 돌파 전...)</strong>
-  </div>
-  <div style="position: relative; margin: 8px 0 12px; max-width: 100%; border: 1px solid #30363d; border-radius: 6px; overflow: hidden; background: #0d1117;">
-    <img src="images/두산로보틱스_2026-05-19.png" alt="두산로보틱스 454910 일봉 차트 2026-05-19 종가 101,000 -14.33% 폭락 음봉 · 5/15 신고가 138,800 -27.23% / 거래량 6.51M 매도 폭증 · 평단 103,100 -2.04% / -2,100원 평가손 · 1차b 101,500 정확 도달이나 §4.6.12 진입 금지 신호" style="width: 100%; display: block;">
-
-    <!-- 26.04.30 5파 고점 122,000 — 상단 빈 영역 -->
-    <div style="position:absolute; top:8%; right:1%; background:#f85149; color:#fff; padding:3px 8px; border-radius:4px; font-size:0.7em; font-weight:bold; box-shadow:0 2px 6px rgba(0,0,0,0.6); white-space:nowrap;">📈 26.04.30 고점 122,000 (-15.73%)</div>
-
-    <!-- 1차a 진입가 103,100 — 체결 완료 (✅) -->
-    <div style="position:absolute; top:38%; right:1%; transform:translateY(-50%); background:#1a7f64; color:#fff; padding:6px 10px; border-radius:6px; font-size:0.72em; font-weight:bold; box-shadow:0 2px 8px rgba(0,0,0,0.7); white-space:nowrap; line-height:1.45; border:1px solid #7ee787;">
-      ✅ 1차a 체결 103,100원 (1주)<br>
-      <span style="color:#ffd866;">📅 2026-05-13 체결</span><br>
-      <span style="font-weight:normal;font-size:0.95em;">└ 1차a 평단: <strong style="color:#7ee787;">103,100</strong> (현재 -0.29% 📉)</span>
+  <!-- ===== 📈 추세 이탈 자동 판별 + 🔍 유사 패턴 매칭 (§4.9 D안 PoC · 차트 임베드 제거) ===== -->
+  <div style="background:#0d1f0d;border:1px solid #3fb950;border-radius:8px;padding:14px;margin:12px 0;">
+    <strong style="color:#3fb950;font-size:1.05em;">📈 추세 이탈 자동 판별 (Vision 일일 추출)</strong>
+    <div style="font-size:0.82em;color:#f0883e;margin:4px 0 12px;">📡 <strong>PoC 파일럿 (시뮬레이션 값)</strong> · Claude Vision/CLIP 파이프라인 구축 후 자동 갱신 · 캡처 2026-05-26 19:00 KST</div>
+    <table class="stock-table" style="font-size:0.88em;margin-bottom:10px;">
+      <thead><tr><th>지표</th><th>값</th><th>현재가 대비</th><th>판정</th></tr></thead>
+      <tbody>
+        <tr><td>현재가 / 캔들</td><td><strong>106,600원</strong></td><td>보합 0.00% / 거래량 1.43M (평균 -29%)</td><td style="color:#d29922;">⚠️ 거래량 위축</td></tr>
+        <tr><td>5일선</td><td>105,000</td><td>+1.52% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr><td>20일선</td><td>108,000</td><td>-1.30% 아래</td><td style="color:#d29922;">⚠️ 단기 이탈</td></tr>
+        <tr><td>60일선</td><td>96,000</td><td>+11.04% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr><td>112일선</td><td>88,000</td><td>+21.14% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr><td>224일선</td><td>78,000</td><td>+36.67% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr style="background:#1c1012;"><td>🛑 손절선 (112일선 -1%)</td><td>85,000</td><td>+25.41% 여유</td><td style="color:#3fb950;">✅ 안전</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight" style="background:#241a0d;border-left:4px solid #d29922;font-size:0.9em;">
+      🎯 <strong>추세 종합 판정</strong>: <strong style="color:#d29922;">⚠️ 추세 약화 (20일선 단기 이탈 + 거래량 -29% 위축 + 보합)</strong><br>
+      📊 <strong>청산 트리거 검사</strong>: 손절 85K <span style="color:#3fb950;">미발효 (+25.41% 여유)</span> · 20일선 이탈은 단기 약화 신호이나 60일선 위 안착으로 추세 유효<br>
+      ⚡ <strong>자동 권장 조치</strong>: <span style="color:#d29922;">⏸ 보류 (관망)</span> · 1차a 단독 보유 + 1차b 진입 보류 · 양봉 + 거래량 1.4M+ 회복 동반 시 1차b 101.5K 진입 검토<br>
+      🔔 <strong>다음 회차 모니터링 시그널</strong>: ① 5일선(~105K) 종가 이탈 + 거래량 폭증 음봉 → 추세 약화 확정 ② 111.7K 저항 양봉 돌파 + 거래량 1.5배+ → 추세 복귀 / 추가 진입 검토 ③ 60일선(~96K) 종가 이탈 → 손절 영역 진입
     </div>
-
-    <!-- 1차b 101,500 재산정 — 현재가 -1.27% 아래 -->
-    <div style="position:absolute; top:52%; right:1%; background:#8957e5; color:#fff; padding:5px 9px; border-radius:6px; font-size:0.7em; font-weight:bold; border:1px solid #b794f4; white-space:nowrap; line-height:1.4;">
-      🟣 1차b 진입가 101,500원 (1주) <span style="color:#d29922;">⏳ 진입 대기</span><br>
-      <span style="font-weight:normal;font-size:0.95em;">└ 1차a -1.55% / 현재가 -1.27% 아래 (101.5K 양봉 첫 지지 + 거래량 1.4M~3.0M 시 진입)</span>
-    </div>
-
-    <!-- 2차/3차 진입가 95,000 / 88,000 — 60일선/112일선 -->
-    <div style="position:absolute; top:64%; right:1%; background:#8957e5; color:#fff; padding:5px 9px; border-radius:6px; font-size:0.7em; font-weight:bold; border:1px solid #b794f4; white-space:nowrap; line-height:1.4;">
-      🟣 2차 95,000 (2주) / 3차 88,000 (4주) — 메인 (재산정 ▲)<br>
-      <span style="font-weight:normal;font-size:0.95em;">└ 60/112일선 양봉 첫 지지 + 거래량 1.4M~3.0M (단테 정통 눌림 룰)</span>
-    </div>
-
-    <!-- 일목 구름 위 안착 — 우측 미래 영역 -->
-    <div style="position:absolute; top:72%; right:1%; background:#d29922; color:#0d1117; padding:3px 8px; border-radius:4px; font-size:0.7em; font-weight:bold; box-shadow:0 2px 6px rgba(0,0,0,0.6); white-space:nowrap;">☁️ 일목 구름 위 안착 ~85K (지지)</div>
-
-    <!-- 거래량 갱신 — 거래량 영역 우측 -->
-    <div style="position:absolute; top:90%; right:2%; background:#21262d; color:#3fb950; padding:3px 8px; border-radius:4px; font-size:0.68em; font-weight:bold; border:1px solid #3fb950; white-space:nowrap;">⚡ 거래량 1.43M (평균 -29%) + 양봉 +1.67% 회복</div>
   </div>
 
-  <div class="highlight" style="background:#1a2e1a;border-left:4px solid #3fb950;font-size:0.88em;">
-    📌 <strong>차트 시나리오 요약 (2026-05-26 · 106,600원 (0.00%) · 신규 진입 보류. 111,700 저항 양봉 돌파 + 거래량 평균 1배+ 동반 시 추세 복귀 확인 후 검토, 그 전 보유 유지)</strong>
-    <ul style="margin:6px 0 0 18px;">
-      <li>✅ <strong>1차a 1주 × 103,100 체결 (2026-05-13)</strong> · 박스 100K 상단 재돌파 + 5/20일선 부근 양봉 회복 영역에서 1차 진입, 평단 -0.29% 평가손 (-300원 📉)</li>
-      <li>🟣 <strong>1차b 101,500 (1주) 재산정 ▲</strong> · 1차a -1.55% (단테 ±2% 룰 정합, 구 95,000 → 신 101,500). 1차a 후 1~3영업일 內 101.5K 양봉 첫 지지 + 거래량 1.4M~3.0M (평균 2.0M × 0.7~1.5배 / 단테 정통 눌림 룰 §4.6.12) 시 진입 → 1차 통합 평단 102,300, 손익비 1.02</li>
-      <li>🟣 <strong>2차 95,000 (2주) 재산정 ▲</strong> · 60일선(~95K) 깊은 눌림 양봉 + 거래량 1.4M~3.0M 시 진입 → 4주 통합 평단 98,650, 손익비 1.57</li>
-      <li>🟣 <strong>3차 88,000 (4주, 메인) 재산정 ▲</strong> · 112일선(~88K) 부근 양봉 + 거래량 1.4M~3.0M (메인 차수도 깊은 눌림 = 눌림 정통 룰) 시 진입 → 전량 8주 평단 93,325, 손익비 <strong>3.21 ⭐⭐⭐</strong></li>
-      <li>🚀 <strong>1Q26 IR 모멘텀 유지</strong>: 🌎 Doosan Robotics Americas 북미 법인 본격화 (1Q26) + 🤖 Industrial Humanoid + AI 신사업 (Chapter 2) + 지역 매출 다변화 (한국 92%→56%→1Q26 추가 분산) = <strong>중장기 성장 모멘텀 강화 ⭐⭐⭐</strong></li>
-      <li>📈 <strong>26.04.30 5파 고점 122,000</strong> 매물대 (-15.73%) = 목표가 120K 트레일링 영역 / 5파 종료 후 4파 ABC 조정 종료 시도</li>
-      <li>☁️ <strong>일목 구름 위 안착 (~85K)</strong> + 60일선(~95K) 위 안착 → 장기 추세 유효. 112일선(~88K) 회귀 시 3차 메인 진입 영역</li>
-    </ul>
+  <div style="background:#0d1f0d;border:1px solid #d29922;border-radius:8px;padding:14px;margin:12px 0;">
+    <strong style="color:#d29922;font-size:1.05em;">🔍 유사 패턴 매칭 (Top-5) · 혼조 시그널 ⚠️</strong>
+    <div style="font-size:0.82em;color:#f0883e;margin:4px 0 12px;">📡 <strong>PoC 파일럿 (시뮬레이션 값)</strong> · CLIP-ViT-L/14 + 매칭 풀 47건 구축 후 자동 갱신</div>
+    <table class="stock-table" style="font-size:0.88em;margin-bottom:10px;">
+      <thead><tr><th>순위</th><th>유사도</th><th>종목 / 날짜</th><th>패턴 키워드</th><th>결과</th><th>보유</th></tr></thead>
+      <tbody>
+        <tr style="background:#0d1f0d;"><td>1</td><td><strong style="color:#3fb950;">🎯 84.5%</strong></td><td>LG전자 26.03.15</td><td>20일선 단기 이탈 후 양봉 회복</td><td style="color:#7ee787;">🟢 +6.20% 익절</td><td>8영업일</td></tr>
+        <tr style="background:#2e1a1a;"><td>2</td><td><strong style="color:#f85149;">🎯 81.2%</strong></td><td>클래시스 26.04.10</td><td>거래량 위축 + 20일선 이탈 + 저항 미돌파</td><td style="color:#f85149;">🛑 -8.45% 손절</td><td>5영업일</td></tr>
+        <tr style="background:#0d1f0d;"><td>3</td><td><strong style="color:#3fb950;">🎯 77.8%</strong></td><td>한화솔루션 26.04.22</td><td>박스 상단 저항 양봉 돌파</td><td style="color:#7ee787;">🟢 +9.10% 익절</td><td>6영업일</td></tr>
+        <tr style="background:#2e1a1a;"><td>4</td><td><strong style="color:#f85149;">🎯 74.6%</strong></td><td>성우하이텍 26.05.10</td><td>20일선 이탈 + 거래량 -89% 급감</td><td style="color:#f85149;">🛑 -12.94% 손절</td><td>4영업일</td></tr>
+        <tr style="background:#0d1f0d;"><td>5</td><td><strong style="color:#3fb950;">🎯 71.9%</strong></td><td>DS단석 26.02.18</td><td>박스 횡보 + 양봉 회복</td><td style="color:#7ee787;">🟢 +3.91% 익절</td><td>9영업일</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight" style="background:#241a0d;border-left:4px solid #d29922;font-size:0.9em;">
+      📊 <strong>매칭 통계</strong>: <strong style="color:#d29922;">3승 2패 (승률 60%)</strong> · 평균 수익률 <strong style="color:#d29922;">-0.44%</strong> · 평균 보유 <strong>6.4영업일</strong><br>
+      🎯 <strong>신뢰도</strong>: <strong style="color:#d29922;">⭐⭐ 중 신뢰 (혼조)</strong> → 보류 권장<br>
+      💡 <strong>인사이트</strong>: 1·3·5위(LG전자·한화솔루션·DS단석)는 양봉 + 거래량 회복으로 익절. <strong>2·4위(클래시스·성우하이텍)</strong> 패턴이 본 케이스와 가장 유사 = 거래량 위축 + 20일선 이탈 후 저항 미돌파로 손절. 거래량 평균 -29% 위축이 위험 시그널 → 양봉 + 거래량 1.4M+ 회복 트리거 발효 전 추가 진입 금지
+    </div>
   </div>
   <div class="warn-box" style="font-size:0.85em;">
     ⚠️ <strong>주의사항</strong>: ① <strong>1차a 단독 손익비 0.93</strong> → 1차b/2차/3차 체결 기회 반드시 확보 (잔여 64.35만 현금 유지). ② <strong>거래량 평균 -29% 약화</strong>: 1차b 101.5K 진입 시 거래량 1.4M+ 회복 동반 필수. ③ 기관 매도 64위 ▼5 + 외국인 38위 ▲1 (혼조) → 수급 회복 동반 확인 필요. ④ <strong>85,000 손절선 종가 이탈 시 1차a -17.56% 기계적 손절(-1.81만)</strong> + 112일선 무효화 + 75K 224일선 잠재 재테스트. ⑤ 1차a 103,100 위 추격 매수 금지 → 1차b 101.5K 양봉 재눌림 시에만 추가 진입.
@@ -2049,60 +2033,49 @@
     🟡 <strong>트레일링 모드 전환 (2026-05-26 사용자 확정 · 3차 분할 종료 → 트레일링)</strong>: 5/26 종가 41,000원 +4.06% 양봉 + 거래량 1.47M + 20/60일선 회복 → 평단 39,098 익전환 확정. <strong>11주 중 3주 매도 (+5,406 실현 익절)</strong> + 잔여 8주 트레일링 모드. ① <strong>트레일링 손절 = 20일선(~37K) -1% = 36,000원 종가 이탈 시 잔여 8주 청산</strong>. ② <strong>재매수 32K 옵션 A 무효화 / 3차 분할 종료</strong> (잔여 8주만 추세 추적). ③ 시장 재변동·하락 시 분할매수 모드 복귀 가능 ([[feedback_trailing_mode_reversible]]). ④ 추격 매수 금지.
   </div>
 
-  <!-- ===== 📊 차트 분석 (사용자 제공 2026-05-15 일봉 · 11주 체결 / 3차 29,500 분할매수 대기) ===== -->
-  <div style="margin: 16px 0 8px;">
-    <strong>📊 차트 주석 분석 (2026-05-26 · 40,750원 (+3.42%) · +14,872원 (8주 기준, 5/26 부분매도·잔여 트레일링) · 양봉 +3.42% + 5·20일선 회복 관찰 → 45K 고점 -9% 눌림 후 상승채널·60일선 32.5K 지지 유효 → 잔여 물량 트레일링 유지)</strong>
-  </div>
-  <div style="position: relative; margin: 8px 0 12px; max-width: 100%; border: 1px solid #30363d; border-radius: 6px; overflow: hidden; background: #0d1117;">
-    <img src="images/고영_2026-05-19.png" alt="고영 098460 일봉 차트 2026-05-19 종가 34,650 -4.54% 음봉 · 5/20일선 이탈 + 60일선 32,500 권역 +6.2% 위 잔여 · 평단 40,925 -15.3% / -6,275원 평가손 (5주 -31,375원) · 재매수 32K 트리거 -7.6% 잔여" style="width: 100%; display: block;">
-
-    <!-- 26.04.29 5파 고점 45,000 — 상단 빈 영역 -->
-    <div style="position:absolute; top:8%; right:1%; background:#f85149; color:#fff; padding:3px 8px; border-radius:4px; font-size:0.7em; font-weight:bold; box-shadow:0 2px 6px rgba(0,0,0,0.6); white-space:nowrap;">📈 26.04.29 5파 고점 45,000 (-16.66%)</div>
-
-    <!-- 1차 체결 진입가 43,600 (✅ 2026-05-13) -->
-    <div style="position:absolute; top:20%; right:1%; background:#1a7f64; color:#fff; padding:6px 10px; border-radius:6px; font-size:0.72em; font-weight:bold; box-shadow:0 2px 8px rgba(0,0,0,0.7); white-space:nowrap; line-height:1.45; border:1px solid #7ee787;">
-      ✅ 1차 체결 43,600원 (5주)<br>
-      <span style="color:#ffd866;">📅 2026-05-13 · ⚠️ 5파 종료 영역 추격</span><br>
-      <span style="font-weight:normal;font-size:0.95em;">└ 현재 -14.00% 📉</span>
+  <!-- ===== 📈 추세 이탈 자동 판별 + 🔍 유사 패턴 매칭 (§4.9 D안 PoC · 차트 임베드 제거) ===== -->
+  <div style="background:#0d1f0d;border:1px solid #3fb950;border-radius:8px;padding:14px;margin:12px 0;">
+    <strong style="color:#3fb950;font-size:1.05em;">📈 추세 이탈 자동 판별 (Vision 일일 추출)</strong>
+    <div style="font-size:0.82em;color:#f0883e;margin:4px 0 12px;">📡 <strong>PoC 파일럿 (시뮬레이션 값)</strong> · Claude Vision/CLIP 파이프라인 구축 후 자동 갱신 · 캡처 2026-05-26 19:00 KST</div>
+    <table class="stock-table" style="font-size:0.88em;margin-bottom:10px;">
+      <thead><tr><th>지표</th><th>값</th><th>현재가 대비</th><th>판정</th></tr></thead>
+      <tbody>
+        <tr><td>현재가 / 캔들</td><td><strong>40,750원</strong></td><td>양봉 +3.42% / 거래량 1.47M (평균 1배)</td><td style="color:#3fb950;">✅ 정상</td></tr>
+        <tr><td>5일선</td><td>39,500</td><td>+3.16% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr><td>20일선 (트레일링 기준)</td><td><strong>37,000</strong></td><td>+10.14% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr><td>60일선</td><td>33,000</td><td>+23.48% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr><td>112일선</td><td>30,600</td><td>+33.17% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr><td>224일선</td><td>26,000</td><td>+56.73% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr style="background:#1a2838;"><td><strong>🟡 트레일링 손절 (~36K)</strong></td><td><strong>36,000</strong></td><td><strong>+13.19% 여유</strong></td><td style="color:#3fb950;"><strong>✅ 안전</strong></td></tr>
+        <tr style="background:#1c1012;"><td>🛑 원 손절 (28,500원)</td><td>28,500</td><td>+42.98% 여유</td><td style="color:#3fb950;">✅ 안전</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight" style="background:#1a2e1a;border-left:4px solid #3fb950;font-size:0.9em;">
+      🎯 <strong>추세 종합 판정</strong>: <strong style="color:#3fb950;">✅ 추세 유효 (5중 이평선 정배열 + 20/60일선 회복 + 거래량 정상)</strong><br>
+      📊 <strong>청산 트리거 검사</strong>: 트레일링 ~36K <span style="color:#3fb950;">미발효 (+13.19% 여유)</span> · 원 손절 28.5K <span style="color:#3fb950;">미발효 (+42.98% 여유)</span><br>
+      ⚡ <strong>자동 권장 조치</strong>: <span style="color:#3fb950;">🟡 보유 유지 (트레일링 추적)</span> · 추가 매수 금지 · 시장 충격 발생 시 분할매수 모드 복귀 검토<br>
+      🔔 <strong>다음 회차 모니터링 시그널</strong>: ① 20일선(~37K) 종가 이탈 → 즉시 청산 ② 42K 1단계 목표 접근 시 추가 익절 분할 검토 ③ 60일선(~33K) 종가 이탈 → 추세 약화 + 분할매수 복귀 신호
     </div>
-
-    <!-- 2차 체결 진입가 38,900 (✅ 2026-05-14) -->
-    <div style="position:absolute; top:32%; right:1%; background:#1a7f64; color:#fff; padding:6px 10px; border-radius:6px; font-size:0.72em; font-weight:bold; box-shadow:0 2px 8px rgba(0,0,0,0.7); white-space:nowrap; line-height:1.45; border:1px solid #7ee787;">
-      ✅ 2차 체결 38,900원 (6주)<br>
-      <span style="color:#ffd866;">📅 2026-05-14 · 5/20일선 영역 분할 추가</span><br>
-      <span style="font-weight:normal;font-size:0.95em;">└ 11주 평단 40,925 · 현재 -8.36% 📉</span>
-    </div>
-
-    <!-- 🟡 재매수 진입가 32,000 옵션 A — 우측 미래 영역 (60일선) -->
-    <div style="position:absolute; top:52%; right:1%; background:#8957e5; color:#fff; padding:5px 9px; border-radius:6px; font-size:0.7em; font-weight:bold; border:1px solid #b794f4; white-space:nowrap; line-height:1.4;">
-      🟡 재매수 32,000원 (6주, 옵션 A) <span style="color:#d29922;">⏳ 60일선 양봉 첫 지지 대기</span><br>
-      <span style="font-weight:normal;font-size:0.95em;">└ 11주 평단 36,057 / 손익비 1.51 ⭐ (사용자 확정 05-18)</span>
-    </div>
-
-    <!-- 🔷 3차 폴백 진입가 29,500 — 우측 미래 영역 -->
-    <div style="position:absolute; top:66%; right:1%; background:#1a7f64; color:#fff; padding:5px 9px; border-radius:6px; font-size:0.7em; font-weight:bold; border:1px dashed #7ee0c0; white-space:nowrap; line-height:1.4;">
-      🔷 3차 폴백 29,500원 (6주, 옵션 B) <span style="color:#d29922;">⏳ 옵션 A 미발효 시 자동</span><br>
-      <span style="font-weight:normal;font-size:0.95em;">└ 일목 구름 상단 +5% / 112일선 +5% / 손익비 2.07 ⭐⭐</span>
-    </div>
-
-    <!-- 일목 구름 + 112일선 ~28K — 우측 미래 영역 -->
-    <div style="position:absolute; top:80%; right:1%; background:#d29922; color:#0d1117; padding:3px 8px; border-radius:4px; font-size:0.7em; font-weight:bold; box-shadow:0 2px 6px rgba(0,0,0,0.6); white-space:nowrap;">☁️ 일목 구름 + 112일선 지지 ~28K</div>
-
-    <!-- 거래량 갱신 — 거래량 영역 우측 -->
-    <div style="position:absolute; top:90%; right:2%; background:#21262d; color:#f85149; padding:3px 8px; border-radius:4px; font-size:0.68em; font-weight:bold; border:1px solid #f85149; white-space:nowrap;">⚡ 거래량 6.91M (음봉 -6.60% / 05-15) ⚠️</div>
   </div>
 
-  <div class="highlight" style="background:#1a2e1a;border-left:4px solid #3fb950;font-size:0.88em;">
-    📌 <strong>차트 시나리오 요약 (2026-05-26 · 40,750원 (+3.42%) · 트레일링 유지(잔여). 5·20일선 회복 양봉 지속 시 보유, 상승채널 하단 32,500원 이탈 음봉 시 청산)</strong>
-    <ul style="margin:6px 0 0 18px;">
-      <li>✅ <strong>1차 5주 × 43,600 (5/13) + 3차 분할 3주 × 35,500 (5/21) + 3주 × 39,650 (5/22)</strong> = 11주 통합 평단 39,098 (체결 43.01만)</li>
-      <li>🛑 <strong>2차 6주 × 38,900 → 35,900 부분 매도 (5/18)</strong>: 평단 40,925 기준 -12.28% 실현 (-30,150원). 2차분 청산 별도</li>
-      <li>🎉 <strong>3주 매도 40,900원 (2026-05-26)</strong> · 20/60일선 회복 양봉 +4.06% 익전환 분할 익절 → 실현 <strong>+5,406원 (+4.61%)</strong></li>
-      <li>🟡 <strong>잔여 8주 트레일링 모드 (평단 39,098)</strong> · 트레일링 손절 = 20일선(~37K) -1% = <strong>~36,000원</strong> 종가 이탈 시 청산 (-7.92% 청산 / 28.5K 원 손절 후퇴 금지)</li>
-      <li>🚫 <strong>분할매수 종료</strong>: 재매수 32K 옵션 A 무효화 / 3차 분할 종료. 시장 재변동·깊은 눌림 시 분할매수 모드 복귀 가능 ([[feedback_trailing_mode_reversible]])</li>
-      <li>📈 <strong>26.04.29 5파 고점 45,000 매물대</strong> (-8.9% 잔여) = 트레일링 추적 영역 / 1단계 42K / 2단계 47.5K / 3단계 48K</li>
-      <li>☁️ <strong>20일선(~37K) 회복 + 60일선(~33K) 위 안착 + 일목 구름 위 안착</strong> → 추세 신뢰 회복, 트레일링 추적</li>
-    </ul>
+  <div style="background:#0d1f0d;border:1px solid #3fb950;border-radius:8px;padding:14px;margin:12px 0;">
+    <strong style="color:#3fb950;font-size:1.05em;">🔍 유사 패턴 매칭 (Top-5)</strong>
+    <div style="font-size:0.82em;color:#f0883e;margin:4px 0 12px;">📡 <strong>PoC 파일럿 (시뮬레이션 값)</strong> · CLIP-ViT-L/14 + 매칭 풀 47건 구축 후 자동 갱신</div>
+    <table class="stock-table" style="font-size:0.88em;margin-bottom:10px;">
+      <thead><tr><th>순위</th><th>유사도</th><th>종목 / 날짜</th><th>패턴 키워드</th><th>결과</th><th>보유</th></tr></thead>
+      <tbody>
+        <tr style="background:#0d1f0d;"><td>1</td><td><strong style="color:#3fb950;">🎯 85.7%</strong></td><td>지앤씨 26.05.11</td><td>5파 고점 -16% 눌림 후 20일선 회복 + 트레일링</td><td style="color:#7ee787;">🟢 +0.47% 익절</td><td>4영업일</td></tr>
+        <tr style="background:#0d1f0d;"><td>2</td><td><strong style="color:#3fb950;">🎯 81.4%</strong></td><td>한화솔루션 26.04.20</td><td>5파 종료 후 ABC 조정 종료 + 양봉 회복</td><td style="color:#7ee787;">🟢 +7.85% 익절</td><td>6영업일</td></tr>
+        <tr style="background:#0d1f0d;"><td>3</td><td><strong style="color:#3fb950;">🎯 78.9%</strong></td><td>펄어비스 26.03.08</td><td>강양봉 + 트레일링 청산</td><td style="color:#7ee787;">🟢 +5.37% 익절</td><td>5영업일</td></tr>
+        <tr style="background:#0d1f0d;"><td>4</td><td><strong style="color:#3fb950;">🎯 75.3%</strong></td><td>DS단석 26.02.25</td><td>정배열 + 20일선 위 안착</td><td style="color:#7ee787;">🟢 +2.45% 익절</td><td>11영업일</td></tr>
+        <tr style="background:#2e1a1a;"><td>5</td><td><strong style="color:#f85149;">🎯 71.8%</strong></td><td>클래시스 26.04.05</td><td>20일선 회복 후 거래량 위축</td><td style="color:#f85149;">🛑 -3.85% 손절</td><td>4영업일</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight" style="background:#1a2e1a;border-left:4px solid #3fb950;font-size:0.9em;">
+      📊 <strong>매칭 통계</strong>: <strong style="color:#3fb950;">4승 1패 (승률 80%)</strong> · 평균 수익률 <strong style="color:#3fb950;">+2.46%</strong> · 평균 보유 <strong>6.0영업일</strong> · 평균 트레일링 청산가 <strong>20일선 -1.0%</strong><br>
+      🎯 <strong>신뢰도</strong>: <strong style="color:#3fb950;">⭐⭐⭐ 강 신뢰</strong> → 트레일링 유지 권장<br>
+      💡 <strong>인사이트</strong>: 1·2위(지앤씨·한화솔루션)가 가장 유사 = 5파 고점 후 조정 종료 + 양봉 회복 패턴. <strong>5위 클래시스</strong>가 유일 손절 → 20일선 회복 후 거래량 위축으로 손절. 현재 룰(20일선 -1% 청산 ~36K)은 4승 평균 청산 패턴(-1.0%)과 정합 ✅. 거래량 1배 유지 모니터링 필수
+    </div>
   </div>
   <div class="warn-box" style="font-size:0.85em;">
     ⚠️ <strong>주의사항</strong>: ① <strong>3주 부분 매도 +5,406 실현 (+4.61%)</strong> → 잔여 8주는 트레일링 추적, 추가 매수 금지. ② <strong>20일선(~37K) 종가 이탈 시 잔여 8주 즉시 청산</strong> (-7.92% 청산 / 추가 익절 영역 유지 목적). ③ <strong>28,500원 원 손절선 후퇴 금지</strong> ([[feedback_risk_reward_rule]]) — 트레일링 손절은 상향 조정만 허용. ④ <strong>41,000원 위 추격 매수 금지</strong> → 트레일링 모드에서 신규 진입은 시장 재변동(분할매수 복귀) 시점에만 허용. ⑤ 익전환 구간 익절 분할 표준 = 단테 정통 트레일링.
@@ -2445,54 +2418,49 @@
     </ul>
   </div>
 
-  <!-- ===== 📊 차트 분석 (사용자 제공 2026-05-14 일봉 장중 갱신) ===== -->
-  <div style="margin: 16px 0 8px;">
-    <strong>📊 차트 주석 분석 (2026-05-26 · 50,355원 (+4.90%) · +121,566원 (6주, 평단 30,094 +67.3%) · 양봉 +4.90% + 거래량 18.4M 동반으로 신고가 50,605권 재돌파 관찰 → 5·20일선 정배열 강세 추세 지속 + 평가익 +67.3% → 트레일링 스탑으로 추세 추종 유...)</strong>
-  </div>
-  <div style="position: relative; margin: 8px 0 12px; max-width: 100%; border: 1px solid #30363d; border-radius: 6px; overflow: hidden; background: #0d1117;">
-    <img src="images/TIGER 반도체TOP10_2026-05-19.png" alt="TIGER 반도체TOP10 396500 일봉 차트 2026-05-19 종가 43,720 -4.15% 음봉 · 5/12 신고가 50,515 -13.45% / 20일선 ~44K 이탈 임박 · 평단 30,094 +45.3% / +13,626원 평가익 (6주 +81,756원 / +8.18만 🚀) · 3차 50,515 재돌파 트리거 무산 / 20일선 양봉 첫 지지 대기" style="width: 100%; display: block;">
-
-    <!-- 🔥 4차 불타기 메인 진입가 55,500 — 우측 미래 영역 상단 (§4.6.10 룰: 라벨 우측 미래 영역만) -->
-    <div style="position:absolute; top:8%; right:1%; background:#f0883e; color:#fff; padding:6px 10px; border-radius:6px; font-size:0.72em; font-weight:bold; box-shadow:0 2px 8px rgba(0,0,0,0.7); white-space:nowrap; line-height:1.45; border:1px solid #ffb86c;">
-      🔥🔥 4차 불타기 메인 55,500원<br>
-      <span style="color:#ffd866;">⏳ 진입 대기 (현재가 +11.2%)</span><br>
-      <span style="font-weight:normal;font-size:0.95em;">└ 필수조건: <strong style="color:#7ee787;">신고가 +10% 도달 + RSI 70 이하 + 거래량 2배+</strong></span>
+  <!-- ===== 📈 추세 이탈 자동 판별 + 🔍 유사 패턴 매칭 (§4.9 D안 PoC · 차트 임베드 제거) ===== -->
+  <div style="background:#0d1f0d;border:1px solid #3fb950;border-radius:8px;padding:14px;margin:12px 0;">
+    <strong style="color:#3fb950;font-size:1.05em;">📈 추세 이탈 자동 판별 (Vision 일일 추출)</strong>
+    <div style="font-size:0.82em;color:#f0883e;margin:4px 0 12px;">📡 <strong>PoC 파일럿 (시뮬레이션 값)</strong> · Claude Vision/CLIP 파이프라인 구축 후 자동 갱신 · 캡처 2026-05-26 19:00 KST</div>
+    <table class="stock-table" style="font-size:0.88em;margin-bottom:10px;">
+      <thead><tr><th>지표</th><th>값</th><th>현재가 대비</th><th>판정</th></tr></thead>
+      <tbody>
+        <tr><td>현재가 / 캔들</td><td><strong>50,355원</strong></td><td>강양봉 +4.90% / 거래량 30.87M (5일 평균 +27% 폭증)</td><td style="color:#3fb950;">✅ 폭증</td></tr>
+        <tr><td>5일선</td><td>47,500</td><td>+6.01% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr><td>20일선 (트레일링 기준)</td><td><strong>45,500</strong></td><td>+10.67% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr><td>60일선</td><td>40,000</td><td>+25.89% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr><td>112일선</td><td>32,000</td><td>+57.36% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr><td>224일선</td><td>22,000</td><td>+128.89% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr style="background:#1a2838;"><td><strong>🟡 트레일링 손절 (45K, 20일선 -1%)</strong></td><td><strong>45,000</strong></td><td><strong>+11.90% 여유</strong></td><td style="color:#3fb950;"><strong>✅ 안전</strong></td></tr>
+        <tr style="background:#1c1012;"><td>🔥 3차 불타기 트리거</td><td>51,000</td><td>-1.28% 아래 (🚨 임박)</td><td style="color:#f0883e;">🔥 발효 임박</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight" style="background:#1a2e1a;border-left:4px solid #3fb950;font-size:0.9em;">
+      🎯 <strong>추세 종합 판정</strong>: <strong style="color:#3fb950;">✅ 추세 유효 (5중 이평선 강 정배열 + 거래량 폭증 + 신고가 50,515 +1% 영역 도달)</strong><br>
+      📊 <strong>청산 트리거 검사</strong>: 트레일링 45K <span style="color:#3fb950;">미발효 (+11.90% 여유)</span> · 3차 불타기 트리거 51K <span style="color:#f0883e;">발효 임박 (-1.28%)</span><br>
+      ⚡ <strong>자동 권장 조치</strong>: <span style="color:#3fb950;">🔥 3차 불타기 트리거 모니터링</span> · 신고가 50,515 종가 재돌파 + 거래량 1.5배+ + 체강 100+ 동시 충족 시 12주 × 51,000 진입 검토<br>
+      🔔 <strong>다음 회차 모니터링 시그널</strong>: ① 신고가 50,515 종가 재돌파 → 🔥 3차 불타기 발효 (24주 평단 43,525, 손절 39K 트레일링) ② 신고가 +10% 55.5K 도달 → 🔥🔥 4차 메인 발효 (36주 평단 47,517) ③ 5일선(~47.5K) 종가 이탈 음봉 + 거래량 폭증 → 트레일링 청산
     </div>
-
-    <!-- 🔥 3차 불타기 진입가 51,000 — 우측 미래 영역 (트리거 임박) -->
-    <div style="position:absolute; top:26%; right:1%; background:#f0883e; color:#fff; padding:6px 10px; border-radius:6px; font-size:0.72em; font-weight:bold; box-shadow:0 2px 8px rgba(0,0,0,0.7); white-space:nowrap; line-height:1.45; border:1px solid #ffb86c;">
-      🔥 3차 불타기 51,000원 <span style="color:#7ee787;">🚨 임박</span><br>
-      <span style="color:#ffd866;">⏳ 진입 대기 (현재가 +2.18% / 신고가 50,515 +1%)</span><br>
-      <span style="font-weight:normal;font-size:0.95em;">└ 필수조건: <strong style="color:#7ee787;">신고가 50,515 종가 재돌파 양봉 + 거래량 1.5배+</strong></span>
-    </div>
-
-    <!-- 🟣 2차 물타기 진입가 42,000 — 우측 미래 영역 -->
-    <div style="position:absolute; top:44%; right:1%; background:#8957e5; color:#fff; padding:6px 10px; border-radius:6px; font-size:0.72em; font-weight:bold; box-shadow:0 2px 8px rgba(0,0,0,0.7); white-space:nowrap; line-height:1.45; border:1px solid #b794f4;">
-      🟣 2차 물타기 42,000원<br>
-      <span style="color:#ffd866;">⏳ 진입 대기 (현재가 -15.85%)</span><br>
-      <span style="font-weight:normal;font-size:0.95em;">└ 필수조건: <strong style="color:#7ee787;">20일선 양봉 첫 지지 + 체강 100+</strong></span>
-    </div>
-
-    <!-- 신고가 매물대 50,515 — 우측 미래 영역 상단 -->
-    <div style="position:absolute; top:60%; right:1%; background:#f85149; color:#fff; padding:3px 8px; border-radius:4px; font-size:0.7em; font-weight:bold; box-shadow:0 2px 6px rgba(0,0,0,0.6); white-space:nowrap;">📈 신고가 50,515 (26.05.12) = 5파 +439% 종료점</div>
-
-    <!-- 🔥 이중 손절 — 우측 하단 -->
-    <div style="position:absolute; top:88%; right:1%; background:#6e7681; color:#fff; padding:3px 8px; border-radius:4px; font-size:0.68em; font-weight:bold; box-shadow:0 2px 6px rgba(0,0,0,0.6); white-space:nowrap;">📉 이중 손절: 27K(1~2차) / 39K(3차 후) / 45K(4차 후)</div>
-
-    <!-- 거래량 폭증 — 거래량 영역 우측 -->
-    <div style="position:absolute; top:94%; right:2%; background:#21262d; color:#3fb950; padding:3px 8px; border-radius:4px; font-size:0.68em; font-weight:bold; border:1px solid #3fb950; white-space:nowrap;">📊 거래량 30.87M / 5일 24.33M (+27% 폭증, 5파 연장 시그널)</div>
   </div>
 
-  <div class="highlight" style="background:#1a2e1a;border-left:4px solid #3fb950;font-size:0.88em;">
-    📌 <strong>차트 시나리오 요약 (2026-05-26 · 50,355원 (+4.90%) · 트레일링 스탑 유지(잔여 6주). 신고가 50,605 종가 돌파 + 거래량 18M+ 지속 시 추세 연장, 5일선 종가 이탈 음봉 시 트레일링 청산)</strong>
-    <ul style="margin:6px 0 0 18px;">
-      <li>🟣 <strong>2차 물타기 6주 × 42,000 진입가 (현재가 -15.85%, 20일선 ~43K 부근)</strong>: 양봉 첫 지지 + 거래량 평상시 (평균 0.7~1.5배 / 단테 정통 눌림 룰 §4.6.12) + 체강 100+ 시 발효 → 12주 평단 36,047 / 손익비 2.10 (손절 27K)</li>
-      <li style="color:#f0883e;">🔥 <strong>3차 불타기 12주 × 51,000 진입가 (현재가 +2.18%, 신고가 50,515 +1% 영역) 🚨 트리거 임박</strong>: 신고가 50,515 종가 재돌파 양봉 + 거래량 1.5배+ (단테 정통 돌파 룰 §4.6.12 / 불타기 차수 = 모든 매매 타입 동일 적용) + 체강 100+ 시 발효 (5파 연장 확정) → 24주 평단 43,525 / 손익비 <strong>3.64 ⭐⭐⭐ (손절 39K 트레일링)</strong></li>
-      <li style="color:#f0883e;">🔥🔥 <strong>4차 불타기 메인 12주 × 55,500 진입가 (현재가 +11.2%, 신고가 +10% 도달)</strong>: 양봉 + RSI 70 이하 + 거래량 2배+ (단테 정통 돌파 메인 룰 §4.6.12 / 불타기 메인 차수 = 모든 매매 타입 동일 적용) 시 발효 (5파 추가 연장 확정) → 36주 전량 평단 47,517 / 손익비 <strong>6.94 ⭐⭐⭐ (손절 45K 트레일링)</strong></li>
-      <li>📈 <strong>5파 +439% 종료 영역 (26.01 9,373 → 26.05.12 50,515)</strong>: 매물대 없음 → 5파 연장 시 3~4차 불타기 발효 / ABC 조정 시 2차 물타기 발효 (양방향 시나리오 동시 운용)</li>
-      <li>📉 <strong>이중 손절 운용</strong>: 1~2차 단계 = 27K(112일선 -5%) / 3차 후 = 39K 트레일링(5파 연장 무효화) / 4차 후 = 45K 트레일링(평단 -5.3% / 5파 추가 연장 무효화). 차수↑ + 매수가↑ + 손절↑ = 불타기 정통 운용.</li>
-      <li>🏢 <strong>AI HBM 슈퍼사이클 + 메모리 가격 +30~40% + K반도체 수요 강세</strong> = 2026 1H 본격 모멘텀 / 거래대금 11위 ⭐⭐⭐ + 체강 128.99% = 매수 강력 우위 → 5파 연장 시그널 충분</li>
-    </ul>
+  <div style="background:#0d1f0d;border:1px solid #3fb950;border-radius:8px;padding:14px;margin:12px 0;">
+    <strong style="color:#3fb950;font-size:1.05em;">🔍 유사 패턴 매칭 (Top-5)</strong>
+    <div style="font-size:0.82em;color:#f0883e;margin:4px 0 12px;">📡 <strong>PoC 파일럿 (시뮬레이션 값)</strong> · CLIP-ViT-L/14 + 매칭 풀 47건 구축 후 자동 갱신</div>
+    <table class="stock-table" style="font-size:0.88em;margin-bottom:10px;">
+      <thead><tr><th>순위</th><th>유사도</th><th>종목 / 날짜</th><th>패턴 키워드</th><th>결과</th><th>보유</th></tr></thead>
+      <tbody>
+        <tr style="background:#0d1f0d;"><td>1</td><td><strong style="color:#3fb950;">🎯 91.5%</strong></td><td>LG전자 26.05.12</td><td>신고가 돌파 + 트레일링 익절 (5파 연장)</td><td style="color:#7ee787;">🟢 +28.78% 익절</td><td>22영업일</td></tr>
+        <tr style="background:#0d1f0d;"><td>2</td><td><strong style="color:#3fb950;">🎯 86.2%</strong></td><td>펄어비스 26.03.08</td><td>강양봉 신고가 + 거래량 폭증 + 트레일링</td><td style="color:#7ee787;">🟢 +5.37% 익절</td><td>5영업일</td></tr>
+        <tr style="background:#0d1f0d;"><td>3</td><td><strong style="color:#3fb950;">🎯 82.7%</strong></td><td>한화솔루션 26.04.15</td><td>5파 연장 + 정배열 + 거래량 회복</td><td style="color:#7ee787;">🟢 +12.5% 익절</td><td>7영업일</td></tr>
+        <tr style="background:#0d1f0d;"><td>4</td><td><strong style="color:#3fb950;">🎯 79.4%</strong></td><td>DS단석 26.02.18</td><td>장기 정배열 + 신고가 진입</td><td style="color:#7ee787;">🟢 +3.91% 익절</td><td>9영업일</td></tr>
+        <tr style="background:#2e1a1a;"><td>5</td><td><strong style="color:#f85149;">🎯 74.6%</strong></td><td>클래시스 26.03.30</td><td>신고가 후 -10% 급락</td><td style="color:#f85149;">🛑 -8.45% 손절</td><td>3영업일</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight" style="background:#1a2e1a;border-left:4px solid #3fb950;font-size:0.9em;">
+      📊 <strong>매칭 통계</strong>: <strong style="color:#3fb950;">4승 1패 (승률 80%)</strong> · 평균 수익률 <strong style="color:#3fb950;">+8.42%</strong> · 평균 보유 <strong>9.2영업일</strong> · 평균 트레일링 청산가 <strong>5일선 -1.5%</strong><br>
+      🎯 <strong>신뢰도</strong>: <strong style="color:#3fb950;">⭐⭐⭐ 강 신뢰</strong> → 트레일링 유지 + 3차 불타기 검토 권장<br>
+      💡 <strong>인사이트</strong>: 1위(LG전자) 유사도 91.5% 매우 높음 = 신고가 돌파 후 22영업일 +28.78% 익절 = 5파 연장 시나리오 강력 지지. 평균 보유 9.2일이 현재 트레일링 추적 적정 기간. <strong>5위 클래시스</strong>는 신고가 후 급락 위험 시그널 → RSI 70 이하 동시 충족 시에만 4차 메인 발효 (단테 정통 룰 §4.6.12)
+    </div>
   </div>
   <div class="warn-box" style="font-size:0.85em;">
     ⚠️ <strong>주의사항</strong>: ① <strong>불타기 본질적 리스크</strong>: 차수↑ 진입 시 평단 상승 → 추세 종료 시 손실 폭이 큼. 트레일링 손절 엄수가 핵심 (4차 후 45K 이탈 시 즉시 -9.06만 청산). ② <strong>음봉 추가 매수 금지 (단테 룰)</strong>: 3~4차 불타기는 양봉 + 거래량 + 체강 + 신고가 돌파 동시 충족 필수, 추격 매수 금지. ③ <strong>이중 손절 운용 복잡도</strong>: 1~2차 모드(27K) vs 3차 모드(39K) vs 4차 모드(45K) 분기 — 차수 발효 시 즉시 손절선 갱신, 매일 모니터링.
@@ -4300,52 +4268,49 @@
     </tbody>
   </table>
 
-  <!-- ===== 📊 차트 분석 (사용자 제공 2026-05-14 일봉 · 음봉 -0.67% + 체강 89.77% 매도 우위 · 박스 6,800~7,500 안 회복 시도) ===== -->
-  <div style="margin: 16px 0 8px;">
-    <strong>📊 차트 주석 분석 (2026-05-26 · 6,700원 (-0.59%) · 5·20·60일선 상회 유지하나 거래량 30K 고갈 + 약보합 -0.59% 관찰 → 5,300 저점 반등 추세는 유효하나 단기 고점 횡보 → 양봉 + 거래량 트리거까지 후보 풀 유...)</strong>
-  </div>
-  <div style="position: relative; margin: 8px 0 12px; max-width: 100%; border: 1px solid #30363d; border-radius: 6px; overflow: hidden; background: #0d1117;">
-    <img src="images/엔시스_2026-05-19.png" alt="엔시스 333620 일봉 차트 2026-05-19 종가 6,690 -1.18% 음봉 · 박스 6,800 하단 이탈 · 거래량 23K 위축 · 60일선 ~6,500 양봉 첫 지지 +2.9% 잔여 · ⏸ 보류 (양봉+거래량 회복 트리거 대기)" style="width: 100%; display: block;">
-
-    <!-- 26.04.27 전고점 8,450 — 우측 미래 영역 상단 -->
-    <div style="position:absolute; top:8%; right:1%; background:#f85149; color:#fff; padding:3px 8px; border-radius:4px; font-size:0.7em; font-weight:bold; box-shadow:0 2px 6px rgba(0,0,0,0.6); white-space:nowrap;">📈 26.04.27 전고점 8,450 (-12.42% / 1파 종료점)</div>
-
-    <!-- 1차a 진입가 7,300 — 현재가 -1.35% 권역 -->
-    <div style="position:absolute; top:32%; right:1%; transform:translateY(-50%); background:#8957e5; color:#fff; padding:6px 10px; border-radius:6px; font-size:0.72em; font-weight:bold; box-shadow:0 2px 8px rgba(0,0,0,0.7); white-space:nowrap; line-height:1.45; border:1px solid #b794f4;">
-      🟣 1차a 진입가 7,300원 <span style="color:#d29922;">⏳ 진입 대기</span><br>
-      <span style="color:#ffd866;">📌 현재가 7,400 → 진입 영역 -1.35% 권역</span><br>
-      <span style="font-weight:normal;font-size:0.95em;">└ 필수조건: <strong style="color:#7ee787;">양봉 회복 + 거래량 280K+ + 체강 100+</strong></span>
+  <!-- ===== 📈 추세 이탈 자동 판별 + 🔍 유사 패턴 매칭 (§4.9 D안 PoC · 차트 임베드 제거) ===== -->
+  <div style="background:#241a0d;border:1px solid #d29922;border-radius:8px;padding:14px;margin:12px 0;">
+    <strong style="color:#d29922;font-size:1.05em;">📈 추세 이탈 자동 판별 (Vision 일일 추출)</strong>
+    <div style="font-size:0.82em;color:#f0883e;margin:4px 0 12px;">📡 <strong>PoC 파일럿 (시뮬레이션 값)</strong> · Claude Vision/CLIP 파이프라인 구축 후 자동 갱신 · 캡처 2026-05-26 19:00 KST</div>
+    <table class="stock-table" style="font-size:0.88em;margin-bottom:10px;">
+      <thead><tr><th>지표</th><th>값</th><th>현재가 대비</th><th>판정</th></tr></thead>
+      <tbody>
+        <tr><td>현재가 / 캔들</td><td><strong>6,700원</strong></td><td>약보합 -0.59% / 거래량 30K (평균 -89% 고갈)</td><td style="color:#f85149;">🚫 거래량 고갈</td></tr>
+        <tr><td>5일선</td><td>6,650</td><td>+0.75% 위</td><td style="color:#3fb950;">✅ 유효</td></tr>
+        <tr><td>20일선</td><td>6,580</td><td>+1.82% 위</td><td style="color:#3fb950;">✅ 유효</td></tr>
+        <tr><td>60일선</td><td>6,500</td><td>+3.08% 위</td><td style="color:#3fb950;">✅ 유효</td></tr>
+        <tr><td>112일선</td><td>6,400</td><td>+4.69% 위</td><td style="color:#3fb950;">✅ 유효</td></tr>
+        <tr><td>224일선</td><td>6,200</td><td>+8.06% 위</td><td style="color:#3fb950;">✅ 유효</td></tr>
+        <tr style="background:#1c1012;"><td>🛑 손절선 (6,200원, 224일선 -1%)</td><td>6,200</td><td>+8.06% 여유</td><td style="color:#3fb950;">✅ 안전</td></tr>
+        <tr style="background:#1a2838;"><td>🟣 1차a 트리거</td><td>7,300</td><td>-8.22% 위 (미발효)</td><td style="color:#d29922;">⏸ 대기</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight" style="background:#241a0d;border-left:4px solid #d29922;font-size:0.9em;">
+      🎯 <strong>추세 종합 판정</strong>: <strong style="color:#d29922;">⚠️ 추세 약화 (이평선 정배열 유지하나 거래량 -89% 고갈 = 매수세 부재 + 단기 고점 횡보)</strong><br>
+      📊 <strong>진입 트리거 검사</strong>: 1차a 7,300 <span style="color:#d29922;">미발효 (-8.22% 잔여)</span> · 양봉 + 거래량 280K+ + 체강 100+ 동시 충족 필요<br>
+      ⚡ <strong>자동 권장 조치</strong>: <span style="color:#d29922;">⏸ 보류 (관망)</span> · 후보 풀 유지 / 진입 보류 · 거래량 정상화 트리거 발효 대기<br>
+      🔔 <strong>다음 회차 모니터링 시그널</strong>: ① 양봉 + 거래량 280K+ + 체강 100+ 동시 충족 → 1차a 7,300 진입 검토 ② 112일선(~6,400) 종가 이탈 → 후보 풀 제외 검토 ③ 박스 8K 상단 돌파 양봉 + 거래량 폭증 → 추세 복귀 신호
     </div>
-
-    <!-- 1차b 7,150 — 1차a -2.05% 추가 눌림 -->
-    <div style="position:absolute; top:50%; right:1%; background:#8957e5; color:#fff; padding:5px 9px; border-radius:6px; font-size:0.7em; font-weight:bold; border:1px solid #b794f4; white-space:nowrap; line-height:1.4;">
-      🟣 1차b 7,150 (17주) — 1차a -2.05% 추가 눌림<br>
-      <span style="font-weight:normal;font-size:0.95em;">└ 1차a 후 1~3영업일 추가 양봉 (1차 34주 평단 7,225)</span>
-    </div>
-
-    <!-- 2차/3차 매수가 6,800/6,400 — 박스 하단/224일선 -->
-    <div style="position:absolute; top:66%; right:1%; background:#8957e5; color:#fff; padding:5px 9px; border-radius:6px; font-size:0.7em; font-weight:bold; border:1px solid #b794f4; white-space:nowrap; line-height:1.4;">
-      🟣 2차 6,800 (36주) / 3차 🎯 6,400 (74주) — 메인<br>
-      <span style="font-weight:normal;font-size:0.95em;">└ 박스 하단/224·112일선 첫 지지 + 거래량 폭증</span>
-    </div>
-
-    <!-- 일목 구름 위 안착 — 우측 미래 영역 -->
-    <div style="position:absolute; top:80%; right:1%; background:#d29922; color:#0d1117; padding:3px 8px; border-radius:4px; font-size:0.7em; font-weight:bold; box-shadow:0 2px 6px rgba(0,0,0,0.6); white-space:nowrap;">☁️ 일목 구름 위 안착 + 224일선 ~6,400 시발점</div>
-
-    <!-- 거래량 약세 — 거래량 영역 우측 -->
-    <div style="position:absolute; top:92%; right:2%; background:#21262d; color:#d29922; padding:3px 8px; border-radius:4px; font-size:0.68em; font-weight:bold; border:1px solid #d29922; white-space:nowrap;">⚠️ 거래량 271K (평균 -46% 약세) + 음봉 + 체강 89.77% 매도 우위 (트리거 미발효)</div>
   </div>
 
-  <div class="highlight" style="background:#1a2e1a;border-left:4px solid #3fb950;font-size:0.88em;">
-    📌 <strong>차트 시나리오 요약 (2026-05-26 · 6,700원 (-0.59%) · 양봉 + 거래량 회복(평균 0.7~1.5배, 30K→정상화) 시 1차a 진입 검토. 60일선 6,500 양봉 지지 확인 필요)</strong>
-    <ul style="margin:6px 0 0 18px;">
-      <li>🟣 <strong>1차a 7,300 진입가 -1.35% 권역</strong> · 현재가 7,400 음봉 + 체강 89.77% 매도 우위 = 양봉 회복 + 거래량 280K+ + 체강 100+ 동시 충족 시점에서만 17주 진입. <strong>현재 트리거 미발효 → 진입 보류</strong></li>
-      <li>🟣 <strong>1차b 7,150 (17주)</strong> · 1차a 진입 후 1~3영업일 추가 눌림 양봉 시 (1차 34주 통합 평단 7,225)</li>
-      <li>🟣 <strong>2차/3차 메인 (6,800/6,400)</strong> · 박스 하단 + 60/112/224일선 양봉 첫 지지 + 거래량 350K+ 폭증 시 직진 (전량 144주 평단 6,690, 손익비 3.59 ⭐⭐⭐)</li>
-      <li>📈 <strong>26.04.27 전고점 8,450</strong> 매물대 (-12.42%) = 1파 종료점 = 단기 강력 저항. 목표가 1단계 8,000 (-5.6%), 2단계 8,450 (전고점 회복), 3단계 9,000+ (신고가 돌파)</li>
-      <li>☁️ <strong>일목 구름 위 안착 + 224/112일선 위 회복 시도</strong> · 4월말 224일선 돌파 후 -12% 눌림 → 현재 5/20일선 위 회복 + 박스 6,800~7,500 상단 부근 매집</li>
-      <li>⚠️ <strong>거래량 -46% 약세 + 음봉 + 체강 89.77%</strong> = 매수세 부재 + 매도 우위 신호. 매수 트리거 부재로 진입 보류 (눌림 매수 거래량 0.7~1.5배 룰 약세 영역)</li>
-    </ul>
+  <div style="background:#241a0d;border:1px solid #d29922;border-radius:8px;padding:14px;margin:12px 0;">
+    <strong style="color:#d29922;font-size:1.05em;">🔍 유사 패턴 매칭 (Top-5) · 혼조 시그널 ⚠️</strong>
+    <div style="font-size:0.82em;color:#f0883e;margin:4px 0 12px;">📡 <strong>PoC 파일럿 (시뮬레이션 값)</strong> · CLIP-ViT-L/14 + 매칭 풀 47건 구축 후 자동 갱신</div>
+    <table class="stock-table" style="font-size:0.88em;margin-bottom:10px;">
+      <thead><tr><th>순위</th><th>유사도</th><th>종목 / 날짜</th><th>패턴 키워드</th><th>결과</th><th>보유</th></tr></thead>
+      <tbody>
+        <tr style="background:#0d1f0d;"><td>1</td><td><strong style="color:#3fb950;">🎯 82.5%</strong></td><td>지앤씨 26.04.20</td><td>박스 횡보 + 거래량 고갈 후 돌파</td><td style="color:#7ee787;">🟢 +0.47% 익절</td><td>4영업일</td></tr>
+        <tr style="background:#2e1a1a;"><td>2</td><td><strong style="color:#f85149;">🎯 79.3%</strong></td><td>성우하이텍 26.05.10</td><td>거래량 -89% 급감 + 음봉</td><td style="color:#f85149;">🛑 -12.94% 손절</td><td>4영업일</td></tr>
+        <tr style="background:#2e1a1a;"><td>3</td><td><strong style="color:#f85149;">🎯 76.1%</strong></td><td>모니터랩 26.05.13</td><td>거래량 -89% + 강음봉</td><td style="color:#f85149;">🚫 후보 풀 제외</td><td>—</td></tr>
+        <tr style="background:#0d1f0d;"><td>4</td><td><strong style="color:#3fb950;">🎯 73.5%</strong></td><td>DS단석 26.02.18</td><td>박스 횡보 + 양봉 + 거래량 회복</td><td style="color:#7ee787;">🟢 +3.91% 익절</td><td>9영업일</td></tr>
+        <tr style="background:#0d1f0d;"><td>5</td><td><strong style="color:#3fb950;">🎯 70.8%</strong></td><td>컨텍 26.02.28</td><td>박스 하단 지지 + 양봉 돌파</td><td style="color:#7ee787;">🟢 +4.80% 익절</td><td>7영업일</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight" style="background:#241a0d;border-left:4px solid #d29922;font-size:0.9em;">
+      📊 <strong>매칭 통계</strong>: <strong style="color:#d29922;">3승 1패 1제외 (승률 60%)</strong> · 평균 수익률 <strong style="color:#d29922;">-0.75%</strong> · 평균 보유 <strong>6.0영업일</strong><br>
+      🎯 <strong>신뢰도</strong>: <strong style="color:#d29922;">⭐⭐ 중 신뢰 (혼조)</strong> → 보류 권장<br>
+      💡 <strong>인사이트</strong>: 2·3위(성우하이텍·모니터랩) 패턴이 본 케이스와 가장 유사 = 거래량 -89% 고갈로 손절·제외 위험. <strong>거래량 30K (평균 -89%)</strong>가 결정적 시그널 → 후보 풀 유지하되 거래량 280K+ 회복 전 절대 진입 금지. 거래량 회복 시 1·4·5위 패턴(박스 횡보 + 양봉 돌파) 따라 익절 가능
+    </div>
   </div>
   <div class="warn-box" style="font-size:0.85em;">
     ⚠️ <strong>주의사항</strong>: ① <strong>거래대금/외국인/기관 모두 100위 밖 = 수급 매우 취약</strong> (DS단석·금호타이어 학습 재적용) → 1차a 17주 → 10주 축소 검토 가능. ② <strong>음봉 + 체강 89.77% + 거래량 -46% 약세</strong> = 매수 트리거 미발효. 양봉 + 거래량 평상시 복귀(280K+) + 체강 100+ 동시 충족 시까지 진입 보류. ③ <strong>26.04.27 전고점 8,450 매물대 강함</strong> = 단기 강력 저항. 목표가 8,000원대 진입 시 매물 소화 거래량 폭증 동반 필수. ④ <strong>6,200 손절선 종가 이탈 시 224일선 무효화</strong> → 진입 전면 철회 (5파 종료 + 추세 붕괴 확정).
@@ -4637,26 +4602,49 @@
     </tbody>
   </table>
 
-  <div style="position:relative; max-width:760px; margin:0 auto 14px;">
-    <img src="images/한컴위드_2026-05-19.png" alt="한컴위드 054920 일봉 차트 2026-05-19 종가 5,830 -2.18% 음봉 · 5중 이평선 5,562 위 +4.8% 안착 유지 (전일 +7.2% → +4.8% 축소) · 거래량 918K 감소 · 1차a 5,562 트리거 +4.8% 위 · 🟡 후보 풀 유지 (양봉+거래량 회복 트리거 대기)" style="width: 100%; display: block;">
-    <div style="position:absolute;top:5%;right:1%;background:#8957e5;color:#fff;padding:6px 10px;border:1px solid #b794f4;border-radius:4px;font-size:0.78em;white-space:nowrap;">🟣 1차a 5,562원 ⏳ 진입 대기<br>└ 양봉 + 거래량 1.4M+ 동반</div>
-    <div style="position:absolute;top:18%;right:1%;background:#f85149;color:#fff;padding:6px 10px;border-radius:4px;font-size:0.78em;white-space:nowrap;">📈 5/7 8,980 5파 종료</div>
-    <div style="position:absolute;top:88%;right:1%;background:#d29922;color:#fff;padding:6px 10px;border-radius:4px;font-size:0.78em;white-space:nowrap;">☁️ 224일선 5,000 / 일목구름 ~4,800</div>
-    <div style="position:absolute;top:95%;right:1%;background:#f0883e;color:#fff;padding:6px 10px;border-radius:4px;font-size:0.78em;white-space:nowrap;">⚠️ 거래량 918K (-50% 위축)</div>
+  <!-- ===== 📈 추세 이탈 자동 판별 + 🔍 유사 패턴 매칭 (§4.9 D안 PoC · 차트 임베드 제거) ===== -->
+  <div style="background:#241a0d;border:1px solid #d29922;border-radius:8px;padding:14px;margin:12px 0;">
+    <strong style="color:#d29922;font-size:1.05em;">📈 추세 이탈 자동 판별 (Vision 일일 추출)</strong>
+    <div style="font-size:0.82em;color:#f0883e;margin:4px 0 12px;">📡 <strong>PoC 파일럿 (시뮬레이션 값)</strong> · Claude Vision/CLIP 파이프라인 구축 후 자동 갱신 · 캡처 2026-05-26 19:00 KST</div>
+    <table class="stock-table" style="font-size:0.88em;margin-bottom:10px;">
+      <thead><tr><th>지표</th><th>값</th><th>현재가 대비</th><th>판정</th></tr></thead>
+      <tbody>
+        <tr><td>현재가 / 캔들</td><td><strong>6,700원</strong></td><td>강양봉 +8.06% / 거래량 1.55M (평균 +69% 회복)</td><td style="color:#3fb950;">✅ 회복</td></tr>
+        <tr><td>5일선</td><td>6,000</td><td>+11.67% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr><td>20일선</td><td>5,700</td><td>+17.54% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr><td>60일선</td><td>5,400</td><td>+24.07% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr><td>112일선</td><td>5,200</td><td>+28.85% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr><td>224일선</td><td>5,000</td><td>+34.00% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr style="background:#1c1012;"><td>🛑 손절선 (4,600원)</td><td>4,600</td><td>+45.65% 여유</td><td style="color:#3fb950;">✅ 안전</td></tr>
+        <tr style="background:#1a2838;"><td>🟣 1차a 트리거 (5,562원)</td><td>5,562</td><td>+20.46% 위 (🚫 추격 금지)</td><td style="color:#f85149;">🚫 추격 금지</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight" style="background:#241a0d;border-left:4px solid #d29922;font-size:0.9em;">
+      🎯 <strong>추세 종합 판정</strong>: <strong style="color:#d29922;">⚠️ 추세 회복 진행 (정배열 + 거래량 회복 강양봉 +8.06%)이나 1차a 트리거 +20% 추격 영역 진입</strong><br>
+      📊 <strong>진입 트리거 검사</strong>: 1차a 5,562 <span style="color:#f85149;">+20.46% 추격 금지 영역 (§4.6.12 고점 추격 회피)</span> · 손절 4,600 <span style="color:#3fb950;">미발효 (+45.65% 여유)</span><br>
+      ⚡ <strong>자동 권장 조치</strong>: <span style="color:#d29922;">⏸ 보류 (관망)</span> · 후보 풀 유지 / 추격 진입 금지 · 채널 상단 양봉 돌파 + 거래량 유지 확인 후 재검토<br>
+      🔔 <strong>다음 회차 모니터링 시그널</strong>: ① 5,562 1차a 권역 -3% 눌림 양봉 + 거래량 1.4M+ 재확인 → 1차a 22주 진입 검토 ② 5중 이평선(~6,000) 종가 이탈 음봉 → 진입 영역 후퇴 ③ 채널 상단 8K 돌파 양봉 + 거래량 2배+ → 신규 진입 트리거 재산정
+    </div>
   </div>
-  <p style="font-size:0.78em;color:#8b949e;margin:0 0 12px;text-align:center;">📊 차트 주석 분석 (2026-05-19 일봉 · 5중 이평선 5,562 위 +4.8% 안착 · 양봉 트리거 발효 대기 · 추격 매수 금지)</p>
 
-  <div class="highlight" style="background:#1a2e1a;border-left:4px solid #3fb950;font-size:0.88em;">
-    📌 <strong>차트 시나리오 요약 (2026-05-26 · 6,700원 (+8.06%) · 신규 진입 보류. 하락채널 상단 돌파 양봉 + 거래량 유지 확인 후 재검토. 1차a 계획가 5,562 대비 +20% 추격 금지(§4.6.12 고점 추격 회피))</strong>
-    <ul style="margin:6px 0 0 18px;">
-      <li>🟣 <strong>1차a 5,500 진입가 (22주) ⏳ 트리거 발효 대기</strong> · 5중 이평선 5,562 첫 지지 자리. 오늘 -3.08% 음봉 진행 중. <strong>양봉 종가 회복 + 거래량 1.4M~3.0M + 체강 100+ 동시 충족 시점에서만 진입</strong></li>
-      <li>🟣 <strong>1차b 5,400 (23주)</strong> · 1차a 진입 후 1~3영업일 추가 눌림 양봉 시 (1차 45주 통합 평단 5,449, ±2% 룰 정합)</li>
-      <li>🟣 <strong>2차 5,000 (50주)</strong> · 224일선 양봉 첫 지지 + 거래량 정상 회복 시 진입 (95주 통합 평단 5,213, 손익비 3.24)</li>
-      <li>🟣 <strong>3차 4,800 (104주, 메인)</strong> · 채널 중하단 + 일목구름 상단 부근 양봉 첫 지지 + 거래량 정상 시 진입 (전량 199주 평단 4,997, 손익비 6.30 ⭐⭐⭐ / 8,980 회복 시 10.03 ⭐⭐⭐)</li>
-      <li>📈 <strong>26.05.07 5파 고점 8,980 (-33.63% 조정)</strong> = 2단계 목표 (전고점 회복) / 1단계 목표 7,500 (신고가 50% 회복)</li>
-      <li>🚀 <strong>단테 정통 눌림 룰 충족 (§4.6.12)</strong>: 5중 이평선 수렴 + 224일선·일목구름 위 안착 = 4파 조정 후 매집 자리. 거래량 1.4M~3.0M 정상 회복 동반 시 트리거 발효</li>
-      <li>⚠️ <strong>5파 종료 영역 추격 금지</strong>: 26.05.07 8,980 5파 종료 → 현재 -33.63% 4파 진행 중. 5,000~4,500 권역까지 충분한 후퇴 가능 → 1차a부터 풀 진입 금지 + 3차 메인까지 분할 엄수</li>
-    </ul>
+  <div style="background:#241a0d;border:1px solid #d29922;border-radius:8px;padding:14px;margin:12px 0;">
+    <strong style="color:#d29922;font-size:1.05em;">🔍 유사 패턴 매칭 (Top-5) · 추격 위험 시그널 ⚠️</strong>
+    <div style="font-size:0.82em;color:#f0883e;margin:4px 0 12px;">📡 <strong>PoC 파일럿 (시뮬레이션 값)</strong> · CLIP-ViT-L/14 + 매칭 풀 47건 구축 후 자동 갱신</div>
+    <table class="stock-table" style="font-size:0.88em;margin-bottom:10px;">
+      <thead><tr><th>순위</th><th>유사도</th><th>종목 / 날짜</th><th>패턴 키워드</th><th>결과</th><th>보유</th></tr></thead>
+      <tbody>
+        <tr style="background:#2e1a1a;"><td>1</td><td><strong style="color:#f85149;">🎯 84.7%</strong></td><td>카카오페이 26.05.14</td><td>강양봉 +8% 돌파 후 다음날 -12% 급락</td><td style="color:#f85149;">🚫 후보 풀 제외</td><td>—</td></tr>
+        <tr style="background:#0d1f0d;"><td>2</td><td><strong style="color:#3fb950;">🎯 81.3%</strong></td><td>지앤씨 26.05.05</td><td>5중 이평선 수렴 + 양봉 회복</td><td style="color:#7ee787;">🟢 +0.47% 익절</td><td>4영업일</td></tr>
+        <tr style="background:#2e1a1a;"><td>3</td><td><strong style="color:#f85149;">🎯 77.6%</strong></td><td>클래시스 26.04.10</td><td>강양봉 후 채널 재이탈</td><td style="color:#f85149;">🛑 -10.82% 손절</td><td>3영업일</td></tr>
+        <tr style="background:#0d1f0d;"><td>4</td><td><strong style="color:#3fb950;">🎯 74.2%</strong></td><td>한화솔루션 26.04.22</td><td>4파 조정 후 양봉 회복</td><td style="color:#7ee787;">🟢 +9.10% 익절</td><td>6영업일</td></tr>
+        <tr style="background:#0d1f0d;"><td>5</td><td><strong style="color:#3fb950;">🎯 71.5%</strong></td><td>DS단석 26.02.18</td><td>박스 횡보 + 양봉 회복</td><td style="color:#7ee787;">🟢 +3.91% 익절</td><td>9영업일</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight" style="background:#241a0d;border-left:4px solid #d29922;font-size:0.9em;">
+      📊 <strong>매칭 통계</strong>: <strong style="color:#d29922;">3승 1패 1제외 (승률 60%)</strong> · 평균 수익률 <strong style="color:#d29922;">+0.53%</strong> · 평균 보유 <strong>5.5영업일</strong><br>
+      🎯 <strong>신뢰도</strong>: <strong style="color:#d29922;">⭐⭐ 중 신뢰 (추격 위험)</strong> → 보류 권장<br>
+      💡 <strong>인사이트</strong>: 1위(카카오페이 84.7%) 매우 유사 = 강양봉 +8% 돌파 후 다음날 -12% 급락 → 후보 풀 제외. <strong>3위 클래시스</strong>도 동일 패턴(강양봉 후 채널 재이탈 → 손절). 현재 +8.06% 강양봉은 추격 진입 위험 ⭐⭐ → 1차a 5,562 +20% 위 추격 절대 금지 (§4.6.12 정합). 2·4·5위(지앤씨·한화솔루션·DS단석) 패턴 = 양봉 후 -3~5% 눌림 양봉 첫 지지 재확인 후 진입이 안전
+    </div>
   </div>
   <div class="warn-box" style="font-size:0.85em;">
     ⚠️ <strong>주의사항</strong>: ① <strong>🚫 추격 매수 절대 금지</strong>: 5파 종료 후 ABC 4파 조정 진행 = 추가 후퇴 가능성. 5중 이평선 수렴 5,562 양봉 첫 지지 확인 후 1차a 진입. ② <strong>수급 약점 (DS단석급)</strong>: 거래대금/외국인/기관 모두 100위 밖 → 1차a 비중 축소 검토. ③ <strong>5파 종료 영역 경고</strong>: 5/7 8,980 = 5파 종료 추정. 1차a 단독 손익비 2.22 ⭐⭐⭐ 충족하나 3차 메인까지 분할 체결 확보 필수. ④ <strong>극심한 변동성</strong>: 25.04 → 26.05 +257% 급등 후 -33.63% 조정 = 양자컴퓨팅 테마주 특성. <strong>4,600 손절선 종가 이탈 시 무조건 컷</strong> (224일선·일목구름·채널 중하단 동시 이탈 = 추세 무효).
@@ -4704,17 +4692,49 @@
     <div style="font-size:0.85em;color:#8b949e;margin-top:6px;">📰 <strong>주요 헤드라인</strong>: AI 데이터센터 전력 부족 / 복합화력·원전 수주 회복 / 글로벌 발전 인프라 모멘텀 / <strong>⚠️ 25.11 ~40K → 26.03 +185% 폭등 후 -34.41% 조정 진행 중 (변동성 큼)</strong> / 거래대금/외국인 모두 100위 밖 수급 약점</div>
   </div>
 
-  <div class="highlight" style="background:#1a2e1a;border-left:4px solid #3fb950;font-size:0.88em;">
-    📌 <strong>차트 시나리오 요약 (2026-05-26 · 81,100원 (+3.18%) · 양봉 1회 확인. 다음 거래일 양봉 + 거래량 0.59~1.26M 재확인 시 1차a 진입(75K 권역). 거래대금 100위 밖 유동성 부족 유의)</strong>
-    <ul style="margin:6px 0 0 18px;">
-      <li>🟣 <strong>1차a 잠정 진입가 ~75,000 (수량 미정)</strong> · 박스 하단 첫 양봉 지지 자리. <strong>양봉 종가 + 거래량 0.59M~1.26M (§4.6.12 눌림 룰 · 평균 0.84M × 0.7~1.5배) + 체강 100+ 동시 충족 시점에서만 진입</strong></li>
-      <li>🟣 <strong>1차b 잠정 ~72,000~73,000</strong> · 1차a -2~-4% 추가 눌림 양봉 (±2% 룰 §4.3 정합)</li>
-      <li>🟣 <strong>2차 잠정 ~65,000~68,000</strong> · 60일선·112일선 영역 양봉 첫 지지 + 거래량 정상 회복 시</li>
-      <li>🟣 <strong>3차 메인 잠정 ~55,000~60,000</strong> · 224일선(~50K) 근접 깊은 눌림 양봉 + 거래량 정상 시</li>
-      <li>📈 <strong>26.03.10 신고가 114,200 (-34.41% 조정)</strong> = 2단계 목표 (전고점 회복) / 1단계 목표 ~95K~100K (박스 상단 + 신고가 50% 회복권)</li>
-      <li>🚀 <strong>단테 정통 눌림 룰 충족 가능 (§4.6.12)</strong>: 224일선 위 + 박스 하단 진입 영역 = ABC 조정 후 매집 자리. 거래량 0.59M~1.26M 정상 회복 동반 시 트리거 발효</li>
-      <li>⚠️ <strong>일목구름대 진입 + 데드크로스 = 모멘텀 약화 신호</strong>: 1차a 즉시 진입 자제. 양봉 + 거래량 트리거 발효 + 5중 이평선 재정렬 진행 확인 후 진입 검토</li>
-    </ul>
+  <!-- ===== 📈 추세 이탈 자동 판별 + 🔍 유사 패턴 매칭 (§4.9 D안 PoC · 차트 임베드 제거) ===== -->
+  <div style="background:#241a0d;border:1px solid #d29922;border-radius:8px;padding:14px;margin:12px 0;">
+    <strong style="color:#d29922;font-size:1.05em;">📈 추세 이탈 자동 판별 (Vision 일일 추출)</strong>
+    <div style="font-size:0.82em;color:#f0883e;margin:4px 0 12px;">📡 <strong>PoC 파일럿 (시뮬레이션 값)</strong> · Claude Vision/CLIP 파이프라인 구축 후 자동 갱신 · 캡처 2026-05-26 19:00 KST</div>
+    <table class="stock-table" style="font-size:0.88em;margin-bottom:10px;">
+      <thead><tr><th>지표</th><th>값</th><th>현재가 대비</th><th>판정</th></tr></thead>
+      <tbody>
+        <tr><td>현재가 / 캔들</td><td><strong>81,100원</strong></td><td>양봉 +3.18% / 거래량 0.92M (평균 +10%)</td><td style="color:#3fb950;">✅ 정상</td></tr>
+        <tr><td>5일선</td><td>78,500</td><td>+3.31% 위</td><td style="color:#3fb950;">✅ 정배열</td></tr>
+        <tr><td>20일선</td><td>76,000</td><td>+6.71% 위</td><td style="color:#d29922;">⚠️ 데드크로스 진행</td></tr>
+        <tr><td>60일선</td><td>72,000</td><td>+12.64% 위</td><td style="color:#d29922;">⚠️ 데드크로스 진행</td></tr>
+        <tr><td>112일선</td><td>65,000</td><td>+24.77% 위</td><td style="color:#3fb950;">✅ 유효</td></tr>
+        <tr><td>224일선</td><td>50,000</td><td>+62.20% 위</td><td style="color:#3fb950;">✅ 유효</td></tr>
+        <tr style="background:#1c1012;"><td>🛑 잠정 손절선 (50,000원, 224일선)</td><td>50,000</td><td>+62.20% 여유</td><td style="color:#3fb950;">✅ 안전</td></tr>
+        <tr style="background:#1a2838;"><td>🟣 1차a 잠정 트리거 (~75K)</td><td>75,000</td><td>+8.13% 위 (미발효 + 추격 회피)</td><td style="color:#d29922;">⏸ 대기</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight" style="background:#241a0d;border-left:4px solid #d29922;font-size:0.9em;">
+      🎯 <strong>추세 종합 판정</strong>: <strong style="color:#d29922;">⚠️ 추세 회복 진행 (양봉 1회 + 거래량 정상)이나 일목구름대 진입 + 5중 이평선 데드크로스 진행 = 모멘텀 약화 신호</strong><br>
+      📊 <strong>진입 트리거 검사</strong>: 1차a ~75K <span style="color:#d29922;">+8.13% 위 추격 회피 영역</span> · 손절 50K <span style="color:#3fb950;">미발효 (+62.20% 여유)</span><br>
+      ⚡ <strong>자동 권장 조치</strong>: <span style="color:#d29922;">⏸ 보류 (관망)</span> · 후보 풀 유지 / 양봉 1회 확인 / 다음 거래일 양봉 + 거래량 0.59~1.26M 재확인 시 1차a ~75K 진입 검토<br>
+      🔔 <strong>다음 회차 모니터링 시그널</strong>: ① 다음 거래일 양봉 + 거래량 0.59M+ 재확인 → 1차a ~75K 진입 (수량 미정, 세부 시나리오 다음 회차 확정) ② 박스 하단 70K 종가 이탈 → 진입 전면 보류 + 2차 영역(60일선) 대기 ③ 5중 이평선 데드크로스 완료 → 4파 추가 후퇴 위험 ④ 224일선(~50K) 종가 이탈 → 후보 풀 제외 검토
+    </div>
+  </div>
+
+  <div style="background:#241a0d;border:1px solid #d29922;border-radius:8px;padding:14px;margin:12px 0;">
+    <strong style="color:#d29922;font-size:1.05em;">🔍 유사 패턴 매칭 (Top-5) · 모멘텀 약화 시그널 ⚠️</strong>
+    <div style="font-size:0.82em;color:#f0883e;margin:4px 0 12px;">📡 <strong>PoC 파일럿 (시뮬레이션 값)</strong> · CLIP-ViT-L/14 + 매칭 풀 47건 구축 후 자동 갱신</div>
+    <table class="stock-table" style="font-size:0.88em;margin-bottom:10px;">
+      <thead><tr><th>순위</th><th>유사도</th><th>종목 / 날짜</th><th>패턴 키워드</th><th>결과</th><th>보유</th></tr></thead>
+      <tbody>
+        <tr style="background:#0d1f0d;"><td>1</td><td><strong style="color:#3fb950;">🎯 80.3%</strong></td><td>한화솔루션 26.04.08</td><td>1파 신고가 -34% 조정 후 양봉 회복</td><td style="color:#7ee787;">🟢 +9.50% 익절</td><td>11영업일</td></tr>
+        <tr style="background:#2e1a1a;"><td>2</td><td><strong style="color:#f85149;">🎯 77.6%</strong></td><td>모니터랩 26.05.13</td><td>일목구름 진입 + 데드크로스 진행</td><td style="color:#f85149;">🚫 후보 풀 제외</td><td>—</td></tr>
+        <tr style="background:#2e1a1a;"><td>3</td><td><strong style="color:#f85149;">🎯 74.8%</strong></td><td>바텍 26.05.19</td><td>박스 하단 이탈 + 거래량 위축</td><td style="color:#f85149;">🚫 후보 풀 제외</td><td>—</td></tr>
+        <tr style="background:#0d1f0d;"><td>4</td><td><strong style="color:#3fb950;">🎯 72.1%</strong></td><td>지앤씨 26.04.20</td><td>4파 조정 종료 + 양봉 회복</td><td style="color:#7ee787;">🟢 +0.47% 익절</td><td>4영업일</td></tr>
+        <tr style="background:#0d1f0d;"><td>5</td><td><strong style="color:#3fb950;">🎯 69.5%</strong></td><td>DS단석 26.02.18</td><td>박스 하단 양봉 회복</td><td style="color:#7ee787;">🟢 +3.91% 익절</td><td>9영업일</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight" style="background:#241a0d;border-left:4px solid #d29922;font-size:0.9em;">
+      📊 <strong>매칭 통계</strong>: <strong style="color:#d29922;">3승 2제외 (승률 60%)</strong> · 평균 수익률 <strong style="color:#d29922;">+2.78%</strong> · 평균 보유 <strong>8.0영업일</strong><br>
+      🎯 <strong>신뢰도</strong>: <strong style="color:#d29922;">⭐⭐ 중 신뢰 (혼조)</strong> → 보류 권장<br>
+      💡 <strong>인사이트</strong>: 1·4·5위(한화솔루션·지앤씨·DS단석)는 조정 종료 후 양봉 + 거래량 회복으로 익절. <strong>2·3위(모니터랩·바텍)</strong> 패턴이 본 케이스와 일목구름 진입 + 데드크로스 시그널 일치 → 후보 풀 제외로 종결. <strong>양봉 1회만으로 진입 금지</strong>, 다음 거래일 양봉 + 거래량 0.59M+ 재확인 동반 시 1차a 진입이 안전. 5중 이평선 데드크로스 완료 시 패스 검토
+    </div>
   </div>
   <div class="warn-box" style="font-size:0.85em;">
     ⚠️ <strong>주의사항</strong>: ① <strong>🚫 추격 매수 절대 금지</strong>: 일목구름대 진입 + 5중 이평선 데드크로스 진행 = 추가 후퇴 가능성. 양봉 + 거래량 트리거 발효 전까지 1차a 진입 보류. ② <strong>수급 약점 (DS단석·바텍급)</strong>: 거래대금 100위 밖 + 외국인 매도 49위 ▼2 + 기관 무관심 → 1차a 비중 축소 검토. ③ <strong>1파(또는 5파) 종료 영역 경고</strong>: 26.03.10 114,200 = 1파 종료 추정. ABC 조정 C파 마무리 단계로 추정되나 224일선 ~50K 권역까지 추가 후퇴 여지 → 1차a부터 풀 진입 금지 + 3차 메인까지 분할 엄수. ④ <strong>변동성 큼</strong>: 25.11 → 26.03 +185% 급등 후 -34.41% 조정 = 발전 테마 변동성 특성. <strong>잠정 손절 ~50,000 종가 이탈 시 무조건 컷</strong> (224일선 이탈 = 추세 무효). ⑤ <strong>매수가·손절·목표가·수량 세부 시나리오 미확정</strong>: 다음 분석 회차에서 차트 오버레이 + 단계별 매수 테이블 확정 예정.

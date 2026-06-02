@@ -5616,13 +5616,13 @@
 <!-- ===== 🎯 오늘의 2구간 후반 눌림 후보 (단일 추천 섹션) ===== -->
 <section id="new-recommendations-section">
 
-<h2 style="color:#b794f4;">🎯 오늘의 2구간 후반 눌림 후보</h2>
+<h2 style="color:#b794f4;">🎯 영속 추천 풀 (재평가 → 신규 서칭)</h2>
   <p style="font-size:0.9em;color:#8b949e;margin:0 0 12px;">
-    KRX OpenAPI 전 종목(KOSPI + KOSDAQ) OHLCV를 일괄 스캔하여 <strong>단테 §2.1 (밥그릇 4구간) + §2.5.2 (장기 이평 릴레이) + §4.4 (1차a 안착)</strong> 정합 <strong>224일선 돌파 후 첫 눌림 + 지지선 근접</strong> 종목을 추출 → DART 공시 필터(악재 컷 + 실적/호재 가산) → Claude 정성 판단으로 <strong>상위 3개</strong>를 추천.
+    매 08:15 회차마다 <strong>① 기존 풀 종목을 오늘 OHLCV로 재평가</strong>(통과↔이탈 분류 전환)한 뒤 <strong>② 신규 종목을 서칭</strong>합니다. KRX OpenAPI 전 종목(KOSPI + KOSDAQ)을 스캔해 <strong>단테 §2.1 (밥그릇 4구간) + §2.5.2 (장기 이평 릴레이) + §4.4 (1차a 안착)</strong> 정합 <strong>224일선 돌파 후 첫 눌림 + 지지선 근접</strong> 종목을 추출 → DART 공시 필터(악재 컷 + 실적/호재 가산) → Claude 정성 진단. <strong style="color:#3fb950;">한번 등장한 종목은 사용자 지시 전까지 풀에서 삭제되지 않으며</strong>, 조건 이탈 시 '이탈 추적'으로 이동하고 회복 시 통과로 복귀합니다.
   </p>
 
   <div id="scanner-stats-banner" class="highlight" style="background:#1a2838;border-left:4px solid #58a6ff;margin-bottom:16px;">
-    <strong style="color:#58a6ff;">📊 스캐너 통계</strong>: <strong>모집단</strong> <span id="universe-size">(다음 08:15 회차 후 표시)</span> 종목 · <strong>필터 통과</strong> <span id="passed-count">—</span>개 · <strong>점수 분포</strong> <span id="score-min">—</span>~<span id="score-max">—</span> · <strong>스캐너 버전</strong> <span id="scanner-version">pullback_v1 (2026-05-22)</span>
+    <strong style="color:#58a6ff;">📊 스캐너 통계</strong>: <strong>모집단</strong> <span id="universe-size">(다음 08:15 회차 후 표시)</span> 종목 · <strong>풀 통과</strong> <span id="passed-count">—</span>개 · <strong>이탈 추적</strong> <span id="dropped-count">—</span>개 · <strong>점수 분포</strong> <span id="score-min">—</span>~<span id="score-max">—</span> · <strong>스캐너 버전</strong> <span id="scanner-version">pullback_v1.3 영속 풀 (2026-06-02)</span>
   </div>
 
   <div id="recommendation-cards-wrapper">

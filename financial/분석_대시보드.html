@@ -5632,43 +5632,138 @@
 
   <div id="recommendation-cards-wrapper">
 
+<section id="holdings-trend-section" style="margin:24px 0;padding:16px;background:#161b22;border:1px solid #30363d;border-radius:8px;">
+  <h3 style="margin-top:0;">🔎 기존 보유·후보 추세 점검 <span style="color:#8b949e;font-size:0.85em;">(전일 확정 OHLCV · 차트 미확인)</span></h3>
+  <p style="color:#f0883e;">🛑 추세 이탈 1종 — 비에이치아이 (장 시작 전 손절·트레일링 점검 권장)</p>
+  <table style="width:100%;border-collapse:collapse;">
+    <thead><tr style="background:#21262d;">
+      <th style="padding:8px;text-align:left;">종목</th>
+      <th style="padding:8px;text-align:right;">전일 종가</th>
+      <th style="padding:8px;text-align:right;">등락률</th>
+      <th style="padding:8px;text-align:right;">거래량</th>
+      <th style="padding:8px;text-align:left;">추세 판정</th>
+      <th style="padding:8px;text-align:left;">근거</th>
+    </tr></thead>
+    <tbody><tr>
+      <td><strong>TIGER 반도체TOP10</strong> <span style="color:#8b949e;font-size:0.85em;">396500 · active</span></td>
+      <td style="text-align:right;">—원</td>
+      <td style="text-align:right;color:#3fb950;">—</td>
+      <td style="text-align:right;">—</td>
+      <td style="color:#8b949e;"><strong>❓ 데이터 부족</strong></td>
+      <td style="color:#c9d1d9;font-size:0.9em;">OHLCV 60일 미만 (캐시 부족·ETF/신규 종목 등)</td>
+    </tr>
+<tr>
+      <td><strong>비에이치아이</strong> <span style="color:#8b949e;font-size:0.85em;">083650 · active</span></td>
+      <td style="text-align:right;">67,300원</td>
+      <td style="text-align:right;color:#f85149;">-4.54%</td>
+      <td style="text-align:right;">0.52배</td>
+      <td style="color:#f85149;"><strong>🛑 추세 이탈</strong></td>
+      <td style="color:#c9d1d9;font-size:0.9em;">112일선(81226) -1% 종가 이탈 · 60일선(91875) 하회 · 20일선(79320) 하회</td>
+    </tr>
+<tr>
+      <td><strong>미래에셋벤처투자</strong> <span style="color:#8b949e;font-size:0.85em;">100790 · active</span></td>
+      <td style="text-align:right;">39,800원</td>
+      <td style="text-align:right;color:#f85149;">-7.33%</td>
+      <td style="text-align:right;">0.35배</td>
+      <td style="color:#d29922;"><strong>⚠️ 추세 약화</strong></td>
+      <td style="color:#c9d1d9;font-size:0.9em;">60일선(41696) 하회 · 20일선(54307) 하회</td>
+    </tr></tbody>
+  </table>
+  <p style="color:#8b949e;font-size:0.85em;margin-top:8px;">※ 장 시작 전 수치 판정(5/20/60/112/224 이평·거래량). 추세 이탈 종목은 당일 10:30 회차 차트 분석으로 손절/트레일링 최종 확정.</p>
+</section>
 <section id="new-recommendations" style="margin:24px 0;padding:16px;background:#161b22;border:1px solid #30363d;border-radius:8px;">
   <h3 style="margin-top:0;">🎯 영속 추천 풀 (재평가 → 신규 서칭)</h3>
-  <p style="color:#79c0ff;">✅ 통과 3종 (오로라, 가비아, 코웨이) · ⏳ 자리·숙성 대기 0종 · 🛑 추세 이탈 0종 (조건 회복 시 통과 복귀)</p>
+  <p style="color:#79c0ff;">✅ 통과 2종 (오로라, 가비아) · ⏳ 자리·숙성 대기 1종 (코웨이) · 🛑 추세 이탈 7종 (조건 회복 시 통과 복귀)</p>
   
-  <h4 style="margin:12px 0 6px;color:#79c0ff;">✅ 통과 종목 (3종 · 영속 풀 누적 · 자동 삭제 없음)</h4>
+  <h4 style="margin:12px 0 6px;color:#79c0ff;">✅ 통과 종목 (2종 · 영속 풀 누적 · 자동 삭제 없음)</h4>
   
     <div style="background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:12px;margin-bottom:8px;">
       <div style="display:flex;justify-content:space-between;align-items:baseline;">
-        <strong style="font-size:1.05em;">#1 오로라 <span style="color:#8b949e;font-size:0.85em;">039830 · </span></strong>
-        <span style="color:#79c0ff;"> 눌림 점수 97/100</span>
+        <strong style="font-size:1.05em;">#1 오로라 <span style="color:#8b949e;font-size:0.85em;">039830 · KOSDAQ</span><span style="color:#8b949e;font-size:0.8em;margin-left:6px;">📌 2026-06-03~ 추적</span></strong>
+        <span style="color:#79c0ff;">⭐⭐ 눌림 점수 97/100</span>
       </div>
-      <div style="color:#8b949e;font-size:0.85em;margin:2px 0;">🌊 엘리엇 3파 후 눌림(이탈→재통과) N자 되돌림 추정</div>
-      
-      <div style="margin:8px 0;color:#c9d1d9;">score 97·06-05 이탈 후 06-06 재통과로 224일선 위 눌림 정상화 → 양봉+거래량 트리거 발효 시 1차a 진입 검토 (review_required).</div>
+      <div style="color:#8b949e;font-size:0.85em;margin:2px 0;">🌊 엘리엇 2파 조정 마무리 → 3파 초입 추정</div>
+      <div style="margin:6px 0;font-size:0.85em;"><span style="display:inline-block;margin-right:6px;padding:2px 6px;background:#1f6feb22;border-radius:3px;color:#79c0ff;">✅ 완구ㆍ캐릭터 라이선스 매출 회복 영업이익 흑자전환</span><span style="display:inline-block;margin-right:6px;padding:2px 6px;background:#1f6feb22;border-radius:3px;color:#79c0ff;">➕ 우량기업부 편입 유지</span></div>
+      <div style="margin:8px 0;color:#c9d1d9;">종가 17,470원으로 224일선 돌파 후 첫 눌림 2구간 후반 안착 — 지지선 ±1~3% 권역에서 거래량 0.7배↓ 감소하며 매도 압력 소진, 06-05 일시 이탈 후 06-06·06-07 연속 통과 복귀로 추세 신뢰도 회복(score 95→97). 음봉이라도 눌림 각도 자연스러워 반등 트리거 대기 구간.</div>
     </div>
 
     <div style="background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:12px;margin-bottom:8px;">
       <div style="display:flex;justify-content:space-between;align-items:baseline;">
-        <strong style="font-size:1.05em;">#2 가비아 <span style="color:#8b949e;font-size:0.85em;">079940 · </span></strong>
-        <span style="color:#79c0ff;"> 눌림 점수 82/100</span>
+        <strong style="font-size:1.05em;">#2 가비아 <span style="color:#8b949e;font-size:0.85em;">079940 · KOSDAQ</span><span style="color:#8b949e;font-size:0.8em;margin-left:6px;">📌 2026-06-03~ 추적</span></strong>
+        <span style="color:#79c0ff;">⭐⭐⭐ 눌림 점수 82/100</span>
       </div>
-      <div style="color:#8b949e;font-size:0.85em;margin:2px 0;">🌊 밥그릇 바닥 탈출 후 1파 진행 N구간(통과 4일 연속)</div>
-      
-      <div style="margin:8px 0;color:#c9d1d9;">3⭐·06-03~06-06 4일 연속 통과로 점수 72→88→82 안정 → 224 위 추세 유효, 밥그릇 N구간 양봉 트리거 시 진입 후보.</div>
+      <div style="color:#8b949e;font-size:0.85em;margin:2px 0;">🌊 224 돌파 후 횡보 2구간 안착</div>
+      <div style="margin:6px 0;font-size:0.85em;"><span style="display:inline-block;margin-right:6px;padding:2px 6px;background:#1f6feb22;border-radius:3px;color:#79c0ff;">✅ 도메인ㆍ호스팅 안정적 영업이익 YoY 증가</span><span style="display:inline-block;margin-right:6px;padding:2px 6px;background:#1f6feb22;border-radius:3px;color:#79c0ff;">➕ 우량기업부 편입 유지</span></div>
+      <div style="margin:8px 0;color:#c9d1d9;">종가 30,900원으로 224일선 위 안착 후 첫 눌림 권역 — first_seen 06-03 이래 5회차 연속 통과 유지(72→88→82) 안정적 추세, 지지선 근접 + 거래량 감소로 밥그릇 3구간 본격 진입 신뢰도 높음. 장기 이평 릴레이 정합.</div>
+    </div>
+  
+  <h4 style="margin:16px 0 6px;color:#3fb950;">⏳ 자리·숙성 대기 (1종 · ✅ 추세 유효 · 돌파 후 5일 숙성/지지 안착 시 통과 복귀 — 추세 이탈 아님)</h4>
+  
+    <div style="background:#0d1f0d;border:1px solid #2ea04366;border-radius:6px;padding:10px;margin-bottom:6px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;">
+        <strong style="color:#3fb950;">⏳ 코웨이 <span style="color:#8b949e;font-size:0.85em;">021240 · KOSPI</span></strong>
+        <span style="color:#8b949e;font-size:0.85em;">직전 100점 유지</span>
+      </div>
+      <div style="margin:4px 0;color:#c9d1d9;font-size:0.92em;">종가 94,600원 — 돌파 2일전 5일선 미달로 1차 신호 영역 진입에 그쳐 안착가 진입 조건 미충족, 06-05 이래 3회차 연속 이탈. 5일선 위로 양봉 회복 시 통과 복귀 가능.</div>
+    </div>
+  
+  <h4 style="margin:16px 0 6px;color:#f0883e;">📤 추세 이탈 추적 (7종 · 112/224 이평 종가 이탈 · 조건 회복 시 통과 복귀 · 사용자 지시 전 삭제 안 함)</h4>
+  
+    <div style="background:#21130d;border:1px solid #5a2d1a;border-radius:6px;padding:10px;margin-bottom:6px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;">
+        <strong style="color:#f0883e;">⚠️ NHN KCP <span style="color:#8b949e;font-size:0.85em;">060250 · KOSDAQ</span><span style="color:#8b949e;font-size:0.8em;margin-left:6px;">5회차째 이탈</span></strong>
+        <span style="color:#8b949e;font-size:0.85em;">이전 92점</span>
+      </div>
+      <div style="margin:4px 0;color:#c9d1d9;font-size:0.92em;">종가 18,540원으로 224일선 -5.8% 하회 — 장기 추세선 이탈 후 5회차 연속 이탈로 밥그릇 구조 붕괴. 224일선 위 종가 회복 + 거래량 동반 시 통과 복귀 가능.</div>
     </div>
 
-    <div style="background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:12px;margin-bottom:8px;">
+    <div style="background:#21130d;border:1px solid #5a2d1a;border-radius:6px;padding:10px;margin-bottom:6px;">
       <div style="display:flex;justify-content:space-between;align-items:baseline;">
-        <strong style="font-size:1.05em;">#3 코웨이 <span style="color:#8b949e;font-size:0.85em;">021240 · </span></strong>
-        <span style="color:#79c0ff;"> 눌림 점수 100/100</span>
+        <strong style="color:#f0883e;">⚠️ 서연이화 <span style="color:#8b949e;font-size:0.85em;">200880 · KOSPI</span><span style="color:#8b949e;font-size:0.8em;margin-left:6px;">6회차째 이탈</span></strong>
+        <span style="color:#8b949e;font-size:0.85em;">이전 92점</span>
       </div>
-      <div style="color:#8b949e;font-size:0.85em;margin:2px 0;">🌊 돌파 초기 1차 신호 영역(2일 전 돌파, 5일 미만) — 파동 초입</div>
-      
-      <div style="margin:8px 0;color:#c9d1d9;">score 100·후보 풀 #2지만 '돌파 2일전<5일' 1차 신호 영역으로 이탈 처리 → 돌파 5일 경과·양봉 거래량 확인 전까지 보류, 매수타점 임박 추적 (review_required).</div>
+      <div style="margin:4px 0;color:#c9d1d9;font-size:0.92em;">종가 14,320원으로 224일선 -5.5% 하회 — 06-02 이래 6회차 연속 이탈로 장기 추세 약화 지속. 224일선 탈환 시 통과 복귀 가능.</div>
     </div>
-  
-  
+
+    <div style="background:#21130d;border:1px solid #5a2d1a;border-radius:6px;padding:10px;margin-bottom:6px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;">
+        <strong style="color:#f0883e;">⚠️ HDC현대산업개발 <span style="color:#8b949e;font-size:0.85em;">294870 · KOSPI</span><span style="color:#8b949e;font-size:0.8em;margin-left:6px;">7회차째 이탈</span></strong>
+        <span style="color:#8b949e;font-size:0.85em;">이전 100점</span>
+      </div>
+      <div style="margin:4px 0;color:#c9d1d9;font-size:0.92em;">종가 22,000원으로 224일선 -8.3% 깊은 하회 — 7회차 연속 이탈로 이격 확대, 추세 회복까지 시간 필요. 224일선 근접까지 반등 + 종가 안착 시 통과 복귀 가능.</div>
+    </div>
+
+    <div style="background:#21130d;border:1px solid #5a2d1a;border-radius:6px;padding:10px;margin-bottom:6px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;">
+        <strong style="color:#f0883e;">⚠️ 디지털대성 <span style="color:#8b949e;font-size:0.85em;">068930 · KOSDAQ</span><span style="color:#8b949e;font-size:0.8em;margin-left:6px;">7회차째 이탈</span></strong>
+        <span style="color:#8b949e;font-size:0.85em;">이전 87점</span>
+      </div>
+      <div style="margin:4px 0;color:#c9d1d9;font-size:0.92em;">종가 8,310원으로 224일선 -4.5% 하회 — 7회차 연속 이탈로 장기 추세선 아래 횡보. 224일선 위 종가 회복 시 통과 복귀 가능.</div>
+    </div>
+
+    <div style="background:#21130d;border:1px solid #5a2d1a;border-radius:6px;padding:10px;margin-bottom:6px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;">
+        <strong style="color:#f0883e;">⚠️ 현대코퍼레이션홀딩스 <span style="color:#8b949e;font-size:0.85em;">227840 · KOSPI</span><span style="color:#8b949e;font-size:0.8em;margin-left:6px;">7회차째 이탈</span></strong>
+        <span style="color:#8b949e;font-size:0.85em;">이전 80점</span>
+      </div>
+      <div style="margin:4px 0;color:#c9d1d9;font-size:0.92em;">종가 12,650원으로 224일선 -3.9% 하회 — 05-30 이래 7회차 연속 이탈이나 이격은 상대적으로 작아 회복 여지 존재. 224일선 탈환 종가 확인 시 통과 복귀 가능.</div>
+    </div>
+
+    <div style="background:#21130d;border:1px solid #5a2d1a;border-radius:6px;padding:10px;margin-bottom:6px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;">
+        <strong style="color:#f0883e;">⚠️ 대상홀딩스 <span style="color:#8b949e;font-size:0.85em;">084690 · KOSPI</span><span style="color:#8b949e;font-size:0.8em;margin-left:6px;">7회차째 이탈</span></strong>
+        <span style="color:#8b949e;font-size:0.85em;">이전 80점</span>
+      </div>
+      <div style="margin:4px 0;color:#c9d1d9;font-size:0.92em;">종가 9,750원으로 224일선 -13.7% 대폭 하회 — 7회차 연속 이탈로 이격 최대, 추세 균열 심각. 224일선까지 큰 폭 반등 + 종가 안착 시에만 통과 복귀 가능.</div>
+    </div>
+
+    <div style="background:#21130d;border:1px solid #5a2d1a;border-radius:6px;padding:10px;margin-bottom:6px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;">
+        <strong style="color:#f0883e;">⚠️ 미창석유 <span style="color:#8b949e;font-size:0.85em;">003650 · KOSPI</span><span style="color:#8b949e;font-size:0.8em;margin-left:6px;">7회차째 이탈</span></strong>
+        <span style="color:#8b949e;font-size:0.85em;">이전 62점</span>
+      </div>
+      <div style="margin:4px 0;color:#c9d1d9;font-size:0.92em;">종가 123,300원으로 112일선 하회 — 단기 추세 붕괴 후 7회차 연속 이탈, 단기 모멘텀 소실. 112일선 위 종가 회복 시 통과 복귀 가능.</div>
+    </div>
   <p class="highlight" style="margin-top:12px;padding:8px;background:#1f6feb22;border-left:3px solid #1f6feb;color:#79c0ff;font-size:0.9em;">♻️ 매 08:15 회차마다 기존 풀 종목을 먼저 재평가(통과↔자리대기↔이탈)한 뒤 신규를 서칭합니다. 한번 등장한 종목은 <strong>사용자 지시 전까지 풀에서 삭제되지 않습니다</strong>. ⚠️ 추천은 차트 미확인 상태 — 사용자 차트 검토 후 §4.6.13 4지 선다(매수/후보 풀/보류/패스) 결정 → stocks.json 편입 시 다음 회차 full 분석이 진입 시나리오 산출.</p>
 </section>
 </div>

@@ -851,7 +851,14 @@ node upload_dashboard.js
 | 2️⃣ | **분석_대시보드.html** | 해당 탭 카드(스윙·중장기·후보·종료) + 요약 탭 4지 판정 표 + 포트폴리오 표 + footer 누계·카운트 + 헤더 텍스트 — **종목/조건 변경이 반영될 수 있는 모든 위치** |
 | 3️⃣ | **GitHub 업로드** | `node upload_dashboard.js` 실행 → financial/ 경로 HTML + MD 3-tier + images/ 일괄 동기화 |
 
-> **🐛 근거 사례 (2026-06-04 두산로보틱스 Slack 오노출)**: 06-02 두산로보틱스 종결 시 §6 SSOT·분석_대시보드.html(활성 탭 삭제+종료 탭 이동)은 갱신됐으나 **stocks.json tag가 active로 잔존** → 분석 JSON·Slack이 계속 "활성 4종"으로 노출. 원인 = 종전 "3종 세트" 룰이 stocks.json을 빠뜨림. **종결/삭제/이동 작업 시 stocks.json을 0순위로 점검**하도록 4종 세트로 격상. (검증: `node -e`로 stocks.json 파싱 + 활성 목록 출력하여 라인업 대조)
+> **🐛 근거 사례 1 (2026-06-04 두산로보틱스 Slack 오노출)**: 06-02 두산로보틱스 종결 시 §6 SSOT·분석_대시보드.html(활성 탭 삭제+종료 탭 이동)은 갱신됐으나 **stocks.json tag가 active로 잔존** → 분석 JSON·Slack이 계속 "활성 4종"으로 노출. 원인 = 종전 "3종 세트" 룰이 stocks.json을 빠뜨림. **종결/삭제/이동 작업 시 stocks.json을 0순위로 점검**하도록 4종 세트로 격상.
+>
+> **🐛 근거 사례 2 (2026-06-10 후보 2종 Slack 누락 — 동일 패턴 재발)**: 06-08 한화오션·06-10 키움증권을 §6 라인업(line 1168·1292)에 후보로 추가하면서 line 1292가 *"stocks.json 후보 복구 필요"*까지 명시했으나 **stocks.json은 후보 0종으로 동결** → 15:10 회차 분석 JSON에 후보가 아예 생성되지 않아 Slack "후보 0종" 노출(summary.candidate_status 텍스트만 2종 언급되어 불일치). 원인 = §6/대시보드 갱신 후 stocks.json 반영을 또 빠뜨림. **교훈: §6 후보 카운트를 늘리는 순간 stocks.json `candidate` 행을 같은 응답에서 즉시 추가**한다. 사후 보정 = stocks.json 복구 + 해당 회차 분석 JSON에 후보 엔트리 주입 + Slack 재전송.
+>
+> **✅ 발행/발송 직전 자동 정합 검증 (필수 · 라인업 변경 작업마다 실행)**: 아래 한 줄로 stocks.json 활성/후보 카운트가 §6 헤더 카운트와 일치하는지 대조한 뒤에만 완료 보고한다.
+> ```
+> node -e "const s=require('./stocks.json').stocks; const a=s.filter(x=>x.tag==='active'); const c=s.filter(x=>x.tag==='candidate'); console.log('stocks.json → 활성', a.length, a.map(x=>x.name).join(','), '/ 후보', c.length, c.map(x=>x.name).join(',')); console.log('→ §6 헤더 카운트(활성 N종/후보 N종)와 일치하는지 육안 대조');"
+> ```
 
 **🚨 핵심 룰 (영구 적용)**:
 - ✅ **트리거**: 사용자가 "추가 / 삭제 / 수정 / 변경 / 이동 / 갱신" 키워드와 함께 종목·매수가·손절·목표가·트리거·조건을 언급하면 즉시 3종 세트 적용

@@ -3054,7 +3054,7 @@
 
 <h2 style="color:#79c0ff;">🌊 장기이평 돌파 후 첫 눌림 (224·112선 지지 안착 진입)</h2>
   <p style="font-size:0.9em;color:#8b949e;margin:0 0 12px;">
-    매 08:15 회차마다 KRX 전 종목(KOSPI+KOSDAQ)을 스캔해 <strong>224일선 돌파 후 첫 눌림 + 지지선 근접</strong> 종목을 추출(DART 악재컷) → 아래 <strong>4개 버킷(🟢 노출·🎓 졸업·⏳ 지속관찰·❌ 이탈)</strong>으로 자동 분류합니다. <strong style="color:#3fb950;">🎓 졸업(포착일 +20%)·❌ 이탈(112/224 추세선 종가 이탈)은 자동 판별</strong>, 진입(스윙 이동)만 사용자 요청 시. 차트 미확인 — 검토 후 결정.
+    매 08:15 회차마다 KRX 전 종목(KOSPI+KOSDAQ)을 스캔해 <strong>224일선 돌파 후 첫 눌림 + 지지선 근접</strong> 종목을 추출(DART 악재컷) → 아래 <strong>버킷(🟢 노출·🎓 졸업①②·⏳ 지속관찰·❌ 이탈)</strong>으로 자동 분류합니다. <span style="color:#79c0ff;">🆕 승률 개선 필터 적용: ① score≥90 · ② 거래량 5/20≤0.7 · ④ 통과일 양봉 (2026-06-11, 단테 분할 기대값 -0.51%→+0.67%).</span> <strong style="color:#3fb950;">🎓 졸업(포착일 +20%)·❌ 이탈(112/224 추세선 종가 이탈)은 자동 판별</strong>, 진입(스윙 이동)만 사용자 요청 시. 차트 미확인 — 검토 후 결정.
   </p>
 
   <div id="recommendation-cards-wrapper">
@@ -4347,22 +4347,21 @@
 <div class="card">
 <section id="scanner-eval">
   <p style="font-size:0.85em;color:#8b949e;margin:0 0 12px;">
-    <strong>📡 forward-test (08:15 스케줄 실구동 누적)</strong> · 백테스트 아님. 매 회차 원장(breakout_pool·recommend_pool)에 쌓이는 실제 결과로 측정 · 졸업=고수위 도달(영구) · 이탈=추세선 종가 이탈 · <strong>익절 인정 +20%</strong>. <span style="color:#d29922;">peak 추적 시작(2026-06-11)부터 정확 집계 — 데이터 누적 중.</span>
+    <strong>📡 forward-test (08:15 스케줄 실구동 누적 신호)</strong> · 측정 기법 = <strong>단테 분할매수 1:1:2</strong>(1차a 포착가 + 1차b -1.5% + 2차 메인 224지지) → 평단 → <strong>평단 +20% 익절 / 112선 종가 이탈 손절</strong>. <span style="color:#d29922;">원장 누적분만 집계 — 회차 쌓일수록 표본 증가.</span>
   </p>
   <table class="stock-table" style="font-size:0.92em;">
     <thead><tr><th>지표</th><th>🌊 눌림</th><th>💥 돌파</th></tr></thead>
     <tbody>
       <tr><td>누적 신호</td><td style="text-align:center;">11</td><td style="text-align:center;">1</td></tr>
-      <tr style="background:#0d1f0d;"><td>🎓 졸업② (+20% 청산)</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td></tr>
-      <tr><td>🎓 졸업① (+10% 도달·진행)</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td></tr>
-      <tr><td>❌ 이탈 (손절)</td><td style="text-align:center;">8</td><td style="text-align:center;">0</td></tr>
-      <tr><td>진행중 (노출·지속관찰)</td><td style="text-align:center;">3</td><td style="text-align:center;">1</td></tr>
-      <tr style="background:#0d1f0d;"><td>승률 +20% / (+20%+이탈)</td><td style="text-align:center;">0%</td><td style="text-align:center;">0%</td></tr>
-      <tr><td>평균 손실 (이탈)</td><td style="text-align:center;">0%</td><td style="text-align:center;">0%</td></tr>
-      <tr><td>기대값(추정)</td><td style="text-align:center;">0%</td><td style="text-align:center;">0%</td></tr>
+      <tr><td>승 / 패</td><td style="text-align:center;">0 / 8</td><td style="text-align:center;">0 / 0</td></tr>
+      <tr style="background:#0d1f0d;"><td>승률 (+20% 익절)</td><td style="text-align:center;">0%</td><td style="text-align:center;">0%</td></tr>
+      <tr><td>평균 진입 차수</td><td style="text-align:center;">2.64</td><td style="text-align:center;">1</td></tr>
+      <tr><td>평균 손실 (이탈)</td><td style="text-align:center;">-2.28%</td><td style="text-align:center;">0%</td></tr>
+      <tr style="background:#0d1f0d;"><td>기대값 (1신호당)</td><td style="text-align:center;">-2.28%</td><td style="text-align:center;">0%</td></tr>
+      <tr><td>진행중(미청산)</td><td style="text-align:center;">3</td><td style="text-align:center;">1</td></tr>
     </tbody>
   </table>
-  <p style="font-size:0.78em;color:#8b949e;margin-top:8px;">실거래 매매일지는 🏁 종료 탭 · 단테 분할매수 가정 백테스트는 별도 분석(backtest_scanners.py)</p></section>
+  <p style="font-size:0.78em;color:#8b949e;margin-top:8px;">생성: 2026-06-11T15:28:13 · 실거래 매매일지는 🏁 종료 탭 · 전체 과거 백테스트는 backtest_scanners.py</p></section>
 </div>
 
 </div><!-- /tab-summary -->

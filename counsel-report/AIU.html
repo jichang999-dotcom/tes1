@@ -385,7 +385,7 @@ body {
 <div class="topbar">
   <div>
     <div class="topbar-title">와이즈만 수원영통센터</div>
-    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-05-14 ~ 2026-06-12</div>
+    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-05-17 ~ 2026-06-15</div>
   </div>
 </div>
 
@@ -404,7 +404,7 @@ body {
       <div class="icon">📅</div>
       <div>
         <div class="label">분석 기간</div>
-        <div class="value">2026-05-14 ~ 2026-06-12</div>
+        <div class="value">2026-05-17 ~ 2026-06-15</div>
       </div>
     </div>
     <!-- D-30 / D-0 비교 -->
@@ -413,24 +413,24 @@ body {
         <tr>
           <th></th>
           <th class="col-d30">30일 누적</th>
-          <th class="col-d0">6/12 당일</th>
+          <th class="col-d0">6/13~6/15 보강(3일)</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>총 상담 건수</td>
-          <td class="val" style="color:var(--accent);">494</td>
-          <td class="val" style="color:var(--accent);">2</td>
+          <td class="val" style="color:var(--accent);">505</td>
+          <td class="val" style="color:var(--accent);">28</td>
         </tr>
         <tr>
           <td>부정 감성 건수</td>
-          <td class="val" style="color:var(--danger);">79</td>
-          <td class="val" style="color:var(--danger);">0</td>
+          <td class="val" style="color:var(--danger);">77</td>
+          <td class="val" style="color:var(--danger);">1</td>
         </tr>
         <tr>
           <td>부정 비율</td>
-          <td class="val" style="color:var(--warning);">16.0%</td>
-          <td class="val" style="color:var(--warning);">0.0%</td>
+          <td class="val" style="color:var(--warning);">15.2%</td>
+          <td class="val" style="color:var(--warning);">3.6%</td>
         </tr>
       </tbody>
     </table>
@@ -496,8 +496,14 @@ body {
         </tr>
         <tr class="clickable" onclick="showTeacherRaw('서헌영')">
           <td>서헌영</td>
-          <td>25</td>
+          <td>24</td>
           <td><strong>4</strong></td>
+          <td>—</td>
+        </tr>
+        <tr class="clickable" onclick="showTeacherRaw('서정우')">
+          <td>서정우</td>
+          <td>49</td>
+          <td><strong>3</strong></td>
           <td>—</td>
         </tr>
         <tr class="clickable" onclick="showTeacherRaw('이수정')">
@@ -512,15 +518,9 @@ body {
           <td><strong>3</strong></td>
           <td>—</td>
         </tr>
-        <tr class="clickable" onclick="showTeacherRaw('서정우')">
-          <td>서정우</td>
-          <td>26</td>
-          <td><strong>3</strong></td>
-          <td>—</td>
-        </tr>
         <tr style="background:var(--bg);font-weight:600;">
           <td>합계 (10명)</td>
-          <td>350</td>
+          <td>372</td>
           <td>63</td>
           <td>—</td>
         </tr>
@@ -599,13 +599,6 @@ body {
           <td></td>
           <td></td>
         </tr>
-        <tr class="clickable" onclick="showStudentRaw('CS251104287','주민준♥')">
-          <td>주민준♥</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-          <td></td>
-        </tr>
         <tr class="clickable" onclick="showStudentRaw('BS191100413','김윤')">
           <td>김윤</td>
           <td><strong>2건</strong></td>
@@ -634,20 +627,13 @@ body {
           <td></td>
           <td></td>
         </tr>
-        <tr class="clickable" onclick="showStudentRaw('CS251104288','주민하')">
-          <td>주민하</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag warning">주의</span></td>
-          <td></td>
-          <td></td>
-        </tr>
       </tbody>
     </table>
   </div>
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-06-13 11:15<br>
+    분석 모델: Claude API | 생성일: 2026-06-16 11:11<br>
     데이터 기준<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>
@@ -661,7 +647,7 @@ body {
 <div class="topbar">
   <div>
     <div class="topbar-title">와이즈만 수원영통센터</div>
-    <div class="topbar-sub">키워드 raw 데이터 · 2026-05-14 ~ 2026-06-12</div>
+    <div class="topbar-sub">키워드 raw 데이터 · 2026-05-17 ~ 2026-06-15</div>
   </div>
 </div>
 
@@ -672,7 +658,7 @@ body {
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--accent-light);color:var(--accent);">📋</div>
-      <span id="raw-card-title">키워드 raw (부정 판정 80건)</span>
+      <span id="raw-card-title">키워드 raw (부정 판정 78건)</span>
     </div>
 
     <div class="legend">
@@ -708,6 +694,14 @@ body {
         </tr>
       </thead>
       <tbody>
+        <tr class="raw-row" data-std="CS240301115" data-name="강유현" data-date="2026-06-13" data-teacher="" data-masked="0">
+          <td>2026-06-13</td>
+          <td>강유현</td>
+          <td>CS240301115</td>
+          <td class="td-title">결석상담-병결</td>
+          <td><span class="tag-kw">건강문제</span></td>
+          <td><span class="tag-kw">건강문제</span></td>
+        </tr>
         <tr class="raw-row" data-std="CS231100657" data-name="김소은" data-date="2026-06-10" data-teacher="조미림" data-masked="0">
           <td>2026-06-10</td>
           <td>김소은</td>
@@ -1322,30 +1316,6 @@ body {
           <td>CS251101120</td>
           <td class="td-title">휴회상담</td>
           <td><span class="tag-kw">휴회</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS220700363" data-name="정예나" data-date="2026-05-14" data-teacher="" data-masked="0">
-          <td>2026-05-14</td>
-          <td>정예나</td>
-          <td>CS220700363</td>
-          <td class="td-title">수업중간 귀가</td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS251104287" data-name="주민준♥" data-date="2026-05-14" data-teacher="" data-masked="0">
-          <td>2026-05-14</td>
-          <td>주민준♥</td>
-          <td>CS251104287</td>
-          <td class="td-title">휴회상담</td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
-        </tr>
-        <tr class="raw-row" data-std="CS251104288" data-name="주민하" data-date="2026-05-14" data-teacher="" data-masked="0">
-          <td>2026-05-14</td>
-          <td>주민하</td>
-          <td>CS251104288</td>
-          <td class="td-title">휴회상담</td>
-          <td><span class="tag-kw">이탈/포기 의사</span></td>
           <td><span class="tag-kw">이탈/포기 의사</span></td>
         </tr>
       </tbody>

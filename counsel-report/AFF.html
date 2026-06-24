@@ -385,7 +385,7 @@ body {
 <div class="topbar">
   <div>
     <div class="topbar-title">분당 영재입시센터 [중등관]</div>
-    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-05-24 ~ 2026-06-22</div>
+    <div class="topbar-sub">AI 상담 분석 리포트 · 2026-05-25 ~ 2026-06-23</div>
   </div>
 </div>
 
@@ -404,7 +404,7 @@ body {
       <div class="icon">📅</div>
       <div>
         <div class="label">분석 기간</div>
-        <div class="value">2026-05-24 ~ 2026-06-22</div>
+        <div class="value">2026-05-25 ~ 2026-06-23</div>
       </div>
     </div>
     <!-- D-30 / D-0 비교 -->
@@ -413,24 +413,24 @@ body {
         <tr>
           <th></th>
           <th class="col-d30">30일 누적</th>
-          <th class="col-d0">6/20~6/22 보강(3일)</th>
+          <th class="col-d0">6/23 당일</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>총 상담 건수</td>
-          <td class="val" style="color:var(--accent);">205</td>
-          <td class="val" style="color:var(--accent);">13</td>
+          <td class="val" style="color:var(--accent);">207</td>
+          <td class="val" style="color:var(--accent);">5</td>
         </tr>
         <tr>
           <td>부정 감성 건수</td>
-          <td class="val" style="color:var(--danger);">64</td>
-          <td class="val" style="color:var(--danger);">5</td>
+          <td class="val" style="color:var(--danger);">65</td>
+          <td class="val" style="color:var(--danger);">1</td>
         </tr>
         <tr>
           <td>부정 비율</td>
-          <td class="val" style="color:var(--warning);">31.2%</td>
-          <td class="val" style="color:var(--warning);">38.5%</td>
+          <td class="val" style="color:var(--warning);">31.4%</td>
+          <td class="val" style="color:var(--warning);">20.0%</td>
         </tr>
       </tbody>
     </table>
@@ -466,7 +466,7 @@ body {
         </tr>
         <tr class="clickable" onclick="showTeacherRaw('윤이현')">
           <td>윤이현</td>
-          <td>25</td>
+          <td>22</td>
           <td><strong>7</strong></td>
           <td><span class="tag success">관심</span></td>
         </tr>
@@ -490,7 +490,7 @@ body {
         </tr>
         <tr style="background:var(--bg);font-weight:600;">
           <td>합계 (5명)</td>
-          <td>90</td>
+          <td>87</td>
           <td>28</td>
           <td>—</td>
         </tr>
@@ -513,8 +513,8 @@ body {
   <div class="alertBanner" style="background:var(--accent-light);border:1px solid #c7d2fe;">
     <div class="alert-icon">🆕</div>
     <div>
-      <strong>신규 감지 학생 1명</strong><br>
-      이전 분석에 없던 학생이 새롭게 평균 초과 목록에 포함되었습니다.
+      <strong>신규 감지 학생 0명</strong><br>
+      이번 분석에서 신규 감지된 학생은 없습니다.
     </div>
   </div>
 
@@ -548,13 +548,6 @@ body {
         </tr>
       </thead>
       <tbody>
-        <tr class="clickable" onclick="showStudentRaw('AS121504505','권도윤')">
-          <td>권도윤</td>
-          <td><strong>2건</strong></td>
-          <td><span class="tag success">관심</span></td>
-          <td><span class="tag new">NEW</span></td>
-          <td><span class="tag unpaid">미납</span></td>
-        </tr>
         <tr class="clickable" onclick="showStudentRaw('CS241100618','안진서')">
           <td>안진서</td>
           <td><strong>4건</strong></td>
@@ -580,6 +573,13 @@ body {
           <td>김윤재</td>
           <td><strong>3건</strong></td>
           <td><span class="tag danger">위험</span></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="clickable" onclick="showStudentRaw('AS121504505','권도윤')">
+          <td>권도윤</td>
+          <td><strong>2건</strong></td>
+          <td><span class="tag success">관심</span></td>
           <td></td>
           <td></td>
         </tr>
@@ -645,7 +645,7 @@ body {
 
   <div class="footer">
     본 리포트는 AI 감성 분석 기반으로 자동 생성되었습니다.<br>
-    분석 모델: Claude API | 생성일: 2026-06-23 11:17<br>
+    분석 모델: Claude API | 생성일: 2026-06-24 11:15<br>
     데이터 기준<br>
     &copy; 2026 AI 상담 분석 시스템
   </div>
@@ -659,7 +659,7 @@ body {
 <div class="topbar">
   <div>
     <div class="topbar-title">분당 영재입시센터 [중등관]</div>
-    <div class="topbar-sub">키워드 raw 데이터 · 2026-05-24 ~ 2026-06-22</div>
+    <div class="topbar-sub">키워드 raw 데이터 · 2026-05-25 ~ 2026-06-23</div>
   </div>
 </div>
 
@@ -670,7 +670,7 @@ body {
   <div class="card">
     <div class="card-title">
       <div class="icon" style="background:var(--accent-light);color:var(--accent);">📋</div>
-      <span id="raw-card-title">키워드 raw (부정 판정 64건)</span>
+      <span id="raw-card-title">키워드 raw (부정 판정 65건)</span>
     </div>
 
     <div class="legend">
@@ -706,6 +706,14 @@ body {
         </tr>
       </thead>
       <tbody>
+        <tr class="raw-row" data-std="CS220801012" data-name="김윤우" data-date="2026-06-23" data-teacher="" data-masked="0">
+          <td>2026-06-23</td>
+          <td>김윤우</td>
+          <td>CS220801012</td>
+          <td class="td-title">KJMO 원서 접수 관련</td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+          <td><span class="tag-kw">대인관계 갈등</span></td>
+        </tr>
         <tr class="raw-row" data-std="AS121406782" data-name="송지후" data-date="2026-06-21" data-teacher="윤이현" data-masked="0">
           <td>2026-06-21</td>
           <td>송지후</td>

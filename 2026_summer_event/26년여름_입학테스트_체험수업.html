@@ -1950,6 +1950,17 @@ function bindSort() {
       th.title = '클릭 = 이 열로 정렬';
       th.addEventListener('click', () => sortBy(tbl, ci, th));
     });
+    // 정렬 가능 카드임을 우측 상단에 표기 (카드당 1회)
+    const sec = tbl.closest('section');
+    const h2 = sec && sec.querySelector('h2');
+    const head = h2 && h2.parentElement;
+    if (head && !head.querySelector('.sort-badge')) {
+      const badge = document.createElement('span');
+      badge.className = 'sort-badge ml-auto inline-flex items-center gap-1 text-[10px] font-bold text-ink-dim whitespace-nowrap';
+      badge.title = '표의 열 머리글을 클릭하면 오름차순 ↔ 내림차순으로 정렬됩니다';
+      badge.innerHTML = '<i data-lucide="arrow-up-down" class="w-3 h-3"></i>열 클릭 = 오름·내림 정렬';
+      head.appendChild(badge);
+    }
   });
 }
 function sortBy(tbl, ci, th) {

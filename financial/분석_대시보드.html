@@ -150,8 +150,14 @@
   .summary-item { background: #21262d; border-radius: 6px; padding: 14px; text-align: center; }
   .summary-item .label { color: #8b949e; font-size: 0.8em; }
   .summary-item .value { font-size: 1.3em; font-weight: bold; margin-top: 4px; }
-  /* 값 뒤 괄호 부연설명 — 메인 수치와 확실히 대비 (2026-07-23 사용자 확정) */
-  .summary-item .value .value-note { display: block; font-size: 0.55em; font-weight: 400; color: #8b949e; line-height: 1.45; margin-top: 5px; }
+  /* ===== 괄호 부연설명 축소 규칙 (2026-07-23 사용자 확정 · 대시보드 전역) =====
+     메인 문구는 원래 크기·색·굵기 유지, () 안 부연설명만 작고 흐리게 → 확실한 대비.
+     .value-note = summary-item 값 안의 부연 / .hd-note = 제목·라벨 안의 부연
+     .block = 말미의 긴 부연(18자+)은 줄바꿈해 메인 수치가 첫 줄에 단독으로 보이게 함 */
+  .value-note { font-size: 0.6em; font-weight: 400; color: #8b949e; line-height: 1.45; }
+  .value-note.block { display: block; margin-top: 5px; }
+  .hd-note { font-size: 0.78em; font-weight: 400; color: #8b949e; }
+  .summary-item .label .hd-note { font-size: 0.9em; color: #6e7681; }
   .weight-info { display: inline-flex; gap: 6px; align-items: center; font-size: 0.85em; color: #8b949e; margin-bottom: 12px; }
   .weight-chip { background: #30363d; padding: 2px 8px; border-radius: 4px; font-family: monospace; }
   .condition-text { font-size: 0.82em; color: #c9d1d9; text-align: left; }
@@ -469,7 +475,7 @@
   </tbody>
 </table>
 
-<h3 style="margin-top:24px;color:#f0883e;">🚦 중장기 활성 차트 요약 (2026-05-13 baseline · 활성 1종 · TIGER 단독)</h3>
+<h3 style="margin-top:24px;color:#f0883e;">🚦 중장기 활성 차트 요약 <span class="hd-note">(2026-05-13 baseline · 활성 1종 · TIGER 단독)</span></h3>
 <table class="stock-table" style="font-size:0.88em;">
   <thead>
     <tr><th>순위</th><th>종목</th><th>상태</th><th>핵심 포인트</th><th>목표가</th><th>전량 손익비</th></tr>
@@ -497,7 +503,7 @@
 <div class="card" style="display:none;"><!-- 한화솔루션 활성 카드 → 04-27 종료 탭 이동
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">한화솔루션 (009830) 🏆 1차+2차+3차 익절 완료</h3>
+      <h3 style="margin:0;">한화솔루션 <span class="hd-note">(009830)</span> 🏆 1차+2차+3차 익절 완료</h3>
       <span class="badge badge-swing">스윙 (4분할 확장)</span>
       <span class="badge badge-filled">3주 잔여 · 트레일링 모드</span>
     </div>
@@ -508,9 +514,9 @@
   </div>
 
   <div class="summary-grid">
-    <div class="summary-item"><div class="label">현재가 (04-27)</div><div class="value" style="color:#3fb950;">50,000원 부근 (3차 익절 라인)</div></div>
+    <div class="summary-item"><div class="label">현재가 <span class="hd-note">(04-27)</span></div><div class="value" style="color:#3fb950;">50,000원 부근 <span class="value-note">(3차 익절 라인)</span></div></div>
     <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#f0883e;">밥그릇 4구간 · 1+2+3차 익절 완료, 잔 3주 트레일링</div></div>
-    <div class="summary-item"><div class="label">현재 평단 (3주)</div><div class="value price">43,246원</div></div>
+    <div class="summary-item"><div class="label">현재 평단 <span class="hd-note">(3주)</span></div><div class="value price">43,246원</div></div>
     <div class="summary-item"><div class="label">손절라인</div><div class="value stop">42,000원</div></div>
   </div>
   <div class="highlight" style="margin-top:4px;background:#0d1f0d;border-left:3px solid #3fb950;">
@@ -533,7 +539,7 @@
     </tbody>
   </table>
 
-  <h4 style="color:#f0883e; margin-top:16px;">🎯 잔여 3주 트레일링 운용 테이블 (평단 43,246 기준)</h4>
+  <h4 style="color:#f0883e; margin-top:16px;">🎯 잔여 3주 트레일링 운용 테이블 <span class="hd-note">(평단 43,246 기준)</span></h4>
   <table class="stock-table">
     <thead>
       <tr><th>단계</th><th>매도가</th><th>수량</th><th>매도금액</th><th>조건</th><th>예상 실현익</th><th>누적 실현 (한화 단독)</th></tr>
@@ -618,7 +624,7 @@
 <div style="display:none;"><div class="card" id="card-214150-old" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 클래시스 (214150) ✅ 1차 4주 × 57,100 단일 체결 · 실적 발표일 1차c 6주 추가 매수 시나리오 대기</h3>
+      <h3 style="margin:0;">🆕 클래시스 <span class="hd-note">(214150)</span> ✅ 1차 4주 × 57,100 단일 체결 · 실적 발표일 1차c 6주 추가 매수 시나리오 대기</h3>
       <span class="badge badge-swing">스윙 (활성)</span>
       <span class="badge badge-filled">05-13 1차 4주 × 57,100 체결 · 평단 57,100</span>
     </div>
@@ -630,10 +636,10 @@
   </div>
 
   <div class="summary-grid">
-    <div class="summary-item"><div class="label">현재가 (05-13 장중)</div><div class="value loss">55,700원 (평단 57,100 대비 -2.45% / -0.056만 📉 · 실적 발표일)</div></div>
-    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#d29922;">밥그릇 2구간 후반 · 50~60K 박스 중간 · 5/20/60일선 수렴대(~55K) 부근 · 일목 구름 안 · <strong>오늘 실적 발표 (시가 갭 방향 결정)</strong></div></div>
-    <div class="summary-item"><div class="label">파동 위치 (엘리엇)</div><div class="value" style="color:#79c0ff;">5파 종료 후 ABC 조정 -27% 시도 · 50~60K 박스 횡보 + 5/20/60일선 수렴 정렬</div></div>
-    <div class="summary-item"><div class="label">손절라인</div><div class="value stop">53,000원 (후퇴 금지 · 평단 -7.18% 여유 · 4주 기준 -1.64만)</div></div>
+    <div class="summary-item"><div class="label">현재가 <span class="hd-note">(05-13 장중)</span></div><div class="value loss">55,700원 <span class="value-note block">(평단 57,100 대비 -2.45% / -0.056만 📉 · 실적 발표일)</span></div></div>
+    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#d29922;">밥그릇 2구간 후반 · 50~60K 박스 중간 · 5/20/60일선 수렴대(~55K) 부근 · 일목 구름 안 · <strong>오늘 실적 발표 <span class="value-note">(시가 갭 방향 결정)</span></strong></div></div>
+    <div class="summary-item"><div class="label">파동 위치 <span class="hd-note">(엘리엇)</span></div><div class="value" style="color:#79c0ff;">5파 종료 후 ABC 조정 -27% 시도 · 50~60K 박스 횡보 + 5/20/60일선 수렴 정렬</div></div>
+    <div class="summary-item"><div class="label">손절라인</div><div class="value stop">53,000원 <span class="value-note block">(후퇴 금지 · 평단 -7.18% 여유 · 4주 기준 -1.64만)</span></div></div>
   </div>
   <div class="warn-box" style="background:#1a2838;border-left:4px solid #58a6ff;margin-bottom:12px;">
     🏷️ <strong>업종 / 테마 / 모멘텀 카드 (2026-04-29)</strong>
@@ -763,7 +769,7 @@
 <div class="card" id="card-451760-archived">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 컨텍 (451760) ✅ 분할매수 시나리오 (05-07 손절 20,000 상향 · 1차a 흡수 + 1차b + 2차 메인 / 3차 폐기)</h3>
+      <h3 style="margin:0;">🆕 컨텍 <span class="hd-note">(451760)</span> ✅ 분할매수 시나리오 <span class="hd-note">(05-07 손절 20,000 상향 · 1차a 흡수 + 1차b + 2차 메인 / 3차 폐기)</span></h3>
       <span class="badge badge-swing">스윙 (활성)</span>
       <span class="badge badge-filled">잔량 3주 21,516 = 1차a / 1차b 9주 × 21,100 / 2차 12주 × 20,500</span>
     </div>
@@ -775,9 +781,9 @@
   </div>
 
   <div class="summary-grid">
-    <div class="summary-item"><div class="label">현재가 (05-08 장중)</div><div class="value profit">22,850원 (+9.06% / +1,900 ▲ 강양봉 🔥) 평가익 +6.20% / +0.40만 ✅</div></div>
-    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#3fb950;">박스 22~24K 상단 회복 + 5/20일선 위 안착 회복 + 일목구름 위 회복 · 거래량 580K (평균 +84% 폭증 🔥) / 체결강도 103.6% / <strong>상승 채널 하단 ~20K 이탈 회피 (+12.5% 여유) + 1차b 21,100 매수가 -7.65% 위 회복</strong></div></div>
-    <div class="summary-item"><div class="label">파동 위치 (엘리엇)</div><div class="value" style="color:#79c0ff;">5파 종료(04-30 26,350 시도 실패) · ABC 4파 조정 종료 가능 · <strong>03월 저점 13,800 -33.81%부터 형성된 상승 채널 (하단 추세선 ~20K / 상단 추세선 ~28K, 5월말~6월 ~30K)</strong> 안 강양봉 회복 → 채널 상단 추세선 재시도 가능</div></div>
+    <div class="summary-item"><div class="label">현재가 <span class="hd-note">(05-08 장중)</span></div><div class="value profit">22,850원 <span class="value-note">(+9.06% / +1,900 ▲ 강양봉 🔥)</span> 평가익 +6.20% / +0.40만 ✅</div></div>
+    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#3fb950;">박스 22~24K 상단 회복 + 5/20일선 위 안착 회복 + 일목구름 위 회복 · 거래량 580K <span class="value-note">(평균 +84% 폭증 🔥)</span> / 체결강도 103.6% / <strong>상승 채널 하단 ~20K 이탈 회피 <span class="value-note">(+12.5% 여유)</span> + 1차b 21,100 매수가 -7.65% 위 회복</strong></div></div>
+    <div class="summary-item"><div class="label">파동 위치 <span class="hd-note">(엘리엇)</span></div><div class="value" style="color:#79c0ff;">5파 종료(04-30 26,350 시도 실패) · ABC 4파 조정 종료 가능 · <strong>03월 저점 13,800 -33.81%부터 형성된 상승 채널 <span class="value-note">(하단 추세선 ~20K / 상단 추세선 ~28K, 5월말~6월 ~30K)</span></strong> 안 강양봉 회복 → 채널 상단 추세선 재시도 가능</div></div>
     <div class="summary-item"><div class="label">손절라인</div><div class="value stop">20,000원 (<strong>상승 채널 하단 추세선 / 현재가 -12.5% 여유 회복</strong>)</div></div>
   </div>
   <div class="warn-box" style="background:#1a2838;border-left:4px solid #58a6ff;margin-bottom:12px;">
@@ -925,7 +931,7 @@
 <div style="display:none;"><div class="card" id="card-263750-old" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">펄어비스 (263750) ✅ 1차a+b + 옵션 B 13주 체결 (스윙 분할 익절 모드 전환)</h3>
+      <h3 style="margin:0;">펄어비스 <span class="hd-note">(263750)</span> ✅ 1차a+b + 옵션 B 13주 체결 <span class="hd-note">(스윙 분할 익절 모드 전환)</span></h3>
       <span class="badge badge-swing">스윙 (활성)</span>
       <span class="badge badge-filled">05-11 옵션 B 9주 × 53,500 체결 · 13주 평단 55,331</span>
     </div>
@@ -937,10 +943,10 @@
   </div>
 
   <div class="summary-grid">
-    <div class="summary-item"><div class="label">현재가 (05-12 종가)</div><div class="value profit">59,100원 (+10.67% / +5,700 ▲ 강양봉 🚀 실적 호재) 평가익 +6.81% / +4.90만 🟢</div></div>
-    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#3fb950;">밥그릇 3구간 · 50K 박스 회복 + 60K 박스 매물대 -1.5% 근접 · 5/20/60일선 위 강회복 · <strong>익절 1차 58K 트리거 발효 ✅ (현재가 +1.9% 위)</strong></div></div>
-    <div class="summary-item"><div class="label">파동 위치 (엘리엇)</div><div class="value" style="color:#79c0ff;">5파 종료 후 ABC 4파 조정 -23.64% 종료 시도 · 50~60K 박스 상단 재시도 + 60K 돌파 시 일목구름 위 안착 확정</div></div>
-    <div class="summary-item"><div class="label">손절라인</div><div class="value stop">49,500원 (변경 금지 · 현재가 -16.24% 여유 ✅ 회복)</div></div>
+    <div class="summary-item"><div class="label">현재가 <span class="hd-note">(05-12 종가)</span></div><div class="value profit">59,100원 <span class="value-note">(+10.67% / +5,700 ▲ 강양봉 🚀 실적 호재)</span> 평가익 +6.81% / +4.90만 🟢</div></div>
+    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#3fb950;">밥그릇 3구간 · 50K 박스 회복 + 60K 박스 매물대 -1.5% 근접 · 5/20/60일선 위 강회복 · <strong>익절 1차 58K 트리거 발효 ✅ <span class="value-note">(현재가 +1.9% 위)</span></strong></div></div>
+    <div class="summary-item"><div class="label">파동 위치 <span class="hd-note">(엘리엇)</span></div><div class="value" style="color:#79c0ff;">5파 종료 후 ABC 4파 조정 -23.64% 종료 시도 · 50~60K 박스 상단 재시도 + 60K 돌파 시 일목구름 위 안착 확정</div></div>
+    <div class="summary-item"><div class="label">손절라인</div><div class="value stop">49,500원 <span class="value-note block">(변경 금지 · 현재가 -16.24% 여유 ✅ 회복)</span></div></div>
   </div>
   <div class="warn-box" style="background:#1a2838;border-left:4px solid #58a6ff;margin-bottom:12px;">
     🏷️ <strong>업종 / 테마 / 모멘텀 카드 (2026-04-30)</strong>
@@ -1140,7 +1146,7 @@
 <div style="display:none;"><div class="card" id="card-015750-old" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 성우하이텍 (015750) ▶ 분할매수 진행 (매수 시나리오 전환 · 1차b/2차/3차 트리거 하향)</h3>
+      <h3 style="margin:0;">🆕 성우하이텍 <span class="hd-note">(015750)</span> ▶ 분할매수 진행 <span class="hd-note">(매수 시나리오 전환 · 1차b/2차/3차 트리거 하향)</span></h3>
       <span class="badge badge-swing">스윙 (활성)</span>
       <span class="badge badge-filled">05-08 1차a 15주 × 9,257 체결 · 05-12 시나리오 전환</span>
     </div>
@@ -1152,10 +1158,10 @@
   </div>
 
   <div class="summary-grid">
-    <div class="summary-item"><div class="label">현재가 (05-15 장중)</div><div class="value loss">8,380원 (-3.89% / -340 ▼ 음봉 ⚠️) 평단 9,257 -9.47% / -1.32만 📉 (1일범위 8,170~8,970 변동성 큼 · 체강 89% 매도 우위 ⚠️ · 음봉 4개 누적)</div></div>
-    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#f85149;">박스 8,700 하단 이탈 · 1차b 트리거 8,700 -3.68% 아래 (트리거 무산) · 손절 8,200 +2.20% 위 ⚠️ 위험 영역 · 거래량 2.44M (평균 2.03M × 1.20배 / 눌림 정상)</div></div>
-    <div class="summary-item"><div class="label">파동 위치 (엘리엇)</div><div class="value" style="color:#79c0ff;">5파 종료 후 ABC 4파 조정 -32.41% 영역 (12,400 → 8,380) · 박스 8.5~9K 하단 이탈 + 112일선(~8,200) 위 +2.2% 위태</div></div>
-    <div class="summary-item"><div class="label">손절라인 (후퇴 금지)</div><div class="value stop">8,200원 (현재가 -2.15% 여유 ⚠️) · 사용자 알림 정합 / 112일선 -1% · 종가 이탈 시 1차a 기계적 손절 (-1.59만)</div></div>
+    <div class="summary-item"><div class="label">현재가 <span class="hd-note">(05-15 장중)</span></div><div class="value loss">8,380원 <span class="value-note">(-3.89% / -340 ▼ 음봉 ⚠️)</span> 평단 9,257 -9.47% / -1.32만 📉 <span class="value-note block">(1일범위 8,170~8,970 변동성 큼 · 체강 89% 매도 우위 ⚠️ · 음봉 4개 누적)</span></div></div>
+    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#f85149;">박스 8,700 하단 이탈 · 1차b 트리거 8,700 -3.68% 아래 <span class="value-note">(트리거 무산)</span> · 손절 8,200 +2.20% 위 ⚠️ 위험 영역 · 거래량 2.44M <span class="value-note block">(평균 2.03M × 1.20배 / 눌림 정상)</span></div></div>
+    <div class="summary-item"><div class="label">파동 위치 <span class="hd-note">(엘리엇)</span></div><div class="value" style="color:#79c0ff;">5파 종료 후 ABC 4파 조정 -32.41% 영역 <span class="value-note">(12,400 → 8,380)</span> · 박스 8.5~9K 하단 이탈 + 112일선(~8,200) 위 +2.2% 위태</div></div>
+    <div class="summary-item"><div class="label">손절라인 <span class="hd-note">(후퇴 금지)</span></div><div class="value stop">8,200원 <span class="value-note">(현재가 -2.15% 여유 ⚠️)</span> · 사용자 알림 정합 / 112일선 -1% · 종가 이탈 시 1차a 기계적 손절 <span class="value-note">(-1.59만)</span></div></div>
   </div>
 
   <div class="warn-box" style="background:#1a2838;border-left:4px solid #58a6ff;margin-bottom:12px;">
@@ -1376,7 +1382,7 @@
 <div class="card" id="card-022100-old" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 포스코DX (022100) ✅ 18주 체결 → 💰 6/1 트레일링 익절 12주 부분 매도 (+40,146원 +10.3%) · 잔여 6주 트레일링 유지 (스윙 1:1:2 · 활성)</h3>
+      <h3 style="margin:0;">🆕 포스코DX <span class="hd-note">(022100)</span> ✅ 18주 체결 → 💰 6/1 트레일링 익절 12주 부분 매도 <span class="hd-note">(+40,146원 +10.3%)</span> · 잔여 6주 트레일링 유지 <span class="hd-note">(스윙 1:1:2 · 활성)</span></h3>
       <span class="badge badge-swing">스윙 (활성 · 트레일링)</span>
       <span class="badge badge-filled">2026-05-12~29 18주 체결 · 2026-06-01 12주 익절 매도 (회수 43.01만) · 잔여 6주 × 평단 32,492 = 19.50만</span>
     </div>
@@ -1388,10 +1394,10 @@
   </div>
 
   <div class="summary-grid">
-    <div class="summary-item"><div class="label">현재가 (06-01)</div><div class="value profit">39,600원 (+22.03%) <span style="font-size:0.8em;color:#8b949e;">(평가 +42,648원)</span></div></div>
-    <div class="summary-item"><div class="label">현재 위치 (밥그릇)</div><div class="value" style="color:#3fb950;">6/1 강반등 (매도 33,975~38,350) · 박스 상단 36K 재접근</div></div>
-    <div class="summary-item"><div class="label">6/1 실현익</div><div class="value profit">+40,146원 (+10.3% · 12주 익절)</div></div>
-    <div class="summary-item"><div class="label">트레일링 청산 (잔여 6주)</div><div class="value stop">5일선 31,930 종가 이탈 (하드 손절 28,500)</div></div>
+    <div class="summary-item"><div class="label">현재가 <span class="hd-note">(06-01)</span></div><div class="value profit">39,600원 <span class="value-note">(+22.03%)</span> <span class="value-note">(평가 +42,648원)</span></div></div>
+    <div class="summary-item"><div class="label">현재 위치 <span class="hd-note">(밥그릇)</span></div><div class="value" style="color:#3fb950;">6/1 강반등 <span class="value-note">(매도 33,975~38,350)</span> · 박스 상단 36K 재접근</div></div>
+    <div class="summary-item"><div class="label">6/1 실현익</div><div class="value profit">+40,146원 <span class="value-note">(+10.3% · 12주 익절)</span></div></div>
+    <div class="summary-item"><div class="label">트레일링 청산 <span class="hd-note">(잔여 6주)</span></div><div class="value stop">5일선 31,930 종가 이탈 <span class="value-note">(하드 손절 28,500)</span></div></div>
   </div>
 
   <div class="warn-box" style="background:#1a2838;border-left:4px solid #58a6ff;margin-bottom:12px;">
@@ -1592,7 +1598,7 @@
 <div class="card" id="card-042660-old" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🚢 한화오션 (042660) ✅ 1주 부분 매도 (+17,050 실현) · 🟡 잔여 1주 트레일링 모드 (스윙 1:1:2 → 트레일링 전환) · <strong>전력 인프라 직접 수혜 ⭐⭐⭐</strong></h3>
+      <h3 style="margin:0;">🚢 한화오션 <span class="hd-note">(042660)</span> ✅ 1주 부분 매도 <span class="hd-note">(+17,050 실현)</span> · 🟡 잔여 1주 트레일링 모드 <span class="hd-note">(스윙 1:1:2 → 트레일링 전환)</span> · <strong>전력 인프라 직접 수혜 ⭐⭐⭐</strong></h3>
       <span class="badge badge-swing">스윙 (활성 · 트레일링)</span>
       <span class="badge badge-filled">2026-05-13 1차a · 2026-05-21 1차b · 2026-05-26 1주 매도 · 잔여 1주 × 평단 118,750 = 11.88만</span>
     </div>
@@ -1604,10 +1610,10 @@
   </div>
 
   <div class="summary-grid">
-    <div class="summary-item"><div class="label">현재가 (05-26)</div><div class="value profit">132,900원 (+8.75%)</div></div>
-    <div class="summary-item"><div class="label">현재 위치 (밥그릇)</div><div class="value" style="color:#3fb950;">3구간 후반 (채널 복귀)</div></div>
-    <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#f0883e;">20일선 ~125K + 60일선 ~120K 공구리 (지지 회복)</div></div>
-    <div class="summary-item"><div class="label">손절라인 (트레일링)</div><div class="value stop">~123,000원 (20일선 -1%)</div></div>
+    <div class="summary-item"><div class="label">현재가 <span class="hd-note">(05-26)</span></div><div class="value profit">132,900원 <span class="value-note">(+8.75%)</span></div></div>
+    <div class="summary-item"><div class="label">현재 위치 <span class="hd-note">(밥그릇)</span></div><div class="value" style="color:#3fb950;">3구간 후반 <span class="value-note">(채널 복귀)</span></div></div>
+    <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#f0883e;">20일선 ~125K + 60일선 ~120K 공구리 <span class="value-note">(지지 회복)</span></div></div>
+    <div class="summary-item"><div class="label">손절라인 <span class="hd-note">(트레일링)</span></div><div class="value stop">~123,000원 <span class="value-note">(20일선 -1%)</span></div></div>
   </div>
 
   <div class="warn-box" style="background:#1a2838;border-left:4px solid #58a6ff;margin-bottom:12px;">
@@ -1762,7 +1768,7 @@
 <div class="card" id="card-454910-old" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🤖 두산로보틱스 (454910) ✅ 1차a 1주 × 103,100 체결 (스윙 1:1:2 · 활성 진입 · 📉 트레일링 전환) · <strong>두산그룹 산업용 협동로봇 + Industrial Humanoid ⭐</strong></h3>
+      <h3 style="margin:0;">🤖 두산로보틱스 <span class="hd-note">(454910)</span> ✅ 1차a 1주 × 103,100 체결 <span class="hd-note">(스윙 1:1:2 · 활성 진입 · 📉 트레일링 전환)</span> · <strong>두산그룹 산업용 협동로봇 + Industrial Humanoid ⭐</strong></h3>
       <span class="badge badge-swing">스윙 (활성)</span>
       <span class="badge badge-filled">2026-05-13 활성 이동 · 1주 × 103,100 = 10.31만</span>
     </div>
@@ -1774,10 +1780,10 @@
   </div>
 
   <div class="summary-grid">
-    <div class="summary-item"><div class="label">현재가 (06-02)</div><div class="value profit">163,100원 (+17.84%) <span style="font-size:0.8em;color:#8b949e;">(평가 +60,100원)</span></div></div>
-    <div class="summary-item"><div class="label">현재 위치 (밥그릇)</div><div class="value" style="color:#3fb950;">3구간 후반 · 5/20/60/112/224 전 이평 위 (정배열)</div></div>
+    <div class="summary-item"><div class="label">현재가 <span class="hd-note">(06-02)</span></div><div class="value profit">163,100원 <span class="value-note">(+17.84%)</span> <span class="value-note">(평가 +60,100원)</span></div></div>
+    <div class="summary-item"><div class="label">현재 위치 <span class="hd-note">(밥그릇)</span></div><div class="value" style="color:#3fb950;">3구간 후반 · 5/20/60/112/224 전 이평 위 <span class="value-note">(정배열)</span></div></div>
     <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#f0883e;">112일선 95,610 공구리 + 5파 고점 130.6K 매물대</div></div>
-    <div class="summary-item"><div class="label">트레일링 청산</div><div class="value stop">5일선 104,680 종가 이탈 (하드 손절 85,000)</div></div>
+    <div class="summary-item"><div class="label">트레일링 청산</div><div class="value stop">5일선 104,680 종가 이탈 <span class="value-note">(하드 손절 85,000)</span></div></div>
   </div>
 
   <div class="warn-box" style="background:#1a2838;border-left:4px solid #58a6ff;margin-bottom:12px;">
@@ -1926,7 +1932,7 @@
 <div class="card" id="card-098460-old" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🔬 고영 (098460) ✅ 3주 부분 매도 (+5,406 실현) · 🟡 잔여 8주 트레일링 모드 (스윙 1:1:2 → 트레일링 전환) · <strong>3D 정밀 검사장비 글로벌 1위 + AI 반도체·HBM 검사 ⭐</strong></h3>
+      <h3 style="margin:0;">🔬 고영 <span class="hd-note">(098460)</span> ✅ 3주 부분 매도 <span class="hd-note">(+5,406 실현)</span> · 🟡 잔여 8주 트레일링 모드 <span class="hd-note">(스윙 1:1:2 → 트레일링 전환)</span> · <strong>3D 정밀 검사장비 글로벌 1위 + AI 반도체·HBM 검사 ⭐</strong></h3>
       <span class="badge badge-swing">스윙 (활성 · 트레일링)</span>
       <span class="badge badge-filled">2026-05-13 1차 · 2026-05-21~22 3차 분할 · 2026-05-26 3주 매도 · 잔여 8주 × 평단 39,098 = 31.28만</span>
     </div>
@@ -1938,10 +1944,10 @@
   </div>
 
   <div class="summary-grid">
-    <div class="summary-item"><div class="label">현재가 (05-26)</div><div class="value profit">41,000원 (+4.06%)</div></div>
-    <div class="summary-item"><div class="label">현재 위치 (밥그릇)</div><div class="value" style="color:#3fb950;">3구간 후반 (회복 진행)</div></div>
-    <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#f0883e;">20일선 ~37K + 60일선 ~33K 공구리 (회복 안착)</div></div>
-    <div class="summary-item"><div class="label">손절라인 (트레일링)</div><div class="value stop">~36,000원 (20일선 -1%)</div></div>
+    <div class="summary-item"><div class="label">현재가 <span class="hd-note">(05-26)</span></div><div class="value profit">41,000원 <span class="value-note">(+4.06%)</span></div></div>
+    <div class="summary-item"><div class="label">현재 위치 <span class="hd-note">(밥그릇)</span></div><div class="value" style="color:#3fb950;">3구간 후반 <span class="value-note">(회복 진행)</span></div></div>
+    <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#f0883e;">20일선 ~37K + 60일선 ~33K 공구리 <span class="value-note">(회복 안착)</span></div></div>
+    <div class="summary-item"><div class="label">손절라인 <span class="hd-note">(트레일링)</span></div><div class="value stop">~36,000원 <span class="value-note">(20일선 -1%)</span></div></div>
   </div>
 
   <div class="warn-box" style="background:#1a2838;border-left:4px solid #58a6ff;margin-bottom:12px;">
@@ -2121,7 +2127,7 @@
 <div class="card" id="card-119850-archived">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 지앤씨에너지 (119850) ✅ 1차a 4주 체결 (스윙 1:1:2 · 활성 진입)</h3>
+      <h3 style="margin:0;">🆕 지앤씨에너지 <span class="hd-note">(119850)</span> ✅ 1차a 4주 체결 <span class="hd-note">(스윙 1:1:2 · 활성 진입)</span></h3>
       <span class="badge badge-swing">스윙 (활성)</span>
       <span class="badge badge-filled">04-29 활성 이동 · 4주 체결</span>
     </div>
@@ -2133,10 +2139,10 @@
   </div>
 
   <div class="summary-grid">
-    <div class="summary-item"><div class="label">현재가 (05-08 장중)</div><div class="value profit">38,100원 (+3.24% / +1,200 ▲ 양봉 추가 회복 ✅) 평가익 +5.83% / +0.84만 🟢</div></div>
-    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#3fb950;">밥그릇 3구간 · 박스 36K 위 안착 강화 + 5/20일선 위 우상향 + 일목 구름 위 안착 (평단 36,000 +5.83%) · 거래량 1.08M (평균 +120% 폭증) / 체결강도 115.19% / <strong>잔여 1차b 35,500 매수가 -7.30% 하회 → 미터치 8영업일째</strong> · 04-07 저점 28,800 -32.29% 회복 진행</div></div>
-    <div class="summary-item"><div class="label">파동 위치 (엘리엇)</div><div class="value" style="color:#79c0ff;">5파 종료(25.10 46.75K) · ABC 4파 조정 -22.6% 종료 후 1파 신규 사이클 진행 · 박스 36K 위 안착 강화 + 42K 매물대 재시도</div></div>
-    <div class="summary-item"><div class="label">손절라인</div><div class="value stop">28,500원 (현재가 -25.20% 여유)</div></div>
+    <div class="summary-item"><div class="label">현재가 <span class="hd-note">(05-08 장중)</span></div><div class="value profit">38,100원 <span class="value-note">(+3.24% / +1,200 ▲ 양봉 추가 회복 ✅)</span> 평가익 +5.83% / +0.84만 🟢</div></div>
+    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#3fb950;">밥그릇 3구간 · 박스 36K 위 안착 강화 + 5/20일선 위 우상향 + 일목 구름 위 안착 <span class="value-note">(평단 36,000 +5.83%)</span> · 거래량 1.08M <span class="value-note">(평균 +120% 폭증)</span> / 체결강도 115.19% / <strong>잔여 1차b 35,500 매수가 -7.30% 하회 → 미터치 8영업일째</strong> · 04-07 저점 28,800 -32.29% 회복 진행</div></div>
+    <div class="summary-item"><div class="label">파동 위치 <span class="hd-note">(엘리엇)</span></div><div class="value" style="color:#79c0ff;">5파 종료(25.10 46.75K) · ABC 4파 조정 -22.6% 종료 후 1파 신규 사이클 진행 · 박스 36K 위 안착 강화 + 42K 매물대 재시도</div></div>
+    <div class="summary-item"><div class="label">손절라인</div><div class="value stop">28,500원 <span class="value-note">(현재가 -25.20% 여유)</span></div></div>
   </div>
   <div class="warn-box" style="background:#1a2838;border-left:4px solid #58a6ff;margin-bottom:12px;">
     🏷️ <strong>업종 / 테마 / 모멘텀 카드 (2026-04-29)</strong>
@@ -2283,7 +2289,7 @@
 <div class="card" id="card-083650-closed-preserve" style="border-left:4px solid #3fb950;display:none;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🔧 비에이치아이 (083650) 🔴 06-26 2주 매도 @51,600 (−39,300) → <strong>2주 잔여 평단 71,250</strong> · <strong>발전·플랜트 설비 / HRSG·복합화력·원전·수소·환경 EPC</strong></h3>
+      <h3 style="margin:0;">🔧 비에이치아이 <span class="hd-note">(083650)</span> 🔴 06-26 2주 매도 @51,600 <span class="hd-note">(−39,300)</span> → <strong>2주 잔여 평단 71,250</strong> · <strong>발전·플랜트 설비 / HRSG·복합화력·원전·수소·환경 EPC</strong></h3>
       <span class="badge badge-swing">스윙 (활성)</span>
       <span class="badge badge-filled" style="background:#2e1a1a;color:#f85149;">🔴 06-26 2주 매도 @51,600 (−39,300) · 4주 → 2주 잔여 평단 71,250 = 14.25만</span>
     </div>
@@ -2296,10 +2302,10 @@
   </div>
 
   <div class="summary-grid">
-    <div class="summary-item"><div class="label">현재가 (06-30)</div><div class="value loss">54,800원 (--1.61%) <span style="font-size:0.8em;color:#8b949e;">(평가 미보유 (미체결))</span></div></div>
-    <div class="summary-item"><div class="label">현재 위치 (밥그릇)</div><div class="value" style="color:#f85149;">🔴 60,000 지지 이탈 확정 → 2주 매도 (잔여 2주)</div></div>
-    <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#f0883e;">박스 70K 하단 첫 지지 재확인 + 112일선 65K 방어 (224일선 50K 깊은 메인 폐기)</div></div>
-    <div class="summary-item"><div class="label">손절라인</div><div class="value stop">67,000원 (박스 70K 하단 + 112일선 종가 이탈 · 🔧 사용자 지정)</div></div>
+    <div class="summary-item"><div class="label">현재가 <span class="hd-note">(06-30)</span></div><div class="value loss">54,800원 <span class="value-note">(--1.61%)</span> <span class="value-note">(평가 미보유 (미체결))</span></div></div>
+    <div class="summary-item"><div class="label">현재 위치 <span class="hd-note">(밥그릇)</span></div><div class="value" style="color:#f85149;">🔴 60,000 지지 이탈 확정 → 2주 매도 <span class="value-note">(잔여 2주)</span></div></div>
+    <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#f0883e;">박스 70K 하단 첫 지지 재확인 + 112일선 65K 방어 <span class="value-note block">(224일선 50K 깊은 메인 폐기)</span></div></div>
+    <div class="summary-item"><div class="label">손절라인</div><div class="value stop">67,000원 <span class="value-note block">(박스 70K 하단 + 112일선 종가 이탈 · 🔧 사용자 지정)</span></div></div>
   </div>
 
   <div class="warn-box" style="background:#2e1a1a;border-left:4px solid #f85149;font-size:0.85em;margin-bottom:0;">
@@ -2414,7 +2420,7 @@
 <div class="card" id="card-100790" style="border-left:4px solid #f0883e;display:none;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 미래에셋벤처투자 (100790) ⚠️ 60일선 이탈 추세붕괴 · 잔여 6주 평단 41,895 · 🆕 6/19 부분매도 2주 @23,950(-35,890) + 6/23 매도 3주 @20,450(-64,335) → 6주 잔여 · <strong>벤처캐피탈·PE (미래에셋금융그룹)</strong></h3>
+      <h3 style="margin:0;">🆕 미래에셋벤처투자 <span class="hd-note">(100790)</span> ⚠️ 60일선 이탈 추세붕괴 · 잔여 6주 평단 41,895 · 🆕 6/19 부분매도 2주 @23,950(-35,890) + 6/23 매도 3주 @20,450(-64,335) → 6주 잔여 · <strong>벤처캐피탈·PE <span class="hd-note">(미래에셋금융그룹)</span></strong></h3>
       <span class="badge badge-swing">스윙 (활성 · 6주 잔여)</span>
       <span class="badge badge-filled">05-28~06-17 11주 매수 − 🆕 06-19 매도 2주 @23,950 − 🆕 06-23 매도 3주 @20,450 = 6주 × 평단 41,895 = 25.14만</span>
     </div>
@@ -2427,10 +2433,10 @@
   </div>
 
   <div class="summary-grid">
-    <div class="summary-item"><div class="label">현재가 (06-26)</div><div class="value loss">17,940원 (--10.07%) <span style="font-size:0.8em;color:#8b949e;">(평가 -143,730원)</span></div></div>
-    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#f0883e;">60일선 이탈 (추세 붕괴 · 신저가 갱신)</div></div>
+    <div class="summary-item"><div class="label">현재가 <span class="hd-note">(06-26)</span></div><div class="value loss">17,940원 <span class="value-note">(--10.07%)</span> <span class="value-note">(평가 -143,730원)</span></div></div>
+    <div class="summary-item"><div class="label">현재 위치</div><div class="value" style="color:#f0883e;">60일선 이탈 <span class="value-note">(추세 붕괴 · 신저가 갱신)</span></div></div>
     <div class="summary-item"><div class="label">파동 위치</div><div class="value" style="color:#d29922;">5파 종료 후 ABC 조정</div></div>
-    <div class="summary-item"><div class="label">손절</div><div class="value stop">22,000원 (종가 이탈 확정)</div></div>
+    <div class="summary-item"><div class="label">손절</div><div class="value stop">22,000원 <span class="value-note">(종가 이탈 확정)</span></div></div>
   </div>
 
   <div class="warn-box" style="background:#1a2838;border-left:4px solid #58a6ff;margin-bottom:12px;">
@@ -2640,7 +2646,7 @@
 <div class="card" id="card-042660-closed-preserve" style="border-left:4px solid #3fb950;display:none;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🚢 한화오션 (042660) ⚠️ 1주 잔여 (평단 130,475) · 🆕 6/23 2주 손절 매도(-41,600) · 반등 시 트레일링 정리 · <strong>조선 / LNG·해상풍력·방산(군함)·FLNG</strong></h3>
+      <h3 style="margin:0;">🚢 한화오션 <span class="hd-note">(042660)</span> ⚠️ 1주 잔여 <span class="hd-note">(평단 130,475)</span> · 🆕 6/23 2주 손절 매도(-41,600) · 반등 시 트레일링 정리 · <strong>조선 / LNG·해상풍력·방산(군함)·FLNG</strong></h3>
       <span class="badge badge-swing">스윙 (활성 · 1주 잔여)</span>
       <span class="badge badge-filled">06-15 1차 2주 @123,000 + 06-17 추격 2주 @137,950 − 06-17 1주 매도 @132,600 − 🆕 06-23 2주 손절 매도(@109,500+@109,850) = 1주 잔여 (평단 130,475 · 13.05만)</span>
     </div>
@@ -2652,10 +2658,10 @@
     </div>
   </div>
   <div class="summary-grid">
-    <div class="summary-item"><div class="label">현재가 (06-30)</div><div class="value loss">100,700원 (--4.45%) <span style="font-size:0.8em;color:#8b949e;">(평가 미보유 (미체결))</span></div></div>
-    <div class="summary-item"><div class="label">현재 위치 (밥그릇)</div><div class="value" style="color:#f85149;">박스 이탈 · 분배 가속 (외인 순매도+공매도 급증)</div></div>
+    <div class="summary-item"><div class="label">현재가 <span class="hd-note">(06-30)</span></div><div class="value loss">100,700원 <span class="value-note">(--4.45%)</span> <span class="value-note">(평가 미보유 (미체결))</span></div></div>
+    <div class="summary-item"><div class="label">현재 위치 <span class="hd-note">(밥그릇)</span></div><div class="value" style="color:#f85149;">박스 이탈 · 분배 가속 <span class="value-note">(외인 순매도+공매도 급증)</span></div></div>
     <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#f0883e;">박스 중단 124K 이탈 · 지지 붕괴</div></div>
-    <div class="summary-item"><div class="label">손절라인</div><div class="value stop">반등 시 트레일링 정리 (잔여 1주)</div></div>
+    <div class="summary-item"><div class="label">손절라인</div><div class="value stop">반등 시 트레일링 정리 <span class="value-note">(잔여 1주)</span></div></div>
   </div>
 
   <strong>💡 단계별 매수·매도 테이블 (1차 2주 @123,000 + 추격 2주 @137,950 − 1주 매도 @132,600 − 🆕 6/23 2주 손절 매도 = 1주 잔여 / 13.05만)</strong>
@@ -2745,7 +2751,7 @@
 <div class="card" id="card-000270-active" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🔥 기아 (000270) ✂️ 잔여 1주 × 평단 157,453 (평가손 −7.59% · 07-15 145,500 · 07-15 1주 추가 부분손절) · <strong>자동차 (현대차그룹 · 글로벌 3위)</strong></h3>
+      <h3 style="margin:0;">🔥 기아 <span class="hd-note">(000270)</span> ✂️ 잔여 1주 × 평단 157,453 <span class="hd-note">(평가손 −7.59% · 07-15 145,500 · 07-15 1주 추가 부분손절)</span> · <strong>자동차 <span class="hd-note">(현대차그룹 · 글로벌 3위)</span></strong></h3>
       <span class="badge badge-swing">스윙 (활성 · 잔여 보유)</span>
       <span class="badge badge-filled">07-08 재진입 3주 @157,453 → 07-09 −1주 @144,800 → 07-15 −1주 @145,500 · 잔여 1주 = 15.75만</span>
       <span class="badge" style="background:#1a2e1a;color:#3fb950;">📋 우량주 🅰️ A등급 6/6</span>
@@ -2757,10 +2763,10 @@
     </div>
   </div>
   <div class="summary-grid">
-    <div class="summary-item"><div class="label">현재가 (07-22)</div><div class="value profit">145,800원 (+0.82%) <span style="font-size:0.8em;color:#8b949e;">(평가 -11,653원)</span></div></div>
+    <div class="summary-item"><div class="label">현재가 <span class="hd-note">(07-22)</span></div><div class="value profit">145,800원 <span class="value-note">(+0.82%)</span> <span class="value-note">(평가 -11,653원)</span></div></div>
     <div class="summary-item"><div class="label">추세 위치</div><div class="value" style="color:#f85149;">🛑 20선(153,195) 손절선 이탈 · 매물벽(153K~160K) 하단 붕괴 · 다음 지지 224선 137,400까지 공백</div></div>
     <div class="summary-item"><div class="label">수급</div><div class="value" style="color:#d29922;">🟡 관찰 · 매물벽 돌파 실패·되밀림 지속, 반등 거래량 미확인</div></div>
-    <div class="summary-item"><div class="label">손절라인</div><div class="value stop">224선 137,400 (20선 이미 이탈 → 구조적 최종선으로 관리 · 07-09 KRX 갱신치)</div></div>
+    <div class="summary-item"><div class="label">손절라인</div><div class="value stop">224선 137,400 <span class="value-note block">(20선 이미 이탈 → 구조적 최종선으로 관리 · 07-09 KRX 갱신치)</span></div></div>
   </div>
   <p style="margin:8px 0 4px;font-weight:600;color:#f85149;">✂️ 1주 추가 부분손절 @145,500 (2026-07-15) — 07-09 −1주에 이어 <strong>2회 연속 부분손절</strong>로 3주 → <strong>잔여 1주</strong>. 실현 <strong style="color:#f85149;">−11,953원 (−7.59%)</strong> · 잔여 1주 평단 157,453 불변 · 224선(137,400) 손절선 유효. 07-15 +4.22% 반등일에 매도 = 반등 소폭 회복 구간에서 고평단 포지션 추가 감축.</p>
   <table class="stock-table" style="font-size:0.9em;margin:4px 0 10px;">
@@ -2803,7 +2809,7 @@
 <div class="card" id="card-006360-closed-preserve" style="border-left:4px solid #f85149;display:none;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🏗️ GS건설 (006360) ✂️ 잔여 3주 × 평단 30,885 (평가손 −17.92% · 07-21 25,350 · 07-21 3주 부분매도 @25,350) · <strong>건설 (주택·플랜트·해외 원전 · GS이니마 1.67조 매각)</strong></h3>
+      <h3 style="margin:0;">🏗️ GS건설 <span class="hd-note">(006360)</span> ✂️ 잔여 3주 × 평단 30,885 <span class="hd-note">(평가손 −17.92% · 07-21 25,350 · 07-21 3주 부분매도 @25,350)</span> · <strong>건설 <span class="hd-note">(주택·플랜트·해외 원전 · GS이니마 1.67조 매각)</span></strong></h3>
       <span class="badge badge-swing">스윙 (활성 · 잔여 보유)</span>
       <span class="badge badge-filled">07-10 1차 10주 @32,025 + 07-15 2차 9주 @29,619 = 19주 → 07-15 −4주 @28,900 → 07-16 −9주 @27,200 → 🆕 07-21 −3주 @25,350 · 잔여 3주 9.27만</span>
       <span class="badge" style="background:#3a2e0d;color:#d29922;border:1px solid #d29922;">⏳ 07-23(목) 종가 기한 유지 · 27,900 미회복 시 3주 전량 청산</span>
@@ -2815,7 +2821,7 @@
     </div>
   </div>
   <div class="summary-grid">
-    <div class="summary-item"><div class="label">현재가 (07-22)</div><div class="value profit">29,100원 (+13.67%) <span style="font-size:0.8em;color:#8b949e;">(평가 -5,355원)</span></div></div>
+    <div class="summary-item"><div class="label">현재가 <span class="hd-note">(07-22)</span></div><div class="value profit">29,100원 <span class="value-note">(+13.67%)</span> <span class="value-note">(평가 -5,355원)</span></div></div>
     <div class="summary-item"><div class="label">추세 위치</div><div class="value" style="color:#f85149;">🛑 추세 이탈 심화 · 07-21 25,350이 112선(28,494)·손절선(27,900)·가속선(26,650) 전부 하회 · 60선(31,728) 아래 · <strong>224선(23,727)만 남은 지지</strong></div></div>
     <div class="summary-item"><div class="label">수급</div><div class="value" style="color:#d29922;">🟡 혼조(방어) · 기관 7/14 +7K·프로그램 +46.7K 순매수 유지 / 외인 7/6~10 대량축적 후 7/13~14 −143K 차익(지분율 19.6% 유지)</div></div>
     <div class="summary-item"><div class="label">손절라인</div><div class="value stop">27,900원 — ⚠️ 이탈 지속 · <strong>26,650 가속 청산선도 07-20 종가 26,050으로 이탈</strong> · 07-21 3주 매도로 부분 집행 · 잔여 3주는 <strong>07-23(목) 종가 기한</strong> 유지(사용자 지시)</div></div>
@@ -2856,7 +2862,7 @@
 <div class="card" id="card-278470-active" style="border-left:4px solid #d29922;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">💅 에이피알 (278470) ⏸ 미체결 · 진입 시나리오 대기 · <strong>뷰티테크 (메디큐브 화장품 · 부스터힐러 뷰티 디바이스)</strong></h3>
+      <h3 style="margin:0;">💅 에이피알 <span class="hd-note">(278470)</span> ⏸ 미체결 · 진입 시나리오 대기 · <strong>뷰티테크 <span class="hd-note">(메디큐브 화장품 · 부스터힐러 뷰티 디바이스)</span></strong></h3>
       <span class="badge badge-swing">스윙 (활성 · 미체결)</span>
       <span class="badge" style="background:#21262d;color:#8b949e;">🆕 2026-07-03 신규 편입 (사용자 지시)</span>
     </div>
@@ -2867,7 +2873,7 @@
     </div>
   </div>
   <div class="summary-grid">
-    <div class="summary-item"><div class="label">현재가 (07-22)</div><div class="value loss">357,500원 (--2.05%) <span style="font-size:0.8em;color:#8b949e;">(평가 0원 (미체결))</span></div></div>
+    <div class="summary-item"><div class="label">현재가 <span class="hd-note">(07-22)</span></div><div class="value loss">357,500원 <span class="value-note">(--2.05%)</span> <span class="value-note">(평가 0원 (미체결))</span></div></div>
     <div class="summary-item"><div class="label">추세 위치</div><div class="value" style="color:#d29922;">⚠️ 약화 · 20일선 하회 + 오늘 장대 음봉 -4.72% · 371K 지지 시험</div></div>
     <div class="summary-item"><div class="label">수급</div><div class="value" style="color:#8b949e;">⚪ 중립/혼조 · 기관 순매수(7/2 +10만) vs 외인·프로그램 매도 · 공매도 17% 중상단</div></div>
     <div class="summary-item"><div class="label">손절라인</div><div class="value stop">— (60일선 ≈345K 이탈 시 제외 검토)</div></div>
@@ -2895,7 +2901,7 @@
 <div class="card" id="card-396500-closed-preserve" style="border-left:4px solid #f0883e;display:none;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🔥 TIGER 반도체TOP10 (396500) 🚀 ✂️ 잔여 3주 × 평단 36,970 (평가익 +13.36% · 07-15 41,910 · 07-15 3주 부분익절 @41,520) · <strong>ETF (반도체 TOP10 지수 · AI HBM 슈퍼사이클)</strong></h3>
+      <h3 style="margin:0;">🔥 TIGER 반도체TOP10 <span class="hd-note">(396500)</span> 🚀 ✂️ 잔여 3주 × 평단 36,970 <span class="hd-note">(평가익 +13.36% · 07-15 41,910 · 07-15 3주 부분익절 @41,520)</span> · <strong>ETF <span class="hd-note">(반도체 TOP10 지수 · AI HBM 슈퍼사이클)</span></strong></h3>
       <span class="badge badge-long">중장기 (활성 · 잔여 보유)</span>
       <span class="badge badge-filled">07-15 3주 부분익절 @41,520 (+13,650) · 잔여 3주 × 평단 36,970 = 11.09만</span>
       <span class="badge" style="background:#1a2e1a;color:#3fb950;">✅ 승자 (누적 실현 +69,857 = 05-27 +20,087 · 06-12 +17,440 · 06-19 +18,680 · 07-15 +13,650)</span>
@@ -2909,10 +2915,10 @@
   </div>
 
   <div class="summary-grid">
-    <div class="summary-item"><div class="label">현재가 (07-22)</div><div class="value loss">36,680원 (--1.02%) <span style="font-size:0.8em;color:#8b949e;">(평가 -870원)</span></div></div>
-    <div class="summary-item"><div class="label">현재 위치 (밥그릇)</div><div class="value" style="color:#3fb950;">4구간 (5파 신고가 연장)</div></div>
+    <div class="summary-item"><div class="label">현재가 <span class="hd-note">(07-22)</span></div><div class="value loss">36,680원 <span class="value-note">(--1.02%)</span> <span class="value-note">(평가 -870원)</span></div></div>
+    <div class="summary-item"><div class="label">현재 위치 <span class="hd-note">(밥그릇)</span></div><div class="value" style="color:#3fb950;">4구간 <span class="value-note">(5파 신고가 연장)</span></div></div>
     <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#f0883e;">신고가 50,515 돌파 + 20일선 두꺼운 공구리</div></div>
-    <div class="summary-item"><div class="label">손절라인</div><div class="value stop">45,000원 (20일선 트레일링)</div></div>
+    <div class="summary-item"><div class="label">손절라인</div><div class="value stop">45,000원 <span class="value-note">(20일선 트레일링)</span></div></div>
   </div>
 
   <p style="margin:8px 0 4px;font-weight:600;color:#3fb950;">✂️ 부분익절 4회 누적 <strong style="color:#3fb950;">+69,857원</strong> — 8주 평단 36,970 → 06-12·06-19 각 1주 익절(55K권) → 07-15 3주 익절(41,520) → <strong>잔여 3주</strong>. 매도는 평단을 바꾸지 않으므로 잔여 3주 평단 36,970 불변 · 전부 활성 잔존(§6.9 종결 미해당) · 잔여 3주는 20일선 트레일링 유지.</p>
@@ -3150,7 +3156,7 @@
 <div style="display:none;"><div class="card" id="card-066570-old">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">LG전자 (066570) ✅ 1차 체결 + 익절 b 160K 1주 매도 완료 · 잔량 1주 트레일링</h3>
+      <h3 style="margin:0;">LG전자 <span class="hd-note">(066570)</span> ✅ 1차 체결 + 익절 b 160K 1주 매도 완료 · 잔량 1주 트레일링</h3>
       <span class="badge badge-long">중장기</span>
       <span class="badge badge-filled">05-12 160,200 × 1주 매도 ✅ +35,800원 실현 · 잔량 1주 트레일링</span>
     </div>
@@ -3163,10 +3169,10 @@
   </div>
 
   <div class="summary-grid" id="lg-summary">
-    <div class="summary-item"><div class="label">매도가 (05-12 익절 b)</div><div class="value profit">160,200원 ✅ 1주 매도 완료 · +35,800원 실현 (+28.78%)</div></div>
-    <div class="summary-item"><div class="label">잔량 1주 (트레일링 모드)</div><div class="value profit">평단 124,400 / 160,200 baseline +28.78% / 평가익 +0.36만 🚀 트레일링 중</div></div>
-    <div class="summary-item"><div class="label">파동 위치 (엘리엇)</div><div class="value" style="color:#79c0ff;" id="lg-sum-avg">5파 신고가 갱신 진행 (160K 돌파) · 트레일링 영역 + RSI 과열</div></div>
-    <div class="summary-item"><div class="label">손절라인</div><div class="value stop" id="lg-sum-stop">102,000원 (변경 금지 · 잔량 1주 트레일링 / 신고가 -2% 이탈 시 추가 익절)</div></div>
+    <div class="summary-item"><div class="label">매도가 <span class="hd-note">(05-12 익절 b)</span></div><div class="value profit">160,200원 ✅ 1주 매도 완료 · +35,800원 실현 <span class="value-note">(+28.78%)</span></div></div>
+    <div class="summary-item"><div class="label">잔량 1주 <span class="hd-note">(트레일링 모드)</span></div><div class="value profit">평단 124,400 / 160,200 baseline +28.78% / 평가익 +0.36만 🚀 트레일링 중</div></div>
+    <div class="summary-item"><div class="label">파동 위치 <span class="hd-note">(엘리엇)</span></div><div class="value" style="color:#79c0ff;" id="lg-sum-avg">5파 신고가 갱신 진행 <span class="value-note">(160K 돌파)</span> · 트레일링 영역 + RSI 과열</div></div>
+    <div class="summary-item"><div class="label">손절라인</div><div class="value stop" id="lg-sum-stop">102,000원 <span class="value-note block">(변경 금지 · 잔량 1주 트레일링 / 신고가 -2% 이탈 시 추가 익절)</span></div></div>
   </div>
   <div class="warn-box" style="background:#1a2838;border-left:4px solid #58a6ff;margin-bottom:12px;">
     🏷️ <strong>업종 / 테마 / 모멘텀 카드 (2026-04-27)</strong>
@@ -3380,7 +3386,7 @@
 <!-- ===== 🎯 오늘의 2구간 후반 눌림 후보 (단일 추천 섹션) ===== -->
 <section id="new-recommendations-section">
 
-<h2 style="color:#79c0ff;">🌊 장기이평 돌파 후 첫 눌림 (224·112선 지지 안착 진입)</h2>
+<h2 style="color:#79c0ff;">🌊 장기이평 돌파 후 첫 눌림 <span class="hd-note">(224·112선 지지 안착 진입)</span></h2>
   <p style="font-size:0.9em;color:#8b949e;margin:0 0 12px;">
     매 08:15 회차마다 KRX 전 종목(KOSPI+KOSDAQ)을 스캔해 <strong>224일선 돌파 후 첫 눌림 + 지지선 근접</strong> 종목을 추출(DART 악재컷) → 아래 <strong>버킷(🟢 노출·🎓 졸업①②·⏳ 지속관찰·❌ 이탈)</strong>으로 자동 분류합니다. <span style="color:#79c0ff;">🆕 승률 개선 필터 적용: ① score≥90 · ② 거래량 5/20≤0.7 · ④ 통과일 양봉 (2026-06-11, 단테 분할 기대값 -0.51%→+0.67%).</span> <strong style="color:#3fb950;">🎓 졸업(포착일 +20%)·❌ 이탈(112/224 추세선 종가 이탈)은 자동 판별</strong>, 진입(스윙 이동)만 사용자 요청 시. 차트 미확인 — 검토 후 결정.
   </p>
@@ -3394,17 +3400,17 @@
   </div>
   
   <div style="border:1px solid #79c0ff66;border-radius:8px;padding:12px 14px;margin-bottom:12px;background:#161b22;">
-    <h4 style="margin:0 0 8px;color:#79c0ff;">🟢 노출 · 반등확인 완료 (score≥80) (0종)</h4>
+    <h4 style="margin:0 0 8px;color:#79c0ff;">🟢 노출 · 반등확인 완료 <span class="hd-note">(score≥80)</span> <span class="hd-note">(0종)</span></h4>
     <p style="color:#8b949e;margin:6px 0 0;font-size:0.9em;">현재 없음</p>
   </div>
   
   <div style="border:1px solid #388bfd66;border-radius:8px;padding:12px 14px;margin-bottom:12px;background:#161b22;">
-    <h4 style="margin:0 0 8px;color:#388bfd;">⏳ 반등확인 대기 · 눌림 셋업 후 전일고가 돌파 대기 (0종)</h4>
+    <h4 style="margin:0 0 8px;color:#388bfd;">⏳ 반등확인 대기 · 눌림 셋업 후 전일고가 돌파 대기 <span class="hd-note">(0종)</span></h4>
     <p style="color:#8b949e;margin:6px 0 0;font-size:0.9em;">현재 없음</p>
   </div>
   
   <div style="border:1px solid #3fb95066;border-radius:8px;padding:12px 14px;margin-bottom:12px;background:#161b22;">
-    <h4 style="margin:0 0 8px;color:#3fb950;">🎓 졸업① · +10% 도달 (2종)</h4>
+    <h4 style="margin:0 0 8px;color:#3fb950;">🎓 졸업① · +10% 도달 <span class="hd-note">(2종)</span></h4>
     
     <div style="background:#0d1f0d;border:1px solid #2ea04366;border-radius:6px;padding:10px;margin-bottom:6px;">
       <strong style="color:#3fb950;">🎓 오로라 <span style="color:#8b949e;font-size:0.85em;">039830</span></strong>
@@ -3418,12 +3424,12 @@
   </div>
   
   <div style="border:1px solid #2ea04366;border-radius:8px;padding:12px 14px;margin-bottom:12px;background:#161b22;">
-    <h4 style="margin:0 0 8px;color:#2ea043;">🎓 졸업② · +20% 도달 (0종)</h4>
+    <h4 style="margin:0 0 8px;color:#2ea043;">🎓 졸업② · +20% 도달 <span class="hd-note">(0종)</span></h4>
     <p style="color:#8b949e;margin:6px 0 0;font-size:0.9em;">현재 없음</p>
   </div>
   
   <div style="border:1px solid #d2992266;border-radius:8px;padding:12px 14px;margin-bottom:12px;background:#161b22;">
-    <h4 style="margin:0 0 8px;color:#d29922;">⏳ 지속관찰 · 추세 유효·노출 미달 (5종)</h4>
+    <h4 style="margin:0 0 8px;color:#d29922;">⏳ 지속관찰 · 추세 유효·노출 미달 <span class="hd-note">(5종)</span></h4>
     
     <div style="background:#1f1a0d;border:1px solid #5a4a1a;border-radius:6px;padding:10px;margin-bottom:6px;">
       <strong style="color:#d29922;">⏳ 코웨이 <span style="color:#8b949e;font-size:0.85em;">021240</span></strong>
@@ -3452,7 +3458,7 @@
   </div>
   
   <div style="border:1px solid #f0883e66;border-radius:8px;padding:12px 14px;margin-bottom:12px;background:#161b22;">
-    <h4 style="margin:0 0 8px;color:#f0883e;">❌ 이탈 · 112/224 추세선 종가 이탈 (5종)</h4>
+    <h4 style="margin:0 0 8px;color:#f0883e;">❌ 이탈 · 112/224 추세선 종가 이탈 <span class="hd-note">(5종)</span></h4>
     
     <div style="background:#21130d;border:1px solid #5a2d1a;border-radius:6px;padding:10px;margin-bottom:6px;">
       <strong style="color:#f0883e;">❌ 이노션 <span style="color:#8b949e;font-size:0.85em;">214320</span></strong>
@@ -3490,7 +3496,7 @@
 <!-- ===== 💥 돌파 탭 (장기이평 폭발형 돌파 스캐너 · collect_breakout_flow.py) ===== -->
 <div class="tab-content" id="tab-breakout">
 <section id="breakout-section">
-  <h2 style="color:#f85149;">💥 장기이평 폭발형 돌파 (112·224선 당일 돌파)</h2>
+  <h2 style="color:#f85149;">💥 장기이평 폭발형 돌파 <span class="hd-note">(112·224선 당일 돌파)</span></h2>
   <p style="font-size:0.9em;color:#8b949e;margin:0 0 12px;">
     매 08:15 회차마다 KRX 전 종목을 스캔해 <strong>112/224일선을 당일 상향돌파</strong>한 종목을 추출합니다 (돌파 후 추적은 지속관찰 카드 담당).
     조건: <strong>등락 ≥ +10% · 거래량 ≥ 20일평균 3배 · 시총 ≥ 1,000억 · DART 악재컷</strong> → 점수화(강도35·거래량35·돌파선20·추종10) → <strong>80점 이상만 노출</strong>.
@@ -3506,7 +3512,7 @@
   <p style="color:#8b949e;font-size:0.85em;margin:0 0 10px;">모집단 2896종 · breakout_v2 (2026-06-11 당일 돌파 + 졸업 2단 생애주기)</p>
   
   <div style="border:1px solid #f0883e66;border-radius:8px;padding:12px 14px;margin-bottom:12px;background:#161b22;">
-    <h4 style="margin:0 0 8px;color:#f0883e;">🟢 노출 · 돌파 당일 (1종)</h4>
+    <h4 style="margin:0 0 8px;color:#f0883e;">🟢 노출 · 돌파 당일 <span class="hd-note">(1종)</span></h4>
     
     <div style="background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:12px;margin-bottom:8px;">
       <div style="display:flex;justify-content:space-between;align-items:baseline;">
@@ -3519,7 +3525,7 @@
   </div>
   
   <div style="border:1px solid #3fb95066;border-radius:8px;padding:12px 14px;margin-bottom:12px;background:#161b22;">
-    <h4 style="margin:0 0 8px;color:#3fb950;">🎓 졸업① · +10% 도달 (4종)</h4>
+    <h4 style="margin:0 0 8px;color:#3fb950;">🎓 졸업① · +10% 도달 <span class="hd-note">(4종)</span></h4>
     
     <div style="background:#0d1f0d;border:1px solid #2ea04366;border-radius:6px;padding:10px;margin-bottom:6px;">
       <strong style="color:#3fb950;">🎓 남광토건 <span style="color:#8b949e;font-size:0.85em;">001260</span></strong>
@@ -3543,7 +3549,7 @@
   </div>
   
   <div style="border:1px solid #2ea04366;border-radius:8px;padding:12px 14px;margin-bottom:12px;background:#161b22;">
-    <h4 style="margin:0 0 8px;color:#2ea043;">🎓 졸업② · +20% 도달 (2종)</h4>
+    <h4 style="margin:0 0 8px;color:#2ea043;">🎓 졸업② · +20% 도달 <span class="hd-note">(2종)</span></h4>
     
     <div style="background:#0d1f0d;border:1px solid #2ea04366;border-radius:6px;padding:10px;margin-bottom:6px;">
       <strong style="color:#3fb950;">🎓 자이에스앤디 <span style="color:#8b949e;font-size:0.85em;">317400</span></strong>
@@ -3557,12 +3563,12 @@
   </div>
   
   <div style="border:1px solid #d2992266;border-radius:8px;padding:12px 14px;margin-bottom:12px;background:#161b22;">
-    <h4 style="margin:0 0 8px;color:#d29922;">⏳ 지속관찰 · 당일 이후·추세 이탈 감시 (0종)</h4>
+    <h4 style="margin:0 0 8px;color:#d29922;">⏳ 지속관찰 · 당일 이후·추세 이탈 감시 <span class="hd-note">(0종)</span></h4>
     <p style="color:#8b949e;margin:6px 0 0;font-size:0.9em;">현재 없음</p>
   </div>
   
   <div style="border:1px solid #f8514966;border-radius:8px;padding:12px 14px;margin-bottom:12px;background:#161b22;">
-    <h4 style="margin:0 0 8px;color:#f85149;">❌ 이탈 · 돌파선 종가 이탈 (18종)</h4>
+    <h4 style="margin:0 0 8px;color:#f85149;">❌ 이탈 · 돌파선 종가 이탈 <span class="hd-note">(18종)</span></h4>
     
     <div style="background:#21130d;border:1px solid #5a2d1a;border-radius:6px;padding:10px;margin-bottom:6px;">
       <strong style="color:#f85149;">❌ 현대약품 <span style="color:#8b949e;font-size:0.85em;">004310</span></strong>
@@ -3710,7 +3716,7 @@
 <div class="card" id="card-396500-closed" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 🏁 TIGER 반도체TOP10 (396500) <span style="color:#3fb950;">🏆 성공 (07-23 종료 · 통산 +72,518원)</span></h3>
+      <h3 style="margin:0;">🆕 🏁 TIGER 반도체TOP10 <span class="hd-note">(396500)</span> <span style="color:#3fb950;">🏆 성공 <span class="hd-note">(07-23 종료 · 통산 +72,518원)</span></span></h3>
       <span class="badge badge-long">중장기</span>
       <span class="badge badge-closed">✅ 종료 (2026-07-23)</span>
       <span class="badge badge-realized" style="background:#1a2e1a;color:#3fb950;border:1px solid #3fb950;">🏆 통산 +72,518원 (부분익절 4건 +69,857 + 최종 +2,661)</span>
@@ -3724,9 +3730,9 @@
 
   <div class="summary-grid">
     <div class="summary-item"><div class="label">최종 실현손익</div><div class="value profit">+72,518원</div></div>
-    <div class="summary-item"><div class="label">밥그릇 (청산 시점)</div><div class="value" style="color:#f0883e;">4구간 5파 연장 종료 → 고점 55.7K 대비 −32% 되돌림 구간</div></div>
-    <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">5회 분할 익절 (트레일링 3회 고점권 + 07-15 절반 회수 + 07-23 잔여 전량)</div></div>
-    <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#3fb950;">🏆 성공 종결 (단일 라운드 최대 이익 · 종전 두산로보틱스 +59,800 경신)</div></div>
+    <div class="summary-item"><div class="label">밥그릇 <span class="hd-note">(청산 시점)</span></div><div class="value" style="color:#f0883e;">4구간 5파 연장 종료 → 고점 55.7K 대비 −32% 되돌림 구간</div></div>
+    <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">5회 분할 익절 <span class="value-note block">(트레일링 3회 고점권 + 07-15 절반 회수 + 07-23 잔여 전량)</span></div></div>
+    <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#3fb950;">🏆 성공 종결 <span class="value-note block">(단일 라운드 최대 이익 · 종전 두산로보틱스 +59,800 경신)</span></div></div>
   </div>
 
   <h4 style="color:#f0883e; margin-top:16px;">📅 거래 타임라인</h4>
@@ -3802,7 +3808,7 @@
     </tbody>
   </table>
 
-  <h4 style="color:#f0883e; margin-top:16px;">🎓 거래 회고 (Lessons Learned)</h4>
+  <h4 style="color:#f0883e; margin-top:16px;">🎓 거래 회고 <span class="hd-note">(Lessons Learned)</span></h4>
   <ul style="line-height:1.8;">
     <li>✅ <strong>분할 익절 트레일링이 통산 이익을 지켰다</strong>: 05-27~06-19 고점권(52.5K~55.7K)에서 3주를 나눠 익절해 <strong style="color:#3fb950;">+56,207원을 선확정</strong>한 것이 결정타. 이후 07-15 41,520 · 07-23 37,857로 가격이 계속 흘렀으므로 <strong>고점에서 전량 홀드했다면 통산 이익이 크게 축소</strong>될 구조였다. 신고가 5파 구간의 분할 익절 규율이 정확히 작동한 사례.</li>
     <li>📉 <strong>마지막 3주는 사실상 본전 탈출</strong>: 07-15 41,520 → 07-23 37,857로 평단(36,970) 근처까지 밀린 뒤 +2.40%에 청산. 07-15 시점에 <strong>트레일링 손절선 45,000을 이미 하회</strong>하고 있었으므로 규율상 더 일찍 정리했어야 할 잔량이었고, +12.30% 구간의 이익 일부를 반납했다. → <strong>「트레일링 손절선 하회 = 잔량 정리」를 다음 라운드에서 기계적으로 적용</strong>.</li>
@@ -3816,7 +3822,7 @@
 <div class="card" id="card-006360-closed" style="border-left:4px solid #f85149;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 🏁 GS건설 (006360) <span style="color:#f85149;">🛑 손실 (07-23 종료 · 통산 −59,190원)</span></h3>
+      <h3 style="margin:0;">🆕 🏁 GS건설 <span class="hd-note">(006360)</span> <span style="color:#f85149;">🛑 손실 <span class="hd-note">(07-23 종료 · 통산 −59,190원)</span></span></h3>
       <span class="badge badge-swing">스윙</span>
       <span class="badge badge-closed">✅ 종료 (2026-07-23)</span>
       <span class="badge badge-realized" style="background:#2d1618;color:#f85149;border:1px solid #f85149;">🛑 통산 −59,190원 (부분매도 3건 −57,710 + 최종 −1,480)</span>
@@ -3830,9 +3836,9 @@
 
   <div class="summary-grid">
     <div class="summary-item"><div class="label">최종 실현손익</div><div class="value loss">−59,190원</div><div style="font-size:0.78em;color:#8b949e;">현금흐름 실차 −59,196원 (평단 반올림 차 6원)</div></div>
-    <div class="summary-item"><div class="label">밥그릇 (청산 시점)</div><div class="value" style="color:#f85149;">60선(31,728)·112선(28,494) 이탈 후 224선(23,727) 부근까지 하락 → 07-22 +13.67% 반등 구간에서 탈출</div></div>
-    <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">부분매도 3회(−16주) + 재물타기 5주 후 8주 전량매도 (30,050 4주 / 29,525 4주)</div></div>
-    <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#f85149;">🛑 손실 종결 (12승 7패 · 신규 패 1건)</div></div>
+    <div class="summary-item"><div class="label">밥그릇 <span class="hd-note">(청산 시점)</span></div><div class="value" style="color:#f85149;">60선(31,728)·112선(28,494) 이탈 후 224선(23,727) 부근까지 하락 → 07-22 +13.67% 반등 구간에서 탈출</div></div>
+    <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">부분매도 3회(−16주) + 재물타기 5주 후 8주 전량매도 <span class="value-note block">(30,050 4주 / 29,525 4주)</span></div></div>
+    <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#f85149;">🛑 손실 종결 <span class="value-note">(12승 7패 · 신규 패 1건)</span></div></div>
   </div>
 
   <h4 style="color:#f0883e; margin-top:16px;">📅 거래 타임라인</h4>
@@ -3916,7 +3922,7 @@
     </tbody>
   </table>
 
-  <h4 style="color:#f0883e; margin-top:16px;">🎓 거래 회고 (Lessons Learned)</h4>
+  <h4 style="color:#f0883e; margin-top:16px;">🎓 거래 회고 <span class="hd-note">(Lessons Learned)</span></h4>
   <ul style="line-height:1.8;">
     <li>🛑 <strong>패인 ① 계획 트리거 前 선진입</strong>: 07-07 확정 시나리오는 <strong>"60일선 32,519 종가 돌파 양봉 + 거래량 1.5배 확인 후 1차 32,700 진입"</strong>이었는데 실제로는 <strong>돌파 미확인 상태에서 32,025에 10주</strong>를 넣었다. 매물벽 아래 선진입은 돌파 실패 시 즉시 물리는 구조이며, 4영업일 만에 −13%가 됐다. <strong>돌파 확인형 시나리오를 확인 없이 집행하면 시나리오가 아니라 추측이다.</strong></li>
     <li>🛑 <strong>패인 ② 물타기 2회로 손실 규모 확대</strong>: 07-15 9주(+26.66만)·07-23 5주(+14.71만) 물타기는 <strong>둘 다 「추가 매수·물타기 배제」 룰을 명시적으로 깬 집행</strong>. 07-15 직후 집중도가 계좌 <strong>26.7%</strong>(한도 22% 초과)까지 올라 <strong>손실 절대액이 −59,190원으로 커진 직접 원인</strong>이 됐다. 평단을 낮춰도 총 손실은 줄지 않는다 ([[feedback_risk_reward_rule]]).</li>
@@ -3931,7 +3937,7 @@
 <div class="card" id="card-316140-closed" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 🏁 우리금융지주 (316140) <span style="color:#3fb950;">🏆 성공 (07-10 종료 · +0.97%)</span></h3>
+      <h3 style="margin:0;">🆕 🏁 우리금융지주 <span class="hd-note">(316140)</span> <span style="color:#3fb950;">🏆 성공 <span class="hd-note">(07-10 종료 · +0.97%)</span></span></h3>
       <span class="badge badge-swing">스윙</span>
       <span class="badge badge-closed">✅ 종료 (2026-07-10)</span>
       <span class="badge badge-realized" style="background:#1a2e1a;color:#3fb950;border:1px solid #3fb950;">🏆 통산 +1,848원 (1차 6주 라운드 · +0.97%)</span>
@@ -3945,9 +3951,9 @@
 
   <div class="summary-grid">
     <div class="summary-item"><div class="label">최종 실현손익</div><div class="value profit">+1,848원</div></div>
-    <div class="summary-item"><div class="label">밥그릇 (청산 시점)</div><div class="value" style="color:#3fb950;">이평 밀집 수렴+224선(29,491) 지지 → 112선 매물벽(32,571) 도달권</div></div>
-    <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">112선 매물벽 도달권 전량 익절 (6주 · 불타기 미확대)</div></div>
-    <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#3fb950;">🏆 성공 종결 (재진입 대기 잔류)</div></div>
+    <div class="summary-item"><div class="label">밥그릇 <span class="hd-note">(청산 시점)</span></div><div class="value" style="color:#3fb950;">이평 밀집 수렴+224선(29,491) 지지 → 112선 매물벽(32,571) 도달권</div></div>
+    <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">112선 매물벽 도달권 전량 익절 <span class="value-note">(6주 · 불타기 미확대)</span></div></div>
+    <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#3fb950;">🏆 성공 종결 <span class="value-note">(재진입 대기 잔류)</span></div></div>
   </div>
 
   <h4 style="color:#f0883e; margin-top:16px;">📅 거래 타임라인</h4>
@@ -3983,7 +3989,7 @@
     </tbody>
   </table>
 
-  <h4 style="color:#f0883e; margin-top:16px;">🎓 거래 회고 (Lessons Learned)</h4>
+  <h4 style="color:#f0883e; margin-top:16px;">🎓 거래 회고 <span class="hd-note">(Lessons Learned)</span></h4>
   <ul style="line-height:1.8;">
     <li>✅ <strong>밀집 하단 지지권 선진입의 회복</strong>: 이평 밀집(30~32.5K) 수렴+224선(29,491) 지지권에서 계획 돌파 트리거 前 조기 매집 진입 → 07-09 −5.26% 평가손까지 밀렸으나 수급 매집(기관 대량+외인 전환) 우호 속에 2일 만에 112선 매물벽 도달, +0.97% 익절로 회복. <strong>지지권 조기 진입 + 손절 사수(224선 29,100)가 평가손 국면을 견디게 함.</strong></li>
     <li>📐 <strong>매물벽 저항권 익절 규율</strong>: 112선 매물벽(32,571)이 상방 관문임을 인지하고 도달 시 익절 → 돌파 미확인 상태에서 욕심내 불타기 확대 대신 소폭 이익 확정. 매물벽 앞 익절이 미실현 반납·재하락 리스크를 회피(기아 07-07 매물벽 익절과 동일 규율).</li>
@@ -3997,7 +4003,7 @@
 <div class="card" id="card-000270-closed" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 🏁 기아 (000270) <span style="color:#3fb950;">🏆 성공 (07-07 종료 · +7.96%)</span></h3>
+      <h3 style="margin:0;">🆕 🏁 기아 <span class="hd-note">(000270)</span> <span style="color:#3fb950;">🏆 성공 <span class="hd-note">(07-07 종료 · +7.96%)</span></span></h3>
       <span class="badge badge-swing">스윙</span>
       <span class="badge badge-closed">✅ 종료 (2026-07-07)</span>
       <span class="badge badge-realized" style="background:#1a2e1a;color:#3fb950;border:1px solid #3fb950;">🏆 통산 +11,400원 (1차a 라운드 · +7.96%)</span>
@@ -4011,9 +4017,9 @@
 
   <div class="summary-grid">
     <div class="summary-item"><div class="label">최종 실현손익</div><div class="value profit">+11,400원</div></div>
-    <div class="summary-item"><div class="label">밥그릇 (청산 시점)</div><div class="value" style="color:#3fb950;">224선 사수 후 반등 · 20/60/112선 매물벽(153K~160K) 저항권</div></div>
-    <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">매물벽 저항권 전량 익절 (1주 · 불타기 미확대)</div></div>
-    <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#3fb950;">🏆 성공 종결 (재진입 대기 잔류)</div></div>
+    <div class="summary-item"><div class="label">밥그릇 <span class="hd-note">(청산 시점)</span></div><div class="value" style="color:#3fb950;">224선 사수 후 반등 · 20/60/112선 매물벽(153K~160K) 저항권</div></div>
+    <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">매물벽 저항권 전량 익절 <span class="value-note">(1주 · 불타기 미확대)</span></div></div>
+    <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#3fb950;">🏆 성공 종결 <span class="value-note">(재진입 대기 잔류)</span></div></div>
   </div>
 
   <h4 style="color:#f0883e; margin-top:16px;">📅 거래 타임라인</h4>
@@ -4049,7 +4055,7 @@
     </tbody>
   </table>
 
-  <h4 style="color:#f0883e; margin-top:16px;">🎓 거래 회고 (Lessons Learned)</h4>
+  <h4 style="color:#f0883e; margin-top:16px;">🎓 거래 회고 <span class="hd-note">(Lessons Learned)</span></h4>
   <ul style="line-height:1.8;">
     <li>✅ <strong>상대강도(RS) 진입의 성공</strong>: 지수 −7.89% 폭락일에 −1.2%로 방어하며 224선(136,046)을 사수한 상대강도 우위 종목을 진입 → 5일 만에 +7.96% 익절. <strong>폭락일 방어력 = 반등 시 선도 후보</strong> 가설 적중.</li>
     <li>📐 <strong>매물벽 저항권 익절 규율</strong>: 20/60/112선(153K~160K) 매물벽 밀집을 1차 목표로 인지하고 저항 도달 시 익절 → 욕심내 불타기 2차(비중2) 확대 대신 핵심 비중 이익 확정. 매물벽 앞 익절이 미실현 반납 리스크를 회피.</li>
@@ -4063,7 +4069,7 @@
 <div class="card" id="card-100790-closed" style="border-left:4px solid #f85149;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🏁 미래에셋벤처투자 (100790) <span style="color:#f85149;">🛑 손실 (06-26 전량매도 · −53.2%)</span></h3>
+      <h3 style="margin:0;">🏁 미래에셋벤처투자 <span class="hd-note">(100790)</span> <span style="color:#f85149;">🛑 손실 <span class="hd-note">(06-26 전량매도 · −53.2%)</span></span></h3>
       <span class="badge badge-swing">스윙</span>
       <span class="badge badge-closed">🛑 종료 (2026-06-26)</span>
       <span class="badge badge-realized" style="background:#2e1a1a;color:#f85149;border:1px solid #f85149;">🛑 라운드 통산 −245,095원 (11주 · −53.2%)</span>
@@ -4076,9 +4082,9 @@
   </div>
   <div class="summary-grid">
     <div class="summary-item"><div class="label">최종 실현손익</div><div class="value" style="color:#f85149;">−245,095원</div></div>
-    <div class="summary-item"><div class="label">평균 매도가</div><div class="value price">19,614원 (−53.2%)</div></div>
+    <div class="summary-item"><div class="label">평균 매도가</div><div class="value price">19,614원 <span class="value-note">(−53.2%)</span></div></div>
     <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">손절선 이탈 후 3회 분할 손절</div></div>
-    <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#f85149;">🛑 손실 종결 (최대 손실액)</div></div>
+    <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#f85149;">🛑 손실 종결 <span class="value-note">(최대 손실액)</span></div></div>
   </div>
   <h4 style="color:#f0883e; margin-top:16px;">📅 거래 타임라인</h4>
   <table class="stock-table">
@@ -4099,7 +4105,7 @@
 <div class="card" id="card-042660-closed2" style="border-left:4px solid #f85149;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🏁 한화오션 (042660) <span style="color:#f85149;">🛑 손실 (06-26 전량매도 · 2차 라운드 −14.1%)</span></h3>
+      <h3 style="margin:0;">🏁 한화오션 <span class="hd-note">(042660)</span> <span style="color:#f85149;">🛑 손실 <span class="hd-note">(06-26 전량매도 · 2차 라운드 −14.1%)</span></span></h3>
       <span class="badge badge-swing">스윙 (2차 라운드)</span>
       <span class="badge badge-closed">🛑 종료 (2026-06-26)</span>
       <span class="badge badge-realized" style="background:#2e1a1a;color:#f85149;border:1px solid #f85149;">🛑 2차 라운드 통산 −73,750원 (4주)</span>
@@ -4112,9 +4118,9 @@
   </div>
   <div class="summary-grid">
     <div class="summary-item"><div class="label">최종 실현손익</div><div class="value" style="color:#f85149;">−73,750원</div></div>
-    <div class="summary-item"><div class="label">평균 매도가</div><div class="value price">112,038원 (−14.1%)</div></div>
+    <div class="summary-item"><div class="label">평균 매도가</div><div class="value price">112,038원 <span class="value-note">(−14.1%)</span></div></div>
     <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">분배 가속 → 분할 손절</div></div>
-    <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#f85149;">🛑 손실 종결 (※1차 라운드 +30,500 별개)</div></div>
+    <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#f85149;">🛑 손실 종결 <span class="value-note block">(※1차 라운드 +30,500 별개)</span></div></div>
   </div>
   <h4 style="color:#f0883e; margin-top:16px;">📅 거래 타임라인</h4>
   <table class="stock-table">
@@ -4136,7 +4142,7 @@
 <div class="card" id="card-083650-closed" style="border-left:4px solid #f85149;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🏁 비에이치아이 (083650) <span style="color:#f85149;">🛑 손실 (06-26 전량매도 · −29.8%)</span></h3>
+      <h3 style="margin:0;">🏁 비에이치아이 <span class="hd-note">(083650)</span> <span style="color:#f85149;">🛑 손실 <span class="hd-note">(06-26 전량매도 · −29.8%)</span></span></h3>
       <span class="badge badge-swing">스윙</span>
       <span class="badge badge-closed">🛑 종료 (2026-06-26)</span>
       <span class="badge badge-realized" style="background:#2e1a1a;color:#f85149;border:1px solid #f85149;">🛑 라운드 통산 −85,000원 (4주 · −29.8%)</span>
@@ -4149,7 +4155,7 @@
   </div>
   <div class="summary-grid">
     <div class="summary-item"><div class="label">최종 실현손익</div><div class="value" style="color:#f85149;">−85,000원</div></div>
-    <div class="summary-item"><div class="label">평균 매도가</div><div class="value price">50,000원 (−29.8%)</div></div>
+    <div class="summary-item"><div class="label">평균 매도가</div><div class="value price">50,000원 <span class="value-note">(−29.8%)</span></div></div>
     <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">지지 4중 이탈 → 2회 분할 손절</div></div>
     <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#f85149;">🛑 손실 종결</div></div>
   </div>
@@ -4172,7 +4178,7 @@
 <div class="card" id="card-454910-closed" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 🏁 두산로보틱스 (454910) <span style="color:#3fb950;">🏆 성공 (06-02 종료 · 최고 수익률 +58.0%)</span></h3>
+      <h3 style="margin:0;">🆕 🏁 두산로보틱스 <span class="hd-note">(454910)</span> <span style="color:#3fb950;">🏆 성공 <span class="hd-note">(06-02 종료 · 최고 수익률 +58.0%)</span></span></h3>
       <span class="badge badge-swing">스윙</span>
       <span class="badge badge-closed">✅ 종료 (2026-06-02)</span>
       <span class="badge badge-realized" style="background:#1a2e1a;color:#3fb950;border:1px solid #3fb950;">🏆 통산 +59,800원 (1주 라운드트립 · +58.0%)</span>
@@ -4186,9 +4192,9 @@
 
   <div class="summary-grid">
     <div class="summary-item"><div class="label">최종 실현손익</div><div class="value profit">+59,800원</div></div>
-    <div class="summary-item"><div class="label">밥그릇 (청산 시점)</div><div class="value" style="color:#3fb950;">3구간 후반 (전고점 130.6K 돌파 추세 연장)</div></div>
-    <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">트레일링 전환 후 전량 익절 (1주)</div></div>
-    <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#3fb950;">🏆 성공 종결 (최고 수익률)</div></div>
+    <div class="summary-item"><div class="label">밥그릇 <span class="hd-note">(청산 시점)</span></div><div class="value" style="color:#3fb950;">3구간 후반 <span class="value-note block">(전고점 130.6K 돌파 추세 연장)</span></div></div>
+    <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">트레일링 전환 후 전량 익절 <span class="value-note">(1주)</span></div></div>
+    <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#3fb950;">🏆 성공 종결 <span class="value-note">(최고 수익률)</span></div></div>
   </div>
 
   <h4 style="color:#f0883e; margin-top:16px;">📅 거래 타임라인</h4>
@@ -4232,7 +4238,7 @@
     </tbody>
   </table>
 
-  <h4 style="color:#f0883e; margin-top:16px;">🎓 거래 회고 (Lessons Learned)</h4>
+  <h4 style="color:#f0883e; margin-top:16px;">🎓 거래 회고 <span class="hd-note">(Lessons Learned)</span></h4>
   <ul style="line-height:1.8;">
     <li>✅ <strong>음봉 거래량 폭증 진입 금지 룰이 평단 방어</strong>: 5/19 1차b 101,500 정확 도달했으나 -14.33% 폭락 음봉 + 거래량 2배+ = §4.6.12 진입 금지 신호 준수로 1차b 보류. 기계적 물타기를 했다면 추가 비중이 변동성을 키웠을 것. 트리거 미충족 시 분할 강행 자제가 단테 정통 룰의 가치를 입증.</li>
     <li>📉 <strong>트레일링 전환의 추세 연장 포착</strong>: 6/1 전 이평 정배열 + 전고점 130.6K 돌파 시점에 분할매수 → 트레일링 청산 전환. 5일선 종가 이탈 익절 모드로 추세를 끝까지 태워 138,400 → 162,900 추가 +17% 추세 연장 구간을 확보 ([[feedback_trailing_mode_reversible]]).</li>
@@ -4246,7 +4252,7 @@
 <div class="card" id="card-022100-closed" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 🏁 포스코DX (022100) <span style="color:#3fb950;">🏆 성공 (06-02 종료)</span></h3>
+      <h3 style="margin:0;">🆕 🏁 포스코DX <span class="hd-note">(022100)</span> <span style="color:#3fb950;">🏆 성공 <span class="hd-note">(06-02 종료)</span></span></h3>
       <span class="badge badge-swing">스윙</span>
       <span class="badge badge-closed">✅ 종료 (2026-06-02)</span>
       <span class="badge badge-realized" style="background:#1a2e1a;color:#3fb950;border:1px solid #3fb950;">🏆 통산 +48,894원 (18주 라운드트립 · +8.36%)</span>
@@ -4260,8 +4266,8 @@
 
   <div class="summary-grid">
     <div class="summary-item"><div class="label">최종 실현손익</div><div class="value profit">+48,894원</div></div>
-    <div class="summary-item"><div class="label">밥그릇 (청산 시점)</div><div class="value" style="color:#3fb950;">3구간 (박스 30~36K 상단 반등 후 정리)</div></div>
-    <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">트레일링 2단 분할 익절 (12주 + 6주)</div></div>
+    <div class="summary-item"><div class="label">밥그릇 <span class="hd-note">(청산 시점)</span></div><div class="value" style="color:#3fb950;">3구간 <span class="value-note block">(박스 30~36K 상단 반등 후 정리)</span></div></div>
+    <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">트레일링 2단 분할 익절 <span class="value-note">(12주 + 6주)</span></div></div>
     <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#3fb950;">🏆 성공 종결</div></div>
   </div>
 
@@ -4314,7 +4320,7 @@
     </tbody>
   </table>
 
-  <h4 style="color:#f0883e; margin-top:16px;">🎓 거래 회고 (Lessons Learned)</h4>
+  <h4 style="color:#f0883e; margin-top:16px;">🎓 거래 회고 <span class="hd-note">(Lessons Learned)</span></h4>
   <ul style="line-height:1.8;">
     <li>✅ <strong>1:1:2 분할 + 1차 2분할 정석 운용</strong>: 5/12~29 6차에 걸쳐 18주를 32,492에 매집 (1차a/b 34,375 → 2차 33,013 → 3차 32,492로 평단 우하향). 차수가 깊어질수록 평단을 낮춘 교과서적 운용으로 6/1 강반등 시 전 구간 익절 전환 확보.</li>
     <li>💰 <strong>트레일링 2단 분할 익절</strong>: 6/1 강반등(박스 상단 36K 재접근)에서 12주 선익절(+40,146 / +10.3%) 후 잔여 6주 트레일링 유지 → 6/2 33,950 청산(+8,748 / +4.49%). 신고가 추격 대신 박스 상단 분배 구간에서 분할 회수해 통산 +8.36% 확보.</li>
@@ -4327,7 +4333,7 @@
 <div class="card" id="card-098460-closed" style="border-left:4px solid #f85149;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 🏁 고영 (098460) <span style="color:#f85149;">🛑 손실 종결 · 3번째 손실 케이스</span></h3>
+      <h3 style="margin:0;">🆕 🏁 고영 <span class="hd-note">(098460)</span> <span style="color:#f85149;">🛑 손실 종결 · 3번째 손실 케이스</span></h3>
       <span class="badge badge-swing">스윙</span>
       <span class="badge badge-closed">✅ 종료 (2026-05-29)</span>
       <span class="badge badge-realized" style="background:#2e1a1a;color:#f85149;border:1px solid #f85149;">🛑 통산 -26,728원 (17주 라운드트립)</span>
@@ -4341,7 +4347,7 @@
 
   <div class="summary-grid">
     <div class="summary-item"><div class="label">최종 실현손익</div><div class="value loss">-26,728원</div></div>
-    <div class="summary-item"><div class="label">밥그릇 (청산 시점)</div><div class="value" style="color:#d29922;">3구간 (보합권 정리)</div></div>
+    <div class="summary-item"><div class="label">밥그릇 <span class="hd-note">(청산 시점)</span></div><div class="value" style="color:#d29922;">3구간 <span class="value-note">(보합권 정리)</span></div></div>
     <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">손실 컷 + 재진입 + 분할 청산</div></div>
     <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#f85149;">🛑 손실 종결</div></div>
   </div>
@@ -4403,7 +4409,7 @@
     </tbody>
   </table>
 
-  <h4 style="color:#f0883e; margin-top:16px;">🎓 거래 회고 (Lessons Learned)</h4>
+  <h4 style="color:#f0883e; margin-top:16px;">🎓 거래 회고 <span class="hd-note">(Lessons Learned)</span></h4>
   <ul style="line-height:1.8;">
     <li>🛑 <strong>5/20 -30,150 손실 컷이 손익 결정타</strong>: 초기 11주 @ 40,925 보유 중 6주 @ 35,900 (-12.28%) 손절 컷이 전체 손실 대부분. 이후 재진입(3+3주)·분할 익절(+5,406)·잔량 청산(-1,984)으로 일부 만회했으나 17주 라운드트립 순 -26,728원</li>
     <li>⚠️ <strong>손실 종목 재진입(물타기/불타기 혼합)의 한계</strong>: 5/20 손실 컷 후 5/26~27 6주 재진입(35,500/39,650) → 5/28~29 분할 청산. 재진입 평단(39,098)을 끝내 의미 있게 상회하지 못하고 보합권 청산 → 손실 종목 재진입은 추세 전환 확인 후에만</li>
@@ -4418,7 +4424,7 @@
 <div class="card" id="card-042660-closed" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 🏁 한화오션 (042660) <span style="color:#3fb950;">🏆 성공 (05-27 종료)</span></h3>
+      <h3 style="margin:0;">🆕 🏁 한화오션 <span class="hd-note">(042660)</span> <span style="color:#3fb950;">🏆 성공 <span class="hd-note">(05-27 종료)</span></span></h3>
       <span class="badge badge-swing">스윙</span>
       <span class="badge badge-closed">✅ 종료 (2026-05-27)</span>
       <span class="badge badge-realized" style="background:#1a2e1a;color:#3fb950;border:1px solid #3fb950;">🏆 +30,500원 (+12.84%)</span>
@@ -4432,7 +4438,7 @@
 
   <div class="summary-grid">
     <div class="summary-item"><div class="label">최종 실현손익</div><div class="value profit">+30,500원</div></div>
-    <div class="summary-item"><div class="label">밥그릇 (청산 시점)</div><div class="value" style="color:#3fb950;">4구간 (5파 채널 복귀)</div></div>
+    <div class="summary-item"><div class="label">밥그릇 <span class="hd-note">(청산 시점)</span></div><div class="value" style="color:#3fb950;">4구간 <span class="value-note">(5파 채널 복귀)</span></div></div>
     <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">트레일링 분할 익절</div></div>
     <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#3fb950;">🏆 성공</div></div>
   </div>
@@ -4478,7 +4484,7 @@
     </tbody>
   </table>
 
-  <h4 style="color:#f0883e; margin-top:16px;">🎓 거래 회고 (Lessons Learned)</h4>
+  <h4 style="color:#f0883e; margin-top:16px;">🎓 거래 회고 <span class="hd-note">(Lessons Learned)</span></h4>
   <ul style="line-height:1.8;">
     <li>🏆 <strong>손절선 후퇴 금지 + 트레일링 분할 익절의 성과</strong>: 5/19 111,300(-3.88%)로 손절 105K -5.7% 근접 위기를 후퇴 없이 견딤 → 5/26 +8.75% 강양봉 채널 복귀 → 2주 평단 118,750 → 평균 매도 134,000(+12.84%) 실현 (사용자 메모리: <code>feedback_risk_reward_rule</code>)</li>
     <li>✅ <strong>1차b ±2% 룰 초과 진입의 예외 정당화</strong>: 1차a 124,400 대비 1차b 113,100 (-9.1%, ±2% 초과)였으나 채널 하단 110K + 손절 105K 신뢰로 정상 시나리오 편입 → 평단 효과로 익절 폭 확대. 표준은 ±2% 이내이며 본 케이스는 손절선 신뢰 전제의 예외</li>
@@ -4493,7 +4499,7 @@
 <div class="card" id="card-015750-closed" style="border-left:4px solid #f85149;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 🏁 성우하이텍 (015750) <span style="color:#f85149;">🛑 손절 · 2번째 손절 케이스</span></h3>
+      <h3 style="margin:0;">🆕 🏁 성우하이텍 <span class="hd-note">(015750)</span> <span style="color:#f85149;">🛑 손절 · 2번째 손절 케이스</span></h3>
       <span class="badge badge-swing">스윙</span>
       <span class="badge badge-closed">✅ 종료 (2026-05-20)</span>
       <span class="badge badge-realized" style="background:#2e1a1a;color:#f85149;border:1px solid #f85149;">🛑 손절 -17,955원 (-12.94%)</span>
@@ -4507,7 +4513,7 @@
 
   <div class="summary-grid">
     <div class="summary-item"><div class="label">최종 실현손익</div><div class="value loss">-17,955원</div></div>
-    <div class="summary-item"><div class="label">밥그릇 (청산 시점)</div><div class="value" style="color:#f85149;">4구간 (박스 하단 이탈)</div></div>
+    <div class="summary-item"><div class="label">밥그릇 <span class="hd-note">(청산 시점)</span></div><div class="value" style="color:#f85149;">4구간 <span class="value-note">(박스 하단 이탈)</span></div></div>
     <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">분할 매수분 전량 손절</div></div>
     <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#f85149;">🛑 손절</div></div>
   </div>
@@ -4553,7 +4559,7 @@
     </tbody>
   </table>
 
-  <h4 style="color:#f0883e; margin-top:16px;">🎓 거래 회고 (Lessons Learned)</h4>
+  <h4 style="color:#f0883e; margin-top:16px;">🎓 거래 회고 <span class="hd-note">(Lessons Learned)</span></h4>
   <ul style="line-height:1.8;">
     <li>🛑 <strong>3회 분할 매수 발효(5/11·5/12·5/19)에도 추세 회복 실패 → 손절</strong>: 1차a 5주 @ 9,600(5/11) → 1차b 5주 @ 9,420(5/12) → 2차 5주 @ 8,750(5/19)로 15주를 평단 9,257에 분할 매집(평단 보강)했으나 박스 회복 없이 5/20 전량 손절. 분할매수로 평단을 낮춰도 추세 자체가 무너진 구간에서는 손실 회피 불가 (클래시스 -10.82% 케이스와 손절 룰 정합)</li>
     <li>⚠️ <strong>박스 8,800 상단 이탈 후 추격 청산 결정</strong>: 박스 8,800~9,400 상단 이탈 + 8,060원 추가 하락 → 단테 정통 손절 룰 (지지 영역 종가 이탈 시 기계적 컷) 정합. 사용자 판단으로 잔량 손절 컷 (사용자 메모리: <code>feedback_stop_loss_trend_break</code>)</li>
@@ -4568,7 +4574,7 @@
 <div class="card" id="card-214150-closed" style="border-left:4px solid #f85149;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 🏁 클래시스 (214150) <span style="color:#f85149;">🛑 손절 · 첫 손절 케이스</span></h3>
+      <h3 style="margin:0;">🆕 🏁 클래시스 <span class="hd-note">(214150)</span> <span style="color:#f85149;">🛑 손절 · 첫 손절 케이스</span></h3>
       <span class="badge badge-swing">스윙</span>
       <span class="badge badge-closed">✅ 종료 (2026-05-13)</span>
       <span class="badge badge-realized" style="background:#2e1a1a;color:#f85149;border:1px solid #f85149;">🛑 손절 -24,707원 (-10.82%)</span>
@@ -4582,7 +4588,7 @@
 
   <div class="summary-grid">
     <div class="summary-item"><div class="label">최종 실현손익</div><div class="value loss">-24,707원</div></div>
-    <div class="summary-item"><div class="label">밥그릇 (청산 시점)</div><div class="value" style="color:#f85149;">2구간 후반 (박스 이탈)</div></div>
+    <div class="summary-item"><div class="label">밥그릇 <span class="hd-note">(청산 시점)</span></div><div class="value" style="color:#f85149;">2구간 후반 <span class="value-note">(박스 이탈)</span></div></div>
     <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">손절선 이탈 기계적 컷</div></div>
     <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#f85149;">🛑 손절</div></div>
   </div>
@@ -4620,7 +4626,7 @@
     </tbody>
   </table>
 
-  <h4 style="color:#f0883e; margin-top:16px;">🎓 거래 회고 (Lessons Learned)</h4>
+  <h4 style="color:#f0883e; margin-top:16px;">🎓 거래 회고 <span class="hd-note">(Lessons Learned)</span></h4>
   <ul style="line-height:1.8;">
     <li>🛑 <strong>단일 진입 + 당일 손절 = 손익비 최저 시나리오 실현</strong>: 변형 1:2:1 1차 4주 단독 체결 직후 손절선 이탈 → 분할매수 시나리오 발효 전 종결. 1차 단독 손익비 0.85 영역에서의 진입 리스크가 그대로 손실로 귀결</li>
     <li>✅ <strong>손절 룰 정석 집행 (53,000 종가 이탈 기계적 컷)</strong>: 단테 정통 룰 정합 — 112일선 정합 영역 이탈 시 후퇴 금지 + 즉시 컷. 손절 분할 51,100/50,950으로 슬리피지 분산 (사용자 메모리: <code>feedback_stop_loss_trend_break</code>)</li>
@@ -4635,7 +4641,7 @@
 <div class="card" id="card-066570" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 🏁 LG전자 (066570) <span style="color:#3fb950;">🏆 성공 · 본 매매일지 최대 수익률</span></h3>
+      <h3 style="margin:0;">🆕 🏁 LG전자 <span class="hd-note">(066570)</span> <span style="color:#3fb950;">🏆 성공 · 본 매매일지 최대 수익률</span></h3>
       <span class="badge badge-long">중장기</span>
       <span class="badge badge-closed">✅ 종료 (2026-05-13)</span>
       <span class="badge badge-realized">🏆 성공 +89,700원 (+36.05%)</span>
@@ -4649,7 +4655,7 @@
 
   <div class="summary-grid">
     <div class="summary-item"><div class="label">최종 실현손익</div><div class="value profit">+89,700원</div></div>
-    <div class="summary-item"><div class="label">밥그릇 (청산 시점)</div><div class="value" style="color:#3fb950;">4구간 (5파 신고가 분배)</div></div>
+    <div class="summary-item"><div class="label">밥그릇 <span class="hd-note">(청산 시점)</span></div><div class="value" style="color:#3fb950;">4구간 <span class="value-note">(5파 신고가 분배)</span></div></div>
     <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">트레일링 분할 익절</div></div>
     <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#3fb950;">🏆 성공</div></div>
   </div>
@@ -4729,7 +4735,7 @@
 <div class="card" id="card-263750" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 🏁 펄어비스 (263750) <span style="color:#3fb950;">🏆 성공</span></h3>
+      <h3 style="margin:0;">🆕 🏁 펄어비스 <span class="hd-note">(263750)</span> <span style="color:#3fb950;">🏆 성공</span></h3>
       <span class="badge badge-swing">스윙</span>
       <span class="badge badge-closed">✅ 종료 (2026-05-13)</span>
       <span class="badge badge-realized">🏆 성공 +38,600원 (+5.37%)</span>
@@ -4743,8 +4749,8 @@
 
   <div class="summary-grid">
     <div class="summary-item"><div class="label">최종 실현손익</div><div class="value profit">+38,600원</div></div>
-    <div class="summary-item"><div class="label">밥그릇 (청산 시점)</div><div class="value" style="color:#3fb950;">3구간 후반 (60K 매물대 직전)</div></div>
-    <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">분할 익절 (옵션 B 메인 9주)</div></div>
+    <div class="summary-item"><div class="label">밥그릇 <span class="hd-note">(청산 시점)</span></div><div class="value" style="color:#3fb950;">3구간 후반 <span class="value-note">(60K 매물대 직전)</span></div></div>
+    <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">분할 익절 <span class="value-note">(옵션 B 메인 9주)</span></div></div>
     <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#3fb950;">🏆 성공</div></div>
   </div>
 
@@ -4815,7 +4821,7 @@
 <div class="card" id="card-451760" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 🏁 컨텍 (451760) <span style="color:#3fb950;">🏆 성공</span></h3>
+      <h3 style="margin:0;">🆕 🏁 컨텍 <span class="hd-note">(451760)</span> <span style="color:#3fb950;">🏆 성공</span></h3>
       <span class="badge badge-swing">스윙</span>
       <span class="badge badge-closed">✅ 종료 (2026-05-11)</span>
       <span class="badge badge-realized">🏆 성공 +14,304원 (+11.10%)</span>
@@ -4829,7 +4835,7 @@
 
   <div class="summary-grid">
     <div class="summary-item"><div class="label">최종 실현손익</div><div class="value profit">+14,304원</div></div>
-    <div class="summary-item"><div class="label">밥그릇 (청산 시점)</div><div class="value" style="color:#3fb950;">2구간 (박스 상단 회복)</div></div>
+    <div class="summary-item"><div class="label">밥그릇 <span class="hd-note">(청산 시점)</span></div><div class="value" style="color:#3fb950;">2구간 <span class="value-note">(박스 상단 회복)</span></div></div>
     <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">분할 익절 + 잔량 청산</div></div>
     <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#3fb950;">🏆 성공</div></div>
   </div>
@@ -4882,7 +4888,7 @@
 <div class="card" id="card-119850" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 🏁 지앤씨에너지 (119850) <span style="color:#3fb950;">🏆 성공</span></h3>
+      <h3 style="margin:0;">🆕 🏁 지앤씨에너지 <span class="hd-note">(119850)</span> <span style="color:#3fb950;">🏆 성공</span></h3>
       <span class="badge badge-swing">스윙</span>
       <span class="badge badge-closed">✅ 종료 (2026-05-11)</span>
       <span class="badge badge-realized">🏆 성공 +1,672원 (+1.16%)</span>
@@ -4896,7 +4902,7 @@
 
   <div class="summary-grid">
     <div class="summary-item"><div class="label">최종 실현손익</div><div class="value profit">+1,672원</div></div>
-    <div class="summary-item"><div class="label">밥그릇 (청산 시점)</div><div class="value" style="color:#3fb950;">2구간 (박스 36K 위 안착)</div></div>
+    <div class="summary-item"><div class="label">밥그릇 <span class="hd-note">(청산 시점)</span></div><div class="value" style="color:#3fb950;">2구간 <span class="value-note">(박스 36K 위 안착)</span></div></div>
     <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">잔량 익절 청산</div></div>
     <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#3fb950;">🏆 성공</div></div>
   </div>
@@ -4941,7 +4947,7 @@
 <div class="card" id="card-009830" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🆕 🏁 한화솔루션 (009830) <span style="color:#3fb950;">🏆 성공</span></h3>
+      <h3 style="margin:0;">🆕 🏁 한화솔루션 <span class="hd-note">(009830)</span> <span style="color:#3fb950;">🏆 성공</span></h3>
       <span class="badge badge-swing">스윙</span>
       <span class="badge badge-closed">✅ 종료 (2026-04-27)</span>
       <span class="badge badge-realized">🏆 성공 +69,702원 (+12.4%)</span>
@@ -4955,9 +4961,9 @@
 
   <div class="summary-grid">
     <div class="summary-item"><div class="label">최종 실현손익</div><div class="value profit">+69,702원</div></div>
-    <div class="summary-item"><div class="label">실현 수익률</div><div class="value profit">+12.4% (평균)</div></div>
+    <div class="summary-item"><div class="label">실현 수익률</div><div class="value profit">+12.4% <span class="value-note">(평균)</span></div></div>
     <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">4단계 분할 익절 + 트레일링</div></div>
-    <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#3fb950;">🏆 성공 (단테 룰 정석)</div></div>
+    <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#3fb950;">🏆 성공 <span class="value-note">(단테 룰 정석)</span></div></div>
   </div>
 
   <h4 style="color:#f0883e; margin-top:16px;">📅 거래 타임라인</h4>
@@ -5035,7 +5041,7 @@
 <div class="card" id="card-017860" style="border-left:4px solid #3fb950;">
   <div class="card-header">
     <div>
-      <h3 style="margin:0;">🏁 DS단석 (017860) <span style="color:#3fb950;">🏆 성공</span></h3>
+      <h3 style="margin:0;">🏁 DS단석 <span class="hd-note">(017860)</span> <span style="color:#3fb950;">🏆 성공</span></h3>
       <span class="badge badge-swing">스윙</span>
       <span class="badge badge-closed">✅ 종료 (2026-04-22)</span>
       <span class="badge badge-realized">🏆 성공 +12,368원 (+4%)</span>
@@ -5051,7 +5057,7 @@
     <div class="summary-item"><div class="label">최종 실현손익</div><div class="value profit">+12,368원</div></div>
     <div class="summary-item"><div class="label">실현 수익률</div><div class="value profit">+4%</div></div>
     <div class="summary-item"><div class="label">청산 방식</div><div class="value" style="color:#adbac7;">2단계 분할 매도</div></div>
-    <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#3fb950;">🏆 성공 (익절 종료)</div></div>
+    <div class="summary-item"><div class="label">결과</div><div class="value" style="color:#3fb950;">🏆 성공 <span class="value-note">(익절 종료)</span></div></div>
   </div>
 
   <h4 style="color:#f0883e; margin-top:16px;">📅 거래 타임라인</h4>
@@ -5119,16 +5125,16 @@
     </div>
   </div>
 
-  <h4 style="color:#f0883e; margin-top:8px;">🎯 핵심 KPI 스냅샷 <span style="font-size:0.72em;font-weight:400;color:#8b949e;">(종료 거래 12건 기준 · 2026-06-02 두산로보틱스 성공 종결 반영)</span></h4>
+  <h4 style="color:#f0883e; margin-top:8px;">🎯 핵심 KPI 스냅샷 <span class="hd-note">(종료 거래 12건 기준 · 2026-06-02 두산로보틱스 성공 종결 반영)</span></h4>
   <div class="summary-grid">
     <div class="summary-item"><div class="label">총 거래 횟수</div><div class="value" style="color:#58a6ff;">12건</div></div>
     <div class="summary-item"><div class="label">승률</div><div class="value" style="color:#d29922;">75.0% <span class="value-note">(9승 3패)</span></div></div>
-    <div class="summary-item"><div class="label">평균 수익률</div><div class="value profit">+9.75% <span class="value-note">(12건 평균 · 🆕 두산로보틱스 +58.0% 반영)</span></div></div>
-    <div class="summary-item"><div class="label">손절 준수율</div><div class="value profit">100% <span class="value-note">(손절 트리거 도달 시 기계적 컷 준수)</span></div></div>
+    <div class="summary-item"><div class="label">평균 수익률</div><div class="value profit">+9.75% <span class="value-note block">(12건 평균 · 🆕 두산로보틱스 +58.0% 반영)</span></div></div>
+    <div class="summary-item"><div class="label">손절 준수율</div><div class="value profit">100% <span class="value-note block">(손절 트리거 도달 시 기계적 컷 준수)</span></div></div>
     <div class="summary-item"><div class="label">원칙 위반율</div><div class="value profit">0%</div></div>
-    <div class="summary-item"><div class="label">현재 MDD <span style="font-size:0.9em;color:#6e7681;">(최대낙폭)</span></div><div class="value profit">-2.18% <span class="value-note">(200만 잔고곡선 · 고점 2,201,639→저점 2,153,534, 05-20 동시손절일 · 실현 기준)</span></div></div>
-    <div class="summary-item"><div class="label">누적 수익</div><div class="value profit">+296,150원 🎉 <span class="value-note">(종합 +318,362 · 부분 매도 2건 +22,212 별도 [TIGER +20,087 / 🆕 한화오션 +2,125])</span></div></div>
-    <div class="summary-item"><div class="label">자립 지수</div><div class="value" style="color:#3fb950;">12.9% <span class="value-note">(누적수익 296,150 ÷ (수익+입금 200만) · L4부터 30% 필요)</span></div></div>
+    <div class="summary-item"><div class="label">현재 MDD <span class="hd-note">(최대낙폭)</span></div><div class="value profit">-2.18% <span class="value-note block">(200만 잔고곡선 · 고점 2,201,639→저점 2,153,534, 05-20 동시손절일 · 실현 기준)</span></div></div>
+    <div class="summary-item"><div class="label">누적 수익</div><div class="value profit">+296,150원 🎉 <span class="value-note block">(종합 +318,362 · 부분 매도 2건 +22,212 별도 [TIGER +20,087 / 🆕 한화오션 +2,125])</span></div></div>
+    <div class="summary-item"><div class="label">자립 지수</div><div class="value" style="color:#3fb950;">12.9% <span class="value-note block">(누적수익 296,150 ÷ (수익+입금 200만) · L4부터 30% 필요)</span></div></div>
   </div>
 
   <h4 style="color:#f0883e; margin-top:16px;">🟢 L1 → L2 진급 체크리스트 진행도 <span style="color:#8b949e; font-size:0.75em;">(통합 시트 06_L1→L2 시트 자동 동기화)</span></h4>
@@ -5209,7 +5215,7 @@
 <div class="tab-content" id="tab-summary">
 
 <!-- ===== 🚦 합산 권장 액션 (4지 선다 검사 · 2026-05-28 갱신 · AI단테.md §4.6.14 영구 룰) ===== -->
-<h2 style="color:#f0883e;">🚦 합산 권장 액션 (4지 선다 검사 · 2026-06-01 시세 갱신)</h2>
+<h2 style="color:#f0883e;">🚦 합산 권장 액션 <span class="hd-note">(4지 선다 검사 · 2026-06-01 시세 갱신)</span></h2>
 
 <div class="card" style="border-left:4px solid #f0883e;">
   <p style="font-size:0.9em;color:#8b949e;margin:0 0 14px;">
@@ -5304,7 +5310,7 @@
   </div>
 </div>
 
-<h2 style="color:#3fb950;">📊 스캐너 손익 평가 — 🌊 눌림 vs 💥 돌파 (forward-test · 08:15 스케줄 누적)</h2>
+<h2 style="color:#3fb950;">📊 스캐너 손익 평가 — 🌊 눌림 vs 💥 돌파 <span class="hd-note">(forward-test · 08:15 스케줄 누적)</span></h2>
 
 <div class="card">
 <section id="scanner-eval">

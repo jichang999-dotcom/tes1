@@ -150,6 +150,8 @@
   .summary-item { background: #21262d; border-radius: 6px; padding: 14px; text-align: center; }
   .summary-item .label { color: #8b949e; font-size: 0.8em; }
   .summary-item .value { font-size: 1.3em; font-weight: bold; margin-top: 4px; }
+  /* 값 뒤 괄호 부연설명 — 메인 수치와 확실히 대비 (2026-07-23 사용자 확정) */
+  .summary-item .value .value-note { display: block; font-size: 0.55em; font-weight: 400; color: #8b949e; line-height: 1.45; margin-top: 5px; }
   .weight-info { display: inline-flex; gap: 6px; align-items: center; font-size: 0.85em; color: #8b949e; margin-bottom: 12px; }
   .weight-chip { background: #30363d; padding: 2px 8px; border-radius: 4px; font-family: monospace; }
   .condition-text { font-size: 0.82em; color: #c9d1d9; text-align: left; }
@@ -5117,16 +5119,16 @@
     </div>
   </div>
 
-  <h4 style="color:#f0883e; margin-top:8px;">🎯 핵심 KPI 스냅샷 (종료 거래 12건 기준 · 2026-06-02 두산로보틱스 성공 종결 반영)</h4>
+  <h4 style="color:#f0883e; margin-top:8px;">🎯 핵심 KPI 스냅샷 <span style="font-size:0.72em;font-weight:400;color:#8b949e;">(종료 거래 12건 기준 · 2026-06-02 두산로보틱스 성공 종결 반영)</span></h4>
   <div class="summary-grid">
     <div class="summary-item"><div class="label">총 거래 횟수</div><div class="value" style="color:#58a6ff;">12건</div></div>
-    <div class="summary-item"><div class="label">승률</div><div class="value" style="color:#d29922;">75.0% (9승 3패)</div></div>
-    <div class="summary-item"><div class="label">평균 수익률</div><div class="value profit">+9.75% (12건 평균 · 🆕 두산로보틱스 +58.0% 반영)</div></div>
-    <div class="summary-item"><div class="label">손절 준수율</div><div class="value profit">100% (손절 트리거 도달 시 기계적 컷 준수)</div></div>
+    <div class="summary-item"><div class="label">승률</div><div class="value" style="color:#d29922;">75.0% <span class="value-note">(9승 3패)</span></div></div>
+    <div class="summary-item"><div class="label">평균 수익률</div><div class="value profit">+9.75% <span class="value-note">(12건 평균 · 🆕 두산로보틱스 +58.0% 반영)</span></div></div>
+    <div class="summary-item"><div class="label">손절 준수율</div><div class="value profit">100% <span class="value-note">(손절 트리거 도달 시 기계적 컷 준수)</span></div></div>
     <div class="summary-item"><div class="label">원칙 위반율</div><div class="value profit">0%</div></div>
-    <div class="summary-item"><div class="label">현재 MDD (최대낙폭)</div><div class="value profit">-2.18% (200만 잔고곡선 · 고점 2,201,639→저점 2,153,534, 05-20 동시손절일 · 실현 기준)</div></div>
-    <div class="summary-item"><div class="label">누적 수익</div><div class="value profit">+296,150원 🎉 (종합 +318,362 · 부분 매도 2건 +22,212 별도 [TIGER +20,087 / 🆕 한화오션 +2,125])</div></div>
-    <div class="summary-item"><div class="label">자립 지수</div><div class="value" style="color:#3fb950;">12.9% (누적수익 296,150 ÷ (수익+입금 200만) · L4부터 30% 필요)</div></div>
+    <div class="summary-item"><div class="label">현재 MDD <span style="font-size:0.9em;color:#6e7681;">(최대낙폭)</span></div><div class="value profit">-2.18% <span class="value-note">(200만 잔고곡선 · 고점 2,201,639→저점 2,153,534, 05-20 동시손절일 · 실현 기준)</span></div></div>
+    <div class="summary-item"><div class="label">누적 수익</div><div class="value profit">+296,150원 🎉 <span class="value-note">(종합 +318,362 · 부분 매도 2건 +22,212 별도 [TIGER +20,087 / 🆕 한화오션 +2,125])</span></div></div>
+    <div class="summary-item"><div class="label">자립 지수</div><div class="value" style="color:#3fb950;">12.9% <span class="value-note">(누적수익 296,150 ÷ (수익+입금 200만) · L4부터 30% 필요)</span></div></div>
   </div>
 
   <h4 style="color:#f0883e; margin-top:16px;">🟢 L1 → L2 진급 체크리스트 진행도 <span style="color:#8b949e; font-size:0.75em;">(통합 시트 06_L1→L2 시트 자동 동기화)</span></h4>

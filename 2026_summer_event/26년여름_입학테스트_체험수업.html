@@ -1070,6 +1070,18 @@ function segTable(tab) {
     <td class="tabular-nums text-amber-700">${nf(e.ts)}</td>
     <td class="tabular-nums text-amber-700">${nf(e.rg)}</td>
     <td colspan="3" class="text-left text-[10.5px] font-bold text-ink-dim">유입·신청에 연결되지 않아 전환율 계산 대상이 아님</td></tr>`;
+  // 기타도 세그먼트만은 분해할 수 있다(응시·등록 행 자신의 reg_type). 구분(온·오프)은 학생 단위
+  // 판정이라 신청이 없으면 못 매기므로 세그먼트만 낸다. sort-pin = 열 정렬해도 기타 밑에 붙어 있게.
+  const eseg = etcSeg(R.primary, tab);
+  for (const sv of segOrder(eseg)) {
+    const v = eseg[sv];
+    body += `<tr class="sort-pin"><td></td>
+      <td class="pl-3 font-bold text-ink-soft">└ ${dispSeg(sv)}</td>
+      <td class="text-ink-dim">–</td>
+      <td class="tabular-nums text-amber-700">${nf(v[0])}</td>
+      <td class="tabular-nums text-amber-700">${nf(v[1])}</td>
+      <td colspan="3"></td></tr>`;
+  }
   body += `<tr class="grp"><td>최종합계</td><td>소계 + 기타</td>
     <td class="tabular-nums">${nf(fin['신청'])}</td><td class="tabular-nums">${nf(fin['응시'])}</td><td class="tabular-nums">${nf(fin['등록'])}</td>
     <td class="tabular-nums">${fx(pf(fin['응시'],fin['신청']),1)}</td><td class="tabular-nums">${fx(pf(fin['등록'],fin['응시']),1)}</td>
@@ -1140,8 +1152,9 @@ function regTypeBlock(tab, fin, e) {
         <tbody>${rows}${total}</tbody>
       </table></div>
       <p class="text-[10px] font-bold text-ink-dim mt-1.5 px-1">
-        비중 = 등록 최종합계(${nf(tot)}건) 대비 · <b>기타</b>는 구분·세그먼트를 태깅할 신청이 없어 격자에 못 넣습니다 →
-        <b>최종합계에만</b> 더하고 전환율 분모·분자에서는 제외합니다.</p>
+        비중 = 등록 최종합계(${nf(tot)}건) 대비 · <b>기타</b>는 <b>구분</b>(온·오프)을 태깅할 신청이 없어 격자에 못 넣습니다 →
+        <b>최종합계에만</b> 더하고 전환율 분모·분자에서는 제외합니다. 세그먼트는 응시·등록 행 자신의
+        재원구분으로 매길 수 있어 위 <b>기타 행 아래에 세그먼트별로</b> 나눠 두었습니다.</p>
     </details>`;
 }
 
@@ -1177,6 +1190,44 @@ function etc(role, tab) {
              rgNoTest:S.noT.size, rgNoApp:S.noAT.size+S.noANT.size,
              rgNoAppTest:S.noAT.size, rgNoAppNoT:S.noANT.size };
   return { ts, rg: rgNoTest+rgNoApp, rgVia, rgNoTest, rgNoApp, rgNoAppTest, rgNoAppNoT };
+}
+
+/* ── 기타의 세그먼트 분해 (2026-07-24) ────────────────────────────────
+   기타는 신청이 없어 §6 격자(구분×세그먼트)에 못 들어가지만, **세그먼트만은** 셀 수 있다 —
+   step8이 신청 매칭이 없는 응시·등록 행에 그 행 자신의 reg_type을 폴백으로 태깅해 두기 때문.
+   구분(온라인/오프라인/중복)은 학생의 신청 source **집합**으로 판정하는 값이라 신청이 없으면
+   매길 수 없다 → 여기서는 세그먼트만 낸다.
+   대상은 위 기타 행과 같은 모수: 응시 = 신청 미매칭(m=0) / 등록 = 응시경유 아님(v=0).
+   반환 {세그먼트: [응시, 등록]} — 세그먼트 합 = 기타 행의 응시·등록(건수 기준). */
+function etcSeg(role, tab) {
+  const ev = DATA.events[role]; if (!ev) return {};
+  const cnt = {}, sets = {};
+  const bump = (org, F, si, keep) => {
+    const m = mask(F);
+    for (let i=0;i<F.p.length;i++) {
+      if (!m[i] || !keep(i)) continue;
+      const sv = (F.s ? D.seg[F.s[i]] : '') || '미지정';
+      if (!cnt[sv]) { cnt[sv] = [0,0]; sets[sv] = [new Set(), new Set()]; }
+      cnt[sv][si]++; sets[sv][si].add(org+':'+F.p[i]);
+    }
+  };
+  for (const org of orgsOf(tab)) {
+    const FA = ev.facts[org]; if (!FA) continue;
+    const T = FA['응시'], G = FA['등록'];
+    if (T) bump(org, T, 0, i => !T.m[i]);
+    if (G) bump(org, G, 1, i => !G.v[i]);
+  }
+  const out = {};
+  // dis(학생수)는 세그먼트별 distinct라 합이 기타 행과 정확히 같지 않을 수 있다(한 학생이
+  // 응시·등록에서 다른 세그먼트로 잡히는 경우) — 그래서 소계 행은 두지 않고 기타 행을 정본으로 둔다.
+  for (const k in cnt) out[k] = (state.unit === 'cnt') ? cnt[k] : sets[k].map(x => x.size);
+  return out;
+}
+/* 세그먼트 표기 순서 = 격자와 동일(D.seg) + 사전에 없는 값(빈칸→'미지정')은 뒤에. 0건은 생략. */
+function segOrder(m) {
+  const known = D.seg.filter(s => s && m[s]);
+  const rest = Object.keys(m).filter(k => !D.seg.includes(k)).sort();
+  return [...known, ...rest].filter(k => m[k][0] || m[k][1]);
 }
 
 /* 센터별 */
@@ -1961,7 +2012,10 @@ function sortBy(tbl, ci, th) {
   for (const tr of [...tbody.rows]) {
     if (tr.cells.length <= 1 && tr.querySelector('[colspan]')) { pinned.push(tr); continue; }
     const first = (tr.cells[0] ? tr.cells[0].textContent : '').trim();
-    (tr.classList.contains('grp') || SORT_PIN.test(first)) ? pinned.push(tr) : data.push(tr);
+    // .sort-pin = 요약 행에 딸린 하위 행(기타 세그먼트 분해 등). 첫 열이 비어 라벨 매칭이
+    // 안 되므로 클래스로 고정한다 — 안 그러면 정렬 때 기타 행에서 떨어져 나간다.
+    (tr.classList.contains('grp') || tr.classList.contains('sort-pin') || SORT_PIN.test(first))
+      ? pinned.push(tr) : data.push(tr);
   }
   const numCnt = data.filter(tr => _numify(tr.cells[ci] && tr.cells[ci].textContent) !== null).length;
   const numeric = numCnt >= data.length * 0.6;

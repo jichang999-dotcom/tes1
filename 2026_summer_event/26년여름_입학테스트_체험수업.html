@@ -95,6 +95,9 @@
   .sp-dot { position:absolute; width:7px; height:7px; border-radius:50%; margin:-3.5px 0 0 -3.5px;
             box-shadow:0 0 0 2px #fff; opacity:0; transition:opacity .08s; pointer-events:none; }
   .sp-dot.on { opacity:1; }
+  /* 경과 일차가 1일뿐이면 polyline 이 안 보인다 — 점 하나로 대신 찍는다 */
+  .sp-mark { position:absolute; width:7px; height:7px; border-radius:50%; margin:-3.5px 0 0 -3.5px;
+             box-shadow:0 0 0 2px #fff; pointer-events:none; }
   .sp-tip { position:absolute; top:-2px; transform:translate(-50%,-100%); white-space:nowrap;
             background:#0F172A; color:#fff; border-radius:8px; padding:5px 7px; font-size:10px;
             font-weight:700; line-height:1.45; opacity:0; transition:opacity .08s;
@@ -838,6 +841,16 @@ const KIND_TONE = { '수학':'#4F6BFF', '과학':'#059669', '통합':'#EA580C', 
 /* ── 시작일 기준 단계별 추이 (D+N 일차, 전년 겹쳐보기) ──
    X축 = 각 단계 **자기 시작일**부터의 일차(step8 'n' 컬럼). 부서·단계마다 시작일이 달라
    (25년여름 FC 유입 07-21 / 응시·등록 08-04) 절대날짜로 겹치면 비교가 안 된다. */
+/* 아직 오지 않은 일차는 그리지 않는다 — 진행 중인 이벤트(26년여름)의 stagewin.len 은
+   '계획된 창 전체'라 그대로 X축 끝으로 쓰면 오늘 이후가 0으로 평평하게 깔려, 데이터가
+   없는 게 아니라 실적이 0인 것처럼 읽힌다. 데이터 기준일(DATA.generated)까지 경과한
+   일차에서 끊는다. 끝난 이벤트(전년)는 경과 일차가 len 을 넘으므로 영향이 없다. */
+const ASOF = String(DATA.generated || '').slice(0, 10);
+function elapsedN(win) {
+  const s = Date.parse(win.start + 'T00:00:00Z'), a = Date.parse(ASOF + 'T00:00:00Z');
+  if (isNaN(s) || isNaN(a)) return win.len;              // 기준일을 못 읽으면 종전대로 창 전체
+  return Math.max(0, Math.floor((a - s) / 86400000) + 1);
+}
 function trendSeries(role, tab, stage, cum) {
   const ev = DATA.events[role]; if (!ev) return null;
   let maxN = 0;
@@ -846,7 +859,8 @@ function trendSeries(role, tab, stage, cum) {
     const FA = ev.facts[org]; if (!FA) continue;
     const F = FA[stage]; if (!F || !F.n) continue;
     const win = ev.summary[org] && ev.summary[org].stagewin && ev.summary[org].stagewin[stage];
-    if (win && win.len) maxN = Math.max(maxN, win.len);
+    if (win && win.len && win.start) maxN = Math.max(maxN, Math.min(win.len, elapsedN(win)));
+    else if (win && win.len) maxN = Math.max(maxN, win.len);
     const m = mask(F);
     const seen = state.unit === 'dis' ? new Set() : null;
     for (let i=0;i<F.p.length;i++) {
@@ -881,6 +895,8 @@ function sparkline(cur, prev, color) {
       <polyline points="${pt(cur)}" fill="none" stroke="${color}" stroke-width="2"
         vector-effect="non-scaling-stroke" stroke-linejoin="round"/>
     </svg>
+    ${cur.length === 1 ? `<span class="sp-mark" style="background:${color};left:${PAD/W*100}%;
+       top:${(H-PAD-(cur[0]/mx)*(H-PAD*2))/H*100}%"></span>` : ''}
     <span class="sp-dot sp-dc" style="background:${color}"></span>
     <span class="sp-dot sp-dp" style="background:#94A3B8"></span>
     <div class="sp-tip"></div>
@@ -936,11 +952,13 @@ function trendBlock(tab, vert) {
     const p = R.compare ? (trendSeries(R.compare, tab, st.k, cum) || []) : null;
     const cT = cum ? (c[c.length-1]||0) : c.reduce((a,b)=>a+b,0);
     const pT = p ? (cum ? (p[p.length-1]||0) : p.reduce((a,b)=>a+b,0)) : null;
-    const y = pT!=null ? yoy(cT, pT) : null;
+    // 아직 시작 전인 단계(경과 일차 0)는 전년 대비 -100% 가 아니라 '시작 전' — 비교할 창 자체가 없다
+    const started = c.length > 0;
+    const y = (started && pT!=null) ? yoy(cT, pT) : null;
     return `<div class="rounded-xl ring-soft p-2.5">
       <div class="flex items-center justify-between gap-1 mb-1">
         <span class="text-[11.5px] font-extrabold" style="color:${st.tone[1]}">${st.label}</span>
-        ${yoyChip(y)}
+        ${started ? yoyChip(y) : '<span class="chip chip-mute">시작 전</span>'}
       </div>
       <div class="flex items-baseline gap-1.5 mb-0.5">
         <span class="text-[15px] font-black tabular-nums">${nf(cT)}</span>

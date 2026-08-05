@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>지역분석 대시보드 — 가맹 상담용</title>
+<link rel="stylesheet" href="vendor/leaflet.css">
+<style>
+/* ===================================================================
+   지역분석 대시보드 — 가맹상담 대면 자료
+   색: dataviz 스킬 reference palette (sequential blue / status)
+   =================================================================== */
+:root{
+  color-scheme: light;
+  --surface-1:#fcfcfb; --plane:#f4f4f1; --ink:#0b0b0b; --ink-2:#52514e; --muted:#898781;
+  --grid:#e1e0d9; --line:#c3c2b7; --border:rgba(11,11,11,.10);
+  --s100:#cde2fb; --s200:#9ec5f4; --s350:#5598e7; --s500:#256abf; --s700:#0d366b;
+  --good:#0ca30c; --warn:#fab219; --serious:#ec835a; --critical:#d03b3b;
+  --brand:#0d366b;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--plane); color:var(--ink);
+  font-family:system-ui,-apple-system,"Segoe UI","맑은 고딕",sans-serif;
+  font-size:17px; line-height:1.45;
+}
+h1,h2,h3{margin:0; font-weight:800; letter-spacing:-.02em}
+button{font:inherit; cursor:pointer}
+
+/* ---------- 헤더 ---------- */
+header{
+  background:var(--brand); color:#fff; padding:14px 22px;
+  display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+}
+header h1{font-size:22px}
+header .sub{font-size:14px; opacity:.8}
+.badge-src{
+  margin-left:auto; font-size:13px; font-weight:700; padding:6px 12px;
+  border-radius:999px; background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.3);
+}
+.badge-src.mock{background:var(--warn); color:#2a2000; border-color:transparent}
+
+/* ---------- 브레드크럼 ---------- */
+nav.bc{
+  background:var(--surface-1); border-bottom:1px solid var(--grid);
+  padding:10px 22px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  font-size:16px; position:sticky; top:0; z-index:500;
+}
+nav.bc button{
+  border:1px solid var(--line); background:#fff; border-radius:999px;
+  padding:6px 16px; font-weight:700; color:var(--brand);
+}
+nav.bc button:hover{background:var(--s100)}
+nav.bc .cur{padding:6px 4px; font-weight:800}
+nav.bc .sep{color:var(--muted)}
+
+/* ---------- 레이아웃 ---------- */
+main{padding:18px 22px 40px; max-width:1680px; margin:0 auto}
+.stage{display:grid; grid-template-columns:1fr 400px; gap:18px}
+@media (max-width:1180px){.stage{grid-template-columns:1fr}}
+.card{
+  background:var(--surface-1); border:1px solid var(--border); border-radius:var(--r);
+  box-shadow:0 1px 2px rgba(11,11,11,.04);
+}
+.card>h2{padding:14px 18px 0; font-size:19px}
+.card>.hint{padding:2px 18px 0; color:var(--ink-2); font-size:14px}
+#map{height:68vh; min-height:460px; border-radius:var(--r); overflow:hidden}
+#map.detail{height:60vh; min-height:420px}
+
+/* ---------- 범례 ---------- */
+.legend{display:flex; gap:0; align-items:stretch; padding:12px 18px 16px; flex-wrap:wrap}
+.legend .item{display:flex; flex-direction:column; align-items:center; gap:4px; min-width:74px}
+.legend .sw{width:100%; height:16px; border-radius:4px}
+.legend .lb{font-size:13px; font-weight:700}
+.legend .rg{font-size:12px; color:var(--muted)}
+.legend .lgtitle{width:100%; display:flex; align-items:center; gap:10px; margin-bottom:8px; flex-wrap:wrap}
+.legend .lgtitle select{font:inherit; font-weight:700; padding:6px 10px; border-radius:8px;
+  border:1px solid var(--line); background:#fff; color:var(--brand)}
+.legend .lgnote{font-size:13px; color:var(--muted); font-weight:400}
+
+/* ---------- 랭킹 ---------- */
+.rank{max-height:66vh; overflow:auto; padding:8px 10px 14px}
+.rank .row{
+  display:grid; grid-template-columns:34px 1fr auto auto; align-items:center; gap:10px;
+  padding:10px 10px; border-radius:10px; cursor:pointer; border:1px solid transparent;
+}
+.rank .row:hover{background:var(--s100); border-color:var(--s200)}
+.rank .no{color:var(--muted); font-weight:700; font-variant-numeric:tabular-nums; text-align:right}
+.rank .nm{font-weight:700}
+.rank .sc{font-weight:800; font-variant-numeric:tabular-nums}
+.rank .un{font-size:13px; color:var(--muted); min-width:28px}
+/* .g.S~.g.D (등급 배지) 는 점수제도 폐기(2026-07-31)로 삭제 */
+
+/* ---------- 동 상세 ---------- */
+/* 지도 왼쪽 / 데이터 오른쪽 (2026-08-04 배치 변경 — 상위 단계 화면과 좌우를 맞춘다) */
+.detail{display:grid; grid-template-columns:1fr 520px; gap:18px; align-items:start}
+.detail>.card:first-child{position:sticky; top:56px}
+@media (max-width:1180px){.detail{grid-template-columns:1fr}}
+.hero{padding:20px 22px 18px; border-bottom:1px solid var(--grid)}
+.hero .nm{font-size:30px; font-weight:800; letter-spacing:-.03em}
+.hero .loc{color:var(--ink-2); font-size:15px; margin-top:2px}
+/* 점수 박스·판정 문구(.scorebox/.score/.gbig/.verdict) 는 2026-07-31 폐기 → .facts 로 대체 */
+.hero .facts{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:16px}
+.hero .facts>div{background:var(--plane); border-radius:10px; padding:10px 12px}
+.hero .facts b{display:block; font-size:26px; font-weight:800; letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums; line-height:1.15}
+.hero .facts span{font-size:12px; color:var(--ink-2)}
+@media (max-width:520px){.hero .facts{grid-template-columns:repeat(2,1fr)}}
+
+.blocks{padding:6px 18px 18px}
+.blk{padding:16px 0; border-bottom:1px solid var(--grid)}
+.blk:last-child{border-bottom:0}
+.blk h3{font-size:15px; color:var(--ink-2); letter-spacing:.02em; margin-bottom:10px}
+.blk h3 .tag{font-size:12px; background:var(--plane); color:var(--muted);
+  padding:2px 8px; border-radius:6px; margin-left:6px; font-weight:700}
+.kpis{display:grid; grid-template-columns:repeat(2,1fr); gap:12px}
+.kpi .v{font-size:30px; font-weight:800; letter-spacing:-.03em; font-variant-numeric:tabular-nums}
+.kpi .v .u{font-size:15px; font-weight:700; color:var(--ink-2); margin-left:3px}
+.kpi .l{font-size:14px; color:var(--ink-2)}
+/* 표본 부족 — 숫자 자리에 들어가므로 숫자처럼 커 보이면 안 된다. 값이 아니라 '값 없음'이다. */
+.lowsample{font-size:15px; font-weight:700; color:var(--ink-2); letter-spacing:-.01em}
+.kpi .v .lowsample{font-size:17px}
+.kpi .d{font-size:14px; font-weight:700}
+.d.up{color:#006300}.d.dn{color:var(--critical)}
+
+.chart{margin-top:12px}
+.chart .cap{font-size:13px; color:var(--muted); margin-bottom:4px}
+svg .grid{stroke:var(--grid); stroke-width:1}
+svg .axis{stroke:var(--line); stroke-width:1}
+svg text{fill:var(--ink-2); font-size:12px}
+svg text.val{fill:var(--ink); font-weight:800; font-size:13px}
+
+/* ---------- POI 맵 ---------- */
+.basemaps{display:flex; gap:6px; padding:10px 18px 0; flex-wrap:wrap; align-items:center}
+.basemaps .lbl{font-size:12px; color:var(--muted); margin-right:2px}
+.basemaps button{font-size:12px; padding:5px 10px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--line); background:#fff; color:var(--ink-2); font-weight:700}
+.basemaps button[aria-pressed="true"]{background:var(--brand); border-color:var(--brand); color:#fff}
+.basemaps button[disabled]{opacity:.4; cursor:not-allowed}
+.toggles{display:flex; gap:8px; padding:12px 18px; flex-wrap:wrap}
+.toggles button{
+  border:1px solid var(--line); background:#fff; border-radius:999px; padding:8px 14px;
+  font-weight:700; display:flex; align-items:center; gap:8px; font-size:15px;
+}
+.toggles button[aria-pressed="true"]{background:var(--s100); border-color:var(--s350)}
+.toggles button[aria-pressed="false"]{opacity:.45}
+.dot{width:12px; height:12px; border-radius:50%; display:inline-block; border:2px solid #fff;
+     box-shadow:0 0 0 1px rgba(0,0,0,.25)}
+.cnt{font-variant-numeric:tabular-nums; color:var(--ink-2)}
+
+/* ---------- 상태 ---------- */
+.notice{
+  padding:38px 24px; text-align:center; color:var(--ink-2);
+}
+.notice .big{font-size:22px; font-weight:800; color:var(--ink); margin-bottom:8px}
+.notice code{background:var(--plane); padding:2px 6px; border-radius:6px; font-size:14px}
+.hidden{display:none !important}
+
+table.tbl{width:100%; border-collapse:collapse; font-size:14px}
+table.tbl th,table.tbl td{padding:6px 8px; border-bottom:1px solid var(--grid); text-align:right}
+table.tbl th:first-child,table.tbl td:first-child{text-align:left}
+table.tbl th{color:var(--muted); font-weight:700}
+details.tblwrap{margin-top:10px}
+details.tblwrap summary{font-size:14px; color:var(--ink-2); cursor:pointer}
+
+footer{padding:14px 22px 30px; color:var(--muted); font-size:13px; text-align:center}
+
+/* 🚫 인쇄(A4) CSS 는 2026-08-05 삭제했다.
+   이 화면은 **조회용이 최종**이고, 인쇄해서 고객에게 건네는 계획이 폐지됐다.
+   인쇄 레이아웃을 남겨 두면 "A4 로 뽑아 배포해도 된다"는 신호가 되므로 지웠다.
+   되살릴 일이 있으면 새 요구사항으로 정의할 것 —
+   삭제 전 원본은 data/archive/20260805_pre_print_removal/index.html 에 있다. */
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>지역분석 대시보드</h1>
+    <div class="sub">학원 프랜차이즈 가맹 상담용 · 시도 → 시군구 → 행정동 상권 진단</div>
+  </div>
+  <div class="badge-src" id="srcBadge">데이터 확인 중…</div>
+</header>
+
+<nav class="bc" id="bc"></nav>
+
+<main>
+  <!-- 지도 + 랭킹 (전국/시도/시군구 공통) -->
+  <section class="stage" id="stageMap">
+    <div class="card">
+      <div id="map"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div class="card">
+      <h2 id="rankTitle">지역 순위</h2>
+      <div class="hint" id="rankHint">클릭하면 하위 단계로 이동합니다</div>
+      <div class="rank" id="rank"></div>
+    </div>
+  </section>
+
+  <!-- 동 상세 -->
+  <section class="detail hidden" id="stageDetail">
+    <div class="card">
+      <h2>POI 지도 — 자사 · 경쟁사 · 시너지세권 · 학교 · 입시·보습 학원 · 아파트</h2>
+      <div class="hint" id="poiHint">레이어 버튼으로 켜고 끌 수 있습니다</div>
+      <div class="basemaps" id="basemaps"></div>
+      <div class="toggles" id="toggles"></div>
+      <div id="map2" style="height:62vh;min-height:440px;border-radius:0 0 14px 14px;overflow:hidden"></div>
+    </div>
+    <div class="card" id="panel"></div>
+  </section>
+
+  <div class="card notice hidden" id="notice"></div>
+</main>
+
+<footer id="foot"></footer>
+
+<script src="vendor/leaflet.js"></script>
+<script>
+/* =====================================================================
+   0. 설정
+   ===================================================================== */
+const REAL = { geo: "../data/geo/", proc: "../data/processed/" };
+const MOCK = { geo: "mock/geo/",    proc: "mock/" };
+/* 🚫 종합점수·등급은 2026-07-31 폐기 (관리자 결정).
+   화면은 "판정"하지 않고 **실측 지표를 조회**만 한다. 재설계는 docs/TODO.md F-1.
+   색은 등급이 아니라 선택한 지표의 5분위(quintile)로 칠한다. */
+const RAMP = ["#cde2fb", "#9ec5f4", "#5598e7", "#256abf", "#0d366b"];
+
+const METRICS = [
+  {k:"school_age",         label:"학령인구(6~14세)", unit:"명",   d:0},
+    /* ⚠️ 2026-08-03 관리자 정의 — 학원 수 = NEIS `REALM_SC_NM` 이
+     **입시.검정 및 보습**인 것만이다(전국 77,637개). 예능·어학원·독서실·
+     직업기술은 업태가 달라 뺐다. 정의 SSOT = `scripts/collect_neis.py` REALM_KEEP.
+     ⚠️ 이 기준 이전 산출물(전 분야 138,284개)과 증감을 비교하지 말 것. */
+  {k:"academy_cnt",        label:"입시·보습 학원 수", unit:"개",   d:0},
+  {k:"pupils_per_academy", label:"학원 1개당 학령인구", unit:"명", d:1},
+  {k:"school_cnt",         label:"초·중학교 수",      unit:"개",   d:0},
+  {k:"school_students",    label:"초·중 재학생 수",   unit:"명",   d:0},
+  /* 소비력 ① 자산수준 — **중앙값**이 정본이다(2026-08-04). 평균 평당가는
+     초고가 1건에 끌려가서, 거래가 적은 동일수록 크게 튄다(전국 최대 차이 1,344만원/평).
+     표본 10건 미만(low_sample) 동 178곳은 metricVal() 에서 결측 처리돼 색·순위에서 빠진다. */
+  {k:"median_price_per_py", label:"아파트 평당가 (중앙값)", unit:"만원", d:0},
+  /* 소비력 ②③ — K-apt 세대수 조인(C-5, 2026-08-05). 전국 22,257단지 수집 완료분이다.
+     ⚠️ `apt_households`(아파트 세대수) 와 `households`(**주민등록** 세대수)는 다른 값이다.
+     ⚠️ `apt_ratio` 100% 초과 동 67곳은 metricVal() 에서 결측 처리된다(경계 원천 문제, E-4). */
+  {k:"apt_households",     label:"아파트 세대수",     unit:"세대", d:0},
+  {k:"apt_ratio",          label:"아파트 거주 비율",  unit:"%",    d:1, s:100},
+  {k:"housing_asset",      label:"주거자산 총액",     unit:"억원", d:0},
+  {k:"trend_pct",          label:"최근 12개월 인구 증감", unit:"%", d:1},
+  // 경쟁사 축 — competitor_*.json 에서 병합해 넣는다 (mergeCompetitor)
+  {k:"competitor_cnt",     label:"경쟁사 수",        unit:"개",   d:0},
+  /* **시너지세권** = 영어유치원 위치(폴리·라이즈). ⚠️ 경쟁사가 아니다 —
+     유아 사교육 수요가 모이는 자리라 자사는 오히려 그 근처 입점이 유리하다.
+     '많을수록 나쁜 지표'가 아니라 **많을수록 유리한 신호**다. 경쟁사와 합산 금지.
+     ⚠️ 표시명 SSOT 는 `scripts/brands.py` 의 `CATEGORIES` — JSON 키는 `english_kinder` 그대로다
+        (poi_*.json 256개·집계 3종·이력에 박혀 있어 키를 바꾸면 조인이 조용히 끊긴다). */
+  {k:"english_kinder_cnt", label:"시너지세권 수 (영어유치원)", unit:"개", d:0},
+  {k:"own_cnt",            label:"자사 센터 수",      unit:"개",   d:0},
+];
+let curMetric = METRICS[0];
+/* 비율 지표는 저장은 소수(0.548), 표시는 % 로 한다. 저장값을 100배로 바꾸면
+   metrics.json 소비자(검증 스크립트 포함)가 전부 갈리므로 **표시에서만** 곱한다. */
+const mScale = () => curMetric.s || 1;
+let bins = [];        // 현재 화면의 5분위 경계
+
+function quintiles(vals){
+  const v = vals.filter(x => x!==null && x!==undefined && !isNaN(x)).sort((a,b)=>a-b);
+  if(v.length < 5) return [];
+  return [1,2,3,4].map(i => v[Math.floor(v.length*i/5)]);
+}
+function binOf(x){
+  if(x===null||x===undefined||isNaN(x)) return -1;
+  let i = 0;
+  while(i < bins.length && x >= bins[i]) i++;
+  return i;
+}
+const POI_STYLE = {
+  own:            {label:"자사 센터",   color:"#e11d48", r:10, w:3},
+  competitor:     {label:"경쟁사",      color:"#111827", r:7},
+  /* 초록 = 경쟁사(검정)와 색으로도 구분한다. **시너지세권**은 붙으면 유리한 자리다 — COMPETITOR.md §1 */
+  english_kinder: {label:"시너지세권(영어유치원)", color:"#0e9f6e", r:7},
+  school:         {label:"학교",        color:"#2a78d6", r:8},
+  academy:        {label:"입시·보습 학원", color:"#eb6834", r:5},
+  apartment:      {label:"아파트",      color:"#4a3aa7", r:6},
+};
+const state = { level:"nation", sido:null, sgg:null, adm:null, usedMock:false, missing:[],
+                /* competitor.json 의 meta.own_brands 로 덮어쓴다 (mock 에는 없어서 기본값을 둔다) */
+                ownBrands:["와이키즈","와이즈만"],
+                /* POI 지도 배경. 마지막 선택을 기억한다 (기본은 일반 지도) */
+                basemap:(()=>{ try{ return localStorage.getItem("jiyeok.basemap") || "plain"; }
+                               catch(e){ return "plain"; } })(),
+                vworldKey:null };
+const cache = new Map();
+
+/* =====================================================================
+   1. 데이터 로더 — 실데이터(data/) 우선, 없으면 web/mock/
+   ===================================================================== */
+async function tryFetch(url){
+  try{
+    const r = await fetch(url, {cache:"no-store"});
+    if(!r.ok) return null;
+    return await r.json();
+  }catch(e){ return null; }
+}
+async function load(kind, file){          // kind: "geo" | "proc"
+  const key = kind+"/"+file;
+  if(cache.has(key)) return cache.get(key);
+  let d = await tryFetch(REAL[kind]+file);
+  if(d === null){
+    d = await tryFetch(MOCK[kind]+file);
+    if(d !== null){ state.usedMock = true; }
+  }
+  if(d === null) state.missing.push(file);
+  cache.set(key, d);
+  updateBadge();
+  return d;
+}
+/* 경쟁사 집계를 metrics 에 얹어 "선택 가능한 지표"로 만든다.
+   ⚠️ 경쟁사가 0인 지역은 competitor_*.json 에 **키 자체가 없다.**
+      undefined 로 두면 코로플레스에서 결측(회색)이 되어 "경쟁사 없음"이
+      "데이터 없음"으로 읽힌다 — 0 으로 채운다 (B-8 과 같은 취지). */
+async function mergeCompetitor(metFile, compFile){
+  const [met, comp] = await Promise.all([load("proc", metFile), load("proc", compFile)]);
+  if(!met || !met.data) return met;
+  if(met.__comp) return met;
+  const cd = (comp && comp.data) || null;
+  for(const [code, m] of Object.entries(met.data)){
+    const c = cd ? cd[code] : null;
+    m.own_cnt            = c ? c.own : 0;
+    m.competitor_cnt     = c ? c.competitor : 0;
+    m.english_kinder_cnt = c ? c.english_kinder : 0;
+    /* ⚠️ 경쟁사 + 시너지세권을 하나로 합친 `rival_cnt` 는 2026-08-03 삭제했다.
+       시너지세권은 경쟁 상대가 아니라 **붙으면 유리한 자리**라,
+       합산하면 "영유가 많은 좋은 자리"가 "경쟁 심한 자리"로 뒤집혀 읽힌다. */
+    m.comp_brands        = c ? c.by_brand : null;
+  }
+  met.__comp = !!cd;
+  met.__compMeta = comp ? comp.meta : null;
+  /* 자사 브랜드는 **하드코딩하지 않는다.** 자사가 와이키즈 하나였을 때 만든 화면이라
+     "와이키즈"가 박혀 있었는데, 2026-08-03 와이즈만이 들어오면서 자사가 둘이 됐다.
+     한쪽만 강조하면 나머지 자사 브랜드가 경쟁사처럼 읽힌다 → meta 를 따른다. */
+  if(comp && comp.meta && comp.meta.own_brands) state.ownBrands = comp.meta.own_brands;
+  /* 아직 자료를 못 받은 축(brands.py PENDING). 화면에 "0개"로 보이는 것이
+     실측 0인지 미수령인지 구분할 근거가 없으면 상담에서 잘못 읽힌다. */
+  if(comp && comp.meta && comp.meta.pending) state.pendingAxes = comp.meta.pending;
+  return met;
+}
+function isOwnBrand(name){ return (state.ownBrands || []).includes(name); }
+
+function updateBadge(){
+  const b = document.getElementById("srcBadge");
+  if(state.usedMock){
+    b.className = "badge-src mock";
+    b.textContent = "⚠ 샘플(mock) 데이터 — 실데이터 아님";
+  }else{
+    b.className = "badge-src";
+    b.textContent = "실데이터";
+  }
+}
+function showNotice(title, html){
+  const n = document.getElementById("notice");
+  n.innerHTML = `<div class="big">${title}</div><div>${html}</div>`;
+  n.classList.remove("hidden");
+}
+function hideNotice(){ document.getElementById("notice").classList.add("hidden"); }
+
+/* =====================================================================
+   2. 지도
+   ===================================================================== */
+let map, layer, map2, poiLayers = {};
+function initMap(){
+  if(map) return;
+  map = L.map("map", {zoomControl:true, attributionControl:false,
+                      scrollWheelZoom:true}).setView([36.3,127.8], 7);
+}
+function clearLayer(){ if(layer){ map.removeLayer(layer); layer = null; } }
+
+/* 지표 값 접근은 **반드시 metricVal() 로** 한다. 가격 지표는 `low_sample` 인 동을
+   결측으로 다뤄야 하고(색·5분위 경계·툴팁 전부), 한 군데라도 raw 접근이 남으면
+   24개월 매매 3건짜리 동이 코로플레스 최상위 색을 칠한다. */
+const PRICE_KEYS = new Set(["median_price_per_py", "avg_price_per_py", "avg_price"]);
+/* 주거자산 총액 = 아파트 세대수 × 평균 매매가라, 가격이 대표성 없는 동(low_sample)에서는
+   오차가 수천억 단위로 증폭된다 → build_metrics 가 아예 null 로 내보내지만 화면에서도 막는다. */
+const APT_RATIO_KEYS = new Set(["apt_ratio"]);
+function metricVal(m, key){
+  key = key || curMetric.k;
+  if(!m) return null;
+  if(PRICE_KEYS.has(key) && m.low_sample) return null;
+  /* 아파트 거주 비율이 100% 를 넘는 동 67곳은 **경계 원천의 분동 반영 지연** 때문이다
+     (전주 만성지구 = 주민등록 혁신동 / 경계 여의동). 값은 남기되 색·5분위·순위에서 뺀다 —
+     "아파트 거주 188%" 가 상담 자리에서 최상위 색으로 칠해지면 방어할 수 없다. TODO E-4 */
+  if(APT_RATIO_KEYS.has(key) && m.apt_ratio_suspect) return null;
+  const v = m[key];
+  return (v===undefined) ? null : v;
+}
+
+function colorOf(code, metrics){
+  const m = metrics && metrics.data ? metrics.data[code] : null;
+  if(!m) return "#eeeeea";
+  const b = binOf(metricVal(m));
+  return b < 0 ? "#eeeeea" : RAMP[Math.min(b, RAMP.length-1)];
+}
+function styleFor(code, metrics){
+  return {fillColor:colorOf(code,metrics), fillOpacity:.85, color:"#ffffff",
+          weight:1.6, opacity:1};
+}
+function fmt(n, d=0){
+  if(n===null||n===undefined||isNaN(n)) return "–";
+  return Number(n).toLocaleString("ko-KR",{minimumFractionDigits:d, maximumFractionDigits:d});
+}
+function 만원(v){
+  if(v===null||v===undefined||isNaN(v)) return "–";
+  return v >= 10000 ? (v/10000).toFixed(1)+"억" : fmt(v)+"만";
+}
+
+/* 아파트 평당가 — 소비력 ① 자산수준.  (2026-08-04)
+   ① **중앙값이 정본**이다. 평균은 초고가 1건에 끌려간다: 매매가 10건뿐인 동에
+      60억짜리 하나가 섞이면 그 동이 강남보다 비싸 보인다.
+      median_price_per_py 가 없는 옛 산출물이면 평균으로 폴백한다.
+   ② `low_sample`(24개월 매매 10건 미만, 전국 178개 동)은 **숫자를 띄우지 않는다.**
+      "싸다/비싸다"가 아니라 "모른다"이고, 우연히 나온 값이 순위에 섞이면
+      상담 자리에서 되돌릴 수 없다. */
+function pyPrice(a){
+  if(!a) return null;
+  if(a.low_sample) return null;
+  const v = (a.median_price_per_py!=null) ? a.median_price_per_py : a.avg_price_per_py;
+  return (v===null||v===undefined||v===0) ? null : v;
+}
+function pyPriceText(a, suffix=""){
+  if(a && a.low_sample) return `<span class="lowsample" title="24개월 매매 ${fmt(a.deal_count)}건 — 표본이 적어 가격을 대표하지 못한다">표본 부족</span>`;
+  const v = pyPrice(a);
+  return v===null ? "–" : fmt(v)+suffix;
+}
+
+let lastDraw = null;   // 지표를 바꿀 때 같은 화면을 다시 그리기 위한 상태
+
+function drawChoropleth(geo, metrics, onClick, filterFn){
+  lastDraw = {geo, metrics, onClick, filterFn};
+  clearLayer();
+  const feats = geo.features.filter(f => !filterFn || filterFn(f.properties));
+  // 색 구간은 **지금 화면에 있는 지역들** 기준으로 잡는다.
+  // 전국 분포로 고정하면 한 시도 안에서 색 차이가 안 보인다.
+  bins = quintiles(feats.map(f => {
+    const m = metrics && metrics.data ? metrics.data[f.properties.code] : null;
+    return metricVal(m);
+  }));
+  layer = L.geoJSON({type:"FeatureCollection", features:feats}, {
+    style: f => styleFor(f.properties.code, metrics),
+    onEachFeature: (f, lyr) => {
+      const p = f.properties;
+      const m = metrics && metrics.data ? metrics.data[p.code] : null;
+      lyr.bindTooltip(
+        `<b style="font-size:15px">${p.name}</b><br>` +
+        (m ? `<b>${curMetric.label}</b> ${metricVal(m)===null && PRICE_KEYS.has(curMetric.k) && m.low_sample
+                ? "표본 부족" : (metricVal(m)===null && curMetric.k==="apt_ratio" && m.apt_ratio_suspect
+                ? "확인 필요" : fmt(metricVal(m)*mScale(), curMetric.d)+curMetric.unit)}<br>
+              학령인구 ${fmt(m.school_age)}명 · 입시·보습 학원 ${fmt(m.academy_cnt)}개 · 학교 ${fmt(m.school_cnt)}개`
+           : "지표 준비중"),
+        {sticky:true, direction:"top"});
+      lyr.on("mouseover", () => lyr.setStyle({weight:4, color:"#0b0b0b"}));
+      lyr.on("mouseout",  () => lyr.setStyle({weight:1.6, color:"#ffffff"}));
+      lyr.on("click", () => onClick(p));
+    }
+  }).addTo(map);
+  if(feats.length) map.fitBounds(layer.getBounds(), {padding:[16,16]});
+  drawLegend();
+}
+function drawLegend(){
+  const el = document.getElementById("legend");
+  const sel = `<select id="metricSel" aria-label="지도에 표시할 지표">` +
+    METRICS.map(m => `<option value="${m.k}"${m.k===curMetric.k?" selected":""}>${m.label}</option>`).join("") +
+    `</select>`;
+  if(!bins.length){
+    el.innerHTML = `<div class="lgtitle">${sel} <span class="lgnote">— 구간을 나눌 만큼 값이 충분하지 않습니다</span></div>`;
+  }else{
+    const d = curMetric.d, u = curMetric.unit, S = mScale();
+    const label = i => i===0 ? `~${fmt(bins[0]*S,d)}`
+                  : i===4 ? `${fmt(bins[3]*S,d)}~`
+                  : `${fmt(bins[i-1]*S,d)}~${fmt(bins[i]*S,d)}`;
+    el.innerHTML =
+      `<div class="lgtitle">${sel}<span class="lgnote">단위 ${u} · 현재 화면 기준 5분위</span></div>` +
+      RAMP.map((c,i) =>
+        `<div class="item"><div class="sw" style="background:${c}"></div>
+         <div class="rg">${label(i)}</div></div>`).join("") +
+      `<div class="item"><div class="sw" style="background:#eeeeea"></div>
+       <div class="rg">값 없음</div></div>`;
+  }
+  const s = document.getElementById("metricSel");
+  if(s) s.onchange = () => {
+    curMetric = METRICS.find(m => m.k === s.value) || METRICS[0];
+    if(lastDraw) drawChoropleth(lastDraw.geo, lastDraw.metrics, lastDraw.onClick, lastDraw.filterFn);
+    if(lastRank) drawRank(lastRank.title, lastRank.rows, lastRank.onClick);
+  };
+}
+
+/* =====================================================================
+   3. 랭킹 리스트
+   ===================================================================== */
+let lastRank = null;
+
+function drawRank(title, rows, onClick){
+  lastRank = {title, rows, onClick};
+  document.getElementById("rankTitle").textContent = title;
+  document.getElementById("rankHint").textContent =
+    `${curMetric.label} 기준 정렬 (단위 ${curMetric.unit}) · 클릭하면 하위 단계로 이동합니다`;
+  const el = document.getElementById("rank");
+  if(!rows.length){ el.innerHTML = `<div class="notice">표시할 지역이 없습니다.</div>`; return; }
+  const k = curMetric.k;
+  // 값 없음은 뒤로 보낸다 (0 과 구분해야 한다 — 0 은 실측값이다)
+  // ⚠️ 반드시 metricVal() 을 거친다. raw 접근으로 두면 표본 10건 미만인 동이
+  //    순위표 1위로 올라온다 — 지도에서는 회색인데 순위는 최상위가 되는 모순이 생긴다.
+  const val = r => {
+    const v = metricVal(r, k);
+    return (v===null||v===undefined||isNaN(v)) ? null : v;
+  };
+  rows.sort((a,b)=>{
+    const x = val(a), y = val(b);
+    if(x===null && y===null) return 0;
+    if(x===null) return 1;
+    if(y===null) return -1;
+    return y - x;
+  });
+  el.innerHTML = rows.map((r,i)=>`
+    <div class="row" data-code="${r.code}">
+      <div class="no">${i+1}</div>
+      <div class="nm">${r.name||"(무명)"}</div>
+      <div class="sc">${val(r)===null?"–":fmt(val(r)*mScale(), curMetric.d)}</div>
+      <div class="un">${curMetric.unit}</div>
+    </div>`).join("");
+  el.querySelectorAll(".row").forEach(d =>
+    d.onclick = () => onClick(d.dataset.code));
+}
+
+/* =====================================================================
+   4. 브레드크럼
+   ===================================================================== */
+function drawBC(){
+  const el = document.getElementById("bc");
+  const parts = [];
+  parts.push(state.level==="nation"
+    ? `<span class="cur">전국</span>`
+    : `<button data-go="nation">전국</button>`);
+  if(state.sido){
+    parts.push(`<span class="sep">›</span>`);
+    parts.push(state.level==="sido"
+      ? `<span class="cur">${state.sido.name}</span>`
+      : `<button data-go="sido">${state.sido.name}</button>`);
+  }
+  if(state.sgg){
+    parts.push(`<span class="sep">›</span>`);
+    parts.push(state.level==="sgg"
+      ? `<span class="cur">${state.sgg.name}</span>`
+      : `<button data-go="sgg">${state.sgg.name}</button>`);
+  }
+  if(state.adm){
+    parts.push(`<span class="sep">›</span><span class="cur">${state.adm.name}</span>`);
+  }
+  el.innerHTML = parts.join("");
+  el.querySelectorAll("button").forEach(b => b.onclick = () => {
+    const g = b.dataset.go;
+    if(g==="nation") viewNation();
+    else if(g==="sido") viewSido(state.sido);
+    else if(g==="sgg") viewSgg(state.sgg);
+  });
+}
+function showStage(which){
+  document.getElementById("stageMap").classList.toggle("hidden", which!=="map");
+  document.getElementById("stageDetail").classList.toggle("hidden", which!=="detail");
+}
+
+/* =====================================================================
+   5. 뷰 — 전국 / 시도 / 시군구
+   ===================================================================== */
+async function viewNation(){
+  state.level="nation"; state.sido=null; state.sgg=null; state.adm=null;
+  showStage("map"); drawBC(); initMap();
+  const [geo, met] = await Promise.all([
+    load("geo","sido.geojson"),
+    mergeCompetitor("metrics_sido.json", "competitor_sido.json")]);
+  if(!geo){ showStage("none");
+    showNotice("데이터 준비중",
+      `시도 경계 파일(<code>data/geo/sido.geojson</code>)이 아직 없습니다.<br>
+       팀원1의 경계 산출물이 들어오면 자동으로 표시됩니다.`); return; }
+  hideNotice();
+  drawChoropleth(geo, met, p => viewSido({code:p.code, name:p.name}));
+  drawRank(`시도 순위 (${geo.features.length})`, geo.features.map(f=>{
+    const m = met && met.data ? met.data[f.properties.code] : null;
+    return {code:f.properties.code, name:f.properties.name,
+            ...(m||{})};   // 지표 전부 실어 보낸다 — 정렬 기준을 화면에서 바꾸므로
+  }), code => {
+    const f = geo.features.find(x=>x.properties.code===code);
+    viewSido({code, name:f.properties.name});
+  });
+}
+
+async function viewSido(sido){
+  state.level="sido"; state.sido=sido; state.sgg=null; state.adm=null;
+  showStage("map"); drawBC(); initMap();
+  const [geo, met] = await Promise.all([
+    load("geo","sgg.geojson"),
+    mergeCompetitor("metrics_sgg.json", "competitor_sgg.json")]);
+  if(!geo){ showNotice("데이터 준비중", "시군구 경계 파일이 없습니다."); return; }
+  hideNotice();
+  const inSido = p => (p.parent||p.code).slice(0,2) === sido.code;
+  drawChoropleth(geo, met, p => viewSgg({code:p.code, name:p.name}), inSido);
+  const rows = geo.features.filter(f=>inSido(f.properties)).map(f=>{
+    const m = met && met.data ? met.data[f.properties.code] : null;
+    return {code:f.properties.code, name:f.properties.name,
+            ...(m||{})};   // 지표 전부 실어 보낸다 — 정렬 기준을 화면에서 바꾸므로
+  });
+  drawRank(`${sido.name} 시군구 순위 (${rows.length})`, rows, code=>{
+    const f = geo.features.find(x=>x.properties.code===code);
+    viewSgg({code, name:f.properties.name});
+  });
+}
+
+async function viewSgg(sgg){
+  state.level="sgg"; state.sgg=sgg; state.adm=null;
+  showStage("map"); drawBC(); initMap();
+  // 행정동 경계는 이 시점에만 지연 로딩 (전국 일괄 로딩 금지)
+  const [geo, met] = await Promise.all([
+    load("geo",`adm_${sgg.code}.geojson`),
+    mergeCompetitor("metrics.json", "competitor_adm.json")]);
+  if(!geo){
+    clearLayer();
+    showNotice("데이터 준비중",
+      `<b>${sgg.name}</b>의 행정동 경계 파일(<code>data/geo/adm_${sgg.code}.geojson</code>)이
+       아직 없습니다.<br>현재 샘플이 준비된 시군구: 강남구(11680) · 서초구(11650) ·
+       성남 분당구(41135) · 부산 강서구(26440)`);
+    drawRank(`${sgg.name} 행정동`, [], ()=>{});
+    return;
+  }
+  hideNotice();
+  drawChoropleth(geo, met, p => viewAdm({code:p.code, name:p.name}));
+  const rows = geo.features.map(f=>{
+    const m = met && met.data ? met.data[f.properties.code] : null;
+    return {code:f.properties.code, name:f.properties.name,
+            ...(m||{})};   // 지표 전부 실어 보낸다 — 정렬 기준을 화면에서 바꾸므로
+  });
+  drawRank(`${sgg.name} 행정동 순위 (${rows.length})`, rows, code=>{
+    const f = geo.features.find(x=>x.properties.code===code);
+    viewAdm({code, name:f.properties.name});
+  });
+}
+
+/* =====================================================================
+   6. 동 상세
+   ===================================================================== */
+function sparkline(series, w=460, h=90){
+  if(!series || series.length < 2) return "";
+  const min = Math.min(...series), max = Math.max(...series);
+  const pad = (max-min)*0.25 || 1;
+  const lo = min-pad, hi = max+pad;
+  const X = i => 8 + i*(w-70)/(series.length-1);
+  const Y = v => h-18 - (v-lo)/(hi-lo)*(h-34);
+  const pts = series.map((v,i)=>`${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(" ");
+  const last = series[series.length-1], first = series[0];
+  const up = last>=first;
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" role="img"
+    aria-label="최근 12개월 총인구 추이">
+    <line class="grid" x1="8" y1="${h-18}" x2="${w-62}" y2="${h-18}"></line>
+    <polyline fill="none" stroke="${up?'#256abf':'#d03b3b'}" stroke-width="2"
+      stroke-linejoin="round" stroke-linecap="round" points="${pts}"></polyline>
+    <circle cx="${X(series.length-1)}" cy="${Y(last)}" r="4.5"
+      fill="${up?'#256abf':'#d03b3b'}" stroke="#fcfcfb" stroke-width="2"></circle>
+    <text class="val" x="${w-56}" y="${Y(last)+4}">${fmt(last)}명</text>
+    <text x="8" y="${h-4}">12개월 전</text>
+    <text x="${w-62}" y="${h-4}" text-anchor="end">현재</text>
+  </svg>`;
+}
+function barCompare(items, w=460){
+  // 단일 측정치, 단일 색 — 카테고리는 직접 라벨로 식별
+  const max = Math.max(...items.map(d=>d.v||0), 1);
+  const rowH = 34, h = items.length*rowH + 8;
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" role="img">
+   ${items.map((d,i)=>{
+     const y = i*rowH+4, bw = Math.max(2,(d.v||0)/max*(w-210));
+     return `<text x="0" y="${y+18}">${d.k}</text>
+       <rect x="118" y="${y+5}" width="${bw}" height="17" rx="4"
+         fill="${d.hl?'#256abf':'#9ec5f4'}"></rect>
+       <text class="val" x="${118+bw+8}" y="${y+18}">${d.t}</text>`;
+   }).join("")}
+  </svg>`;
+}
+
+async function viewAdm(adm){
+  state.level="adm"; state.adm=adm;
+  showStage("detail"); drawBC(); hideNotice();
+  const sgg = state.sgg;
+  const [met, pop, aptS, poi, metS, kapt] = await Promise.all([
+    mergeCompetitor("metrics.json", "competitor_adm.json"),
+    load("proc","population.json"),
+    load("proc","apartment.json"),
+    load("proc",`poi_${sgg.code}.json`),
+    mergeCompetitor("metrics_sgg.json", "competitor_sgg.json"),
+    /* 아파트 세대수(K-apt). 아직 없으면 조용히 '–' 로 둔다 — load() 가 null 을 준다 */
+    load("proc","kapt.json"),
+  ]);
+  state.kapt = kapt;
+  const m  = met  && met.data  ? met.data[adm.code]  : null;
+  const p  = pop  && pop.data  ? pop.data[adm.code]  : null;
+  const a  = aptS && aptS.data ? aptS.data[adm.code] : null;
+  const ms = metS && metS.data ? metS.data[sgg.code] : null;
+
+  const panel = document.getElementById("panel");
+  if(!m && !p && !a){
+    panel.innerHTML = `<div class="notice"><div class="big">데이터 준비중</div>
+      <b>${adm.name}</b>의 지표·인구·아파트 데이터가 아직 없습니다.<br>
+      (팀원2·3 산출물 <code>population.json</code> / <code>metrics.json</code> 대기)</div>`;
+  }else{
+    const kids = p ? p.age["6_11"]+p.age["12_14"] : (m?m.school_age:null);
+    // 🚫 종합점수·등급·추천문구는 2026-07-31 폐기. 화면은 실측 지표만 보여준다.
+    panel.innerHTML = `
+      <div class="hero">
+        <div class="nm">${adm.name}</div>
+        <div class="loc">${state.sido?state.sido.name:""} ${sgg.name} · 행정동코드 ${adm.code}</div>
+        <div class="facts">
+          <div><b>${fmt(kids)}</b><span>학령인구(명)</span></div>
+          <div><b>${m?fmt(m.academy_cnt):"–"}</b><span>입시·보습 학원(개)</span></div>
+          <div><b>${m?fmt(m.school_cnt):"–"}</b><span>초·중학교(개)</span></div>
+          <div><b>${pyPriceText(a)}</b><span>평당가(만원·중앙값)</span></div>
+        </div>
+      </div>
+      <div class="blocks">
+        <div class="blk">
+          <h3>① 시장 규모<span class="tag">학령인구</span></h3>
+          <div class="kpis">
+            <div class="kpi"><div class="v">${fmt(kids)}<span class="u">명</span></div>
+              <div class="l">초·중등 학령인구 (6~14세)</div></div>
+            <div class="kpi"><div class="v">${p?fmt(p.age["0_5"]):"–"}<span class="u">명</span></div>
+              <div class="l">유아 (0~5세) · 미래 수요</div></div>
+            <div class="kpi"><div class="v">${p?fmt(p.total):"–"}<span class="u">명</span></div>
+              <div class="l">총인구</div></div>
+            <div class="kpi"><div class="v ${p&&p.trend_pct>=0?'':''}">${p?(p.trend_pct>=0?"+":"")+fmt(p.trend_pct,1):"–"}<span class="u">%</span></div>
+              <div class="l">최근 12개월 인구 증감
+                <span class="d ${p&&p.trend_pct>=0?'up':'dn'}">${p?(p.trend_pct>=0?"▲ 증가":"▼ 감소"):""}</span></div></div>
+          </div>
+          <div class="chart"><div class="cap">최근 12개월 총인구 추이</div>
+            ${p?sparkline(p.trend12):'<div class="cap">추이 데이터 없음</div>'}</div>
+        </div>
+
+        <div class="blk">
+          <h3>② 경쟁 강도<span class="tag">입시·보습 학원 1개당 학령인구</span></h3>
+          <div class="kpis">
+            <div class="kpi"><div class="v">${m && m.academy_cnt===0 ? '–'
+                : (m && m.pupils_per_academy!=null ? fmt(m.pupils_per_academy,1)+'<span class="u">명</span>' : '–')}</div>
+              <div class="l">${m && m.academy_cnt===0 ? '동 내 입시·보습 학원 0개 (비율 산출 불가)'
+                : '입시·보습 학원 1개당 학령인구'}</div></div>
+            <div class="kpi"><div class="v">${m?fmt(m.academy_cnt):"–"}<span class="u">개</span></div>
+              <div class="l">입시·보습 학원 수</div></div>
+            <div class="kpi"><div class="v">${m?fmt(m.school_cnt):"–"}<span class="u">개</span></div>
+              <div class="l">초·중학교 수</div></div>
+          </div>
+          <div class="chart"><div class="cap">입시·보습 학원 1개당 학령인구 비교 (명)<br><span style="opacity:.75">학원 수는 <b>입시·검정 및 보습</b> 분야만 셉니다 (예능·어학원·독서실 제외)</span></div>
+            ${barCompare([
+              {k:adm.name, v:(m&&m.pupils_per_academy)||0,
+               t:(m&&m.academy_cnt===0)?"입시·보습 학원 0개":(m&&m.pupils_per_academy!=null?fmt(m.pupils_per_academy,1):"–"), hl:true},
+              {k:sgg.name+" 평균", v:ms?ms.pupils_per_academy:0, t:ms?fmt(ms.pupils_per_academy,1):"–"},
+            ])}
+          </div>
+        </div>
+
+        <div class="blk">
+          <h3>③ 구매력<span class="tag">아파트 시세</span></h3>
+          <div class="kpis">
+            <div class="kpi"><div class="v">${pyPriceText(a)}<span class="u">만원</span></div>
+              <div class="l">평당가 (중앙값)</div></div>
+            <div class="kpi"><div class="v">${a?만원(a.avg_price):"–"}</div>
+              <div class="l">평균 매매가</div></div>
+            ${(() => {
+              /* 아파트 세대수 — 원천이 RTMS 가 아니라 **K-apt** 다.
+                 RTMS 실거래에는 세대수 항목이 아예 없어서 `apartment.json` 의
+                 households 는 전국 전건 null 이다(그래서 오래 '–' 로 비어 있었다).
+                 ⚠️ 수집이 3일에 나눠 진행되므로, 끝나기 전에는 **적게 나온다.**
+                    적게 나오는 오류는 "아파트 적은 동"으로 보여 눈에 안 띄므로
+                    meta.partial 이면 숫자 대신 수집 중임을 표시한다. */
+              const k  = state.kapt && state.kapt.data ? state.kapt.data[adm.code] : null;
+              const km = state.kapt ? state.kapt.meta : null;
+              if (km && km.partial)
+                return `<div class="kpi"><div class="v" style="font-size:.62em;color:#b45309">수집 중<br>
+                          ${fmt((km.progress||0)*100,0)}%</div>
+                        <div class="l">아파트 세대수 <span style="font-size:.85em;opacity:.7">(K-apt)</span></div></div>`;
+              return `<div class="kpi"><div class="v">${k?fmt(k.households):"–"}<span class="u">세대</span></div>
+                        <div class="l">아파트 세대수 <span style="font-size:.85em;opacity:.7">${k?`${fmt(k.complexes)}단지`:"(K-apt)"}</span></div></div>`;
+            })()}
+            <div class="kpi"><div class="v">${m&&m.new_ratio!=null?fmt(m.new_ratio*100):"–"}<span class="u">%</span></div>
+              <div class="l">신축(10년내) 비중 <span style="font-size:.85em;opacity:.7">세대 기준</span></div></div>
+            ${(() => {
+              /* 소비력 ② 규모·밀도 — 아파트 거주 비율.
+                 ⚠️ 100% 초과(67개 동)는 경계 원천의 분동 반영 지연이다(TODO E-4).
+                    숫자를 그대로 띄우면 "아파트 거주 188%"가 상담 자리에 나간다. */
+              if(!m || m.apt_ratio==null)
+                return `<div class="kpi"><div class="v">–</div><div class="l">아파트 거주 비율</div></div>`;
+              if(m.apt_ratio_suspect)
+                return `<div class="kpi"><div class="v" style="font-size:.62em;color:#b45309">확인 필요</div>
+                        <div class="l">아파트 거주 비율 <span style="font-size:.85em;opacity:.7">경계 확인중</span></div></div>`;
+              return `<div class="kpi"><div class="v">${fmt(m.apt_ratio*100,1)}<span class="u">%</span></div>
+                      <div class="l">아파트 거주 비율 <span style="font-size:.85em;opacity:.7">주민등록 세대 대비</span></div></div>`;
+            })()}
+            <div class="kpi"><div class="v">${m&&m.housing_asset!=null?fmt(m.housing_asset):"–"}<span class="u">억원</span></div>
+              <div class="l">주거자산 총액 <span style="font-size:.85em;opacity:.7">세대수 × 평균 매매가</span></div></div>
+          </div>
+          ${m && (m.built_age!=null || m.rental_ratio!=null) ? `<div class="cap">
+            평균 준공 <b>${fmt(m.built_age,1)}년차</b>
+            · 임대단지 세대 비중 <b>${fmt((m.rental_ratio||0)*100,1)}%</b>${
+              m.rental_ratio_max && m.rental_ratio_max > (m.rental_ratio||0)
+                ? ` <span style="opacity:.75">(분양·임대 <b>혼합</b> 단지까지 넣으면 ${fmt(m.rental_ratio_max*100,1)}%
+                    — 혼합 단지의 임대 비율은 원천에 없어 폭으로 봅니다)</span>` : ""}
+            <br><span style="opacity:.75">세대수·준공·임대 구분은 <b>K-apt</b>(공동주택관리정보시스템) 기준이고,
+            시세는 <b>RTMS 실거래</b> 24개월 기준입니다. 두 원천의 단지 범위가 달라 서로 나누지 마세요.</span>
+          </div>` : ""}
+        </div>
+
+        <div class="blk">
+          <h3>④ 경쟁 환경<span class="tag">자사 · 경쟁사 · 시너지세권</span></h3>
+          <div class="kpis">
+            <div class="kpi"><div class="v" style="color:#e11d48">${m?fmt(m.own_cnt):"–"}<span class="u">개</span></div>
+              <div class="l">동 내 자사 센터</div></div>
+            <div class="kpi"><div class="v">${m?fmt(m.competitor_cnt):"–"}<span class="u">개</span></div>
+              <div class="l">동 내 경쟁사</div></div>
+            <div class="kpi"><div class="v" style="color:#0e9f6e">${m?fmt(m.english_kinder_cnt):"–"}<span class="u">개</span></div>
+              <div class="l">동 내 시너지세권 <span style="font-size:.85em;opacity:.7">(영어유치원)</span></div></div>
+            <div class="kpi"><div class="v">${ms?fmt(ms.competitor_cnt):"–"}<span class="u">개</span></div>
+              <div class="l">${sgg.name} 전체 경쟁사</div></div>
+          </div>
+          <div class="cap"><b>시너지세권</b>은 영어유치원(폴리·라이즈) 위치다.
+            <b>경쟁사가 아니라</b> 유아 사교육 수요가 모이는 자리라 <b>근처 입점이 유리하다</b>는
+            신호이므로, 경쟁사 수와 합산하지 않는다.</div>
+          ${(state.pendingAxes||[]).length ? `<div class="cap" style="color:#b45309">
+            <b>자료 대기 중</b> — ${state.pendingAxes.map(p=>`${p.name} <span style="opacity:.75">(${p.brand_target.join("·")} 대상)</span>`).join(" · ")}.
+            이 축은 아직 수집 전이라 <b>0개로 보여도 "없음"이 아니다.</b></div>` : ""}
+          ${m && m.comp_brands ? `<div class="chart"><div class="cap">동 내 브랜드별 분포</div>
+            ${barCompare(Object.entries(m.comp_brands).sort((a,b)=>b[1]-a[1])
+              .map(([k,v])=>({k, v, t:v+"개", hl:isOwnBrand(k)})))}</div>`
+            : `<div class="cap">이 동에는 자사·경쟁사·시너지세권이 없습니다 (실측 0개)</div>`}
+        </div>
+
+        <div class="blk">
+          <h3>⑤ 접근성<span class="tag">학교 · 배후 단지</span></h3>
+          <div class="kpis" id="accessKpis">
+            <div class="kpi"><div class="v" id="kSchool">–</div><div class="l">동 내 초·중학교</div></div>
+            <div class="kpi"><div class="v" id="kApt">–</div><div class="l">동 내 아파트 단지</div></div>
+            <div class="kpi"><div class="v" id="kStu">–</div><div class="l">학교 재학생 합계</div></div>
+          </div>
+          <details class="tblwrap"><summary>표로 보기 (수치 원본)</summary>
+            <table class="tbl"><tbody>
+              <tr><th>학령인구</th><td>${fmt(kids)}명</td></tr>
+              <tr><th>초·중 재학생</th><td>${m&&m.school_students!=null?fmt(m.school_students)+"명":"–"}</td></tr>
+              <tr><th>입시·보습 학원 정원 합계</th><td>${m&&m.academy_capacity!=null?fmt(m.academy_capacity)+"명":"–"}</td></tr>
+              <tr><th>입시·보습 학원수</th><td>${m?fmt(m.academy_cnt):"–"}개</td></tr>
+              <tr><th>입시·보습 학원1개당 학령인구</th><td>${m?fmt(m.pupils_per_academy,1):"–"}명</td></tr>
+              <tr><th>평당가 (중앙값)</th><td>${pyPriceText(a,"만원")}</td></tr>
+              <tr><th>평당가 (평균·비교용)</th><td>${a?fmt(a.avg_price_per_py):"–"}만원</td></tr>
+              <tr><th>24개월 매매 건수</th><td>${a?fmt(a.deal_count):"–"}건${a&&a.low_sample?" <b>· 표본 부족</b>":""}</td></tr>
+            </tbody></table>
+          </details>
+        </div>
+      </div>`;
+  }
+  drawPoi(poi, adm.code);
+}
+
+/* verdictText() 는 2026-07-31 삭제.
+   등급별 "★ 최우선 추천 / 추천 / 비추천" 영업 문구를 만들던 함수인데,
+   점수제도 폐기로 근거가 사라졌다. 재도입은 docs/TODO.md F-1 과 함께 검토할 것. */
+
+/* ---------- POI 지도 ---------- */
+/* =====================================================================
+   6b. 베이스맵 (일반 / 위성)
+   =====================================================================
+   ⚠️ 타일은 **인터넷이 있어야** 뜬다. 이 대시보드는 오프라인에서도 동작하는 게
+      원칙이라(README) 타일은 전부 '있으면 좋은' 요소로 얹고, `tileerror` 가 나면
+      스스로 걷어낸다. 위성이 안 뜨면 조용히 빈 배경이 되지 조작이 막히진 않는다.
+
+   ⚠️ **VWorld 는 키 + 도메인 등록이 필요하다.** 키는 `web/config.json` 에서 읽는다
+      (`python scripts/make_web_config.py` 가 .env 의 VWORLD_KEY 로 만든다).
+      키가 없으면 해당 버튼은 비활성으로 보이기만 한다 — 조용히 실패하지 않게.
+
+   ⚠️ **위성 위에서는 마커가 묻힌다.** 특히 경쟁사(검정)가 어두운 배경에 섞이면
+      "경쟁사 없는 좋은 상권"으로 오독된다 — 이 축에서 가장 위험한 방향이라
+      위성 모드에서 마커 테두리를 두껍게 하고 반경을 키운다(`restyleMarkers`).
+
+   ⚠️ 상업적 이용: 가맹상담은 대외 자료다. **VWorld(국토부 오픈API)가 안전**하고
+      Esri World Imagery 는 출처 표기 조건이 붙는 무료 타일이다 — 정식 발행 시
+      VWorld 로 두는 것을 권한다. */
+const BASEMAPS = [
+  {k:"plain", label:"일반", dark:false, build:() => [
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {maxZoom:19, opacity:.55, attribution:"© OpenStreetMap"})]},
+  {k:"esri", label:"위성", dark:true, build:() => [
+    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {maxZoom:19, attribution:"Esri, Maxar, Earthstar Geographics"})]},
+  {k:"esri_label", label:"위성+라벨", dark:true, build:() => [
+    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {maxZoom:19, attribution:"Esri, Maxar"}),
+    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+                {maxZoom:19})]},
+  {k:"vworld", label:"위성(VWorld)", dark:true, needKey:true, build:key => [
+    L.tileLayer(`https://api.vworld.kr/req/wmts/1.0.0/${key}/Satellite/{z}/{y}/{x}.jpeg`,
+                {maxZoom:19, attribution:"국토교통부 VWorld"})]},
+  {k:"vworld_label", label:"위성+라벨(VWorld)", dark:true, needKey:true, build:key => [
+    L.tileLayer(`https://api.vworld.kr/req/wmts/1.0.0/${key}/Satellite/{z}/{y}/{x}.jpeg`,
+                {maxZoom:19, attribution:"국토교통부 VWorld"}),
+    L.tileLayer(`https://api.vworld.kr/req/wmts/1.0.0/${key}/Hybrid/{z}/{y}/{x}.png`,
+                {maxZoom:19})]},
+];
+let baseLayers = [];
+
+function currentBase(){
+  return BASEMAPS.find(b => b.k === state.basemap) || BASEMAPS[0];
+}
+function applyBasemap(){
+  if(!map2) return;
+  baseLayers.forEach(l => { try{ map2.removeLayer(l); }catch(e){} });
+  const b = currentBase();
+  baseLayers = b.build(state.vworldKey || "");
+  baseLayers.forEach(l => {
+    // 타일이 안 오면 스스로 걷어낸다 (오프라인·키 오류에도 화면은 살아 있어야 한다)
+    let bad = 0;
+    l.on("tileerror", () => { if(++bad > 6){ try{ map2.removeLayer(l); }catch(e){} } });
+    l.addTo(map2);
+  });
+  restyleMarkers(b.dark);
+  raiseKeyLayers();          // 베이스맵을 갈면 순서가 풀린다
+}
+/* 위성(어두운 배경)에서는 마커를 키우고 흰 테두리를 두껍게 — 안 그러면 묻힌다 */
+function restyleMarkers(dark){
+  Object.entries(poiLayers).forEach(([k, g]) => {
+    const st = POI_STYLE[k];
+    if(!st || !g.eachLayer) return;
+    g.eachLayer(l => { try{
+      l.setStyle({weight:(st.w||2) + (dark?1.5:0), fillOpacity: dark?1:.95});
+      l.setRadius(st.r + (dark?1:0));
+    }catch(e){} });
+  });
+}
+function drawBasemapButtons(){
+  const el = document.getElementById("basemaps");
+  if(!el) return;
+  el.innerHTML = `<span class="lbl">배경</span>` + BASEMAPS.map(b => {
+    const off = b.needKey && !state.vworldKey;
+    return `<button data-b="${b.k}" aria-pressed="${b.k===state.basemap}"
+      ${off?`disabled title="VWorld 키 미설정 — scripts/make_web_config.py 로 web/config.json 생성"`:""}
+      >${b.label}${off?" 🔒":""}</button>`;
+  }).join("");
+  el.querySelectorAll("button").forEach(btn => btn.onclick = () => {
+    state.basemap = btn.dataset.b;
+    try{ localStorage.setItem("jiyeok.basemap", state.basemap); }catch(e){}
+    drawBasemapButtons();
+    applyBasemap();
+  });
+}
+
+/* ⚠️ 자사·경쟁사 마커는 **반드시 맨 위로 올린다.**
+   학원 마커가 동당 수백 개라(다산1동 556개) 그냥 두면 경쟁사 2개가 통째로 묻혀
+   "경쟁사 없는 동"처럼 보인다 — 상담 자리에서 최악의 오독이다.
+   뒤에 올린 것이 위로 오므로 영유 → 경쟁사 → 자사 순서로 끌어올린다.
+   레이어를 껐다 켜면 순서가 풀리므로 토글에서도 다시 부른다. */
+function raiseKeyLayers(){
+  ["english_kinder","competitor","own"].forEach(k => {
+    const g = poiLayers[k];
+    if(g && map2.hasLayer(g)) g.eachLayer(l => { try{ l.bringToFront(); }catch(e){} });
+  });
+}
+
+function drawPoi(poi, admCode){
+  if(!map2){
+    map2 = L.map("map2", {attributionControl:true}).setView([37.5,127.03], 14);
+    map2.attributionControl.setPrefix("");   // 위성 타일은 출처 표기가 이용조건이다
+    applyBasemap();
+  }
+  drawBasemapButtons();
+  Object.values(poiLayers).forEach(l => map2.removeLayer(l));
+  poiLayers = {};
+
+  const hint = document.getElementById("poiHint");
+  if(!poi){
+    document.getElementById("toggles").innerHTML = "";
+    hint.innerHTML = `POI 파일(<code>data/processed/poi_${state.sgg.code}.json</code>)이 없습니다 —
+      <code>python scripts/build_poi.py</code> 로 생성하세요.`;
+    return;
+  }
+  hint.textContent = "레이어 버튼으로 켜고 끌 수 있습니다 · 마커 클릭 시 상세 표시 "
+                   + "· 버튼의 숫자는 이 동에 위치한 실제 POI 개수";
+
+  // 경계 표시 (선택한 동을 강조)
+  const admGeo = cache.get("geo/adm_"+state.sgg.code+".geojson");
+  if(admGeo){
+    const bl = L.geoJSON(admGeo, {style:f=>({
+      color: f.properties.code===admCode ? "#0d366b" : "#c3c2b7",
+      weight: f.properties.code===admCode ? 3 : 1,
+      fill: f.properties.code===admCode, fillColor:"#cde2fb", fillOpacity:.25
+    })});
+    poiLayers.__adm = bl.addTo(map2);
+    const sel = admGeo.features.find(f=>f.properties.code===admCode);
+    if(sel) map2.fitBounds(L.geoJSON(sel).getBounds(), {padding:[20,20]});
+  }
+
+  const counts = {}, used = {};
+  let unmatched = false;
+  Object.keys(POI_STYLE).forEach(kind => {
+    const st = POI_STYLE[kind];
+    const all = poi[kind] || [];
+    let rows = all.filter(r => !r.adm_cd || r.adm_cd === admCode);
+    // 행정동 매칭(adm_cd)이 **아예 없는** 데이터일 때만 시군구 전체로 폴백한다.
+    // ⚠️ B-8: adm_cd 가 붙어 있는데도 폴백하면, 학교가 정말 0개인 동에서
+    //    시군구 전체 수치를 "동 내"로 표시하게 된다(전국 142개 동이 해당).
+    //    "0개"는 결측이 아니라 실측값이므로 0으로 둔다.
+    const hasAdm = all.some(r => r.adm_cd);
+    if(rows.length === 0 && all.length > 0 && !hasAdm){ rows = all; unmatched = true; }
+    counts[kind] = rows.length; used[kind] = rows;
+    const g = L.layerGroup(rows.map(r =>
+      L.circleMarker([r.lat, r.lng], {
+        radius: st.r, color:"#ffffff", weight: st.w || 2,
+        fillColor: st.color, fillOpacity:.95
+      }).bindPopup(
+        `<b style="font-size:15px">${r.name||"(무명)"}</b><br>` +
+        (r.brand ? `<b style="color:${st.color}">${r.brand}</b> · ${st.label}`
+                 : st.label) +
+        (r.type?` · ${r.type}`:"") + (r.course?` · ${r.course}`:"") +
+        (r.addr?`<br><span style="color:#666">${r.addr}</span>`:"") +
+        (r.first_seen?`<br><span style="color:#666">최초 확인 ${r.first_seen}</span>`:"") +
+        (r.students?`<br>재학생 ${fmt(r.students)}명`:"") +
+        (r.households?`<br>${fmt(r.households)}세대${r.built?` · ${r.built}년 준공`:""}`:"")
+      )));
+    poiLayers[kind] = g.addTo(map2);
+  });
+  // ⚠️ 자사·경쟁사 마커는 **반드시 맨 위로 올린다.**
+  //    학원 마커가 동당 수백 개라(예: 다산1동 556개) 그냥 두면 경쟁사 2개가
+  //    통째로 묻혀 "경쟁사 없는 동"처럼 보인다. 상담 자리에서 최악의 오독이다.
+  //    뒤에 올린 것이 위로 오므로 영유 → 경쟁사 → 자사 순서로 끌어올린다.
+  restyleMarkers(currentBase().dark);   // 위성 배경이면 마커를 키워 묻히지 않게
+  raiseKeyLayers();
+
+  if(unmatched){
+    hint.textContent = "일부 POI에 행정동 매칭 정보가 없어 시군구 전체 POI를 표시합니다"
+                     + " (경계 파일이 들어오면 동 단위로 좁혀집니다)";
+  }
+  document.getElementById("toggles").innerHTML =
+    Object.keys(POI_STYLE).map(k =>
+      `<button data-k="${k}" aria-pressed="true">
+        <span class="dot" style="background:${POI_STYLE[k].color}"></span>
+        ${POI_STYLE[k].label} <span class="cnt">${counts[k]}</span></button>`).join("");
+  document.querySelectorAll("#toggles button").forEach(b => b.onclick = () => {
+    const k = b.dataset.k, on = b.getAttribute("aria-pressed")==="true";
+    b.setAttribute("aria-pressed", String(!on));
+    if(on) map2.removeLayer(poiLayers[k]);
+    else { poiLayers[k].addTo(map2); raiseKeyLayers(); }
+  });
+
+  // ④ 접근성 KPI 채우기
+  const set = (id,v)=>{ const e=document.getElementById(id); if(e) e.innerHTML=v; };
+  const sc = used.school || [];
+  set("kSchool", `${counts.school}<span class="u">개</span>`);
+  set("kApt",    `${counts.apartment}<span class="u">개 단지</span>`);
+  set("kStu",    `${fmt(sc.reduce((s,r)=>s+(r.students||0),0))}<span class="u">명</span>`);
+  setTimeout(()=>map2.invalidateSize(), 60);
+}
+
+/* =====================================================================
+   7. 시작
+   ===================================================================== */
+// 창 크기가 바뀌면 Leaflet 이 리사이즈를 못 따라가 회색으로 비는 문제 방지
+// (인쇄 대응 리스너 beforeprint · matchMedia("print") 는 2026-08-05 인쇄 폐지로 삭제)
+function refreshMaps(){
+  try{ if(map) map.invalidateSize(); }catch(e){}
+  try{ if(map2) map2.invalidateSize(); }catch(e){}
+}
+window.addEventListener("resize", refreshMaps);
+
+(async function main(){
+  document.getElementById("foot").textContent =
+    "지역분석 대시보드 · 정적 HTML + Leaflet(local) · " + new Date().toLocaleDateString("ko-KR");
+  if(location.protocol === "file:"){
+    showNotice("로컬 파일로 직접 열었습니다",
+      `브라우저 보안(CORS) 때문에 <code>file://</code> 에서는 데이터 로딩이 막힐 수 있습니다.<br>
+       <b>web\\serve.bat</b> 을 실행한 뒤 <code>http://localhost:8765/</code> 로 접속하세요.`);
+  }
+  /* VWorld 키 (선택) — `web/config.json` 이 있으면 위성(VWorld) 버튼이 켜진다.
+     ⚠️ 이 파일은 키를 담으므로 공유·업로드 대상이 아니다. 없으면 그냥 잠긴 버튼으로 보인다. */
+  try{
+    const cfg = await tryFetch("config.json");
+    if(cfg && cfg.vworldKey) state.vworldKey = cfg.vworldKey;
+  }catch(e){}
+  /* 키가 없는데 마지막 선택이 VWorld 였다면 일반으로 되돌린다 (빈 화면 방지) */
+  if(currentBase().needKey && !state.vworldKey) state.basemap = "plain";
+
+  await viewNation();
+  if(state.missing.length && !state.usedMock){
+    showNotice("데이터 준비중", "다음 파일을 찾지 못했습니다: <code>" +
+      [...new Set(state.missing)].join("</code>, <code>") + "</code>");
+  }
+})();
+</script>
+</body>
+</html>

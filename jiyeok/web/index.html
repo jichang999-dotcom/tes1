@@ -277,14 +277,15 @@ function binOf(x){
   while(i < bins.length && x >= bins[i]) i++;
   return i;
 }
+const POI_MARKER_RADIUS = 5;
 const POI_STYLE = {
-  own:            {label:"자사 센터",   color:"#e11d48", r:10, w:3},
-  competitor:     {label:"경쟁사",      color:"#111827", r:7},
+  own:            {label:"자사 센터",   color:"#e11d48"},
+  competitor:     {label:"경쟁사",      color:"#111827"},
   /* 초록 = 경쟁사(검정)와 색으로도 구분한다. **시너지세권**은 붙으면 유리한 자리다 — COMPETITOR.md §1 */
-  english_kinder: {label:"시너지세권(영어유치원)", color:"#0e9f6e", r:7},
-  school:         {label:"학교",        color:"#2a78d6", r:8},
-  academy:        {label:"입시·보습 학원", color:"#eb6834", r:5},
-  apartment:      {label:"아파트",      color:"#4a3aa7", r:6},
+  english_kinder: {label:"시너지세권(영어유치원)", color:"#0e9f6e"},
+  school:         {label:"학교",        color:"#2a78d6"},
+  academy:        {label:"입시·보습 학원", color:"#eb6834"},
+  apartment:      {label:"아파트",      color:"#4a3aa7"},
 };
 const state = { level:"nation", sido:null, sgg:null, adm:null, usedMock:false, missing:[],
                 /* competitor.json 의 meta.own_brands 로 덮어쓴다 (mock 에는 없어서 기본값을 둔다) */
@@ -879,9 +880,7 @@ async function viewAdm(adm){
       (`python scripts/make_web_config.py` 가 .env 의 VWORLD_KEY 로 만든다).
       키가 없으면 해당 버튼은 비활성으로 보이기만 한다 — 조용히 실패하지 않게.
 
-   ⚠️ **위성 위에서는 마커가 묻힌다.** 특히 경쟁사(검정)가 어두운 배경에 섞이면
-      "경쟁사 없는 좋은 상권"으로 오독된다 — 이 축에서 가장 위험한 방향이라
-      위성 모드에서 마커 테두리를 두껍게 하고 반경을 키운다(`restyleMarkers`).
+   POI 마커는 배경과 종류에 관계없이 입시·보습 학원 크기의 테두리 없는 원으로 통일한다.
 
    ⚠️ 상업적 이용: 가맹상담은 대외 자료이므로 위성 배경은 VWorld 를 사용한다. */
 const BASEMAPS = [
@@ -916,14 +915,14 @@ function applyBasemap(){
   restyleMarkers(b.dark);
   raiseKeyLayers();          // 베이스맵을 갈면 순서가 풀린다
 }
-/* 위성(어두운 배경)에서는 마커를 키우고 흰 테두리를 두껍게 — 안 그러면 묻힌다 */
+/* 모든 POI 마커는 같은 크기와 테두리 없는 원으로 표시한다. */
 function restyleMarkers(dark){
   Object.entries(poiLayers).forEach(([k, g]) => {
     const st = POI_STYLE[k];
     if(!st || !g.eachLayer) return;
     g.eachLayer(l => { try{
-      l.setStyle({weight:(st.w||2) + (dark?1.5:0), fillOpacity: dark?1:.95});
-      l.setRadius(st.r + (dark?1:0));
+      l.setStyle({stroke:false, fillOpacity:dark?1:.95});
+      l.setRadius(POI_MARKER_RADIUS);
     }catch(e){} });
   });
 }
@@ -1004,7 +1003,7 @@ function drawPoi(poi, admCode){
     counts[kind] = rows.length; used[kind] = rows;
     const g = L.layerGroup(rows.map(r =>
       L.circleMarker([r.lat, r.lng], {
-        radius: st.r, color:"#ffffff", weight: st.w || 2,
+        radius: POI_MARKER_RADIUS, stroke:false,
         fillColor: st.color, fillOpacity:.95
       }).bindPopup(
         `<b style="font-size:15px">${r.name||"(무명)"}</b><br>` +

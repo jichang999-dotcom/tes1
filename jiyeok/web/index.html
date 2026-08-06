@@ -192,6 +192,12 @@ main{padding:10px 16px 0; max-width:1920px; margin:0 auto}
 .region-summary .dashboard-blk.market .kpi{border-top:2px solid rgba(22,135,201,.28)}
 .region-summary .dashboard-blk.education .kpi{border-top:2px solid rgba(22,163,125,.28)}
 .region-summary .dashboard-blk.housing .kpi{border-top:2px solid rgba(156,23,79,.24)}
+.region-summary .kpis.competition-row{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+.region-summary .student-table{width:100%;margin-top:5px;border-collapse:separate;border-spacing:4px 0;table-layout:fixed}
+.region-summary .student-table th,.region-summary .student-table td{text-align:center;padding:2px 4px}
+.region-summary .student-table th{font-size:8px;color:var(--ink-2);font-weight:700}
+.region-summary .student-table td{font-size:14px;font-weight:850;font-variant-numeric:tabular-nums;background:var(--plane);border-radius:5px}
+.region-summary .student-table .u{font-size:8px;color:var(--ink-2);margin-left:2px}
 .region-summary .hero{padding:9px 10px 8px}
 .region-summary .hero .nm{font-size:20px}
 .region-summary .hero .loc{font-size:10px}
@@ -683,6 +689,8 @@ function applyMapSelection(focus=false){
 
 function drawChoropleth(geo, metrics, onClick, filterFn){
   lastDraw = {geo, metrics, onClick, filterFn};
+  map.stop();
+  map.invalidateSize({pan:false});
   clearLayer();
   const feats = geo.features.filter(f => !filterFn || filterFn(f.properties));
   // 색 구간은 **지금 화면에 있는 지역들** 기준으로 잡는다.
@@ -715,7 +723,17 @@ function drawChoropleth(geo, metrics, onClick, filterFn){
       });
     }
   }).addTo(map);
-  if(feats.length) map.fitBounds(layer.getBounds(), {padding:[16,16],animate:false});
+  if(feats.length){
+    const drawnLayer=layer;
+    const bounds=drawnLayer.getBounds();
+    map.fitBounds(bounds, {padding:[16,16],animate:false});
+    requestAnimationFrame(()=>{
+      if(layer!==drawnLayer) return;
+      map.stop();
+      map.invalidateSize({pan:false});
+      map.fitBounds(bounds,{padding:[16,16],animate:false});
+    });
+  }
   drawLegend();
 }
 function drawLegend(){
@@ -973,6 +991,10 @@ function showStage(which){
   document.getElementById("inlinePoiView").classList.toggle("hidden",!poiMode);
   document.getElementById("panel").classList.toggle("hidden",!detail);
   if(detail) document.getElementById("regionSummary").classList.add("hidden");
+  if(!poiMode && map){
+    map.stop();
+    map.invalidateSize({pan:false});
+  }
   setTimeout(refreshMaps,60);
 }
 
@@ -1117,7 +1139,7 @@ function sumSeries(target, source){
   return target.map((v,i)=>v+Number(source[i]||0));
 }
 function aggregateRegions(codes, data){
-  const addFields = ["academy_cnt","school_cnt","school_students","academy_capacity",
+  const addFields = ["academy_cnt","school_cnt","school_students","students_elem","students_mid","academy_capacity",
     "apt_households","apt_complexes","households","housing_asset","deal_count",
     "own_cnt","own_waikids_cnt","own_wiseman_cnt","competitor_cnt","english_kinder_cnt",
     "kinder_cnt","kinder_kids"];
@@ -1198,19 +1220,20 @@ function renderRegionSummary(name, codes, data, selected=false){
         <h3>학령인구·수요<span class="tag">학령인구 필터 적용</span></h3>
         <div class="kpis">
           <div class="kpi"><div class="v">${fmt(m.school_age)}<span class="u">명</span></div><div class="l">${ageRangeLabel()} 학령인구</div></div>
-          <div class="kpi"><div class="v">${fmt(p.households)}<span class="u">세대</span></div><div class="l">주민등록 세대수</div></div>
+          <div class="kpi"><div class="v">${fmt(p.households)}<span class="u">세대</span></div><div class="l">주민등록 세대수 (가구 수)</div></div>
           <div class="kpi"><div class="v">${p.trend_pct==null?"–":(p.trend_pct>=0?"+":"")+fmt(p.trend_pct,1)}<span class="u">%</span></div><div class="l">최근 12개월 인구 증감</div></div>
-          <div class="kpi"><div class="v">${m.pupils_per_academy==null?"–":fmt(m.pupils_per_academy,1)}<span class="u">명</span></div><div class="l">학원 1개당 선택 연령 인구</div></div>
+          <div class="kpi"><div class="v">${m.pupils_per_academy==null?"–":fmt(m.pupils_per_academy,1)}<span class="u">명</span></div><div class="l">${ageRangeLabel()} 인구 ÷ 입시·보습 학원 수</div></div>
         </div></div></div>
       <div class="blk dashboard-blk education"><div class="section-rail">교육<br>경쟁</div><div class="section-body">
-        <h3>교육·경쟁 환경</h3><div class="kpis">
+        <h3>교육·경쟁 환경</h3><div class="kpis competition-row">
         <div class="kpi"><div class="v">${fmt(m.own_waikids_cnt)}<span class="u">개</span></div><div class="l">자사 와이키즈</div></div>
         <div class="kpi"><div class="v" style="color:#c026d3">${fmt(m.own_wiseman_cnt)}<span class="u">개</span></div><div class="l">자사 와이즈만</div></div>
         <div class="kpi"><div class="v">${fmt(m.competitor_cnt)}<span class="u">개</span></div><div class="l">경쟁사</div></div>
-        <div class="kpi"><div class="v" style="color:#0e9f6e">${fmt(m.english_kinder_cnt)}<span class="u">개</span></div><div class="l">시너지세권(영어유치원)</div></div>
-        <div class="kpi"><div class="v">${fmt(m.school_students)}<span class="u">명</span></div><div class="l">초·중 재학생</div></div>
-        <div class="kpi"><div class="v">${fmt(m.academy_capacity)}<span class="u">명</span></div><div class="l">입시·보습 학원 정원</div></div>
-      </div></div></div>
+        <div class="kpi"><div class="v" style="color:#0e9f6e">${fmt(m.english_kinder_cnt)}<span class="u">개</span></div><div class="l">시너지세권</div></div>
+        </div>
+        <table class="student-table" aria-label="학교급별 학생수"><thead><tr><th>유치원 원아</th><th>초등학교 재학생</th><th>중학교 재학생</th></tr></thead>
+          <tbody><tr><td>${fmt(m.kinder_kids)}<span class="u">명</span></td><td>${fmt(m.students_elem)}<span class="u">명</span></td><td>${fmt(m.students_mid)}<span class="u">명</span></td></tr></tbody></table>
+      </div></div>
       <div class="blk dashboard-blk housing"><div class="section-rail">구매력<br>주거</div><div class="section-body">
         <h3>구매력·주거</h3><div class="kpis">
         <div class="kpi"><div class="v">${price==null||m.low_sample?"–":fmt(price)}<span class="u">만원</span></div><div class="l">${priceLabel}</div></div>

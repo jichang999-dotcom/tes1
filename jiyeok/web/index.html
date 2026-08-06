@@ -24,142 +24,159 @@ html,body{height:100%}
 body{
   margin:0; background:var(--plane); color:var(--ink);
   font-family:system-ui,-apple-system,"Segoe UI","맑은 고딕",sans-serif;
-  font-size:17px; line-height:1.45;
+  font-size:14px; line-height:1.35;
 }
 h1,h2,h3{margin:0; font-weight:800; letter-spacing:-.02em}
 button{font:inherit; cursor:pointer}
 
 /* ---------- 헤더 ---------- */
 header{
-  background:var(--brand); color:#fff; padding:14px 22px;
+  background:var(--brand); color:#fff; padding:8px 16px;
   display:flex; align-items:center; gap:18px; flex-wrap:wrap;
 }
-header h1{font-size:22px}
-header .sub{font-size:14px; opacity:.8}
+header h1{font-size:19px}
+header .sub{font-size:12px; opacity:.8}
 .badge-src{
-  margin-left:auto; font-size:13px; font-weight:700; padding:6px 12px;
+  margin-left:auto; font-size:11px; font-weight:700; padding:5px 10px;
   border-radius:999px; background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.3);
 }
 .badge-src.mock{background:var(--warn); color:#2a2000; border-color:transparent}
 .agebar{
-  background:#fff; border-bottom:1px solid var(--grid); padding:10px 22px;
+  background:#fff; border-bottom:1px solid var(--grid); padding:6px 16px;
   display:flex; align-items:center; gap:8px; flex-wrap:wrap;
 }
-.agebar b{margin-right:4px}
+.agebar b{margin-right:4px;font-size:14px}
 .agebar button,.agebar select{
-  border:1px solid var(--line); background:#fff; border-radius:8px; padding:6px 10px;
-  color:var(--ink-2); font-weight:700;
+  border:1px solid var(--line); background:#fff; border-radius:7px; padding:4px 8px;
+  color:var(--ink-2); font-size:13px; font-weight:700;
 }
 .agebar button[aria-pressed="true"]{background:var(--brand); color:#fff; border-color:var(--brand)}
-.agebar label{font-size:14px; color:var(--ink-2)}
-.agebar .age-status{font-size:13px; color:var(--muted); margin-left:4px}
+.agebar label{font-size:12px; color:var(--ink-2)}
+.agebar .age-status{font-size:11px; color:var(--muted); margin-left:4px}
 
 /* ---------- 브레드크럼 ---------- */
 nav.bc{
   background:var(--surface-1); border-bottom:1px solid var(--grid);
-  padding:10px 22px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;
-  font-size:16px; position:sticky; top:0; z-index:500;
+  padding:6px 16px; display:flex; align-items:center; gap:6px; flex-wrap:wrap;
+  font-size:13px; position:sticky; top:0; z-index:500;
 }
 nav.bc button{
   border:1px solid var(--line); background:#fff; border-radius:999px;
-  padding:6px 16px; font-weight:700; color:var(--brand);
+  padding:4px 12px; font-weight:700; color:var(--brand);
 }
 nav.bc button:hover{background:var(--s100)}
 nav.bc .cur{padding:6px 4px; font-weight:800}
 nav.bc .sep{color:var(--muted)}
 
 /* ---------- 레이아웃 ---------- */
-main{padding:18px 22px 40px; max-width:1680px; margin:0 auto}
-.stage{display:grid; grid-template-columns:1fr 400px; gap:18px}
-@media (max-width:1180px){.stage{grid-template-columns:1fr}}
+main{padding:10px 16px 0; max-width:1920px; margin:0 auto}
+.stage{display:grid;grid-template-columns:minmax(360px,1.25fr) minmax(390px,.9fr) minmax(390px,.9fr);gap:10px;align-items:start}
+.stage>.card{min-width:0}
+@media (max-width:1180px){.stage{grid-template-columns:1fr}.region-summary{grid-column:1}}
 .card{
   background:var(--surface-1); border:1px solid var(--border); border-radius:var(--r);
   box-shadow:0 1px 2px rgba(11,11,11,.04);
 }
-.card>h2{padding:14px 18px 0; font-size:19px}
-.card>.hint{padding:2px 18px 0; color:var(--ink-2); font-size:14px}
-#map{height:68vh; min-height:460px; border-radius:var(--r); overflow:hidden}
+.card>h2{padding:9px 12px 0; font-size:16px}
+.card>.hint{padding:2px 12px 0; color:var(--ink-2); font-size:11px}
+#map{height:calc(100vh - 250px); min-height:500px; border-radius:var(--r); overflow:hidden}
 #map.detail{height:60vh; min-height:420px}
 
 /* ---------- 범례 ---------- */
-.legend{display:flex; gap:0; align-items:stretch; padding:12px 18px 16px; flex-wrap:wrap}
-.legend .item{display:flex; flex-direction:column; align-items:center; gap:4px; min-width:74px}
+.legend{display:flex; gap:0; align-items:stretch; padding:7px 10px 9px; flex-wrap:wrap}
+.legend .item{display:flex; flex-direction:column; align-items:center; gap:2px; min-width:58px}
 .legend .sw{width:100%; height:16px; border-radius:4px}
 .legend .lb{font-size:13px; font-weight:700}
-.legend .rg{font-size:12px; color:var(--muted)}
-.legend .lgtitle{width:100%; display:flex; align-items:center; gap:10px; margin-bottom:8px; flex-wrap:wrap}
+.legend .rg{font-size:10px; color:var(--muted)}
+.legend .lgtitle{width:100%; display:flex; align-items:center; gap:7px; margin-bottom:5px; flex-wrap:wrap}
 .legend .lgtitle select{font:inherit; font-weight:700; padding:6px 10px; border-radius:8px;
-  border:1px solid var(--line); background:#fff; color:var(--brand)}
-.legend .lgnote{font-size:13px; color:var(--muted); font-weight:400}
+  border:1px solid var(--line); background:#fff; color:var(--brand);font-size:12px}
+.legend .lgnote{font-size:10px; color:var(--muted); font-weight:400}
 
 /* ---------- 랭킹 ---------- */
-.rank{max-height:66vh; overflow:auto; padding:8px 10px 14px}
+.rank{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px 4px;padding:4px 6px 7px;overflow:visible}
 .rank .row{
-  display:grid; grid-template-columns:24px 34px 1fr auto auto; align-items:center; gap:10px;
-  padding:10px 10px; border-radius:10px; cursor:pointer; border:1px solid transparent;
+  display:grid; grid-template-columns:14px 18px minmax(0,1fr) auto auto; align-items:center; gap:3px;
+  padding:2px 3px; border-radius:5px; cursor:pointer; border:1px solid transparent;
+  font-size:11px;line-height:1.15;min-height:20px;
 }
 .rank .row.selected{background:#e8f2fe; border-color:var(--s350)}
-.rank .pick{width:18px;height:18px;accent-color:var(--brand);cursor:pointer}
+.rank .pick{width:13px;height:13px;accent-color:var(--brand);cursor:pointer;margin:0}
 .rank .row:hover{background:var(--s100); border-color:var(--s200)}
 .rank .no{color:var(--muted); font-weight:700; font-variant-numeric:tabular-nums; text-align:right}
-.rank .nm{font-weight:700}
+.rank .nm{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rank .sc{font-weight:800; font-variant-numeric:tabular-nums}
-.rank .un{font-size:13px; color:var(--muted); min-width:28px}
-.rank-actions{display:flex;gap:6px;padding:8px 18px 0;flex-wrap:wrap}
-.rank-actions button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:5px 9px;font-size:13px;font-weight:700;color:var(--brand)}
+.rank .un{font-size:9px; color:var(--muted); min-width:12px}
+.rank-actions{display:flex;gap:4px;padding:5px 12px 1px;flex-wrap:wrap}
+.rank-actions button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:3px 7px;font-size:10px;font-weight:700;color:var(--brand)}
 /* .g.S~.g.D (등급 배지) 는 점수제도 폐기(2026-07-31)로 삭제 */
 
 /* ---------- 동 상세 ---------- */
 /* 지도 왼쪽 / 데이터 오른쪽 (2026-08-04 배치 변경 — 상위 단계 화면과 좌우를 맞춘다) */
-.detail{display:grid; grid-template-columns:1fr 520px; gap:18px; align-items:start}
+.detail{display:grid; grid-template-columns:minmax(0,1fr) 480px; gap:10px; align-items:start}
 @media (max-width:1180px){.detail{grid-template-columns:1fr}}
-.region-summary{margin-top:18px}
-.region-summary .selection-note{padding:10px 22px 0;color:var(--brand);font-size:14px;font-weight:700}
-.hero{padding:20px 22px 18px; border-bottom:1px solid var(--grid)}
-.hero .nm{font-size:30px; font-weight:800; letter-spacing:-.03em}
-.hero .loc{color:var(--ink-2); font-size:15px; margin-top:2px}
+.region-summary{margin-top:0;min-width:0;overflow:hidden}
+.region-summary .selection-note{padding:6px 10px 0;color:var(--brand);font-size:10px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.region-summary .hero{padding:9px 10px 8px}
+.region-summary .hero .nm{font-size:20px}
+.region-summary .hero .loc{font-size:10px}
+.region-summary .hero .facts{grid-template-columns:repeat(4,1fr);gap:4px;margin-top:7px}
+.region-summary .hero .facts>div{padding:6px}
+.region-summary .hero .facts b{font-size:17px}
+.region-summary .hero .facts span{font-size:9px}
+.region-summary .blocks{padding:2px 10px 7px}
+.region-summary .blk{padding:6px 0}
+.region-summary .blk h3{font-size:11px;margin-bottom:4px}
+.region-summary .blk h3 .tag{font-size:9px;padding:1px 5px}
+.region-summary .kpis{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 7px}
+.region-summary .kpi .v{font-size:17px}
+.region-summary .kpi .v .u{font-size:9px}
+.region-summary .kpi .l{font-size:9px;line-height:1.15}
+.hero{padding:13px 15px 11px; border-bottom:1px solid var(--grid)}
+.hero .nm{font-size:24px; font-weight:800; letter-spacing:-.03em}
+.hero .loc{color:var(--ink-2); font-size:12px; margin-top:2px}
 /* 점수 박스·판정 문구(.scorebox/.score/.gbig/.verdict) 는 2026-07-31 폐기 → .facts 로 대체 */
-.hero .facts{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:16px}
-.hero .facts>div{background:var(--plane); border-radius:10px; padding:10px 12px}
-.hero .facts b{display:block; font-size:26px; font-weight:800; letter-spacing:-.03em;
+.hero .facts{display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-top:10px}
+.hero .facts>div{background:var(--plane); border-radius:8px; padding:7px 8px}
+.hero .facts b{display:block; font-size:21px; font-weight:800; letter-spacing:-.03em;
   font-variant-numeric:tabular-nums; line-height:1.15}
-.hero .facts span{font-size:12px; color:var(--ink-2)}
+.hero .facts span{font-size:10px; color:var(--ink-2)}
 @media (max-width:520px){.hero .facts{grid-template-columns:repeat(2,1fr)}}
 
-.blocks{padding:6px 18px 18px}
-.blk{padding:16px 0; border-bottom:1px solid var(--grid)}
+.blocks{padding:4px 12px 12px}
+.blk{padding:10px 0; border-bottom:1px solid var(--grid)}
 .blk:last-child{border-bottom:0}
-.blk h3{font-size:15px; color:var(--ink-2); letter-spacing:.02em; margin-bottom:10px}
-.blk h3 .tag{font-size:12px; background:var(--plane); color:var(--muted);
+.blk h3{font-size:13px; color:var(--ink-2); letter-spacing:.02em; margin-bottom:6px}
+.blk h3 .tag{font-size:10px; background:var(--plane); color:var(--muted);
   padding:2px 8px; border-radius:6px; margin-left:6px; font-weight:700}
-.kpis{display:grid; grid-template-columns:repeat(2,1fr); gap:12px}
-.kpi .v{font-size:30px; font-weight:800; letter-spacing:-.03em; font-variant-numeric:tabular-nums}
-.kpi .v .u{font-size:15px; font-weight:700; color:var(--ink-2); margin-left:3px}
-.kpi .l{font-size:14px; color:var(--ink-2)}
+.kpis{display:grid; grid-template-columns:repeat(2,1fr); gap:7px}
+.kpi .v{font-size:23px; font-weight:800; letter-spacing:-.03em; font-variant-numeric:tabular-nums}
+.kpi .v .u{font-size:11px; font-weight:700; color:var(--ink-2); margin-left:2px}
+.kpi .l{font-size:11px; color:var(--ink-2)}
 /* 표본 부족 — 숫자 자리에 들어가므로 숫자처럼 커 보이면 안 된다. 값이 아니라 '값 없음'이다. */
 .lowsample{font-size:15px; font-weight:700; color:var(--ink-2); letter-spacing:-.01em}
 .kpi .v .lowsample{font-size:17px}
 .kpi .d{font-size:14px; font-weight:700}
 .d.up{color:#006300}.d.dn{color:var(--critical)}
 
-.chart{margin-top:12px}
-.chart .cap{font-size:13px; color:var(--muted); margin-bottom:4px}
+.chart{margin-top:7px}
+.chart .cap{font-size:10px; color:var(--muted); margin-bottom:3px}
 svg .grid{stroke:var(--grid); stroke-width:1}
 svg .axis{stroke:var(--line); stroke-width:1}
-svg text{fill:var(--ink-2); font-size:12px}
-svg text.val{fill:var(--ink); font-weight:800; font-size:13px}
+svg text{fill:var(--ink-2); font-size:10px}
+svg text.val{fill:var(--ink); font-weight:800; font-size:11px}
 
 /* ---------- POI 맵 ---------- */
-.basemaps{display:flex; gap:6px; padding:10px 18px 0; flex-wrap:wrap; align-items:center}
+.basemaps{display:flex; gap:4px; padding:6px 12px 0; flex-wrap:wrap; align-items:center}
 .basemaps .lbl{font-size:12px; color:var(--muted); margin-right:2px}
 .basemaps button{font-size:12px; padding:5px 10px; border-radius:7px; cursor:pointer;
   border:1px solid var(--line); background:#fff; color:var(--ink-2); font-weight:700}
 .basemaps button[aria-pressed="true"]{background:var(--brand); border-color:var(--brand); color:#fff}
 .basemaps button[disabled]{opacity:.4; cursor:not-allowed}
-.toggles{display:flex; gap:8px; padding:12px 18px; flex-wrap:wrap}
+.toggles{display:flex; gap:5px; padding:7px 12px; flex-wrap:wrap}
 .toggles button{
-  border:1px solid var(--line); background:#fff; border-radius:999px; padding:8px 14px;
-  font-weight:700; display:flex; align-items:center; gap:8px; font-size:15px;
+  border:1px solid var(--line); background:#fff; border-radius:999px; padding:5px 9px;
+  font-weight:700; display:flex; align-items:center; gap:5px; font-size:12px;
 }
 .toggles button[aria-pressed="true"]{background:var(--s100); border-color:var(--s350)}
 .toggles button[aria-pressed="false"]{opacity:.45}
@@ -182,7 +199,7 @@ table.tbl th{color:var(--muted); font-weight:700}
 details.tblwrap{margin-top:10px}
 details.tblwrap summary{font-size:14px; color:var(--ink-2); cursor:pointer}
 
-footer{padding:14px 22px 30px; color:var(--muted); font-size:13px; text-align:center}
+footer{display:none}
 
 /* 🚫 인쇄(A4) CSS 는 2026-08-05 삭제했다.
    이 화면은 **조회용이 최종**이고, 인쇄해서 고객에게 건네는 계획이 폐지됐다.
@@ -228,9 +245,8 @@ footer{padding:14px 22px 30px; color:var(--muted); font-size:13px; text-align:ce
       <div class="rank-actions" id="rankActions"></div>
       <div class="rank" id="rank"></div>
     </div>
+    <section class="card region-summary hidden" id="regionSummary"></section>
   </section>
-
-  <section class="card region-summary hidden" id="regionSummary"></section>
 
   <!-- 동 상세 -->
   <section class="detail hidden" id="stageDetail">
@@ -625,7 +641,7 @@ function drawRank(title, rows, onClick){
       <input class="pick" type="checkbox" aria-label="${r.name} 합산 선택"
              ${state.selectedCodes.has(String(r.code))?"checked":""}>
       <div class="no">${i+1}</div>
-      <div class="nm">${r.name||"(무명)"}</div>
+      <div class="nm" title="${r.name||"(무명)"}">${r.name||"(무명)"}</div>
       <div class="sc">${val(r)===null?"–":fmt(val(r)*mScale(), curMetric.d)}</div>
       <div class="un">${curMetric.unit}</div>
     </div>`).join("");
@@ -700,7 +716,7 @@ async function viewNation(){
     return {code:f.properties.code, name:f.properties.name,
             ...(m||{})};   // 지표 전부 실어 보낸다 — 정렬 기준을 화면에서 바꾸므로
   });
-  setSelectionContext("sido",rows,data,null);
+  setSelectionContext("sido",rows,data,{codes:rows.map(r=>String(r.code)),name:"전국",data});
   renderCurrentSummary();
   drawRank(`시도 순위 (${geo.features.length})`, rows, code => {
     const f = geo.features.find(x=>x.properties.code===code);
@@ -896,7 +912,7 @@ function renderRegionSummary(name, codes, data, selected=false){
           <div class="kpi"><div class="v">${fmt(p.households)}<span class="u">세대</span></div><div class="l">주민등록 세대수</div></div>
           <div class="kpi"><div class="v">${p.trend_pct==null?"–":(p.trend_pct>=0?"+":"")+fmt(p.trend_pct,1)}<span class="u">%</span></div><div class="l">최근 12개월 인구 증감</div></div>
           <div class="kpi"><div class="v">${m.pupils_per_academy==null?"–":fmt(m.pupils_per_academy,1)}<span class="u">명</span></div><div class="l">학원 1개당 선택 연령 인구</div></div>
-        </div>${p.trend12?sparkline(p.trend12):""}</div>
+        </div>${p.trend12?sparkline(p.trend12,360,52):""}</div>
       <div class="blk"><h3>② 교육·경쟁 환경</h3><div class="kpis">
         <div class="kpi"><div class="v">${fmt(m.own_waikids_cnt)}<span class="u">개</span></div><div class="l">자사 와이키즈</div></div>
         <div class="kpi"><div class="v" style="color:#c026d3">${fmt(m.own_wiseman_cnt)}<span class="u">개</span></div><div class="l">자사 와이즈만</div></div>
@@ -927,7 +943,7 @@ function renderCurrentSummary(){
   if(codes.length){
     renderRegionSummary(`선택 ${codes.length}개 지역`, codes, ctx.data, true);
   }else if(ctx.parent){
-    renderRegionSummary(ctx.parent.name,[ctx.parent.code],ctx.parent.data,false);
+    renderRegionSummary(ctx.parent.name,ctx.parent.codes||[ctx.parent.code],ctx.parent.data,false);
   }else{
     document.getElementById("regionSummary").classList.add("hidden");
   }

@@ -835,7 +835,7 @@ function drawRank(title, rows, onClick){
   lastRank = {title, rows, onClick};
   document.getElementById("rankTitle").textContent = title;
   document.getElementById("rankHint").textContent =
-    `${curMetric.label} 기준 정렬 · 체크 또는 Ctrl+지도 클릭으로 여러 지역을 합산합니다`;
+    `${curMetric.label} 기준 · 일반 지도 클릭은 1개 선택 · Ctrl+지도 클릭은 다중 선택`;
   document.getElementById("rankFilterCount").textContent = state.selectedCodes.size
     ? `${state.selectedCodes.size}개 선택` : `${rows.length}개 지역`;
   drawRegionFilterSteps();
@@ -1572,10 +1572,25 @@ function drawPoi(poi, admCode, admGeoOverride=null){
       }),
       onEachFeature:(f,lyr)=>lyr.on("click",e=>{
         const original=e.originalEvent||{};
-        if(!(original.ctrlKey||original.metaKey)) return;
         if(original.preventDefault) original.preventDefault();
         if(original.stopPropagation) original.stopPropagation();
-        toggleMapRegionSelection(f.properties.code);
+        if(original.ctrlKey||original.metaKey){
+          toggleMapRegionSelection(f.properties.code);
+          return;
+        }
+        const code=String(f.properties.code);
+        const ctx=state.selectionContext;
+        const row=ctx&&ctx.rows.find(r=>String(r.code)===code);
+        if(!row) return;
+        const sggCode=code.slice(0,5);
+        const sggParent=state.sggs.find(r=>String(r.code)===sggCode) ||
+          (state.sgg&&String(state.sgg.code)===sggCode?state.sgg:null);
+        if(sggParent){
+          state.sggs=[sggParent]; state.sgg=sggParent;
+          const sidoParent=state.sidos.find(r=>sggCode.slice(0,2)===String(r.code));
+          if(sidoParent){ state.sidos=[sidoParent]; state.sido=sidoParent; }
+        }
+        viewAdm({code,name:row.name});
       })
     });
     poiLayers.__adm = bl.addTo(map2);

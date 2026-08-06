@@ -83,6 +83,17 @@ main{padding:10px 16px 0; max-width:1920px; margin:0 auto}
 #map.detail{height:60vh; min-height:420px}
 .map-shell{position:relative}
 .main-basemaps{position:absolute;top:6px;right:6px;z-index:490;padding:2px 3px;background:rgba(255,255,255,.9);border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.18)}
+.stage.adm-inline>.card{height:calc(100vh - 163px);min-height:500px}
+.inline-poi{height:100%;min-height:0;display:flex;flex-direction:column}
+.inline-poi>h2{padding:8px 10px 0;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.inline-poi>.hint{padding:2px 10px 0;color:var(--ink-2);font-size:10px}
+#map2{flex:1;min-height:0;border-radius:0 0 var(--r) var(--r);overflow:hidden}
+.region-detail{min-width:0;overflow-y:auto;scrollbar-width:thin}
+@media (max-width:1180px){
+  .stage.adm-inline>.card{height:auto;min-height:0}
+  .inline-poi{height:70vh;min-height:500px}
+  .region-detail{overflow:visible}
+}
 
 /* ---------- 범례 ---------- */
 .legend{display:flex; gap:0; align-items:stretch; padding:7px 10px 9px; flex-wrap:wrap}
@@ -245,26 +256,24 @@ footer{display:none}
       <div class="rank-actions" id="rankActions"></div>
       <div class="rank" id="rank"></div>
     </div>
-    <div class="card">
-      <div class="map-shell">
-        <div id="map"></div>
-        <div class="basemaps main-basemaps" id="mainBasemaps"></div>
+    <div class="card" id="centerMapCard">
+      <div id="overviewMapView">
+        <div class="map-shell">
+          <div id="map"></div>
+          <div class="basemaps main-basemaps" id="mainBasemaps"></div>
+        </div>
+        <div class="legend" id="legend"></div>
       </div>
-      <div class="legend" id="legend"></div>
+      <div class="inline-poi hidden" id="inlinePoiView">
+        <h2>POI 지도 — 와이키즈 · 와이즈만 · 경쟁사 · 시너지세권 · 학교 · 입시·보습 학원 · 아파트</h2>
+        <div class="hint" id="poiHint">레이어 버튼으로 켜고 끌 수 있습니다</div>
+        <div class="basemaps" id="basemaps"></div>
+        <div class="toggles" id="toggles"></div>
+        <div id="map2"></div>
+      </div>
     </div>
     <section class="card region-summary hidden" id="regionSummary"></section>
-  </section>
-
-  <!-- 동 상세 -->
-  <section class="detail hidden" id="stageDetail">
-    <div class="card">
-      <h2>POI 지도 — 와이키즈 · 와이즈만 · 경쟁사 · 시너지세권 · 학교 · 입시·보습 학원 · 아파트</h2>
-      <div class="hint" id="poiHint">레이어 버튼으로 켜고 끌 수 있습니다</div>
-      <div class="basemaps" id="basemaps"></div>
-      <div class="toggles" id="toggles"></div>
-      <div id="map2" style="height:62vh;min-height:440px;border-radius:0 0 14px 14px;overflow:hidden"></div>
-    </div>
-    <div class="card" id="panel"></div>
+    <section class="card region-summary region-detail hidden" id="panel"></section>
   </section>
 
   <div class="card notice hidden" id="notice"></div>
@@ -702,9 +711,15 @@ function drawBC(){
   });
 }
 function showStage(which){
-  document.getElementById("stageMap").classList.toggle("hidden", which!=="map");
-  document.getElementById("stageDetail").classList.toggle("hidden", which!=="detail");
-  if(which!=="map") document.getElementById("regionSummary").classList.add("hidden");
+  const detail=which==="detail";
+  const stage=document.getElementById("stageMap");
+  stage.classList.remove("hidden");
+  stage.classList.toggle("adm-inline",detail);
+  document.getElementById("overviewMapView").classList.toggle("hidden",detail);
+  document.getElementById("inlinePoiView").classList.toggle("hidden",!detail);
+  document.getElementById("panel").classList.toggle("hidden",!detail);
+  if(detail) document.getElementById("regionSummary").classList.add("hidden");
+  setTimeout(refreshMaps,60);
 }
 
 /* =====================================================================
@@ -784,15 +799,14 @@ async function viewSgg(sgg){
             ...(m||{})};   // 지표 전부 실어 보낸다 — 정렬 기준을 화면에서 바꾸므로
   });
   const title=`${sgg.name} 행정동 순위 (${rows.length})`;
-  const selectAdm=code=>{
-    state.selectedCodes=new Set([String(code)]);
-    drawRank(title,rows,selectAdm);
-    renderCurrentSummary();
+  const openAdm=code=>{
+    const row=rows.find(r=>String(r.code)===String(code));
+    if(row) viewAdm({code:String(row.code),name:row.name});
   };
-  drawChoropleth(geo, met, p => selectAdm(p.code));
+  drawChoropleth(geo, met, p => openAdm(p.code));
   setSelectionContext("adm",rows,data,{code:sgg.code,name:sgg.name,data:parentData});
   renderCurrentSummary();
-  drawRank(title,rows,selectAdm);
+  drawRank(title,rows,openAdm);
 }
 
 /* =====================================================================
@@ -958,6 +972,11 @@ function setSelectionContext(level, rows, data, parent=null){
 function renderCurrentSummary(){
   const ctx=state.selectionContext;
   if(!ctx) return;
+  const stage=document.getElementById("stageMap");
+  if(stage && stage.classList.contains("adm-inline")){
+    state.level="sgg"; state.adm=null;
+    showStage("map"); drawBC();
+  }
   const codes=[...state.selectedCodes];
   if(codes.length){
     const one=codes.length===1 ? ctx.rows.find(r=>String(r.code)===String(codes[0])) : null;
@@ -972,6 +991,9 @@ function renderCurrentSummary(){
 async function viewAdm(adm){
   state.level="adm"; state.adm=adm;
   showStage("detail"); drawBC(); hideNotice();
+  state.selectedCodes=new Set([String(adm.code)]);
+  if(lastRank && state.selectionContext && state.selectionContext.level==="adm")
+    drawRank(lastRank.title,lastRank.rows,lastRank.onClick);
   const sgg = state.sgg;
   const [detailData, aptS, poi, sggData, kapt] = await Promise.all([
     loadLevelData("adm"),

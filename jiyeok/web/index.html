@@ -74,6 +74,7 @@ header .sub{font-size:12px; opacity:.8}
 .region-sep{flex:0 0 auto;color:var(--muted);font-size:11px;font-weight:700}
 .region-filter-count{font-size:10px;color:var(--muted);white-space:nowrap}
 .region-filter-hint{min-width:0;font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.region-boundary{filter:drop-shadow(0 0 1.2px rgba(0,0,0,.95));stroke-linejoin:round;vector-effect:non-scaling-stroke}
 .rank-filter-panel{
   position:absolute;top:calc(100% - 3px);left:16px;width:min(720px,calc(100vw - 32px));
   background:var(--surface-1);border:1px solid var(--border);border-radius:0 0 10px 10px;
@@ -401,7 +402,7 @@ function binOf(x){
   while(i < bins.length && x >= bins[i]) i++;
   return i;
 }
-const POI_MARKER_RADIUS = 7;
+const POI_MARKER_RADIUS = 5;
 const POI_STYLE = {
   own_waikids:    {label:"자사 와이키즈", color:"#e11d48", source:"own", brand:"와이키즈"},
   own_wiseman:    {label:"자사 와이즈만", color:"#c026d3", source:"own", brand:"와이즈만"},
@@ -412,7 +413,7 @@ const POI_STYLE = {
   academy:        {label:"입시·보습 학원", color:"#eb6834"},
   apartment:      {label:"아파트",      color:"#4a3aa7"},
 };
-const state = { level:"nation", sido:null, sgg:null, adm:null, usedMock:false, missing:[],
+const state = { level:"nation", sido:null, sgg:null, adm:null, sidos:[], sggs:[], adms:[], usedMock:false, missing:[],
                 /* competitor.json 의 meta.own_brands 로 덮어쓴다 (mock 에는 없어서 기본값을 둔다) */
                 ownBrands:["와이키즈","와이즈만"],
                 /* 새로 열 때는 항상 일반 지도에서 시작한다. */
@@ -581,7 +582,7 @@ function colorOf(code, metrics){
 function styleFor(code, metrics){
   const satellite = currentBase().dark;
   return {fillColor:colorOf(code,metrics), fillOpacity:satellite ? .55 : .85, color:"#ffffff",
-          weight:1.6, opacity:1};
+          weight:2.4, opacity:1, className:"region-boundary"};
 }
 function fmt(n, d=0){
   if(n===null||n===undefined||isNaN(n)) return "–";
@@ -612,16 +613,13 @@ function pyPriceText(a, suffix=""){
 }
 
 let lastDraw = null;   // 지표를 바꿀 때 같은 화면을 다시 그리기 위한 상태
-let skipNextMapFit = false;
-let preservedMapView = null;
-
 function selectedRegionStyle(code, metrics){
   const base=styleFor(code,metrics);
   const hasSelection=state.selectedCodes.size>0;
   if(!hasSelection) return base;
   if(state.selectedCodes.has(String(code)))
-    return {...base,color:"#ffffff",weight:4,opacity:1,fillOpacity:currentBase().dark ? .68 : .92};
-  return {...base,color:"#ffffff",weight:1,opacity:.7,fillOpacity:.12};
+    return {...base,color:"#ffffff",weight:5,opacity:1,fillOpacity:currentBase().dark ? .68 : .92};
+  return {...base,color:"#ffffff",weight:1.8,opacity:.85,fillOpacity:.12};
 }
 function applyMapSelection(focus=false){
   if(!layer || !map) return;
@@ -671,11 +669,7 @@ function drawChoropleth(geo, metrics, onClick, filterFn){
       lyr.on("click", () => onClick(p));
     }
   }).addTo(map);
-  const shouldFit=!skipNextMapFit;
-  skipNextMapFit=false;
-  if(feats.length && shouldFit) map.fitBounds(layer.getBounds(), {padding:[16,16]});
-  else if(preservedMapView) map.setView(preservedMapView.center,preservedMapView.zoom,{animate:false});
-  preservedMapView=null;
+  if(feats.length) map.fitBounds(layer.getBounds(), {padding:[16,16]});
   drawLegend();
 }
 function drawLegend(){
@@ -718,26 +712,38 @@ function setRankFilterOpen(open){
   panel.classList.toggle("hidden",!open);
   document.querySelectorAll(".region-step[data-picker]").forEach(b=>b.setAttribute("aria-expanded","false"));
 }
+function regionRef(r){
+  return r ? {code:String(r.code),name:r.name||"(무명)"} : null;
+}
+function syncHierarchySelection(rows){
+  const level=state.selectionContext && state.selectionContext.level;
+  const chosen=rows.filter(r=>state.selectedCodes.has(String(r.code))).map(regionRef);
+  if(level==="sido"){
+    state.sidos=chosen; state.sido=chosen.length===1?chosen[0]:null;
+    state.sggs=[]; state.sgg=null; state.adms=[]; state.adm=null;
+  }else if(level==="sgg"){
+    state.sggs=chosen; state.sgg=chosen.length===1?chosen[0]:null;
+    state.adms=[]; state.adm=null;
+  }else if(level==="adm"){
+    state.adms=chosen; state.adm=chosen.length===1?chosen[0]:null;
+  }
+  drawRegionFilterSteps();
+}
 async function openRegionFilterLevel(level){
   setRankFilterOpen(false);
   if(level==="nation"){
     await viewNation();
     return;
   }
-  if(level==="sido"){
-    if(state.level!=="nation") await viewNation();
+  const currentLevel=state.selectionContext && state.selectionContext.level;
+  if(level==="sido" && currentLevel!=="sido"){
+    await viewNation(state.sidos.map(r=>r.code));
   }else if(level==="sgg"){
-    if(!state.sido) return;
-    if(state.level!=="sido"){
-      const sido=state.sido;
-      await viewSido(sido);
-    }
+    if(!state.sidos.length) return;
+    if(currentLevel!=="sgg") await viewSidoSelection(state.sidos,state.sggs.map(r=>r.code));
   }else if(level==="adm"){
-    if(!state.sgg) return;
-    if(state.level!=="sgg"){
-      const sgg=state.sgg;
-      await viewSgg(sgg);
-    }
+    if(!state.sggs.length) return;
+    if(currentLevel!=="adm") await viewSggSelection(state.sggs,state.adms.map(r=>r.code));
   }
   setRankFilterOpen(true);
   const active=document.querySelector(`.region-step[data-filter-level="${level}"]`);
@@ -746,11 +752,14 @@ async function openRegionFilterLevel(level){
 function drawRegionFilterSteps(){
   const el=document.getElementById("regionFilterSteps");
   if(!el) return;
+  const sidoLabel=state.sidos.length>1?`시도 ${state.sidos.length}개`:state.sido?state.sido.name:"시도 선택";
+  const sggLabel=state.sggs.length>1?`시군구 ${state.sggs.length}개`:state.sgg?state.sgg.name:"시군구 선택";
+  const admLabel=state.adms.length>1?`행정동 ${state.adms.length}개`:state.adm?state.adm.name:"행정동 선택";
   const steps=[
     {level:"nation",label:"전국",enabled:true,value:true,picker:false},
-    {level:"sido",label:state.sido?state.sido.name:"시도 선택",enabled:true,value:!!state.sido,picker:true},
-    {level:"sgg",label:state.sgg?state.sgg.name:"시군구 선택",enabled:!!state.sido,value:!!state.sgg,picker:true},
-    {level:"adm",label:state.adm?state.adm.name:"행정동 선택",enabled:!!state.sgg,value:!!state.adm,picker:true},
+    {level:"sido",label:sidoLabel,enabled:true,value:state.sidos.length>0,picker:true},
+    {level:"sgg",label:sggLabel,enabled:state.sidos.length>0,value:state.sggs.length>0,picker:true},
+    {level:"adm",label:admLabel,enabled:state.sggs.length>0,value:state.adms.length>0,picker:true},
   ];
   el.innerHTML=steps.map((s,i)=>`${i?`<span class="region-sep">&gt;</span>`:""}
     <button type="button" class="region-step${s.value?" has-value":""}"
@@ -808,6 +817,7 @@ function drawRank(title, rows, onClick){
       <div class="un">${curMetric.unit}</div>
     </div>`).join("");
   const updateSelectionUI=()=>{
+    syncHierarchySelection(rows);
     document.getElementById("rankFilterCount").textContent = state.selectedCodes.size
       ? `${state.selectedCodes.size}개 선택` : `${rows.length}개 지역`;
     el.querySelectorAll(".row").forEach(row=>{
@@ -841,10 +851,6 @@ function drawRank(title, rows, onClick){
     };
     d.onclick = () => {
       setRankFilterOpen(false);
-      if(!state.selectionContext || state.selectionContext.level!=="adm"){
-        skipNextMapFit=true;
-        if(map) preservedMapView={center:map.getCenter(),zoom:map.getZoom()};
-      }
       onClick(d.dataset.code);
     };
   });
@@ -897,8 +903,13 @@ function showStage(which){
 /* =====================================================================
    5. 뷰 — 전국 / 시도 / 시군구
    ===================================================================== */
-async function viewNation(){
-  state.level="nation"; state.sido=null; state.sgg=null; state.adm=null;
+async function viewNation(preselectedCodes=null){
+  const preserve=Array.isArray(preselectedCodes);
+  if(!preserve){
+    state.sidos=[]; state.sggs=[]; state.adms=[];
+    state.sido=null; state.sgg=null; state.adm=null;
+  }
+  state.level="nation";
   showStage("map"); drawBC(); initMap();
   const [geo, data] = await Promise.all([
     load("geo","sido.geojson"),
@@ -915,7 +926,10 @@ async function viewNation(){
     return {code:f.properties.code, name:f.properties.name,
             ...(m||{})};   // 지표 전부 실어 보낸다 — 정렬 기준을 화면에서 바꾸므로
   });
-  setSelectionContext("sido",rows,data,{codes:rows.map(r=>String(r.code)),name:"전국",data});
+  const selected=preserve?preselectedCodes.map(String):[];
+  setSelectionContext("sido",rows,data,{codes:rows.map(r=>String(r.code)),name:"전국",data},selected);
+  state.sidos=rows.filter(r=>state.selectedCodes.has(String(r.code))).map(regionRef);
+  state.sido=state.sidos.length===1?state.sidos[0]:null;
   renderCurrentSummary();
   drawRank(`시도 순위 (${geo.features.length})`, rows, code => {
     const f = geo.features.find(x=>x.properties.code===code);
@@ -924,7 +938,15 @@ async function viewNation(){
 }
 
 async function viewSido(sido){
-  state.level="sido"; state.sido=sido; state.sgg=null; state.adm=null;
+  return viewSidoSelection([sido]);
+}
+
+async function viewSidoSelection(sidos,preselectedCodes=null){
+  const parents=(sidos||[]).map(regionRef).filter(Boolean);
+  if(!parents.length) return;
+  const preserve=Array.isArray(preselectedCodes);
+  state.level="sido"; state.sidos=parents; state.sido=parents.length===1?parents[0]:null;
+  if(!preserve){ state.sggs=[]; state.sgg=null; state.adms=[]; state.adm=null; }
   showStage("map"); drawBC(); initMap();
   const [geo, data, parentData] = await Promise.all([
     load("geo","sgg.geojson"),
@@ -932,51 +954,80 @@ async function viewSido(sido){
   const met=data.met;
   if(!geo){ showNotice("데이터 준비중", "시군구 경계 파일이 없습니다."); return; }
   hideNotice();
-  const inSido = p => (p.parent||p.code).slice(0,2) === sido.code;
-  drawChoropleth(geo, met, p => viewSgg({code:p.code, name:p.name}), inSido);
+  const parentCodes=new Set(parents.map(r=>String(r.code)));
+  const inSido = p => parentCodes.has(String(p.parent||p.code).slice(0,2));
   const rows = geo.features.filter(f=>inSido(f.properties)).map(f=>{
     const m = met && met.data ? met.data[f.properties.code] : null;
     return {code:f.properties.code, name:f.properties.name,
             ...(m||{})};   // 지표 전부 실어 보낸다 — 정렬 기준을 화면에서 바꾸므로
   });
-  setSelectionContext("sgg",rows,data,{code:sido.code,name:sido.name,data:parentData});
+  const openSgg=code=>{
+    const row=rows.find(r=>String(r.code)===String(code));
+    if(!row) return;
+    const sidoParent=parents.find(r=>String(row.code).slice(0,2)===String(r.code));
+    if(sidoParent){ state.sidos=[sidoParent]; state.sido=sidoParent; }
+    viewSgg(regionRef(row));
+  };
+  drawChoropleth(geo,met,p=>openSgg(p.code),inSido);
+  const selected=preserve?preselectedCodes.map(String):[];
+  const parentName=parents.length===1?parents[0].name:`선택 ${parents.length}개 시도`;
+  setSelectionContext("sgg",rows,data,{codes:parents.map(r=>r.code),name:parentName,data:parentData},selected);
+  state.sggs=rows.filter(r=>state.selectedCodes.has(String(r.code))).map(regionRef);
+  state.sgg=state.sggs.length===1?state.sggs[0]:null;
   renderCurrentSummary();
-  drawRank(`${sido.name} 시군구 순위 (${rows.length})`, rows, code=>{
-    const f = geo.features.find(x=>x.properties.code===code);
-    viewSgg({code, name:f.properties.name});
-  });
+  drawRank(`${parentName} 시군구 순위 (${rows.length})`,rows,openSgg);
 }
 
 async function viewSgg(sgg){
-  state.level="sgg"; state.sgg=sgg; state.adm=null;
+  return viewSggSelection([sgg]);
+}
+
+async function viewSggSelection(sggs,preselectedCodes=null){
+  const parents=(sggs||[]).map(regionRef).filter(Boolean);
+  if(!parents.length) return;
+  const preserve=Array.isArray(preselectedCodes);
+  state.level="sgg"; state.sggs=parents; state.sgg=parents.length===1?parents[0]:null;
+  if(!preserve){ state.adms=[]; state.adm=null; }
   showStage("map"); drawBC(); initMap();
-  // 행정동 경계는 이 시점에만 지연 로딩 (전국 일괄 로딩 금지)
-  const [geo, data, parentData] = await Promise.all([
-    load("geo",`adm_${sgg.code}.geojson`),
+  // 선택한 시군구의 행정동 경계만 병렬 지연 로딩한다.
+  const [geos, data, parentData] = await Promise.all([
+    Promise.all(parents.map(s=>load("geo",`adm_${s.code}.geojson`))),
     loadLevelData("adm"), loadLevelData("sgg")]);
   const met=data.met;
-  if(!geo){
+  const features=geos.filter(Boolean).flatMap(g=>g.features||[]);
+  const geo={type:"FeatureCollection",features};
+  const parentName=parents.length===1?parents[0].name:`선택 ${parents.length}개 시군구`;
+  if(!features.length){
     clearLayer();
     showNotice("데이터 준비중",
-      `<b>${sgg.name}</b>의 행정동 경계 파일(<code>data/geo/adm_${sgg.code}.geojson</code>)이
-       아직 없습니다.<br>현재 샘플이 준비된 시군구: 강남구(11680) · 서초구(11650) ·
-       성남 분당구(41135) · 부산 강서구(26440)`);
-    drawRank(`${sgg.name} 행정동`, [], ()=>{});
+      `<b>${parentName}</b>의 행정동 경계 파일이 아직 없습니다.`);
+    setSelectionContext("adm",[],data,{codes:parents.map(r=>r.code),name:parentName,data:parentData},[]);
+    drawRank(`${parentName} 행정동`, [], ()=>{});
     return;
   }
   hideNotice();
   const rows = geo.features.map(f=>{
     const m = met && met.data ? met.data[f.properties.code] : null;
     return {code:f.properties.code, name:f.properties.name,
-            ...(m||{})};   // 지표 전부 실어 보낸다 — 정렬 기준을 화면에서 바꾸므로
+            ...(m||{}), _parentSggCode:String(f.properties.code).slice(0,5)};
   });
-  const title=`${sgg.name} 행정동 순위 (${rows.length})`;
+  const title=`${parentName} 행정동 순위 (${rows.length})`;
   const openAdm=code=>{
     const row=rows.find(r=>String(r.code)===String(code));
-    if(row) viewAdm({code:String(row.code),name:row.name});
+    if(!row) return;
+    const sggParent=parents.find(r=>String(r.code)===row._parentSggCode);
+    if(sggParent){
+      state.sggs=[sggParent]; state.sgg=sggParent;
+      const sidoParent=state.sidos.find(r=>String(sggParent.code).slice(0,2)===String(r.code));
+      if(sidoParent){ state.sidos=[sidoParent]; state.sido=sidoParent; }
+    }
+    viewAdm({code:String(row.code),name:row.name});
   };
   drawChoropleth(geo, met, p => openAdm(p.code));
-  setSelectionContext("adm",rows,data,{code:sgg.code,name:sgg.name,data:parentData});
+  const selected=preserve?preselectedCodes.map(String):[];
+  setSelectionContext("adm",rows,data,{codes:parents.map(r=>r.code),name:parentName,data:parentData},selected);
+  state.adms=rows.filter(r=>state.selectedCodes.has(String(r.code))).map(regionRef);
+  state.adm=state.adms.length===1?state.adms[0]:null;
   renderCurrentSummary();
   drawRank(title,rows,openAdm);
 }
@@ -1100,8 +1151,8 @@ function renderRegionSummary(name, codes, data, selected=false){
   if(detailBtn && detailRow) detailBtn.onclick=()=>viewAdm({code:String(detailRow.code),name:detailRow.name});
 }
 
-function setSelectionContext(level, rows, data, parent=null){
-  state.selectedCodes=new Set();
+function setSelectionContext(level, rows, data, parent=null, selectedCodes=[]){
+  state.selectedCodes=new Set(selectedCodes.map(String));
   state.selectionContext={level,rows,data,parent};
   applyMapSelection(false);
 }
@@ -1125,7 +1176,7 @@ function renderCurrentSummary(){
 }
 
 async function viewAdm(adm){
-  state.level="adm"; state.adm=adm;
+  state.level="adm"; state.adm=adm; state.adms=[regionRef(adm)];
   showStage("detail"); drawBC(); hideNotice();
   state.selectedCodes=new Set([String(adm.code)]);
   if(lastRank && state.selectionContext && state.selectionContext.level==="adm")
@@ -1294,14 +1345,17 @@ const BASEMAPS = [
                 {maxZoom:19, opacity:.55, attribution:"© OpenStreetMap"})]},
   {k:"vworld", label:"위성(VWorld)", dark:true, needKey:true, build:key => [
     L.tileLayer(`https://api.vworld.kr/req/wmts/1.0.0/${key}/Satellite/{z}/{y}/{x}.jpeg`,
-                {maxZoom:18, tileSize:128, zoomOffset:1, updateWhenZooming:false, keepBuffer:4,
-                 attribution:"국토교통부 VWorld"})]},
+                {maxNativeZoom:18, maxZoom:20, tileSize:256, zoomOffset:0,
+                 updateWhenZooming:true, updateWhenIdle:false, keepBuffer:2,
+                  attribution:"국토교통부 VWorld"})]},
   {k:"vworld_label", label:"위성+라벨(VWorld)", dark:true, needKey:true, build:key => [
     L.tileLayer(`https://api.vworld.kr/req/wmts/1.0.0/${key}/Satellite/{z}/{y}/{x}.jpeg`,
-                {maxZoom:18, tileSize:128, zoomOffset:1, updateWhenZooming:false, keepBuffer:4,
-                 attribution:"국토교통부 VWorld"}),
+                {maxNativeZoom:18, maxZoom:20, tileSize:256, zoomOffset:0,
+                 updateWhenZooming:true, updateWhenIdle:false, keepBuffer:2,
+                  attribution:"국토교통부 VWorld"}),
     L.tileLayer(`https://api.vworld.kr/req/wmts/1.0.0/${key}/Hybrid/{z}/{y}/{x}.png`,
-                {maxZoom:18, tileSize:128, zoomOffset:1, updateWhenZooming:false, keepBuffer:4})]},
+                {maxNativeZoom:18, maxZoom:20, tileSize:256, zoomOffset:0,
+                 updateWhenZooming:true, updateWhenIdle:false, keepBuffer:2})]},
 ];
 let baseLayers = [];
 
@@ -1344,7 +1398,7 @@ function restyleMarkers(){
     if(!st || !g.eachLayer) return;
     g.eachLayer(l => { try{
       l.setStyle({stroke:true, color:k === "competitor" ? "#f59e0b" : "#111827",
-                  weight:2, opacity:1, fillOpacity:1});
+                  weight:1.5, opacity:1, fillOpacity:1});
       l.setRadius(POI_MARKER_RADIUS);
     }catch(e){} });
   });
@@ -1426,8 +1480,9 @@ function drawPoi(poi, admCode){
   if(admGeo){
     const bl = L.geoJSON(admGeo, {style:f=>({
       color:"#ffffff",opacity:1,
-      weight: f.properties.code===admCode ? 3 : 1,
-      fill: f.properties.code===admCode, fillColor:"#cde2fb", fillOpacity:.25
+      weight: f.properties.code===admCode ? 4 : 2,
+      fill: f.properties.code===admCode, fillColor:"#cde2fb", fillOpacity:.25,
+      className:"region-boundary"
     })});
     poiLayers.__adm = bl.addTo(map2);
     const sel = admGeo.features.find(f=>f.properties.code===admCode);
@@ -1452,7 +1507,7 @@ function drawPoi(poi, admCode){
       L.circleMarker([r._displayLat??r.lat, r._displayLng??r.lng], {
         radius: POI_MARKER_RADIUS, stroke:true,
         color:kind === "competitor" ? "#f59e0b" : "#111827",
-        weight:2, opacity:1, fillColor:st.color, fillOpacity:1
+        weight:1.5, opacity:1, fillColor:st.color, fillOpacity:1
       }).bindPopup(
         `<b style="font-size:15px">${r.name||"(무명)"}</b><br>` +
         (r.brand ? `<b style="color:${st.color}">${r.brand}</b> · ${st.label}`

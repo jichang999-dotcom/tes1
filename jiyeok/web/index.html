@@ -1562,12 +1562,21 @@ function drawPoi(poi, admCode, admGeoOverride=null){
   // 경계 표시 (선택한 모든 동을 강조)
   const admGeo = admGeoOverride || (state.sgg && cache.get("geo/adm_"+state.sgg.code+".geojson"));
   if(admGeo){
-    const bl = L.geoJSON(admGeo, {style:f=>({
-      color:"#ffffff",opacity:1,
-      weight: admSet.has(String(f.properties.code)) ? 4 : 2,
-      fill: admSet.has(String(f.properties.code)), fillColor:"#cde2fb", fillOpacity:.25,
-      className:"region-boundary"
-    })});
+    const bl = L.geoJSON(admGeo, {
+      style:f=>({
+        color:"#ffffff",opacity:1,
+        weight: admSet.has(String(f.properties.code)) ? 4 : 2,
+        fill: admSet.has(String(f.properties.code)), fillColor:"#cde2fb", fillOpacity:.25,
+        className:"region-boundary"
+      }),
+      onEachFeature:(f,lyr)=>lyr.on("click",e=>{
+        const original=e.originalEvent||{};
+        if(!(original.ctrlKey||original.metaKey)) return;
+        if(original.preventDefault) original.preventDefault();
+        if(original.stopPropagation) original.stopPropagation();
+        toggleMapRegionSelection(f.properties.code);
+      })
+    });
     poiLayers.__adm = bl.addTo(map2);
     const selectedFeatures=admGeo.features.filter(f=>admSet.has(String(f.properties.code)));
     if(selectedFeatures.length) map2.fitBounds(L.geoJSON({type:"FeatureCollection",features:selectedFeatures}).getBounds(),

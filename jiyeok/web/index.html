@@ -70,7 +70,7 @@ nav.bc .sep{color:var(--muted)}
 
 /* ---------- 레이아웃 ---------- */
 main{padding:10px 16px 0; max-width:1920px; margin:0 auto}
-.stage{display:grid;grid-template-columns:minmax(360px,1.25fr) minmax(390px,.9fr) minmax(390px,.9fr);gap:10px;align-items:start}
+.stage{display:grid;grid-template-columns:minmax(390px,.9fr) minmax(360px,1.25fr) minmax(390px,.9fr);gap:10px;align-items:stretch}
 .stage>.card{min-width:0}
 @media (max-width:1180px){.stage{grid-template-columns:1fr}.region-summary{grid-column:1}}
 .card{
@@ -81,6 +81,8 @@ main{padding:10px 16px 0; max-width:1920px; margin:0 auto}
 .card>.hint{padding:2px 12px 0; color:var(--ink-2); font-size:11px}
 #map{height:calc(100vh - 250px); min-height:500px; border-radius:var(--r); overflow:hidden}
 #map.detail{height:60vh; min-height:420px}
+.map-shell{position:relative}
+.main-basemaps{position:absolute;top:8px;right:8px;z-index:490;padding:0;background:rgba(255,255,255,.9);border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.18)}
 
 /* ---------- 범례 ---------- */
 .legend{display:flex; gap:0; align-items:stretch; padding:7px 10px 9px; flex-wrap:wrap}
@@ -236,14 +238,17 @@ footer{display:none}
   <!-- 지도 + 랭킹 (전국/시도/시군구 공통) -->
   <section class="stage" id="stageMap">
     <div class="card">
-      <div id="map"></div>
-      <div class="legend" id="legend"></div>
-    </div>
-    <div class="card">
       <h2 id="rankTitle">지역 순위</h2>
       <div class="hint" id="rankHint">클릭하면 하위 단계로 이동합니다</div>
       <div class="rank-actions" id="rankActions"></div>
       <div class="rank" id="rank"></div>
+    </div>
+    <div class="card">
+      <div class="map-shell">
+        <div id="map"></div>
+        <div class="basemaps main-basemaps" id="mainBasemaps"></div>
+      </div>
+      <div class="legend" id="legend"></div>
     </div>
     <section class="card region-summary hidden" id="regionSummary"></section>
   </section>
@@ -468,10 +473,14 @@ function hideNotice(){ document.getElementById("notice").classList.add("hidden")
    2. 지도
    ===================================================================== */
 let map, layer, map2, poiLayers = {};
+let mainBaseLayers = [];
 function initMap(){
   if(map) return;
-  map = L.map("map", {zoomControl:true, attributionControl:false,
+  map = L.map("map", {zoomControl:true, attributionControl:true,
                       scrollWheelZoom:false}).setView([36.3,127.8], 7);
+  map.attributionControl.setPrefix("");
+  applyMainBasemap();
+  drawBasemapButtons();
 }
 function clearLayer(){ if(layer){ map.removeLayer(layer); layer = null; } }
 
@@ -501,7 +510,8 @@ function colorOf(code, metrics){
   return b < 0 ? "#eeeeea" : RAMP[Math.min(b, RAMP.length-1)];
 }
 function styleFor(code, metrics){
-  return {fillColor:colorOf(code,metrics), fillOpacity:.85, color:"#ffffff",
+  const satellite = currentBase().dark;
+  return {fillColor:colorOf(code,metrics), fillOpacity:satellite ? .55 : .85, color:"#ffffff",
           weight:1.6, opacity:1};
 }
 function fmt(n, d=0){
@@ -1167,6 +1177,21 @@ let baseLayers = [];
 function currentBase(){
   return BASEMAPS.find(b => b.k === state.basemap) || BASEMAPS[0];
 }
+function applyMainBasemap(){
+  if(!map) return;
+  mainBaseLayers.forEach(l => { try{ map.removeLayer(l); }catch(e){} });
+  const b = currentBase();
+  mainBaseLayers = b.build(state.vworldKey || "");
+  mainBaseLayers.forEach(l => {
+    let bad = 0;
+    l.on("tileerror", () => { if(++bad > 6){ try{ map.removeLayer(l); }catch(e){} } });
+    l.addTo(map);
+  });
+  if(layer){
+    layer.setStyle(f => styleFor(f.properties.code, lastDraw && lastDraw.metrics));
+    try{ layer.bringToFront(); }catch(e){}
+  }
+}
 function applyBasemap(){
   if(!map2) return;
   baseLayers.forEach(l => { try{ map2.removeLayer(l); }catch(e){} });
@@ -1194,19 +1219,22 @@ function restyleMarkers(){
   });
 }
 function drawBasemapButtons(){
-  const el = document.getElementById("basemaps");
-  if(!el) return;
-  el.innerHTML = `<span class="lbl">배경</span>` + BASEMAPS.map(b => {
-    const off = b.needKey && !state.vworldKey;
-    return `<button data-b="${b.k}" aria-pressed="${b.k===state.basemap}"
-      ${off?`disabled title="VWorld 키 미설정 — scripts/make_web_config.py 로 web/config.json 생성"`:""}
-      >${b.label}${off?" 🔒":""}</button>`;
-  }).join("");
-  el.querySelectorAll("button").forEach(btn => btn.onclick = () => {
-    state.basemap = btn.dataset.b;
-    try{ localStorage.setItem("jiyeok.basemap", state.basemap); }catch(e){}
-    drawBasemapButtons();
-    applyBasemap();
+  ["mainBasemaps", "basemaps"].forEach(id => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.innerHTML = `<span class="lbl">배경</span>` + BASEMAPS.map(b => {
+      const off = b.needKey && !state.vworldKey;
+      return `<button data-b="${b.k}" aria-pressed="${b.k===state.basemap}"
+        ${off?`disabled title="VWorld 키 미설정 — scripts/make_web_config.py 로 web/config.json 생성"`:""}
+        >${b.label}${off?" 🔒":""}</button>`;
+    }).join("");
+    el.querySelectorAll("button").forEach(btn => btn.onclick = () => {
+      state.basemap = btn.dataset.b;
+      try{ localStorage.setItem("jiyeok.basemap", state.basemap); }catch(e){}
+      drawBasemapButtons();
+      applyMainBasemap();
+      applyBasemap();
+    });
   });
 }
 

@@ -56,6 +56,13 @@ header .sub{font-size:12px; opacity:.8}
   background:var(--surface-1);border:1px solid var(--border);border-radius:10px;
   box-shadow:0 8px 22px rgba(0,0,0,.16)
 }
+.filter-panel-heading{display:flex;align-items:center;gap:7px;color:var(--brand);font-size:12px}
+.age-filter-panel .filter-panel-heading{padding:0 0 7px}
+.filter-close{
+  margin-left:auto;width:24px;height:24px;padding:0;border:1px solid var(--line);border-radius:6px;
+  background:#fff;color:var(--ink-2);font-size:12px;font-weight:800;line-height:22px
+}
+.filter-close:hover{background:var(--plane);border-color:var(--s350)}
 .age-presets{display:flex;gap:5px;padding-bottom:8px;border-bottom:1px solid var(--grid)}
 .age-presets button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:5px 9px;color:var(--ink-2);font-size:11px;font-weight:700}
 .age-presets button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
@@ -322,6 +329,10 @@ footer{display:none}
     <button type="button" class="age-filter-trigger" id="ageFilterTrigger" aria-expanded="false">3~16세 v</button>
     <span class="age-status" id="ageStatus">3~16세 기준</span>
     <div class="age-filter-panel hidden" id="ageFilterPanel">
+      <div class="filter-panel-heading">
+        <strong>학령인구 선택</strong>
+        <button type="button" class="filter-close" id="ageFilterClose" aria-label="학령인구 필터 닫기">X</button>
+      </div>
       <div class="age-presets">
         <button type="button" data-age-preset="3-16" aria-pressed="true">전체 3~16세</button>
         <button type="button" data-age-preset="3-7" aria-pressed="false">와이키즈 3~7세</button>
@@ -339,6 +350,7 @@ footer{display:none}
       <div class="rank-filter-heading">
         <strong id="rankTitle">지역 순위</strong>
         <span class="region-filter-count" id="rankFilterCount"></span>
+        <button type="button" class="filter-close" id="rankFilterClose" aria-label="지역 필터 닫기">X</button>
       </div>
       <div class="rank-actions" id="rankActions"></div>
       <div class="rank" id="rank"></div>
@@ -881,13 +893,25 @@ function drawRegionFilterSteps(){
     openRegionFilterLevel(b.dataset.filterLevel);
   });
 }
-document.addEventListener("click",e=>{
+document.addEventListener("pointerdown",e=>{
   const bar=document.getElementById("regionFilterbar");
   if(bar && !bar.contains(e.target)) setRankFilterOpen(false);
   const age=document.getElementById("ageFilter");
   if(age && !age.contains(e.target)) setAgeFilterOpen(false);
+},true);
+document.getElementById("rankFilterClose").onclick=e=>{
+  e.stopPropagation();
+  setRankFilterOpen(false);
+};
+document.getElementById("ageFilterClose").onclick=e=>{
+  e.stopPropagation();
+  setAgeFilterOpen(false);
+};
+document.addEventListener("keydown",e=>{
+  if(e.key!=="Escape") return;
+  setRankFilterOpen(false);
+  setAgeFilterOpen(false);
 });
-document.addEventListener("keydown",e=>{ if(e.key==="Escape") setRankFilterOpen(false); });
 
 function drawRank(title, rows, onClick){
   lastRank = {title, rows, onClick};

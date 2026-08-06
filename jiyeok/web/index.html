@@ -1566,7 +1566,8 @@ function drawPoi(poi, admCode, admGeoOverride=null){
       style:f=>({
         color:"#ffffff",opacity:1,
         weight: admSet.has(String(f.properties.code)) ? 4 : 2,
-        fill: admSet.has(String(f.properties.code)), fillColor:"#cde2fb", fillOpacity:.25,
+        fill:true, fillColor:"#cde2fb",
+        fillOpacity:admSet.has(String(f.properties.code)) ? .25 : .01,
         className:"region-boundary"
       }),
       onEachFeature:(f,lyr)=>lyr.on("click",e=>{

@@ -54,6 +54,33 @@ header .sub{font-size:12px; opacity:.8}
 .agebar label{font-size:12px; color:var(--ink-2)}
 .agebar .age-status{font-size:11px; color:var(--muted); margin-left:4px}
 
+/* ---------- 지역 필터 ---------- */
+.region-filterbar{
+  position:relative;z-index:600;min-height:36px;padding:5px 16px;
+  display:flex;align-items:center;gap:6px;background:#fff;border-bottom:1px solid var(--grid)
+}
+.region-filter-label{font-size:11px;color:var(--muted);font-weight:700}
+.region-filter-toggle{
+  display:flex;align-items:center;gap:6px;max-width:420px;padding:4px 8px;
+  border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--brand)
+}
+.region-filter-toggle[aria-expanded="true"]{background:var(--s100);border-color:var(--s350)}
+.region-filter-toggle strong{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.region-filter-count{font-size:10px;color:var(--muted);white-space:nowrap}
+.region-filter-arrow{font-size:9px;font-weight:800}
+.region-filter-hint{min-width:0;font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rank-filter-panel{
+  position:absolute;top:calc(100% - 3px);left:16px;width:min(720px,calc(100vw - 32px));
+  background:var(--surface-1);border:1px solid var(--border);border-radius:0 0 10px 10px;
+  box-shadow:0 8px 22px rgba(0,0,0,.16);overflow:hidden
+}
+.rank-filter-panel .rank{max-height:430px;overflow-y:auto;scrollbar-width:thin}
+.rank-filter-panel .rank-actions{padding:6px 8px 4px;border-bottom:1px solid var(--grid)}
+@media (max-width:700px){
+  .region-filter-hint{display:none}
+  .rank-filter-panel .rank{grid-template-columns:1fr;max-height:60vh}
+}
+
 /* ---------- 브레드크럼 ---------- */
 nav.bc{
   background:var(--surface-1); border-bottom:1px solid var(--grid);
@@ -70,7 +97,7 @@ nav.bc .sep{color:var(--muted)}
 
 /* ---------- 레이아웃 ---------- */
 main{padding:10px 16px 0; max-width:1920px; margin:0 auto}
-.stage{display:grid;grid-template-columns:minmax(390px,.9fr) minmax(360px,1.25fr) minmax(390px,.9fr);gap:10px;align-items:stretch}
+.stage{display:grid;grid-template-columns:minmax(0,3fr) minmax(390px,2fr);gap:10px;align-items:stretch}
 .stage>.card{min-width:0}
 @media (max-width:1180px){.stage{grid-template-columns:1fr}.region-summary{grid-column:1}}
 .card{
@@ -79,11 +106,11 @@ main{padding:10px 16px 0; max-width:1920px; margin:0 auto}
 }
 .card>h2{padding:9px 12px 0; font-size:16px}
 .card>.hint{padding:2px 12px 0; color:var(--ink-2); font-size:11px}
-#map{height:calc(100vh - 250px); min-height:500px; border-radius:var(--r); overflow:hidden}
+#map{height:calc(100vh - 286px); min-height:500px; border-radius:var(--r); overflow:hidden}
 #map.detail{height:60vh; min-height:420px}
 .map-shell{position:relative}
 .main-basemaps{position:absolute;top:6px;right:6px;z-index:490;padding:2px 3px;background:rgba(255,255,255,.9);border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.18)}
-.stage.adm-inline>.card{height:calc(100vh - 163px);min-height:500px}
+.stage.adm-inline>.card{height:calc(100vh - 200px);min-height:500px}
 .inline-poi{height:100%;min-height:0;display:flex;flex-direction:column}
 .inline-poi>h2{padding:8px 10px 0;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .inline-poi>.hint{padding:2px 10px 0;color:var(--ink-2);font-size:10px}
@@ -245,17 +272,25 @@ footer{display:none}
   <span class="age-status" id="ageStatus">3~16세 기준</span>
 </section>
 
+<section class="region-filterbar" id="regionFilterbar" aria-label="지역 순위 필터">
+  <span class="region-filter-label">지역</span>
+  <button class="region-filter-toggle" id="rankFilterToggle" type="button" aria-expanded="false">
+    <strong id="rankTitle">지역 순위</strong>
+    <span class="region-filter-count" id="rankFilterCount"></span>
+    <span class="region-filter-arrow" aria-hidden="true">v</span>
+  </button>
+  <span class="region-filter-hint" id="rankHint">클릭하면 하위 단계로 이동합니다</span>
+  <div class="rank-filter-panel hidden" id="rankFilterPanel">
+    <div class="rank-actions" id="rankActions"></div>
+    <div class="rank" id="rank"></div>
+  </div>
+</section>
+
 <nav class="bc" id="bc"></nav>
 
 <main>
   <!-- 지도 + 랭킹 (전국/시도/시군구 공통) -->
   <section class="stage" id="stageMap">
-    <div class="card">
-      <h2 id="rankTitle">지역 순위</h2>
-      <div class="hint" id="rankHint">클릭하면 하위 단계로 이동합니다</div>
-      <div class="rank-actions" id="rankActions"></div>
-      <div class="rank" id="rank"></div>
-    </div>
     <div class="card" id="centerMapCard">
       <div id="overviewMapView">
         <div class="map-shell">
@@ -619,11 +654,31 @@ function drawLegend(){
    ===================================================================== */
 let lastRank = null;
 
+function setRankFilterOpen(open){
+  const panel=document.getElementById("rankFilterPanel");
+  const toggle=document.getElementById("rankFilterToggle");
+  if(!panel || !toggle) return;
+  panel.classList.toggle("hidden",!open);
+  toggle.setAttribute("aria-expanded",String(open));
+}
+document.addEventListener("click",e=>{
+  const bar=document.getElementById("regionFilterbar");
+  if(bar && !bar.contains(e.target)) setRankFilterOpen(false);
+});
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") setRankFilterOpen(false); });
+
 function drawRank(title, rows, onClick){
   lastRank = {title, rows, onClick};
   document.getElementById("rankTitle").textContent = title;
   document.getElementById("rankHint").textContent =
     `${curMetric.label} 기준 정렬 (단위 ${curMetric.unit}) · 체크하면 여러 지역을 합산합니다`;
+  document.getElementById("rankFilterCount").textContent = state.selectedCodes.size
+    ? `${state.selectedCodes.size}개 선택` : `${rows.length}개 지역`;
+  const filterToggle=document.getElementById("rankFilterToggle");
+  filterToggle.onclick=e=>{
+    e.stopPropagation();
+    setRankFilterOpen(filterToggle.getAttribute("aria-expanded")!=="true");
+  };
   const actions = document.getElementById("rankActions");
   actions.innerHTML = rows.length ? `<button data-act="all">전체 선택</button><button data-act="clear">선택 해제</button>` : "";
   const redrawSelection = () => {
@@ -674,7 +729,10 @@ function drawRank(title, rows, onClick){
       else state.selectedCodes.delete(d.dataset.code);
       redrawSelection();
     };
-    d.onclick = () => onClick(d.dataset.code);
+    d.onclick = () => {
+      setRankFilterOpen(false);
+      onClick(d.dataset.code);
+    };
   });
 }
 

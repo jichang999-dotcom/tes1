@@ -41,6 +41,18 @@ header .sub{font-size:14px; opacity:.8}
   border-radius:999px; background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.3);
 }
 .badge-src.mock{background:var(--warn); color:#2a2000; border-color:transparent}
+.agebar{
+  background:#fff; border-bottom:1px solid var(--grid); padding:10px 22px;
+  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+}
+.agebar b{margin-right:4px}
+.agebar button,.agebar select{
+  border:1px solid var(--line); background:#fff; border-radius:8px; padding:6px 10px;
+  color:var(--ink-2); font-weight:700;
+}
+.agebar button[aria-pressed="true"]{background:var(--brand); color:#fff; border-color:var(--brand)}
+.agebar label{font-size:14px; color:var(--ink-2)}
+.agebar .age-status{font-size:13px; color:var(--muted); margin-left:4px}
 
 /* ---------- 브레드크럼 ---------- */
 nav.bc{
@@ -83,20 +95,26 @@ main{padding:18px 22px 40px; max-width:1680px; margin:0 auto}
 /* ---------- 랭킹 ---------- */
 .rank{max-height:66vh; overflow:auto; padding:8px 10px 14px}
 .rank .row{
-  display:grid; grid-template-columns:34px 1fr auto auto; align-items:center; gap:10px;
+  display:grid; grid-template-columns:24px 34px 1fr auto auto; align-items:center; gap:10px;
   padding:10px 10px; border-radius:10px; cursor:pointer; border:1px solid transparent;
 }
+.rank .row.selected{background:#e8f2fe; border-color:var(--s350)}
+.rank .pick{width:18px;height:18px;accent-color:var(--brand);cursor:pointer}
 .rank .row:hover{background:var(--s100); border-color:var(--s200)}
 .rank .no{color:var(--muted); font-weight:700; font-variant-numeric:tabular-nums; text-align:right}
 .rank .nm{font-weight:700}
 .rank .sc{font-weight:800; font-variant-numeric:tabular-nums}
 .rank .un{font-size:13px; color:var(--muted); min-width:28px}
+.rank-actions{display:flex;gap:6px;padding:8px 18px 0;flex-wrap:wrap}
+.rank-actions button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:5px 9px;font-size:13px;font-weight:700;color:var(--brand)}
 /* .g.S~.g.D (등급 배지) 는 점수제도 폐기(2026-07-31)로 삭제 */
 
 /* ---------- 동 상세 ---------- */
 /* 지도 왼쪽 / 데이터 오른쪽 (2026-08-04 배치 변경 — 상위 단계 화면과 좌우를 맞춘다) */
 .detail{display:grid; grid-template-columns:1fr 520px; gap:18px; align-items:start}
 @media (max-width:1180px){.detail{grid-template-columns:1fr}}
+.region-summary{margin-top:18px}
+.region-summary .selection-note{padding:10px 22px 0;color:var(--brand);font-size:14px;font-weight:700}
 .hero{padding:20px 22px 18px; border-bottom:1px solid var(--grid)}
 .hero .nm{font-size:30px; font-weight:800; letter-spacing:-.03em}
 .hero .loc{color:var(--ink-2); font-size:15px; margin-top:2px}
@@ -183,6 +201,18 @@ footer{padding:14px 22px 30px; color:var(--muted); font-size:13px; text-align:ce
   <div class="badge-src" id="srcBadge">데이터 확인 중…</div>
 </header>
 
+<section class="agebar" aria-label="학령인구 연령 필터">
+  <b>학령인구</b>
+  <button data-age-preset="3-16" aria-pressed="true">전체 3~16세</button>
+  <button data-age-preset="3-7" aria-pressed="false">와이키즈 3~7세</button>
+  <button data-age-preset="8-16" aria-pressed="false">와이즈만 8~16세</button>
+  <label>직접 선택
+    <select id="ageMin" aria-label="시작 나이"></select>세 ~
+    <select id="ageMax" aria-label="종료 나이"></select>세
+  </label>
+  <span class="age-status" id="ageStatus">3~16세 기준</span>
+</section>
+
 <nav class="bc" id="bc"></nav>
 
 <main>
@@ -195,14 +225,17 @@ footer{padding:14px 22px 30px; color:var(--muted); font-size:13px; text-align:ce
     <div class="card">
       <h2 id="rankTitle">지역 순위</h2>
       <div class="hint" id="rankHint">클릭하면 하위 단계로 이동합니다</div>
+      <div class="rank-actions" id="rankActions"></div>
       <div class="rank" id="rank"></div>
     </div>
   </section>
 
+  <section class="card region-summary hidden" id="regionSummary"></section>
+
   <!-- 동 상세 -->
   <section class="detail hidden" id="stageDetail">
     <div class="card">
-      <h2>POI 지도 — 자사 · 경쟁사 · 시너지세권 · 학교 · 입시·보습 학원 · 아파트</h2>
+      <h2>POI 지도 — 와이키즈 · 와이즈만 · 경쟁사 · 시너지세권 · 학교 · 입시·보습 학원 · 아파트</h2>
       <div class="hint" id="poiHint">레이어 버튼으로 켜고 끌 수 있습니다</div>
       <div class="basemaps" id="basemaps"></div>
       <div class="toggles" id="toggles"></div>
@@ -229,7 +262,7 @@ const MOCK = { geo: "mock/geo/",    proc: "mock/" };
 const RAMP = ["#cde2fb", "#9ec5f4", "#5598e7", "#256abf", "#0d366b"];
 
 const METRICS = [
-  {k:"school_age",         label:"학령인구(6~14세)", unit:"명",   d:0},
+  {k:"school_age",         label:"학령인구(3~16세)", unit:"명",   d:0},
     /* ⚠️ 2026-08-03 관리자 정의 — 학원 수 = NEIS `REALM_SC_NM` 이
      **입시.검정 및 보습**인 것만이다(전국 77,637개). 예능·어학원·독서실·
      직업기술은 업태가 달라 뺐다. 정의 SSOT = `scripts/collect_neis.py` REALM_KEEP.
@@ -257,6 +290,8 @@ const METRICS = [
      ⚠️ 표시명 SSOT 는 `scripts/brands.py` 의 `CATEGORIES` — JSON 키는 `english_kinder` 그대로다
         (poi_*.json 256개·집계 3종·이력에 박혀 있어 키를 바꾸면 조인이 조용히 끊긴다). */
   {k:"english_kinder_cnt", label:"시너지세권 수 (영어유치원)", unit:"개", d:0},
+  {k:"own_waikids_cnt",    label:"자사 와이키즈 수",  unit:"개",   d:0},
+  {k:"own_wiseman_cnt",    label:"자사 와이즈만 수",  unit:"개",   d:0},
   {k:"own_cnt",            label:"자사 센터 수",      unit:"개",   d:0},
 ];
 let curMetric = METRICS[0];
@@ -278,7 +313,8 @@ function binOf(x){
 }
 const POI_MARKER_RADIUS = 7;
 const POI_STYLE = {
-  own:            {label:"자사 센터",   color:"#e11d48"},
+  own_waikids:    {label:"자사 와이키즈", color:"#e11d48", source:"own", brand:"와이키즈"},
+  own_wiseman:    {label:"자사 와이즈만", color:"#c026d3", source:"own", brand:"와이즈만"},
   competitor:     {label:"경쟁사",      color:"#111827"},
   /* 초록 = 경쟁사(검정)와 색으로도 구분한다. **시너지세권**은 붙으면 유리한 자리다 — COMPETITOR.md §1 */
   english_kinder: {label:"시너지세권(영어유치원)", color:"#0e9f6e"},
@@ -292,7 +328,8 @@ const state = { level:"nation", sido:null, sgg:null, adm:null, usedMock:false, m
                 /* POI 지도 배경. 마지막 선택을 기억한다 (기본은 일반 지도) */
                 basemap:(()=>{ try{ return localStorage.getItem("jiyeok.basemap") || "plain"; }
                                catch(e){ return "plain"; } })(),
-                vworldKey:null };
+                vworldKey:null, ageMin:3, ageMax:16,
+                selectedCodes:new Set(), selectionContext:null };
 const cache = new Map();
 
 /* =====================================================================
@@ -330,6 +367,8 @@ async function mergeCompetitor(metFile, compFile){
   for(const [code, m] of Object.entries(met.data)){
     const c = cd ? cd[code] : null;
     m.own_cnt            = c ? c.own : 0;
+    m.own_waikids_cnt    = c && c.by_brand ? (c.by_brand["와이키즈"] || 0) : 0;
+    m.own_wiseman_cnt    = c && c.by_brand ? (c.by_brand["와이즈만"] || 0) : 0;
     m.competitor_cnt     = c ? c.competitor : 0;
     m.english_kinder_cnt = c ? c.english_kinder : 0;
     /* ⚠️ 경쟁사 + 시너지세권을 하나로 합친 `rival_cnt` 는 2026-08-03 삭제했다.
@@ -349,6 +388,48 @@ async function mergeCompetitor(metFile, compFile){
   return met;
 }
 function isOwnBrand(name){ return (state.ownBrands || []).includes(name); }
+
+function ageRangeLabel(){ return `${state.ageMin}~${state.ageMax}세`; }
+function ageRangeTotal(p, min=state.ageMin, max=state.ageMax){
+  if(!p) return null;
+  if(p.age_year){
+    let total = 0;
+    for(let age=min; age<=max; age++) total += Number(p.age_year[String(age)] || 0);
+    return total;
+  }
+  /* 구버전 mock 폴백. 실데이터는 age_year 1세 단위를 사용한다. */
+  const spans = [["0_5",0,5],["6_11",6,11],["12_14",12,14],["15_17",15,17]];
+  let total = 0;
+  for(const [key,lo,hi] of spans){
+    const overlap = Math.max(0, Math.min(max,hi)-Math.max(min,lo)+1);
+    if(overlap) total += Math.round(Number((p.age||{})[key]||0) * overlap/(hi-lo+1));
+  }
+  return total;
+}
+function applyAgeRange(met, pop){
+  if(!met || !met.data || !pop || !pop.data) return met;
+  for(const [code,m] of Object.entries(met.data)){
+    const p = pop.data[code];
+    if(!p) continue;
+    m.school_age = ageRangeTotal(p);
+    m.pupils_per_academy = m.academy_cnt > 0 ? Math.round(m.school_age/m.academy_cnt*10)/10 : null;
+  }
+  METRICS[0].label = `학령인구(${ageRangeLabel()})`;
+  return met;
+}
+const LEVEL_FILES = {
+  sido:{metrics:"metrics_sido.json", competitor:"competitor_sido.json", population:"population_sido.json"},
+  sgg: {metrics:"metrics_sgg.json",  competitor:"competitor_sgg.json",  population:"population_sgg.json"},
+  adm: {metrics:"metrics.json",      competitor:"competitor_adm.json",  population:"population.json"},
+};
+async function loadLevelData(level){
+  const f = LEVEL_FILES[level];
+  const [met,pop] = await Promise.all([
+    mergeCompetitor(f.metrics, f.competitor), load("proc", f.population)
+  ]);
+  applyAgeRange(met,pop);
+  return {level, met, pop};
+}
 
 function updateBadge(){
   const b = document.getElementById("srcBadge");
@@ -505,7 +586,23 @@ function drawRank(title, rows, onClick){
   lastRank = {title, rows, onClick};
   document.getElementById("rankTitle").textContent = title;
   document.getElementById("rankHint").textContent =
-    `${curMetric.label} 기준 정렬 (단위 ${curMetric.unit}) · 클릭하면 하위 단계로 이동합니다`;
+    `${curMetric.label} 기준 정렬 (단위 ${curMetric.unit}) · 체크하면 여러 지역을 합산합니다`;
+  const actions = document.getElementById("rankActions");
+  actions.innerHTML = rows.length ? `<button data-act="all">전체 선택</button><button data-act="clear">선택 해제</button>` : "";
+  const redrawSelection = () => {
+    drawRank(title, rows, onClick);
+    renderCurrentSummary();
+  };
+  const allBtn = actions.querySelector('[data-act="all"]');
+  const clearBtn = actions.querySelector('[data-act="clear"]');
+  if(allBtn) allBtn.onclick = () => {
+    state.selectedCodes = new Set(rows.map(r => String(r.code)));
+    redrawSelection();
+  };
+  if(clearBtn) clearBtn.onclick = () => {
+    state.selectedCodes.clear();
+    redrawSelection();
+  };
   const el = document.getElementById("rank");
   if(!rows.length){ el.innerHTML = `<div class="notice">표시할 지역이 없습니다.</div>`; return; }
   const k = curMetric.k;
@@ -524,14 +621,24 @@ function drawRank(title, rows, onClick){
     return y - x;
   });
   el.innerHTML = rows.map((r,i)=>`
-    <div class="row" data-code="${r.code}">
+    <div class="row${state.selectedCodes.has(String(r.code))?" selected":""}" data-code="${r.code}">
+      <input class="pick" type="checkbox" aria-label="${r.name} 합산 선택"
+             ${state.selectedCodes.has(String(r.code))?"checked":""}>
       <div class="no">${i+1}</div>
       <div class="nm">${r.name||"(무명)"}</div>
       <div class="sc">${val(r)===null?"–":fmt(val(r)*mScale(), curMetric.d)}</div>
       <div class="un">${curMetric.unit}</div>
     </div>`).join("");
-  el.querySelectorAll(".row").forEach(d =>
-    d.onclick = () => onClick(d.dataset.code));
+  el.querySelectorAll(".row").forEach(d => {
+    const pick = d.querySelector(".pick");
+    pick.onclick = e => e.stopPropagation();
+    pick.onchange = () => {
+      if(pick.checked) state.selectedCodes.add(d.dataset.code);
+      else state.selectedCodes.delete(d.dataset.code);
+      redrawSelection();
+    };
+    d.onclick = () => onClick(d.dataset.code);
+  });
 }
 
 /* =====================================================================
@@ -569,6 +676,7 @@ function drawBC(){
 function showStage(which){
   document.getElementById("stageMap").classList.toggle("hidden", which!=="map");
   document.getElementById("stageDetail").classList.toggle("hidden", which!=="detail");
+  if(which!=="map") document.getElementById("regionSummary").classList.add("hidden");
 }
 
 /* =====================================================================
@@ -577,20 +685,24 @@ function showStage(which){
 async function viewNation(){
   state.level="nation"; state.sido=null; state.sgg=null; state.adm=null;
   showStage("map"); drawBC(); initMap();
-  const [geo, met] = await Promise.all([
+  const [geo, data] = await Promise.all([
     load("geo","sido.geojson"),
-    mergeCompetitor("metrics_sido.json", "competitor_sido.json")]);
+    loadLevelData("sido")]);
+  const met=data.met;
   if(!geo){ showStage("none");
     showNotice("데이터 준비중",
       `시도 경계 파일(<code>data/geo/sido.geojson</code>)이 아직 없습니다.<br>
        팀원1의 경계 산출물이 들어오면 자동으로 표시됩니다.`); return; }
   hideNotice();
   drawChoropleth(geo, met, p => viewSido({code:p.code, name:p.name}));
-  drawRank(`시도 순위 (${geo.features.length})`, geo.features.map(f=>{
+  const rows=geo.features.map(f=>{
     const m = met && met.data ? met.data[f.properties.code] : null;
     return {code:f.properties.code, name:f.properties.name,
             ...(m||{})};   // 지표 전부 실어 보낸다 — 정렬 기준을 화면에서 바꾸므로
-  }), code => {
+  });
+  setSelectionContext("sido",rows,data,null);
+  renderCurrentSummary();
+  drawRank(`시도 순위 (${geo.features.length})`, rows, code => {
     const f = geo.features.find(x=>x.properties.code===code);
     viewSido({code, name:f.properties.name});
   });
@@ -599,9 +711,10 @@ async function viewNation(){
 async function viewSido(sido){
   state.level="sido"; state.sido=sido; state.sgg=null; state.adm=null;
   showStage("map"); drawBC(); initMap();
-  const [geo, met] = await Promise.all([
+  const [geo, data, parentData] = await Promise.all([
     load("geo","sgg.geojson"),
-    mergeCompetitor("metrics_sgg.json", "competitor_sgg.json")]);
+    loadLevelData("sgg"), loadLevelData("sido")]);
+  const met=data.met;
   if(!geo){ showNotice("데이터 준비중", "시군구 경계 파일이 없습니다."); return; }
   hideNotice();
   const inSido = p => (p.parent||p.code).slice(0,2) === sido.code;
@@ -611,6 +724,8 @@ async function viewSido(sido){
     return {code:f.properties.code, name:f.properties.name,
             ...(m||{})};   // 지표 전부 실어 보낸다 — 정렬 기준을 화면에서 바꾸므로
   });
+  setSelectionContext("sgg",rows,data,{code:sido.code,name:sido.name,data:parentData});
+  renderCurrentSummary();
   drawRank(`${sido.name} 시군구 순위 (${rows.length})`, rows, code=>{
     const f = geo.features.find(x=>x.properties.code===code);
     viewSgg({code, name:f.properties.name});
@@ -621,9 +736,10 @@ async function viewSgg(sgg){
   state.level="sgg"; state.sgg=sgg; state.adm=null;
   showStage("map"); drawBC(); initMap();
   // 행정동 경계는 이 시점에만 지연 로딩 (전국 일괄 로딩 금지)
-  const [geo, met] = await Promise.all([
+  const [geo, data, parentData] = await Promise.all([
     load("geo",`adm_${sgg.code}.geojson`),
-    mergeCompetitor("metrics.json", "competitor_adm.json")]);
+    loadLevelData("adm"), loadLevelData("sgg")]);
+  const met=data.met;
   if(!geo){
     clearLayer();
     showNotice("데이터 준비중",
@@ -640,6 +756,8 @@ async function viewSgg(sgg){
     return {code:f.properties.code, name:f.properties.name,
             ...(m||{})};   // 지표 전부 실어 보낸다 — 정렬 기준을 화면에서 바꾸므로
   });
+  setSelectionContext("adm",rows,data,{code:sgg.code,name:sgg.name,data:parentData});
+  renderCurrentSummary();
   drawRank(`${sgg.name} 행정동 순위 (${rows.length})`, rows, code=>{
     const f = geo.features.find(x=>x.properties.code===code);
     viewAdm({code, name:f.properties.name});
@@ -686,19 +804,148 @@ function barCompare(items, w=460){
   </svg>`;
 }
 
+function sumSeries(target, source){
+  if(!source || !source.length) return target;
+  if(!target) return source.map(Number);
+  return target.map((v,i)=>v+Number(source[i]||0));
+}
+function aggregateRegions(codes, data){
+  const addFields = ["academy_cnt","school_cnt","school_students","academy_capacity",
+    "apt_households","apt_complexes","households","housing_asset","deal_count",
+    "own_cnt","own_waikids_cnt","own_wiseman_cnt","competitor_cnt","english_kinder_cnt",
+    "kinder_cnt","kinder_kids"];
+  const m = Object.fromEntries(addFields.map(k=>[k,0]));
+  const p = {total:0, households:0, trend12:null, age_year:{}};
+  let priceWeight=0, pricePySum=0, priceSum=0, aptWeight=0;
+  let newSum=0, rentalSum=0, builtSum=0;
+  for(const code of codes){
+    const oneM = data.met && data.met.data ? data.met.data[code] : null;
+    const oneP = data.pop && data.pop.data ? data.pop.data[code] : null;
+    if(oneM){
+      addFields.forEach(k => { m[k] += Number(oneM[k]||0); });
+      const dw = Number(oneM.deal_count||0);
+      if(dw){
+        priceWeight += dw;
+        pricePySum += Number(oneM.avg_price_per_py||oneM.median_price_per_py||0)*dw;
+        priceSum += Number(oneM.avg_price||0)*dw;
+      }
+      const aw = Number(oneM.apt_households||0);
+      if(aw){
+        aptWeight += aw;
+        newSum += Number(oneM.new_ratio||0)*aw;
+        rentalSum += Number(oneM.rental_ratio||0)*aw;
+        builtSum += Number(oneM.built_age||0)*aw;
+      }
+    }
+    if(oneP){
+      p.total += Number(oneP.total||0);
+      p.households += Number(oneP.households||0);
+      p.trend12 = sumSeries(p.trend12, oneP.trend12);
+      Object.entries(oneP.age_year||{}).forEach(([age,v])=>{
+        p.age_year[age]=(p.age_year[age]||0)+Number(v||0);
+      });
+    }
+  }
+  m.population = p.total;
+  m.households = p.households || m.households;
+  m.school_age = ageRangeTotal(p);
+  m.pupils_per_academy = m.academy_cnt ? Math.round(m.school_age/m.academy_cnt*10)/10 : null;
+  m.avg_price_per_py = priceWeight ? Math.round(pricePySum/priceWeight) : null;
+  m.avg_price = priceWeight ? Math.round(priceSum/priceWeight) : null;
+  m.median_price_per_py = codes.length===1 && data.met && data.met.data[codes[0]]
+    ? data.met.data[codes[0]].median_price_per_py : null;
+  m.low_sample = codes.length===1 && data.met && data.met.data[codes[0]]
+    ? data.met.data[codes[0]].low_sample : false;
+  m.new_ratio = aptWeight ? newSum/aptWeight : null;
+  m.rental_ratio = aptWeight ? rentalSum/aptWeight : null;
+  m.built_age = aptWeight ? builtSum/aptWeight : null;
+  m.apt_ratio = m.households ? m.apt_households/m.households : null;
+  const t=p.trend12||[];
+  p.trend_pct=t.length>1&&t[0]?Math.round((t[t.length-1]-t[0])/t[0]*1000)/10:null;
+  m.trend_pct=p.trend_pct;
+  return {m,p};
+}
+
+function renderRegionSummary(name, codes, data, selected=false){
+  const el=document.getElementById("regionSummary");
+  if(!el || !codes.length){ if(el) el.classList.add("hidden"); return; }
+  const {m,p}=aggregateRegions(codes,data);
+  const multi=codes.length>1;
+  const price = multi ? m.avg_price_per_py : m.median_price_per_py;
+  const priceLabel = multi ? "평당가(거래가중 평균)" : "평당가(중앙값)";
+  const selectionNames = selected && state.selectionContext
+    ? state.selectionContext.rows.filter(r=>state.selectedCodes.has(String(r.code))).map(r=>r.name)
+    : [];
+  el.classList.remove("hidden");
+  el.innerHTML=`
+    ${selected?`<div class="selection-note">선택 ${codes.length}개 지역 합산 · ${selectionNames.join(" · ")}</div>`:""}
+    <div class="hero">
+      <div class="nm">${name}</div>
+      <div class="loc">${selected?"선택 지역 합산":"지역 전체"} · 학령인구 ${ageRangeLabel()} 기준</div>
+      <div class="facts">
+        <div><b>${fmt(m.school_age)}</b><span>학령인구(${ageRangeLabel()})</span></div>
+        <div><b>${fmt(m.academy_cnt)}</b><span>입시·보습 학원(개)</span></div>
+        <div><b>${fmt(m.school_cnt)}</b><span>초·중학교(개)</span></div>
+        <div><b>${fmt(p.total)}</b><span>총인구(명)</span></div>
+      </div>
+    </div>
+    <div class="blocks">
+      <div class="blk"><h3>① 시장 규모<span class="tag">학령인구 필터 적용</span></h3>
+        <div class="kpis">
+          <div class="kpi"><div class="v">${fmt(m.school_age)}<span class="u">명</span></div><div class="l">${ageRangeLabel()} 학령인구</div></div>
+          <div class="kpi"><div class="v">${fmt(p.households)}<span class="u">세대</span></div><div class="l">주민등록 세대수</div></div>
+          <div class="kpi"><div class="v">${p.trend_pct==null?"–":(p.trend_pct>=0?"+":"")+fmt(p.trend_pct,1)}<span class="u">%</span></div><div class="l">최근 12개월 인구 증감</div></div>
+          <div class="kpi"><div class="v">${m.pupils_per_academy==null?"–":fmt(m.pupils_per_academy,1)}<span class="u">명</span></div><div class="l">학원 1개당 선택 연령 인구</div></div>
+        </div>${p.trend12?sparkline(p.trend12):""}</div>
+      <div class="blk"><h3>② 교육·경쟁 환경</h3><div class="kpis">
+        <div class="kpi"><div class="v">${fmt(m.own_waikids_cnt)}<span class="u">개</span></div><div class="l">자사 와이키즈</div></div>
+        <div class="kpi"><div class="v" style="color:#c026d3">${fmt(m.own_wiseman_cnt)}<span class="u">개</span></div><div class="l">자사 와이즈만</div></div>
+        <div class="kpi"><div class="v">${fmt(m.competitor_cnt)}<span class="u">개</span></div><div class="l">경쟁사</div></div>
+        <div class="kpi"><div class="v" style="color:#0e9f6e">${fmt(m.english_kinder_cnt)}<span class="u">개</span></div><div class="l">시너지세권(영어유치원)</div></div>
+        <div class="kpi"><div class="v">${fmt(m.school_students)}<span class="u">명</span></div><div class="l">초·중 재학생</div></div>
+        <div class="kpi"><div class="v">${fmt(m.academy_capacity)}<span class="u">명</span></div><div class="l">입시·보습 학원 정원</div></div>
+      </div></div>
+      <div class="blk"><h3>③ 구매력·주거</h3><div class="kpis">
+        <div class="kpi"><div class="v">${price==null||m.low_sample?"–":fmt(price)}<span class="u">만원</span></div><div class="l">${priceLabel}</div></div>
+        <div class="kpi"><div class="v">${m.avg_price==null?"–":만원(m.avg_price)}</div><div class="l">평균 매매가${multi?"(거래가중)":""}</div></div>
+        <div class="kpi"><div class="v">${fmt(m.apt_households)}<span class="u">세대</span></div><div class="l">아파트 세대수</div></div>
+        <div class="kpi"><div class="v">${m.apt_ratio==null?"–":fmt(m.apt_ratio*100,1)}<span class="u">%</span></div><div class="l">아파트 거주 비율</div></div>
+        <div class="kpi"><div class="v">${m.new_ratio==null?"–":fmt(m.new_ratio*100,1)}<span class="u">%</span></div><div class="l">신축(10년 이내) 비중</div></div>
+        <div class="kpi"><div class="v">${fmt(m.housing_asset)}<span class="u">억원</span></div><div class="l">주거자산 총액</div></div>
+      </div></div>
+    </div>`;
+}
+
+function setSelectionContext(level, rows, data, parent=null){
+  state.selectedCodes=new Set();
+  state.selectionContext={level,rows,data,parent};
+}
+function renderCurrentSummary(){
+  const ctx=state.selectionContext;
+  if(!ctx) return;
+  const codes=[...state.selectedCodes];
+  if(codes.length){
+    renderRegionSummary(`선택 ${codes.length}개 지역`, codes, ctx.data, true);
+  }else if(ctx.parent){
+    renderRegionSummary(ctx.parent.name,[ctx.parent.code],ctx.parent.data,false);
+  }else{
+    document.getElementById("regionSummary").classList.add("hidden");
+  }
+}
+
 async function viewAdm(adm){
   state.level="adm"; state.adm=adm;
   showStage("detail"); drawBC(); hideNotice();
   const sgg = state.sgg;
-  const [met, pop, aptS, poi, metS, kapt] = await Promise.all([
-    mergeCompetitor("metrics.json", "competitor_adm.json"),
-    load("proc","population.json"),
+  const [detailData, aptS, poi, sggData, kapt] = await Promise.all([
+    loadLevelData("adm"),
     load("proc","apartment.json"),
     load("proc",`poi_${sgg.code}.json`),
-    mergeCompetitor("metrics_sgg.json", "competitor_sgg.json"),
+    loadLevelData("sgg"),
     /* 아파트 세대수(K-apt). 아직 없으면 조용히 '–' 로 둔다 — load() 가 null 을 준다 */
     load("proc","kapt.json"),
   ]);
+  const met=detailData.met, pop=detailData.pop, metS=sggData.met;
   state.kapt = kapt;
   const m  = met  && met.data  ? met.data[adm.code]  : null;
   const p  = pop  && pop.data  ? pop.data[adm.code]  : null;
@@ -711,14 +958,14 @@ async function viewAdm(adm){
       <b>${adm.name}</b>의 지표·인구·아파트 데이터가 아직 없습니다.<br>
       (팀원2·3 산출물 <code>population.json</code> / <code>metrics.json</code> 대기)</div>`;
   }else{
-    const kids = p ? p.age["6_11"]+p.age["12_14"] : (m?m.school_age:null);
+    const kids = p ? ageRangeTotal(p) : (m?m.school_age:null);
     // 🚫 종합점수·등급·추천문구는 2026-07-31 폐기. 화면은 실측 지표만 보여준다.
     panel.innerHTML = `
       <div class="hero">
         <div class="nm">${adm.name}</div>
         <div class="loc">${state.sido?state.sido.name:""} ${sgg.name} · 행정동코드 ${adm.code}</div>
         <div class="facts">
-          <div><b>${fmt(kids)}</b><span>학령인구(명)</span></div>
+          <div><b>${fmt(kids)}</b><span>학령인구(${ageRangeLabel()})</span></div>
           <div><b>${m?fmt(m.academy_cnt):"–"}</b><span>입시·보습 학원(개)</span></div>
           <div><b>${m?fmt(m.school_cnt):"–"}</b><span>초·중학교(개)</span></div>
           <div><b>${pyPriceText(a)}</b><span>평당가(만원·중앙값)</span></div>
@@ -729,7 +976,7 @@ async function viewAdm(adm){
           <h3>① 시장 규모<span class="tag">학령인구</span></h3>
           <div class="kpis">
             <div class="kpi"><div class="v">${fmt(kids)}<span class="u">명</span></div>
-              <div class="l">초·중등 학령인구 (6~14세)</div></div>
+              <div class="l">선택 학령인구 (${ageRangeLabel()})</div></div>
             <div class="kpi"><div class="v">${p?fmt(p.age["0_5"]):"–"}<span class="u">명</span></div>
               <div class="l">유아 (0~5세) · 미래 수요</div></div>
             <div class="kpi"><div class="v">${p?fmt(p.total):"–"}<span class="u">명</span></div>
@@ -817,8 +1064,10 @@ async function viewAdm(adm){
         <div class="blk">
           <h3>④ 경쟁 환경<span class="tag">자사 · 경쟁사 · 시너지세권</span></h3>
           <div class="kpis">
-            <div class="kpi"><div class="v" style="color:#e11d48">${m?fmt(m.own_cnt):"–"}<span class="u">개</span></div>
-              <div class="l">동 내 자사 센터</div></div>
+            <div class="kpi"><div class="v" style="color:#e11d48">${m?fmt(m.own_waikids_cnt):"–"}<span class="u">개</span></div>
+              <div class="l">동 내 자사 와이키즈</div></div>
+            <div class="kpi"><div class="v" style="color:#c026d3">${m?fmt(m.own_wiseman_cnt):"–"}<span class="u">개</span></div>
+              <div class="l">동 내 자사 와이즈만</div></div>
             <div class="kpi"><div class="v">${m?fmt(m.competitor_cnt):"–"}<span class="u">개</span></div>
               <div class="l">동 내 경쟁사</div></div>
             <div class="kpi"><div class="v" style="color:#0e9f6e">${m?fmt(m.english_kinder_cnt):"–"}<span class="u">개</span></div>
@@ -847,7 +1096,7 @@ async function viewAdm(adm){
           </div>
           <details class="tblwrap"><summary>표로 보기 (수치 원본)</summary>
             <table class="tbl"><tbody>
-              <tr><th>학령인구</th><td>${fmt(kids)}명</td></tr>
+              <tr><th>학령인구 (${ageRangeLabel()})</th><td>${fmt(kids)}명</td></tr>
               <tr><th>초·중 재학생</th><td>${m&&m.school_students!=null?fmt(m.school_students)+"명":"–"}</td></tr>
               <tr><th>입시·보습 학원 정원 합계</th><td>${m&&m.academy_capacity!=null?fmt(m.academy_capacity)+"명":"–"}</td></tr>
               <tr><th>입시·보습 학원수</th><td>${m?fmt(m.academy_cnt):"–"}개</td></tr>
@@ -888,12 +1137,14 @@ const BASEMAPS = [
                 {maxZoom:19, opacity:.55, attribution:"© OpenStreetMap"})]},
   {k:"vworld", label:"위성(VWorld)", dark:true, needKey:true, build:key => [
     L.tileLayer(`https://api.vworld.kr/req/wmts/1.0.0/${key}/Satellite/{z}/{y}/{x}.jpeg`,
-                {maxZoom:19, attribution:"국토교통부 VWorld"})]},
+                {maxZoom:18, tileSize:128, zoomOffset:1, updateWhenZooming:false, keepBuffer:4,
+                 attribution:"국토교통부 VWorld"})]},
   {k:"vworld_label", label:"위성+라벨(VWorld)", dark:true, needKey:true, build:key => [
     L.tileLayer(`https://api.vworld.kr/req/wmts/1.0.0/${key}/Satellite/{z}/{y}/{x}.jpeg`,
-                {maxZoom:19, attribution:"국토교통부 VWorld"}),
+                {maxZoom:18, tileSize:128, zoomOffset:1, updateWhenZooming:false, keepBuffer:4,
+                 attribution:"국토교통부 VWorld"}),
     L.tileLayer(`https://api.vworld.kr/req/wmts/1.0.0/${key}/Hybrid/{z}/{y}/{x}.png`,
-                {maxZoom:19})]},
+                {maxZoom:18, tileSize:128, zoomOffset:1, updateWhenZooming:false, keepBuffer:4})]},
 ];
 let baseLayers = [];
 
@@ -949,10 +1200,29 @@ function drawBasemapButtons(){
    뒤에 올린 것이 위로 오므로 영유 → 경쟁사 → 자사 순서로 끌어올린다.
    레이어를 껐다 켜면 순서가 풀리므로 토글에서도 다시 부른다. */
 function raiseKeyLayers(){
-  ["english_kinder","competitor","own"].forEach(k => {
+  ["english_kinder","competitor","own_wiseman","own_waikids"].forEach(k => {
     const g = poiLayers[k];
     if(g && map2.hasLayer(g)) g.eachLayer(l => { try{ l.bringToFront(); }catch(e){} });
   });
+}
+
+function spreadCoincidentRows(rows){
+  const groups=new Map();
+  rows.forEach(r=>{
+    const key=`${Number(r.lat).toFixed(6)},${Number(r.lng).toFixed(6)}`;
+    if(!groups.has(key)) groups.set(key,[]);
+    groups.get(key).push(r);
+  });
+  const out=[];
+  groups.forEach(group=>{
+    if(group.length===1){ out.push(group[0]); return; }
+    group.forEach((r,i)=>{
+      const angle=2*Math.PI*i/group.length;
+      out.push({...r,_displayLat:Number(r.lat)+Math.sin(angle)*0.000075,
+                     _displayLng:Number(r.lng)+Math.cos(angle)*0.000075});
+    });
+  });
+  return out;
 }
 
 function drawPoi(poi, admCode){
@@ -993,7 +1263,7 @@ function drawPoi(poi, admCode){
   let unmatched = false;
   Object.keys(POI_STYLE).forEach(kind => {
     const st = POI_STYLE[kind];
-    const all = poi[kind] || [];
+    const all = (poi[st.source||kind] || []).filter(r=>!st.brand || r.brand===st.brand);
     let rows = all.filter(r => !r.adm_cd || r.adm_cd === admCode);
     // 행정동 매칭(adm_cd)이 **아예 없는** 데이터일 때만 시군구 전체로 폴백한다.
     // ⚠️ B-8: adm_cd 가 붙어 있는데도 폴백하면, 학교가 정말 0개인 동에서
@@ -1001,9 +1271,10 @@ function drawPoi(poi, admCode){
     //    "0개"는 결측이 아니라 실측값이므로 0으로 둔다.
     const hasAdm = all.some(r => r.adm_cd);
     if(rows.length === 0 && all.length > 0 && !hasAdm){ rows = all; unmatched = true; }
+    rows=spreadCoincidentRows(rows);
     counts[kind] = rows.length; used[kind] = rows;
     const g = L.layerGroup(rows.map(r =>
-      L.circleMarker([r.lat, r.lng], {
+      L.circleMarker([r._displayLat??r.lat, r._displayLng??r.lng], {
         radius: POI_MARKER_RADIUS, stroke:true,
         color:kind === "competitor" ? "#f59e0b" : "#111827",
         weight:2, opacity:1, fillColor:st.color, fillOpacity:1
@@ -1062,7 +1333,43 @@ function refreshMaps(){
 }
 window.addEventListener("resize", refreshMaps);
 
+async function redrawForAgeFilter(){
+  METRICS[0].label=`학령인구(${ageRangeLabel()})`;
+  document.getElementById("ageStatus").textContent=`${ageRangeLabel()} 기준 · 주민등록 1세 단위`; 
+  const adm=state.adm, sgg=state.sgg, sido=state.sido, level=state.level;
+  if(level==="adm" && adm) await viewAdm(adm);
+  else if(level==="sgg" && sgg) await viewSgg(sgg);
+  else if(level==="sido" && sido) await viewSido(sido);
+  else await viewNation();
+}
+function initAgeFilter(){
+  const minSel=document.getElementById("ageMin"), maxSel=document.getElementById("ageMax");
+  const options=Array.from({length:14},(_,i)=>i+3)
+    .map(a=>`<option value="${a}">${a}</option>`).join("");
+  minSel.innerHTML=options; maxSel.innerHTML=options;
+  minSel.value=String(state.ageMin); maxSel.value=String(state.ageMax);
+  const syncButtons=()=>{
+    document.querySelectorAll("[data-age-preset]").forEach(b=>
+      b.setAttribute("aria-pressed",String(b.dataset.agePreset===`${state.ageMin}-${state.ageMax}`)));
+  };
+  document.querySelectorAll("[data-age-preset]").forEach(b=>b.onclick=async()=>{
+    [state.ageMin,state.ageMax]=b.dataset.agePreset.split("-").map(Number);
+    minSel.value=String(state.ageMin); maxSel.value=String(state.ageMax);
+    syncButtons(); await redrawForAgeFilter();
+  });
+  const custom=async changed=>{
+    let lo=Number(minSel.value), hi=Number(maxSel.value);
+    if(lo>hi){ if(changed==="min") hi=lo; else lo=hi; }
+    state.ageMin=lo; state.ageMax=hi;
+    minSel.value=String(lo); maxSel.value=String(hi);
+    syncButtons(); await redrawForAgeFilter();
+  };
+  minSel.onchange=()=>custom("min"); maxSel.onchange=()=>custom("max");
+  syncButtons();
+}
+
 (async function main(){
+  initAgeFilter();
   document.getElementById("foot").textContent =
     "지역분석 대시보드 · 정적 HTML + Leaflet(local) · " + new Date().toLocaleDateString("ko-KR");
   if(location.protocol === "file:"){

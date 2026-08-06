@@ -60,20 +60,26 @@ header .sub{font-size:12px; opacity:.8}
   display:flex;align-items:center;gap:6px;background:#fff;border-bottom:1px solid var(--grid)
 }
 .region-filter-label{font-size:11px;color:var(--muted);font-weight:700}
-.region-filter-toggle{
-  display:flex;align-items:center;gap:6px;max-width:420px;padding:4px 8px;
-  border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--brand)
+.region-filter-steps{display:flex;align-items:center;gap:5px;min-width:0;overflow-x:auto;scrollbar-width:none}
+.region-filter-steps::-webkit-scrollbar{display:none}
+.region-step{
+  flex:0 0 auto;display:flex;align-items:center;gap:5px;padding:4px 11px;
+  border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--brand);
+  font-size:12px;font-weight:700;white-space:nowrap
 }
-.region-filter-toggle[aria-expanded="true"]{background:var(--s100);border-color:var(--s350)}
-.region-filter-toggle strong{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.region-step.has-value{background:var(--s100);border-color:var(--s300)}
+.region-step[aria-current="true"]{background:var(--s200);border-color:var(--s350)}
+.region-step:disabled{color:var(--muted);background:var(--plane);opacity:.55;cursor:not-allowed}
+.region-step .drop{font-size:9px;color:var(--muted)}
+.region-sep{flex:0 0 auto;color:var(--muted);font-size:11px;font-weight:700}
 .region-filter-count{font-size:10px;color:var(--muted);white-space:nowrap}
-.region-filter-arrow{font-size:9px;font-weight:800}
 .region-filter-hint{min-width:0;font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rank-filter-panel{
   position:absolute;top:calc(100% - 3px);left:16px;width:min(720px,calc(100vw - 32px));
   background:var(--surface-1);border:1px solid var(--border);border-radius:0 0 10px 10px;
   box-shadow:0 8px 22px rgba(0,0,0,.16);overflow:hidden
 }
+.rank-filter-heading{display:flex;align-items:center;gap:7px;padding:7px 9px 2px;font-size:12px;color:var(--brand)}
 .rank-filter-panel .rank{max-height:430px;overflow-y:auto;scrollbar-width:thin}
 .rank-filter-panel .rank-actions{padding:6px 8px 4px;border-bottom:1px solid var(--grid)}
 @media (max-width:700px){
@@ -84,7 +90,7 @@ header .sub{font-size:12px; opacity:.8}
 /* ---------- 브레드크럼 ---------- */
 nav.bc{
   background:var(--surface-1); border-bottom:1px solid var(--grid);
-  padding:6px 16px; display:flex; align-items:center; gap:6px; flex-wrap:wrap;
+  padding:6px 16px; display:none; align-items:center; gap:6px; flex-wrap:wrap;
   font-size:13px; position:sticky; top:0; z-index:500;
 }
 nav.bc button{
@@ -106,11 +112,11 @@ main{padding:10px 16px 0; max-width:1920px; margin:0 auto}
 }
 .card>h2{padding:9px 12px 0; font-size:16px}
 .card>.hint{padding:2px 12px 0; color:var(--ink-2); font-size:11px}
-#map{height:calc(100vh - 286px); min-height:500px; border-radius:var(--r); overflow:hidden}
+#map{height:calc(100vh - 250px); min-height:500px; border-radius:var(--r); overflow:hidden}
 #map.detail{height:60vh; min-height:420px}
 .map-shell{position:relative}
 .main-basemaps{position:absolute;top:6px;right:6px;z-index:490;padding:2px 3px;background:rgba(255,255,255,.9);border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.18)}
-.stage.adm-inline>.card{height:calc(100vh - 200px);min-height:500px}
+.stage.adm-inline>.card{height:calc(100vh - 163px);min-height:500px}
 .inline-poi{height:100%;min-height:0;display:flex;flex-direction:column}
 .inline-poi>h2{padding:8px 10px 0;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .inline-poi>.hint{padding:2px 10px 0;color:var(--ink-2);font-size:10px}
@@ -274,13 +280,13 @@ footer{display:none}
 
 <section class="region-filterbar" id="regionFilterbar" aria-label="지역 순위 필터">
   <span class="region-filter-label">지역</span>
-  <button class="region-filter-toggle" id="rankFilterToggle" type="button" aria-expanded="false">
-    <strong id="rankTitle">지역 순위</strong>
-    <span class="region-filter-count" id="rankFilterCount"></span>
-    <span class="region-filter-arrow" aria-hidden="true">v</span>
-  </button>
+  <div class="region-filter-steps" id="regionFilterSteps"></div>
   <span class="region-filter-hint" id="rankHint">클릭하면 하위 단계로 이동합니다</span>
   <div class="rank-filter-panel hidden" id="rankFilterPanel">
+    <div class="rank-filter-heading">
+      <strong id="rankTitle">지역 순위</strong>
+      <span class="region-filter-count" id="rankFilterCount"></span>
+    </div>
     <div class="rank-actions" id="rankActions"></div>
     <div class="rank" id="rank"></div>
   </div>
@@ -656,10 +662,54 @@ let lastRank = null;
 
 function setRankFilterOpen(open){
   const panel=document.getElementById("rankFilterPanel");
-  const toggle=document.getElementById("rankFilterToggle");
-  if(!panel || !toggle) return;
+  if(!panel) return;
   panel.classList.toggle("hidden",!open);
-  toggle.setAttribute("aria-expanded",String(open));
+  document.querySelectorAll(".region-step[data-picker]").forEach(b=>b.setAttribute("aria-expanded","false"));
+}
+async function openRegionFilterLevel(level){
+  setRankFilterOpen(false);
+  if(level==="nation"){
+    await viewNation();
+    return;
+  }
+  if(level==="sido"){
+    if(state.level!=="nation") await viewNation();
+  }else if(level==="sgg"){
+    if(!state.sido) return;
+    if(state.level!=="sido"){
+      const sido=state.sido;
+      await viewSido(sido);
+    }
+  }else if(level==="adm"){
+    if(!state.sgg) return;
+    if(state.level!=="sgg"){
+      const sgg=state.sgg;
+      await viewSgg(sgg);
+    }
+  }
+  setRankFilterOpen(true);
+  const active=document.querySelector(`.region-step[data-filter-level="${level}"]`);
+  if(active) active.setAttribute("aria-expanded","true");
+}
+function drawRegionFilterSteps(){
+  const el=document.getElementById("regionFilterSteps");
+  if(!el) return;
+  const steps=[
+    {level:"nation",label:"전국",enabled:true,value:true,picker:false},
+    {level:"sido",label:state.sido?state.sido.name:"시도 선택",enabled:true,value:!!state.sido,picker:true},
+    {level:"sgg",label:state.sgg?state.sgg.name:"시군구 선택",enabled:!!state.sido,value:!!state.sgg,picker:true},
+    {level:"adm",label:state.adm?state.adm.name:"행정동 선택",enabled:!!state.sgg,value:!!state.adm,picker:true},
+  ];
+  el.innerHTML=steps.map((s,i)=>`${i?`<span class="region-sep">&gt;</span>`:""}
+    <button type="button" class="region-step${s.value?" has-value":""}"
+      data-filter-level="${s.level}" ${s.picker?"data-picker":""}
+      aria-current="${state.level===s.level}" aria-expanded="false" ${s.enabled?"":"disabled"}>
+      ${s.label}${s.picker?`<span class="drop">v</span>`:""}
+    </button>`).join("");
+  el.querySelectorAll(".region-step").forEach(b=>b.onclick=e=>{
+    e.stopPropagation();
+    openRegionFilterLevel(b.dataset.filterLevel);
+  });
 }
 document.addEventListener("click",e=>{
   const bar=document.getElementById("regionFilterbar");
@@ -674,11 +724,7 @@ function drawRank(title, rows, onClick){
     `${curMetric.label} 기준 정렬 (단위 ${curMetric.unit}) · 체크하면 여러 지역을 합산합니다`;
   document.getElementById("rankFilterCount").textContent = state.selectedCodes.size
     ? `${state.selectedCodes.size}개 선택` : `${rows.length}개 지역`;
-  const filterToggle=document.getElementById("rankFilterToggle");
-  filterToggle.onclick=e=>{
-    e.stopPropagation();
-    setRankFilterOpen(filterToggle.getAttribute("aria-expanded")!=="true");
-  };
+  drawRegionFilterSteps();
   const actions = document.getElementById("rankActions");
   actions.innerHTML = rows.length ? `<button data-act="all">전체 선택</button><button data-act="clear">선택 해제</button>` : "";
   const redrawSelection = () => {

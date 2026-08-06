@@ -82,7 +82,7 @@ main{padding:10px 16px 0; max-width:1920px; margin:0 auto}
 #map{height:calc(100vh - 250px); min-height:500px; border-radius:var(--r); overflow:hidden}
 #map.detail{height:60vh; min-height:420px}
 .map-shell{position:relative}
-.main-basemaps{position:absolute;top:8px;right:8px;z-index:490;padding:0;background:rgba(255,255,255,.9);border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.18)}
+.main-basemaps{position:absolute;top:6px;right:6px;z-index:490;padding:2px 3px;background:rgba(255,255,255,.9);border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.18)}
 
 /* ---------- 범례 ---------- */
 .legend{display:flex; gap:0; align-items:stretch; padding:7px 10px 9px; flex-wrap:wrap}
@@ -118,7 +118,9 @@ main{padding:10px 16px 0; max-width:1920px; margin:0 auto}
 .detail{display:grid; grid-template-columns:minmax(0,1fr) 480px; gap:10px; align-items:start}
 @media (max-width:1180px){.detail{grid-template-columns:1fr}}
 .region-summary{margin-top:0;min-width:0;overflow:hidden}
-.region-summary .selection-note{padding:6px 10px 0;color:var(--brand);font-size:10px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.region-summary .selection-note{padding:6px 10px 0;color:var(--brand);font-size:10px;font-weight:700;display:flex;align-items:center;gap:6px;min-width:0}
+.region-summary .selection-note .selection-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.region-summary .selection-note button{margin-left:auto;flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:5px;padding:2px 6px;color:var(--brand);font-size:9px;font-weight:700}
 .region-summary .hero{padding:9px 10px 8px}
 .region-summary .hero .nm{font-size:20px}
 .region-summary .hero .loc{font-size:10px}
@@ -169,9 +171,9 @@ svg text{fill:var(--ink-2); font-size:10px}
 svg text.val{fill:var(--ink); font-weight:800; font-size:11px}
 
 /* ---------- POI 맵 ---------- */
-.basemaps{display:flex; gap:4px; padding:6px 12px 0; flex-wrap:wrap; align-items:center}
-.basemaps .lbl{font-size:12px; color:var(--muted); margin-right:2px}
-.basemaps button{font-size:12px; padding:5px 10px; border-radius:7px; cursor:pointer;
+.basemaps{display:flex; gap:2px; padding:4px 8px 0; flex-wrap:wrap; align-items:center}
+.basemaps .lbl{font-size:9px; color:var(--muted); margin-right:1px}
+.basemaps button{font-size:10px; padding:3px 6px; border-radius:5px; cursor:pointer;
   border:1px solid var(--line); background:#fff; color:var(--ink-2); font-weight:700}
 .basemaps button[aria-pressed="true"]{background:var(--brand); border-color:var(--brand); color:#fff}
 .basemaps button[disabled]{opacity:.4; cursor:not-allowed}
@@ -776,18 +778,21 @@ async function viewSgg(sgg){
     return;
   }
   hideNotice();
-  drawChoropleth(geo, met, p => viewAdm({code:p.code, name:p.name}));
   const rows = geo.features.map(f=>{
     const m = met && met.data ? met.data[f.properties.code] : null;
     return {code:f.properties.code, name:f.properties.name,
             ...(m||{})};   // 지표 전부 실어 보낸다 — 정렬 기준을 화면에서 바꾸므로
   });
+  const title=`${sgg.name} 행정동 순위 (${rows.length})`;
+  const selectAdm=code=>{
+    state.selectedCodes=new Set([String(code)]);
+    drawRank(title,rows,selectAdm);
+    renderCurrentSummary();
+  };
+  drawChoropleth(geo, met, p => selectAdm(p.code));
   setSelectionContext("adm",rows,data,{code:sgg.code,name:sgg.name,data:parentData});
   renderCurrentSummary();
-  drawRank(`${sgg.name} 행정동 순위 (${rows.length})`, rows, code=>{
-    const f = geo.features.find(x=>x.properties.code===code);
-    viewAdm({code, name:f.properties.name});
-  });
+  drawRank(title,rows,selectAdm);
 }
 
 /* =====================================================================
@@ -902,12 +907,14 @@ function renderRegionSummary(name, codes, data, selected=false){
   const selectionNames = selected && state.selectionContext
     ? state.selectionContext.rows.filter(r=>state.selectedCodes.has(String(r.code))).map(r=>r.name)
     : [];
+  const detailRow = selected && !multi && state.selectionContext && state.selectionContext.level==="adm"
+    ? state.selectionContext.rows.find(r=>String(r.code)===String(codes[0])) : null;
   el.classList.remove("hidden");
   el.innerHTML=`
-    ${selected?`<div class="selection-note">선택 ${codes.length}개 지역 합산 · ${selectionNames.join(" · ")}</div>`:""}
+    ${selected?`<div class="selection-note"><span class="selection-text">${multi?`선택 ${codes.length}개 지역 합산`:"선택 지역"} · ${selectionNames.join(" · ")}</span>${detailRow?`<button data-open-adm="${detailRow.code}">POI 상세</button>`:""}</div>`:""}
     <div class="hero">
       <div class="nm">${name}</div>
-      <div class="loc">${selected?"선택 지역 합산":"지역 전체"} · 학령인구 ${ageRangeLabel()} 기준</div>
+      <div class="loc">${selected?(multi?"선택 지역 합산":"선택 행정동"):"지역 전체"} · 학령인구 ${ageRangeLabel()} 기준</div>
       <div class="facts">
         <div><b>${fmt(m.school_age)}</b><span>학령인구(${ageRangeLabel()})</span></div>
         <div><b>${fmt(m.academy_cnt)}</b><span>입시·보습 학원(개)</span></div>
@@ -940,6 +947,8 @@ function renderRegionSummary(name, codes, data, selected=false){
         <div class="kpi"><div class="v">${fmt(m.housing_asset)}<span class="u">억원</span></div><div class="l">주거자산 총액</div></div>
       </div></div>
     </div>`;
+  const detailBtn=el.querySelector("[data-open-adm]");
+  if(detailBtn && detailRow) detailBtn.onclick=()=>viewAdm({code:String(detailRow.code),name:detailRow.name});
 }
 
 function setSelectionContext(level, rows, data, parent=null){
@@ -951,7 +960,8 @@ function renderCurrentSummary(){
   if(!ctx) return;
   const codes=[...state.selectedCodes];
   if(codes.length){
-    renderRegionSummary(`선택 ${codes.length}개 지역`, codes, ctx.data, true);
+    const one=codes.length===1 ? ctx.rows.find(r=>String(r.code)===String(codes[0])) : null;
+    renderRegionSummary(one?one.name:`선택 ${codes.length}개 지역`, codes, ctx.data, true);
   }else if(ctx.parent){
     renderRegionSummary(ctx.parent.name,ctx.parent.codes||[ctx.parent.code],ctx.parent.data,false);
   }else{

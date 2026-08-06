@@ -121,7 +121,7 @@ main{padding:10px 16px 0; max-width:1920px; margin:0 auto}
 .inline-poi>h2{padding:8px 10px 0;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .inline-poi>.hint{padding:2px 10px 0;color:var(--ink-2);font-size:10px}
 #map2{flex:1;min-height:0;border-radius:0 0 var(--r) var(--r);overflow:hidden}
-.region-detail{min-width:0;overflow-y:auto;scrollbar-width:thin}
+.region-detail{min-width:0;overflow:hidden}
 @media (max-width:1180px){
   .stage.adm-inline>.card{height:auto;min-height:0}
   .inline-poi{height:70vh;min-height:500px}
@@ -177,9 +177,26 @@ main{padding:10px 16px 0; max-width:1920px; margin:0 auto}
 .region-summary .blk h3{font-size:11px;margin-bottom:4px}
 .region-summary .blk h3 .tag{font-size:9px;padding:1px 5px}
 .region-summary .kpis{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 7px}
+.region-summary .kpi{min-width:0;background:var(--plane);border-radius:6px;padding:5px 6px}
 .region-summary .kpi .v{font-size:17px}
 .region-summary .kpi .v .u{font-size:9px}
 .region-summary .kpi .l{font-size:9px;line-height:1.15}
+.region-detail .hero{padding:7px 8px 6px}
+.region-detail .hero .nm{font-size:17px}
+.region-detail .hero .loc{font-size:9px}
+.region-detail .hero .facts{gap:3px;margin-top:5px}
+.region-detail .hero .facts>div{padding:4px 5px}
+.region-detail .hero .facts b{font-size:14px}
+.region-detail .hero .facts span{font-size:8px}
+.region-detail .blocks{padding:1px 8px 5px}
+.region-detail .blk{padding:4px 0}
+.region-detail .blk h3{font-size:10px;margin-bottom:3px}
+.region-detail .blk h3 .tag{font-size:8px;padding:1px 4px}
+.region-detail .kpis{gap:3px 5px}
+.region-detail .kpi{padding:4px 5px}
+.region-detail .kpi .v{font-size:14px;line-height:1.05}
+.region-detail .kpi .v .u{font-size:8px}
+.region-detail .kpi .l{font-size:8px;line-height:1.1;margin-top:2px}
 .hero{padding:13px 15px 11px; border-bottom:1px solid var(--grid)}
 .hero .nm{font-size:24px; font-weight:800; letter-spacing:-.03em}
 .hero .loc{color:var(--ink-2); font-size:12px; margin-top:2px}
@@ -529,7 +546,8 @@ let mainBaseLayers = [];
 function initMap(){
   if(map) return;
   map = L.map("map", {zoomControl:true, attributionControl:true,
-                      scrollWheelZoom:false}).setView([36.3,127.8], 7);
+                      scrollWheelZoom:true}).setView([36.3,127.8], 7);
+  map.zoomControl.setPosition("bottomright");
   map.attributionControl.setPrefix("");
   applyMainBasemap();
   drawBasemapButtons();
@@ -659,6 +677,7 @@ function drawLegend(){
    3. 랭킹 리스트
    ===================================================================== */
 let lastRank = null;
+let selectionRenderFrame = 0;
 
 function setRankFilterOpen(open){
   const panel=document.getElementById("rankFilterPanel");
@@ -727,20 +746,8 @@ function drawRank(title, rows, onClick){
   drawRegionFilterSteps();
   const actions = document.getElementById("rankActions");
   actions.innerHTML = rows.length ? `<button data-act="all">전체 선택</button><button data-act="clear">선택 해제</button>` : "";
-  const redrawSelection = () => {
-    drawRank(title, rows, onClick);
-    renderCurrentSummary();
-  };
   const allBtn = actions.querySelector('[data-act="all"]');
   const clearBtn = actions.querySelector('[data-act="clear"]');
-  if(allBtn) allBtn.onclick = () => {
-    state.selectedCodes = new Set(rows.map(r => String(r.code)));
-    redrawSelection();
-  };
-  if(clearBtn) clearBtn.onclick = () => {
-    state.selectedCodes.clear();
-    redrawSelection();
-  };
   const el = document.getElementById("rank");
   if(!rows.length){ el.innerHTML = `<div class="notice">표시할 지역이 없습니다.</div>`; return; }
   const k = curMetric.k;
@@ -767,13 +774,36 @@ function drawRank(title, rows, onClick){
       <div class="sc">${val(r)===null?"–":fmt(val(r)*mScale(), curMetric.d)}</div>
       <div class="un">${curMetric.unit}</div>
     </div>`).join("");
+  const updateSelectionUI=()=>{
+    document.getElementById("rankFilterCount").textContent = state.selectedCodes.size
+      ? `${state.selectedCodes.size}개 선택` : `${rows.length}개 지역`;
+    el.querySelectorAll(".row").forEach(row=>{
+      const selected=state.selectedCodes.has(String(row.dataset.code));
+      row.classList.toggle("selected",selected);
+      const checkbox=row.querySelector(".pick");
+      if(checkbox) checkbox.checked=selected;
+    });
+    if(selectionRenderFrame) cancelAnimationFrame(selectionRenderFrame);
+    selectionRenderFrame=requestAnimationFrame(()=>{
+      selectionRenderFrame=0;
+      renderCurrentSummary();
+    });
+  };
+  if(allBtn) allBtn.onclick = () => {
+    state.selectedCodes = new Set(rows.map(r => String(r.code)));
+    updateSelectionUI();
+  };
+  if(clearBtn) clearBtn.onclick = () => {
+    state.selectedCodes.clear();
+    updateSelectionUI();
+  };
   el.querySelectorAll(".row").forEach(d => {
     const pick = d.querySelector(".pick");
     pick.onclick = e => e.stopPropagation();
     pick.onchange = () => {
       if(pick.checked) state.selectedCodes.add(d.dataset.code);
       else state.selectedCodes.delete(d.dataset.code);
-      redrawSelection();
+      updateSelectionUI();
     };
     d.onclick = () => {
       setRankFilterOpen(false);
@@ -916,43 +946,6 @@ async function viewSgg(sgg){
 /* =====================================================================
    6. 동 상세
    ===================================================================== */
-function sparkline(series, w=460, h=90){
-  if(!series || series.length < 2) return "";
-  const min = Math.min(...series), max = Math.max(...series);
-  const pad = (max-min)*0.25 || 1;
-  const lo = min-pad, hi = max+pad;
-  const X = i => 8 + i*(w-70)/(series.length-1);
-  const Y = v => h-18 - (v-lo)/(hi-lo)*(h-34);
-  const pts = series.map((v,i)=>`${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(" ");
-  const last = series[series.length-1], first = series[0];
-  const up = last>=first;
-  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" role="img"
-    aria-label="최근 12개월 총인구 추이">
-    <line class="grid" x1="8" y1="${h-18}" x2="${w-62}" y2="${h-18}"></line>
-    <polyline fill="none" stroke="${up?'#256abf':'#d03b3b'}" stroke-width="2"
-      stroke-linejoin="round" stroke-linecap="round" points="${pts}"></polyline>
-    <circle cx="${X(series.length-1)}" cy="${Y(last)}" r="4.5"
-      fill="${up?'#256abf':'#d03b3b'}" stroke="#fcfcfb" stroke-width="2"></circle>
-    <text class="val" x="${w-56}" y="${Y(last)+4}">${fmt(last)}명</text>
-    <text x="8" y="${h-4}">12개월 전</text>
-    <text x="${w-62}" y="${h-4}" text-anchor="end">현재</text>
-  </svg>`;
-}
-function barCompare(items, w=460){
-  // 단일 측정치, 단일 색 — 카테고리는 직접 라벨로 식별
-  const max = Math.max(...items.map(d=>d.v||0), 1);
-  const rowH = 34, h = items.length*rowH + 8;
-  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" role="img">
-   ${items.map((d,i)=>{
-     const y = i*rowH+4, bw = Math.max(2,(d.v||0)/max*(w-210));
-     return `<text x="0" y="${y+18}">${d.k}</text>
-       <rect x="118" y="${y+5}" width="${bw}" height="17" rx="4"
-         fill="${d.hl?'#256abf':'#9ec5f4'}"></rect>
-       <text class="val" x="${118+bw+8}" y="${y+18}">${d.t}</text>`;
-   }).join("")}
-  </svg>`;
-}
-
 function sumSeries(target, source){
   if(!source || !source.length) return target;
   if(!target) return source.map(Number);
@@ -1047,7 +1040,7 @@ function renderRegionSummary(name, codes, data, selected=false){
           <div class="kpi"><div class="v">${fmt(p.households)}<span class="u">세대</span></div><div class="l">주민등록 세대수</div></div>
           <div class="kpi"><div class="v">${p.trend_pct==null?"–":(p.trend_pct>=0?"+":"")+fmt(p.trend_pct,1)}<span class="u">%</span></div><div class="l">최근 12개월 인구 증감</div></div>
           <div class="kpi"><div class="v">${m.pupils_per_academy==null?"–":fmt(m.pupils_per_academy,1)}<span class="u">명</span></div><div class="l">학원 1개당 선택 연령 인구</div></div>
-        </div>${p.trend12?sparkline(p.trend12,360,52):""}</div>
+        </div></div>
       <div class="blk"><h3>② 교육·경쟁 환경</h3><div class="kpis">
         <div class="kpi"><div class="v">${fmt(m.own_waikids_cnt)}<span class="u">개</span></div><div class="l">자사 와이키즈</div></div>
         <div class="kpi"><div class="v" style="color:#c026d3">${fmt(m.own_wiseman_cnt)}<span class="u">개</span></div><div class="l">자사 와이즈만</div></div>
@@ -1079,7 +1072,7 @@ function renderCurrentSummary(){
   const stage=document.getElementById("stageMap");
   if(stage && stage.classList.contains("adm-inline")){
     state.level="sgg"; state.adm=null;
-    showStage("map"); drawBC();
+    showStage("map"); drawBC(); drawRegionFilterSteps();
   }
   const codes=[...state.selectedCodes];
   if(codes.length){
@@ -1145,10 +1138,8 @@ async function viewAdm(adm){
               <div class="l">총인구</div></div>
             <div class="kpi"><div class="v ${p&&p.trend_pct>=0?'':''}">${p?(p.trend_pct>=0?"+":"")+fmt(p.trend_pct,1):"–"}<span class="u">%</span></div>
               <div class="l">최근 12개월 인구 증감
-                <span class="d ${p&&p.trend_pct>=0?'up':'dn'}">${p?(p.trend_pct>=0?"▲ 증가":"▼ 감소"):""}</span></div></div>
+                <span class="d ${p&&p.trend_pct>=0?'up':'dn'}">${p?(p.trend_pct>=0?"증가":"감소"):""}</span></div></div>
           </div>
-          <div class="chart"><div class="cap">최근 12개월 총인구 추이</div>
-            ${p?sparkline(p.trend12):'<div class="cap">추이 데이터 없음</div>'}</div>
         </div>
 
         <div class="blk">
@@ -1156,19 +1147,11 @@ async function viewAdm(adm){
           <div class="kpis">
             <div class="kpi"><div class="v">${m && m.academy_cnt===0 ? '–'
                 : (m && m.pupils_per_academy!=null ? fmt(m.pupils_per_academy,1)+'<span class="u">명</span>' : '–')}</div>
-              <div class="l">${m && m.academy_cnt===0 ? '동 내 입시·보습 학원 0개 (비율 산출 불가)'
-                : '입시·보습 학원 1개당 학령인구'}</div></div>
+              <div class="l">입시·보습 학원 1개당 학령인구</div></div>
             <div class="kpi"><div class="v">${m?fmt(m.academy_cnt):"–"}<span class="u">개</span></div>
               <div class="l">입시·보습 학원 수</div></div>
             <div class="kpi"><div class="v">${m?fmt(m.school_cnt):"–"}<span class="u">개</span></div>
               <div class="l">초·중학교 수</div></div>
-          </div>
-          <div class="chart"><div class="cap">입시·보습 학원 1개당 학령인구 비교 (명)<br><span style="opacity:.75">학원 수는 <b>입시·검정 및 보습</b> 분야만 셉니다 (예능·어학원·독서실 제외)</span></div>
-            ${barCompare([
-              {k:adm.name, v:(m&&m.pupils_per_academy)||0,
-               t:(m&&m.academy_cnt===0)?"입시·보습 학원 0개":(m&&m.pupils_per_academy!=null?fmt(m.pupils_per_academy,1):"–"), hl:true},
-              {k:sgg.name+" 평균", v:ms?ms.pupils_per_academy:0, t:ms?fmt(ms.pupils_per_academy,1):"–"},
-            ])}
           </div>
         </div>
 
@@ -1191,12 +1174,12 @@ async function viewAdm(adm){
               if (km && km.partial)
                 return `<div class="kpi"><div class="v" style="font-size:.62em;color:#b45309">수집 중<br>
                           ${fmt((km.progress||0)*100,0)}%</div>
-                        <div class="l">아파트 세대수 <span style="font-size:.85em;opacity:.7">(K-apt)</span></div></div>`;
+                        <div class="l">아파트 세대수</div></div>`;
               return `<div class="kpi"><div class="v">${k?fmt(k.households):"–"}<span class="u">세대</span></div>
-                        <div class="l">아파트 세대수 <span style="font-size:.85em;opacity:.7">${k?`${fmt(k.complexes)}단지`:"(K-apt)"}</span></div></div>`;
+                        <div class="l">아파트 세대수${k?` · ${fmt(k.complexes)}단지`:""}</div></div>`;
             })()}
             <div class="kpi"><div class="v">${m&&m.new_ratio!=null?fmt(m.new_ratio*100):"–"}<span class="u">%</span></div>
-              <div class="l">신축(10년내) 비중 <span style="font-size:.85em;opacity:.7">세대 기준</span></div></div>
+              <div class="l">신축(10년내) 비중</div></div>
             ${(() => {
               /* 소비력 ② 규모·밀도 — 아파트 거주 비율.
                  ⚠️ 100% 초과(67개 동)는 경계 원천의 분동 반영 지연이다(TODO E-4).
@@ -1205,22 +1188,17 @@ async function viewAdm(adm){
                 return `<div class="kpi"><div class="v">–</div><div class="l">아파트 거주 비율</div></div>`;
               if(m.apt_ratio_suspect)
                 return `<div class="kpi"><div class="v" style="font-size:.62em;color:#b45309">확인 필요</div>
-                        <div class="l">아파트 거주 비율 <span style="font-size:.85em;opacity:.7">경계 확인중</span></div></div>`;
+                        <div class="l">아파트 거주 비율</div></div>`;
               return `<div class="kpi"><div class="v">${fmt(m.apt_ratio*100,1)}<span class="u">%</span></div>
-                      <div class="l">아파트 거주 비율 <span style="font-size:.85em;opacity:.7">주민등록 세대 대비</span></div></div>`;
+                      <div class="l">아파트 거주 비율</div></div>`;
             })()}
             <div class="kpi"><div class="v">${m&&m.housing_asset!=null?fmt(m.housing_asset):"–"}<span class="u">억원</span></div>
-              <div class="l">주거자산 총액 <span style="font-size:.85em;opacity:.7">세대수 × 평균 매매가</span></div></div>
+              <div class="l">주거자산 총액</div></div>
+            <div class="kpi"><div class="v">${m&&m.built_age!=null?fmt(m.built_age,1):"–"}<span class="u">년</span></div>
+              <div class="l">평균 준공 연차</div></div>
+            <div class="kpi"><div class="v">${m&&m.rental_ratio!=null?fmt(m.rental_ratio*100,1):"–"}<span class="u">%</span></div>
+              <div class="l">임대단지 세대 비중</div></div>
           </div>
-          ${m && (m.built_age!=null || m.rental_ratio!=null) ? `<div class="cap">
-            평균 준공 <b>${fmt(m.built_age,1)}년차</b>
-            · 임대단지 세대 비중 <b>${fmt((m.rental_ratio||0)*100,1)}%</b>${
-              m.rental_ratio_max && m.rental_ratio_max > (m.rental_ratio||0)
-                ? ` <span style="opacity:.75">(분양·임대 <b>혼합</b> 단지까지 넣으면 ${fmt(m.rental_ratio_max*100,1)}%
-                    — 혼합 단지의 임대 비율은 원천에 없어 폭으로 봅니다)</span>` : ""}
-            <br><span style="opacity:.75">세대수·준공·임대 구분은 <b>K-apt</b>(공동주택관리정보시스템) 기준이고,
-            시세는 <b>RTMS 실거래</b> 24개월 기준입니다. 두 원천의 단지 범위가 달라 서로 나누지 마세요.</span>
-          </div>` : ""}
         </div>
 
         <div class="blk">
@@ -1237,16 +1215,6 @@ async function viewAdm(adm){
             <div class="kpi"><div class="v">${ms?fmt(ms.competitor_cnt):"–"}<span class="u">개</span></div>
               <div class="l">${sgg.name} 전체 경쟁사</div></div>
           </div>
-          <div class="cap"><b>시너지세권</b>은 영어유치원(폴리·라이즈) 위치다.
-            <b>경쟁사가 아니라</b> 유아 사교육 수요가 모이는 자리라 <b>근처 입점이 유리하다</b>는
-            신호이므로, 경쟁사 수와 합산하지 않는다.</div>
-          ${(state.pendingAxes||[]).length ? `<div class="cap" style="color:#b45309">
-            <b>자료 대기 중</b> — ${state.pendingAxes.map(p=>`${p.name} <span style="opacity:.75">(${p.brand_target.join("·")} 대상)</span>`).join(" · ")}.
-            이 축은 아직 수집 전이라 <b>0개로 보여도 "없음"이 아니다.</b></div>` : ""}
-          ${m && m.comp_brands ? `<div class="chart"><div class="cap">동 내 브랜드별 분포</div>
-            ${barCompare(Object.entries(m.comp_brands).sort((a,b)=>b[1]-a[1])
-              .map(([k,v])=>({k, v, t:v+"개", hl:isOwnBrand(k)})))}</div>`
-            : `<div class="cap">이 동에는 자사·경쟁사·시너지세권이 없습니다 (실측 0개)</div>`}
         </div>
 
         <div class="blk">
@@ -1256,18 +1224,6 @@ async function viewAdm(adm){
             <div class="kpi"><div class="v" id="kApt">–</div><div class="l">동 내 아파트 단지</div></div>
             <div class="kpi"><div class="v" id="kStu">–</div><div class="l">학교 재학생 합계</div></div>
           </div>
-          <details class="tblwrap"><summary>표로 보기 (수치 원본)</summary>
-            <table class="tbl"><tbody>
-              <tr><th>학령인구 (${ageRangeLabel()})</th><td>${fmt(kids)}명</td></tr>
-              <tr><th>초·중 재학생</th><td>${m&&m.school_students!=null?fmt(m.school_students)+"명":"–"}</td></tr>
-              <tr><th>입시·보습 학원 정원 합계</th><td>${m&&m.academy_capacity!=null?fmt(m.academy_capacity)+"명":"–"}</td></tr>
-              <tr><th>입시·보습 학원수</th><td>${m?fmt(m.academy_cnt):"–"}개</td></tr>
-              <tr><th>입시·보습 학원1개당 학령인구</th><td>${m?fmt(m.pupils_per_academy,1):"–"}명</td></tr>
-              <tr><th>평당가 (중앙값)</th><td>${pyPriceText(a,"만원")}</td></tr>
-              <tr><th>평당가 (평균·비교용)</th><td>${a?fmt(a.avg_price_per_py):"–"}만원</td></tr>
-              <tr><th>24개월 매매 건수</th><td>${a?fmt(a.deal_count):"–"}건${a&&a.low_sample?" <b>· 표본 부족</b>":""}</td></tr>
-            </tbody></table>
-          </details>
         </div>
       </div>`;
   }
@@ -1407,8 +1363,9 @@ function spreadCoincidentRows(rows){
 
 function drawPoi(poi, admCode){
   if(!map2){
-    map2 = L.map("map2", {attributionControl:true, scrollWheelZoom:false})
+    map2 = L.map("map2", {attributionControl:true, scrollWheelZoom:true})
             .setView([37.5,127.03], 14);
+    map2.zoomControl.setPosition("bottomright");
     map2.attributionControl.setPrefix("");   // 위성 타일은 출처 표기가 이용조건이다
     applyBasemap();
   }

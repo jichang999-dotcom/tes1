@@ -883,21 +883,11 @@ async function viewAdm(adm){
       "경쟁사 없는 좋은 상권"으로 오독된다 — 이 축에서 가장 위험한 방향이라
       위성 모드에서 마커 테두리를 두껍게 하고 반경을 키운다(`restyleMarkers`).
 
-   ⚠️ 상업적 이용: 가맹상담은 대외 자료다. **VWorld(국토부 오픈API)가 안전**하고
-      Esri World Imagery 는 출처 표기 조건이 붙는 무료 타일이다 — 정식 발행 시
-      VWorld 로 두는 것을 권한다. */
+   ⚠️ 상업적 이용: 가맹상담은 대외 자료이므로 위성 배경은 VWorld 를 사용한다. */
 const BASEMAPS = [
   {k:"plain", label:"일반", dark:false, build:() => [
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {maxZoom:19, opacity:.55, attribution:"© OpenStreetMap"})]},
-  {k:"esri", label:"위성", dark:true, build:() => [
-    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                {maxZoom:19, attribution:"Esri, Maxar, Earthstar Geographics"})]},
-  {k:"esri_label", label:"위성+라벨", dark:true, build:() => [
-    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                {maxZoom:19, attribution:"Esri, Maxar"}),
-    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
-                {maxZoom:19})]},
   {k:"vworld", label:"위성(VWorld)", dark:true, needKey:true, build:key => [
     L.tileLayer(`https://api.vworld.kr/req/wmts/1.0.0/${key}/Satellite/{z}/{y}/{x}.jpeg`,
                 {maxZoom:19, attribution:"국토교통부 VWorld"})]},
@@ -1085,7 +1075,8 @@ window.addEventListener("resize", refreshMaps);
     const cfg = await tryFetch("config.json");
     if(cfg && cfg.vworldKey) state.vworldKey = cfg.vworldKey;
   }catch(e){}
-  /* 키가 없는데 마지막 선택이 VWorld 였다면 일반으로 되돌린다 (빈 화면 방지) */
+  /* 제거된 베이스맵 선택값이 남았거나 VWorld 키가 없으면 일반으로 되돌린다. */
+  if(!BASEMAPS.some(b => b.k === state.basemap)) state.basemap = "plain";
   if(currentBase().needKey && !state.vworldKey) state.basemap = "plain";
 
   await viewNation();

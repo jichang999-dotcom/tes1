@@ -277,7 +277,7 @@ function binOf(x){
   while(i < bins.length && x >= bins[i]) i++;
   return i;
 }
-const POI_MARKER_RADIUS = 5;
+const POI_MARKER_RADIUS = 7;
 const POI_STYLE = {
   own:            {label:"자사 센터",   color:"#e11d48"},
   competitor:     {label:"경쟁사",      color:"#111827"},
@@ -375,7 +375,7 @@ let map, layer, map2, poiLayers = {};
 function initMap(){
   if(map) return;
   map = L.map("map", {zoomControl:true, attributionControl:false,
-                      scrollWheelZoom:true}).setView([36.3,127.8], 7);
+                      scrollWheelZoom:false}).setView([36.3,127.8], 7);
 }
 function clearLayer(){ if(layer){ map.removeLayer(layer); layer = null; } }
 
@@ -880,7 +880,7 @@ async function viewAdm(adm){
       (`python scripts/make_web_config.py` 가 .env 의 VWORLD_KEY 로 만든다).
       키가 없으면 해당 버튼은 비활성으로 보이기만 한다 — 조용히 실패하지 않게.
 
-   POI 마커는 배경과 종류에 관계없이 입시·보습 학원 크기의 테두리 없는 원으로 통일한다.
+   POI 마커는 배경과 종류에 관계없이 같은 크기의 선명한 원으로 통일한다.
 
    ⚠️ 상업적 이용: 가맹상담은 대외 자료이므로 위성 배경은 VWorld 를 사용한다. */
 const BASEMAPS = [
@@ -912,16 +912,17 @@ function applyBasemap(){
     l.on("tileerror", () => { if(++bad > 6){ try{ map2.removeLayer(l); }catch(e){} } });
     l.addTo(map2);
   });
-  restyleMarkers(b.dark);
+  restyleMarkers();
   raiseKeyLayers();          // 베이스맵을 갈면 순서가 풀린다
 }
-/* 모든 POI 마커는 같은 크기와 테두리 없는 원으로 표시한다. */
-function restyleMarkers(dark){
+/* 모든 POI 마커는 같은 크기로 표시하고 위성 지도에서도 보이도록 진한 외곽선을 쓴다. */
+function restyleMarkers(){
   Object.entries(poiLayers).forEach(([k, g]) => {
     const st = POI_STYLE[k];
     if(!st || !g.eachLayer) return;
     g.eachLayer(l => { try{
-      l.setStyle({stroke:false, fillOpacity:dark?1:.95});
+      l.setStyle({stroke:true, color:k === "competitor" ? "#f59e0b" : "#111827",
+                  weight:2, opacity:1, fillOpacity:1});
       l.setRadius(POI_MARKER_RADIUS);
     }catch(e){} });
   });
@@ -957,7 +958,8 @@ function raiseKeyLayers(){
 
 function drawPoi(poi, admCode){
   if(!map2){
-    map2 = L.map("map2", {attributionControl:true}).setView([37.5,127.03], 14);
+    map2 = L.map("map2", {attributionControl:true, scrollWheelZoom:false})
+            .setView([37.5,127.03], 14);
     map2.attributionControl.setPrefix("");   // 위성 타일은 출처 표기가 이용조건이다
     applyBasemap();
   }
@@ -1003,8 +1005,9 @@ function drawPoi(poi, admCode){
     counts[kind] = rows.length; used[kind] = rows;
     const g = L.layerGroup(rows.map(r =>
       L.circleMarker([r.lat, r.lng], {
-        radius: POI_MARKER_RADIUS, stroke:false,
-        fillColor: st.color, fillOpacity:.95
+        radius: POI_MARKER_RADIUS, stroke:true,
+        color:kind === "competitor" ? "#f59e0b" : "#111827",
+        weight:2, opacity:1, fillColor:st.color, fillOpacity:1
       }).bindPopup(
         `<b style="font-size:15px">${r.name||"(무명)"}</b><br>` +
         (r.brand ? `<b style="color:${st.color}">${r.brand}</b> · ${st.label}`
@@ -1021,7 +1024,7 @@ function drawPoi(poi, admCode){
   //    학원 마커가 동당 수백 개라(예: 다산1동 556개) 그냥 두면 경쟁사 2개가
   //    통째로 묻혀 "경쟁사 없는 동"처럼 보인다. 상담 자리에서 최악의 오독이다.
   //    뒤에 올린 것이 위로 오므로 영유 → 경쟁사 → 자사 순서로 끌어올린다.
-  restyleMarkers(currentBase().dark);   // 위성 배경이면 마커를 키워 묻히지 않게
+  restyleMarkers();
   raiseKeyLayers();
 
   if(unmatched){

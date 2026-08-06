@@ -1192,12 +1192,6 @@ function renderRegionSummary(name, codes, data, selected=false){
       : `<div class="hero">
       <div class="nm">${name}</div>
       <div class="loc">지역 전체 · 학령인구 ${ageRangeLabel()} 기준</div>
-      <div class="facts">
-        <div><b>${fmt(m.school_age)}</b><span>학령인구(${ageRangeLabel()})</span></div>
-        <div><b>${fmt(m.academy_cnt)}</b><span>입시·보습 학원(개)</span></div>
-        <div><b>${fmt(m.school_cnt)}</b><span>초·중학교(개)</span></div>
-        <div><b>${fmt(p.total)}</b><span>총인구(명)</span></div>
-      </div>
     </div>`}
     <div class="blocks dashboard-blocks">
       <div class="blk dashboard-blk market"><div class="section-rail">시장<br>규모</div><div class="section-body">

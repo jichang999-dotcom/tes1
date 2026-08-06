@@ -1293,9 +1293,13 @@ async function viewAdm(adm){
   const viewToken=++admViewToken;
   poiSelectionToken++;
   state.level="adm"; state.adm=adm; state.adms=[regionRef(adm)];
-  showStage("detail"); drawBC(); hideNotice();
+  drawBC(); hideNotice();
   state.selectedCodes=new Set([String(adm.code)]);
   updateRankSelectionDisplay();
+  /* 행정동 이름·경계를 바로 클릭해도 체크박스 선택과 같은 신형 요약 카드를 쓴다.
+     구형 상세 패널은 더 이상 진입하지 않고 POI와 요약을 공통 선택 경로가 그린다. */
+  renderCurrentSummary();
+  return;
   const sgg = state.sgg;
   const [detailData, aptS, poi, sggData, kapt] = await Promise.all([
     loadLevelData("adm"),

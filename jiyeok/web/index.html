@@ -542,6 +542,17 @@ function ageRangeTotal(p, min=null, max=null){
   }
   return total;
 }
+const SCHOOL_AGE_GROUPS = [
+  {key:"kinder", label:"유치원 원아", ages:[3,4,5]},
+  {key:"elem", label:"초등학교 재학생", ages:[6,7,8,9,10,11]},
+  {key:"mid", label:"중학교 재학생", ages:[12,13,14]},
+  {key:"high", label:"고등학교 재학생", ages:[15,16,17]},
+];
+function filteredSchoolStudents(m, group){
+  const selected=state.selectedAges;
+  return group.ages.reduce((sum,age)=>
+    sum+(selected.has(age)?Number(m[`students_age_${age}`]||0):0),0);
+}
 function applyAgeRange(met, pop){
   if(!met || !met.data || !pop || !pop.data) return met;
   for(const [code,m] of Object.entries(met.data)){
@@ -1139,10 +1150,11 @@ function sumSeries(target, source){
   return target.map((v,i)=>v+Number(source[i]||0));
 }
 function aggregateRegions(codes, data){
-  const addFields = ["academy_cnt","school_cnt","school_students","students_elem","students_mid","academy_capacity",
+  const addFields = ["academy_cnt","school_cnt","school_students","students_elem","students_mid","students_high","academy_capacity",
     "apt_households","apt_complexes","households","housing_asset","deal_count",
     "own_cnt","own_waikids_cnt","own_wiseman_cnt","competitor_cnt","english_kinder_cnt",
-    "kinder_cnt","kinder_kids"];
+    "kinder_cnt","kinder_kids","students_age_unassigned",
+    ...Array.from({length:15},(_,i)=>`students_age_${i+3}`)];
   const m = Object.fromEntries(addFields.map(k=>[k,0]));
   const p = {total:0, households:0, trend12:null, age_year:{}};
   let priceWeight=0, pricePySum=0, priceSum=0, aptWeight=0;
@@ -1207,6 +1219,7 @@ function renderRegionSummary(name, codes, data, selected=false){
     : [];
   const detailRow = selected && !multi && state.selectionContext && state.selectionContext.level==="adm"
     ? state.selectionContext.rows.find(r=>String(r.code)===String(codes[0])) : null;
+  const schoolAgeValues=SCHOOL_AGE_GROUPS.map(group=>filteredSchoolStudents(m,group));
   el.classList.remove("hidden");
   el.innerHTML=`
     ${selected
@@ -1225,14 +1238,14 @@ function renderRegionSummary(name, codes, data, selected=false){
           <div class="kpi"><div class="v">${m.pupils_per_academy==null?"–":fmt(m.pupils_per_academy,1)}<span class="u">명</span></div><div class="l">${ageRangeLabel()} 인구 ÷ 입시·보습 학원 수</div></div>
         </div></div></div>
       <div class="blk dashboard-blk education"><div class="section-rail">교육<br>경쟁</div><div class="section-body">
-        <h3>교육·경쟁 환경</h3><div class="kpis competition-row">
+        <h3>교육·경쟁 환경<span class="tag">${ageRangeLabel()} 필터 적용</span></h3><div class="kpis competition-row">
         <div class="kpi"><div class="v">${fmt(m.own_waikids_cnt)}<span class="u">개</span></div><div class="l">자사 와이키즈</div></div>
         <div class="kpi"><div class="v" style="color:#c026d3">${fmt(m.own_wiseman_cnt)}<span class="u">개</span></div><div class="l">자사 와이즈만</div></div>
         <div class="kpi"><div class="v">${fmt(m.competitor_cnt)}<span class="u">개</span></div><div class="l">경쟁사</div></div>
         <div class="kpi"><div class="v" style="color:#0e9f6e">${fmt(m.english_kinder_cnt)}<span class="u">개</span></div><div class="l">시너지세권</div></div>
         </div>
-        <table class="student-table" aria-label="학교급별 학생수"><thead><tr><th>유치원 원아</th><th>초등학교 재학생</th><th>중학교 재학생</th></tr></thead>
-          <tbody><tr><td>${fmt(m.kinder_kids)}<span class="u">명</span></td><td>${fmt(m.students_elem)}<span class="u">명</span></td><td>${fmt(m.students_mid)}<span class="u">명</span></td></tr></tbody></table>
+        <table class="student-table" aria-label="학령인구 필터 적용 학교급별 학생수"><thead><tr>${SCHOOL_AGE_GROUPS.map(group=>`<th>${group.label}</th>`).join("")}</tr></thead>
+          <tbody><tr>${schoolAgeValues.map(value=>`<td>${fmt(value)}<span class="u">명</span></td>`).join("")}</tr></tbody></table>
       </div></div>
       <div class="blk dashboard-blk housing"><div class="section-rail">구매력<br>주거</div><div class="section-body">
         <h3>구매력·주거</h3><div class="kpis">

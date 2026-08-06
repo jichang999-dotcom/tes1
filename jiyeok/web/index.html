@@ -705,6 +705,7 @@ function drawLegend(){
    ===================================================================== */
 let lastRank = null;
 let selectionRenderFrame = 0;
+let poiSelectionToken = 0;
 
 function setRankFilterOpen(open){
   const panel=document.getElementById("rankFilterPanel");
@@ -730,7 +731,12 @@ function syncHierarchySelection(rows){
   drawRegionFilterSteps();
 }
 async function openRegionFilterLevel(level){
+  const panel=document.getElementById("rankFilterPanel");
+  const opener=document.querySelector(`.region-step[data-filter-level="${level}"]`);
+  const closing=!!(panel && !panel.classList.contains("hidden") &&
+    opener && opener.getAttribute("aria-expanded")==="true");
   setRankFilterOpen(false);
+  if(closing) return;
   if(level==="nation"){
     await viewNation();
     return;
@@ -890,11 +896,12 @@ function drawBC(){
 }
 function showStage(which){
   const detail=which==="detail";
+  const poiMode=detail||which==="selection";
   const stage=document.getElementById("stageMap");
   stage.classList.remove("hidden");
-  stage.classList.toggle("adm-inline",detail);
-  document.getElementById("overviewMapView").classList.toggle("hidden",detail);
-  document.getElementById("inlinePoiView").classList.toggle("hidden",!detail);
+  stage.classList.toggle("adm-inline",poiMode);
+  document.getElementById("overviewMapView").classList.toggle("hidden",poiMode);
+  document.getElementById("inlinePoiView").classList.toggle("hidden",!poiMode);
   document.getElementById("panel").classList.toggle("hidden",!detail);
   if(detail) document.getElementById("regionSummary").classList.add("hidden");
   setTimeout(refreshMaps,60);
@@ -1159,15 +1166,19 @@ function setSelectionContext(level, rows, data, parent=null, selectedCodes=[]){
 function renderCurrentSummary(){
   const ctx=state.selectionContext;
   if(!ctx) return;
+  const codes=[...state.selectedCodes];
   const stage=document.getElementById("stageMap");
-  if(stage && stage.classList.contains("adm-inline")){
+  const admSelection=ctx.level==="adm" && codes.length>0;
+  if(admSelection){
+    showStage("selection"); drawBC(); drawRegionFilterSteps();
+  }else if(stage && stage.classList.contains("adm-inline")){
     state.level="sgg"; state.adm=null;
     showStage("map"); drawBC(); drawRegionFilterSteps();
   }
-  const codes=[...state.selectedCodes];
   if(codes.length){
     const one=codes.length===1 ? ctx.rows.find(r=>String(r.code)===String(codes[0])) : null;
     renderRegionSummary(one?one.name:`선택 ${codes.length}개 지역`, codes, ctx.data, true);
+    if(admSelection) viewSelectedAdmsPoi(codes);
   }else if(ctx.parent){
     renderRegionSummary(ctx.parent.name,ctx.parent.codes||[ctx.parent.code],ctx.parent.data,false);
   }else{
@@ -1176,6 +1187,7 @@ function renderCurrentSummary(){
 }
 
 async function viewAdm(adm){
+  poiSelectionToken++;
   state.level="adm"; state.adm=adm; state.adms=[regionRef(adm)];
   showStage("detail"); drawBC(); hideNotice();
   state.selectedCodes=new Set([String(adm.code)]);
@@ -1453,7 +1465,32 @@ function spreadCoincidentRows(rows){
   return out;
 }
 
-function drawPoi(poi, admCode){
+async function viewSelectedAdmsPoi(admCodes){
+  const token=++poiSelectionToken;
+  const codes=[...new Set(admCodes.map(String))];
+  const sggCodes=[...new Set(codes.map(code=>code.slice(0,5)))];
+  const loaded=await Promise.all(sggCodes.map(async code=>({
+    poi:await load("proc",`poi_${code}.json`),
+    geo:await load("geo",`adm_${code}.geojson`)
+  })));
+  if(token!==poiSelectionToken) return;
+  const combined={};
+  [...new Set(Object.keys(POI_STYLE).map(k=>POI_STYLE[k].source||k))]
+    .forEach(source=>combined[source]=[]);
+  loaded.forEach(item=>{
+    if(!item.poi) return;
+    Object.keys(combined).forEach(source=>{
+      if(Array.isArray(item.poi[source])) combined[source].push(...item.poi[source]);
+    });
+  });
+  const geo={type:"FeatureCollection",features:loaded.filter(x=>x.geo)
+    .flatMap(x=>x.geo.features||[])};
+  drawPoi(combined,codes,geo);
+}
+
+function drawPoi(poi, admCode, admGeoOverride=null){
+  const admCodes=(Array.isArray(admCode)?admCode:[admCode]).filter(Boolean).map(String);
+  const admSet=new Set(admCodes);
   if(!map2){
     map2 = L.map("map2", {attributionControl:true, scrollWheelZoom:true})
             .setView([37.5,127.03], 14);
@@ -1468,25 +1505,26 @@ function drawPoi(poi, admCode){
   const hint = document.getElementById("poiHint");
   if(!poi){
     document.getElementById("toggles").innerHTML = "";
-    hint.innerHTML = `POI 파일(<code>data/processed/poi_${state.sgg.code}.json</code>)이 없습니다 —
-      <code>python scripts/build_poi.py</code> 로 생성하세요.`;
+    hint.textContent = "선택 지역의 POI 파일이 없습니다";
     return;
   }
-  hint.textContent = "레이어 버튼으로 켜고 끌 수 있습니다 · 마커 클릭 시 상세 표시 "
-                   + "· 버튼의 숫자는 이 동에 위치한 실제 POI 개수";
+  hint.textContent = admCodes.length>1
+    ? `선택한 ${admCodes.length}개 행정동의 POI 합산 · 레이어 버튼으로 켜고 끌 수 있습니다`
+    : "레이어 버튼으로 켜고 끌 수 있습니다 · 마커 클릭 시 상세 표시 · 버튼의 숫자는 이 동에 위치한 실제 POI 개수";
 
-  // 경계 표시 (선택한 동을 강조)
-  const admGeo = cache.get("geo/adm_"+state.sgg.code+".geojson");
+  // 경계 표시 (선택한 모든 동을 강조)
+  const admGeo = admGeoOverride || (state.sgg && cache.get("geo/adm_"+state.sgg.code+".geojson"));
   if(admGeo){
     const bl = L.geoJSON(admGeo, {style:f=>({
       color:"#ffffff",opacity:1,
-      weight: f.properties.code===admCode ? 4 : 2,
-      fill: f.properties.code===admCode, fillColor:"#cde2fb", fillOpacity:.25,
+      weight: admSet.has(String(f.properties.code)) ? 4 : 2,
+      fill: admSet.has(String(f.properties.code)), fillColor:"#cde2fb", fillOpacity:.25,
       className:"region-boundary"
     })});
     poiLayers.__adm = bl.addTo(map2);
-    const sel = admGeo.features.find(f=>f.properties.code===admCode);
-    if(sel) map2.fitBounds(L.geoJSON(sel).getBounds(), {padding:[28,28],maxZoom:14});
+    const selectedFeatures=admGeo.features.filter(f=>admSet.has(String(f.properties.code)));
+    if(selectedFeatures.length) map2.fitBounds(L.geoJSON({type:"FeatureCollection",features:selectedFeatures}).getBounds(),
+      {padding:[28,28],maxZoom:14});
   }
 
   const counts = {}, used = {};
@@ -1494,7 +1532,7 @@ function drawPoi(poi, admCode){
   Object.keys(POI_STYLE).forEach(kind => {
     const st = POI_STYLE[kind];
     const all = (poi[st.source||kind] || []).filter(r=>!st.brand || r.brand===st.brand);
-    let rows = all.filter(r => !r.adm_cd || r.adm_cd === admCode);
+    let rows = all.filter(r => !r.adm_cd || admSet.has(String(r.adm_cd)));
     // 행정동 매칭(adm_cd)이 **아예 없는** 데이터일 때만 시군구 전체로 폴백한다.
     // ⚠️ B-8: adm_cd 가 붙어 있는데도 폴백하면, 학교가 정말 0개인 동에서
     //    시군구 전체 수치를 "동 내"로 표시하게 된다(전국 142개 동이 해당).

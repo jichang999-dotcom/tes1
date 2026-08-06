@@ -238,6 +238,44 @@
     vertical-align: middle;
   }
   .expand-all-btn:hover { background: #21262d; color: #c9d1d9; border-color: #58a6ff; }
+  /* 종목 분석 필터 */
+  .stock-filter-panel {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 10px;
+    margin: 12px 0 18px;
+    padding: 12px 14px;
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+  }
+  .stock-filter-group { display: flex; flex-direction: column; gap: 4px; min-width: 160px; }
+  .stock-filter-group.ai-judgment { flex: 1; min-width: 300px; }
+  .stock-filter-group label { color: #8b949e; font-size: 0.78em; font-weight: 600; }
+  .stock-filter-select {
+    width: 100%;
+    padding: 7px 10px;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    background: #0d1117;
+    color: #c9d1d9;
+    font: inherit;
+    font-size: 0.88em;
+  }
+  .stock-filter-select:focus { outline: none; border-color: #58a6ff; box-shadow: 0 0 0 2px #1f6feb33; }
+  .stock-filter-reset {
+    padding: 7px 13px;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    background: #21262d;
+    color: #c9d1d9;
+    font-size: 0.84em;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .stock-filter-reset:hover { border-color: #58a6ff; color: #79c0ff; }
+  .stock-filter-count { margin-left: auto; padding-bottom: 7px; color: #8b949e; font-size: 0.82em; white-space: nowrap; }
   /* 모바일: 테이블을 카드형 레이아웃으로 변환 */
   @media (max-width: 768px) {
     html, body { overflow-x: hidden; }
@@ -253,6 +291,10 @@
     .summary-item .value { font-size: 1.05em; word-break: keep-all; overflow-wrap: anywhere; }
     /* weight-info chip 줄바꿈 */
     .weight-info { flex-wrap: wrap; }
+    .stock-filter-panel { align-items: stretch; }
+    .stock-filter-group, .stock-filter-group.ai-judgment { width: 100%; min-width: 100%; }
+    .stock-filter-reset { width: 100%; }
+    .stock-filter-count { margin-left: 0; padding-bottom: 0; text-align: right; }
 
     /* 종목 분석 테이블 → 카드형 (table/tbody도 block 강제) */
     table.stock-table { display: block; width: 100%; }
@@ -462,6 +504,23 @@
 </div>
 <button class="expand-all-btn" onclick="toggleAllCards(true)">📂 전체 펼치기</button>
 <button class="expand-all-btn" onclick="toggleAllCards(false)">📁 전체 접기</button>
+
+<div class="stock-filter-panel" id="stock-filter-panel" aria-label="종목 분석 필터">
+  <div class="stock-filter-group">
+    <label for="filter-current-position">현재 위치</label>
+    <select class="stock-filter-select" id="filter-current-position">
+      <option value="">전체</option>
+    </select>
+  </div>
+  <div class="stock-filter-group ai-judgment">
+    <label for="filter-ai-judgment">AI 추천전략 - 판정</label>
+    <select class="stock-filter-select" id="filter-ai-judgment">
+      <option value="">전체</option>
+    </select>
+  </div>
+  <button class="stock-filter-reset" type="button" id="stock-filter-reset">초기화</button>
+  <div class="stock-filter-count" id="stock-filter-count" aria-live="polite">0 / 0개</div>
+</div>
 
 <!-- ===== 스윙 탭 ===== -->
 <div class="tab-content active" id="tab-swing">
@@ -6517,6 +6576,110 @@
 </div>
 
 <script>
+function getStockFilterCards(tab) {
+  var selector = '.card[id$="-active"]';
+  var scope = tab || document;
+  return Array.from(scope.querySelectorAll(selector)).filter(function(card) {
+    return (card.closest('#tab-swing') || card.closest('#tab-long')) && card.dataset.filterBaseHidden !== 'true';
+  });
+}
+
+function getCurrentPosition(card) {
+  var items = card.querySelectorAll('.summary-item');
+  for (var i = 0; i < items.length; i += 1) {
+    var label = items[i].querySelector('.label');
+    if (!label || label.textContent.indexOf('현재 위치') === -1) continue;
+    var value = items[i].querySelector('.value');
+    var match = value ? value.textContent.match(/[1-4]구간/) : null;
+    return match ? match[0] : '미분류';
+  }
+  return '미분류';
+}
+
+function getAiJudgment(card) {
+  var boxes = card.querySelectorAll('.warn-box');
+  for (var i = 0; i < boxes.length; i += 1) {
+    var heading = boxes[i].querySelector('strong');
+    if (!heading || heading.textContent.indexOf('AI 추천전략') === -1) continue;
+    var rows = boxes[i].querySelectorAll('tbody tr');
+    for (var j = 0; j < rows.length; j += 1) {
+      var cells = rows[j].querySelectorAll('td');
+      if (cells.length < 2 || cells[0].textContent.indexOf('판정') === -1) continue;
+      return cells[1].textContent.trim() || '미분류';
+    }
+  }
+  return '미분류';
+}
+
+function populateStockFilter(selectId, values) {
+  var select = document.getElementById(selectId);
+  while (select.options.length > 1) select.remove(1);
+  values.forEach(function(value) {
+    var option = document.createElement('option');
+    option.value = value;
+    option.textContent = value;
+    select.appendChild(option);
+  });
+}
+
+function updateStockFilterCount() {
+  var count = document.getElementById('stock-filter-count');
+  var activeTab = document.querySelector('#tab-swing.active, #tab-long.active');
+  if (!activeTab) {
+    count.textContent = '0 / 0개';
+    return;
+  }
+  var cards = getStockFilterCards(activeTab);
+  var visible = cards.filter(function(card) { return card.style.display !== 'none'; }).length;
+  count.textContent = visible + ' / ' + cards.length + '개';
+}
+
+function applyStockFilters() {
+  var position = document.getElementById('filter-current-position').value;
+  var judgment = document.getElementById('filter-ai-judgment').value;
+  getStockFilterCards().forEach(function(card) {
+    var matchesPosition = !position || getCurrentPosition(card) === position;
+    var matchesJudgment = !judgment || getAiJudgment(card) === judgment;
+    card.style.display = matchesPosition && matchesJudgment ? '' : 'none';
+  });
+  updateStockFilterCount();
+}
+
+function resetStockFilters() {
+  document.getElementById('filter-current-position').value = '';
+  document.getElementById('filter-ai-judgment').value = '';
+  applyStockFilters();
+}
+
+function syncStockFilterPanel(type) {
+  document.getElementById('stock-filter-panel').hidden = type !== 'swing' && type !== 'long';
+  updateStockFilterCount();
+}
+
+function initializeStockFilters() {
+  var candidates = document.querySelectorAll('#tab-swing .card[id$="-active"], #tab-long .card[id$="-active"]');
+  candidates.forEach(function(card) {
+    card.dataset.filterBaseHidden = card.style.display === 'none' ? 'true' : 'false';
+  });
+  var cards = getStockFilterCards();
+  var positions = Array.from(new Set(cards.map(getCurrentPosition))).sort(function(a, b) {
+    if (a === '미분류') return 1;
+    if (b === '미분류') return -1;
+    return a.localeCompare(b, 'ko');
+  });
+  var judgments = Array.from(new Set(cards.map(getAiJudgment))).sort(function(a, b) {
+    if (a === '미분류') return 1;
+    if (b === '미분류') return -1;
+    return a.localeCompare(b, 'ko');
+  });
+  populateStockFilter('filter-current-position', positions);
+  populateStockFilter('filter-ai-judgment', judgments);
+  document.getElementById('filter-current-position').addEventListener('change', applyStockFilters);
+  document.getElementById('filter-ai-judgment').addEventListener('change', applyStockFilters);
+  document.getElementById('stock-filter-reset').addEventListener('click', resetStockFilters);
+  applyStockFilters();
+}
+
 function switchTab(type) {
   var tabs = {
     swing: document.getElementById('tab-swing'),
@@ -6545,9 +6708,11 @@ function switchTab(type) {
       btns[k].className = 'tab-btn';
     }
   });
+  syncStockFilterPanel(type);
 }
 
 function goToStock(tab, cardId) {
+  if (tab === 'swing' || tab === 'long') resetStockFilters();
   switchTab(tab);
   setTimeout(function() {
     var card = document.getElementById(cardId);
@@ -6570,6 +6735,7 @@ function toggleAllCards(expand) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+  initializeStockFilters();
   var cards = document.querySelectorAll('.card[id^="card-"]');
   cards.forEach(function(card) {
     card.classList.add('collapsible', 'collapsed');

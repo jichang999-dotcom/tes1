@@ -179,6 +179,19 @@ main{padding:10px 16px 0; max-width:1920px; margin:0 auto}
 .region-summary .selection-note{padding:6px 10px 0;color:var(--brand);font-size:10px;font-weight:700;display:flex;align-items:center;gap:6px;min-width:0}
 .region-summary .selection-note .selection-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .region-summary .selection-note button{margin-left:auto;flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:5px;padding:2px 6px;color:var(--brand);font-size:9px;font-weight:700}
+.region-summary .selection-note.selection-note-large{min-height:44px;padding:10px 12px;border-bottom:1px solid var(--grid);font-size:17px;line-height:1.2;font-weight:850}
+.region-summary .dashboard-blocks{display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:7px;padding:8px 9px 9px}
+.region-summary .dashboard-blk{display:grid;grid-template-columns:42px minmax(0,1fr);padding:0;border:1px solid var(--grid);border-radius:9px;overflow:hidden;background:#fff}
+.region-summary .dashboard-blk:last-child{border-bottom:1px solid var(--grid)}
+.region-summary .section-rail{display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;font-size:11px;font-weight:850;line-height:1.2;letter-spacing:.02em}
+.region-summary .section-body{min-width:0;padding:7px 8px}
+.region-summary .dashboard-blk h3{margin-bottom:5px;font-size:11px}
+.region-summary .dashboard-blk.market .section-rail{background:#1687c9}
+.region-summary .dashboard-blk.education .section-rail{background:#16a37d}
+.region-summary .dashboard-blk.housing .section-rail{background:#9c174f}
+.region-summary .dashboard-blk.market .kpi{border-top:2px solid rgba(22,135,201,.28)}
+.region-summary .dashboard-blk.education .kpi{border-top:2px solid rgba(22,163,125,.28)}
+.region-summary .dashboard-blk.housing .kpi{border-top:2px solid rgba(156,23,79,.24)}
 .region-summary .hero{padding:9px 10px 8px}
 .region-summary .hero .nm{font-size:20px}
 .region-summary .hero .loc{font-size:10px}
@@ -1174,41 +1187,45 @@ function renderRegionSummary(name, codes, data, selected=false){
     ? state.selectionContext.rows.find(r=>String(r.code)===String(codes[0])) : null;
   el.classList.remove("hidden");
   el.innerHTML=`
-    ${selected?`<div class="selection-note"><span class="selection-text">${multi?`선택 ${codes.length}개 지역 합산`:"선택 지역"} · ${selectionNames.join(" · ")}</span>${detailRow?`<button data-open-adm="${detailRow.code}">POI 상세</button>`:""}</div>`:""}
-    <div class="hero">
+    ${selected
+      ? `<div class="selection-note selection-note-large"><span class="selection-text">${multi?`선택 ${codes.length}개 지역 합산`:"선택 지역"} · ${selectionNames.join(" · ")}</span>${detailRow?`<button data-open-adm="${detailRow.code}">POI 상세</button>`:""}</div>`
+      : `<div class="hero">
       <div class="nm">${name}</div>
-      <div class="loc">${selected?(multi?"선택 지역 합산":"선택 행정동"):"지역 전체"} · 학령인구 ${ageRangeLabel()} 기준</div>
+      <div class="loc">지역 전체 · 학령인구 ${ageRangeLabel()} 기준</div>
       <div class="facts">
         <div><b>${fmt(m.school_age)}</b><span>학령인구(${ageRangeLabel()})</span></div>
         <div><b>${fmt(m.academy_cnt)}</b><span>입시·보습 학원(개)</span></div>
         <div><b>${fmt(m.school_cnt)}</b><span>초·중학교(개)</span></div>
         <div><b>${fmt(p.total)}</b><span>총인구(명)</span></div>
       </div>
-    </div>
-    <div class="blocks">
-      <div class="blk"><h3>① 시장 규모<span class="tag">학령인구 필터 적용</span></h3>
+    </div>`}
+    <div class="blocks dashboard-blocks">
+      <div class="blk dashboard-blk market"><div class="section-rail">시장<br>규모</div><div class="section-body">
+        <h3>학령인구·수요<span class="tag">학령인구 필터 적용</span></h3>
         <div class="kpis">
           <div class="kpi"><div class="v">${fmt(m.school_age)}<span class="u">명</span></div><div class="l">${ageRangeLabel()} 학령인구</div></div>
           <div class="kpi"><div class="v">${fmt(p.households)}<span class="u">세대</span></div><div class="l">주민등록 세대수</div></div>
           <div class="kpi"><div class="v">${p.trend_pct==null?"–":(p.trend_pct>=0?"+":"")+fmt(p.trend_pct,1)}<span class="u">%</span></div><div class="l">최근 12개월 인구 증감</div></div>
           <div class="kpi"><div class="v">${m.pupils_per_academy==null?"–":fmt(m.pupils_per_academy,1)}<span class="u">명</span></div><div class="l">학원 1개당 선택 연령 인구</div></div>
-        </div></div>
-      <div class="blk"><h3>② 교육·경쟁 환경</h3><div class="kpis">
+        </div></div></div>
+      <div class="blk dashboard-blk education"><div class="section-rail">교육<br>경쟁</div><div class="section-body">
+        <h3>교육·경쟁 환경</h3><div class="kpis">
         <div class="kpi"><div class="v">${fmt(m.own_waikids_cnt)}<span class="u">개</span></div><div class="l">자사 와이키즈</div></div>
         <div class="kpi"><div class="v" style="color:#c026d3">${fmt(m.own_wiseman_cnt)}<span class="u">개</span></div><div class="l">자사 와이즈만</div></div>
         <div class="kpi"><div class="v">${fmt(m.competitor_cnt)}<span class="u">개</span></div><div class="l">경쟁사</div></div>
         <div class="kpi"><div class="v" style="color:#0e9f6e">${fmt(m.english_kinder_cnt)}<span class="u">개</span></div><div class="l">시너지세권(영어유치원)</div></div>
         <div class="kpi"><div class="v">${fmt(m.school_students)}<span class="u">명</span></div><div class="l">초·중 재학생</div></div>
         <div class="kpi"><div class="v">${fmt(m.academy_capacity)}<span class="u">명</span></div><div class="l">입시·보습 학원 정원</div></div>
-      </div></div>
-      <div class="blk"><h3>③ 구매력·주거</h3><div class="kpis">
+      </div></div></div>
+      <div class="blk dashboard-blk housing"><div class="section-rail">구매력<br>주거</div><div class="section-body">
+        <h3>구매력·주거</h3><div class="kpis">
         <div class="kpi"><div class="v">${price==null||m.low_sample?"–":fmt(price)}<span class="u">만원</span></div><div class="l">${priceLabel}</div></div>
         <div class="kpi"><div class="v">${m.avg_price==null?"–":만원(m.avg_price)}</div><div class="l">평균 매매가${multi?"(거래가중)":""}</div></div>
         <div class="kpi"><div class="v">${fmt(m.apt_households)}<span class="u">세대</span></div><div class="l">아파트 세대수</div></div>
         <div class="kpi"><div class="v">${m.apt_ratio==null?"–":fmt(m.apt_ratio*100,1)}<span class="u">%</span></div><div class="l">아파트 거주 비율</div></div>
         <div class="kpi"><div class="v">${m.new_ratio==null?"–":fmt(m.new_ratio*100,1)}<span class="u">%</span></div><div class="l">신축(10년 이내) 비중</div></div>
         <div class="kpi"><div class="v">${fmt(m.housing_asset)}<span class="u">억원</span></div><div class="l">주거자산 총액</div></div>
-      </div></div>
+      </div></div></div>
     </div>`;
   const detailBtn=el.querySelector("[data-open-adm]");
   if(detailBtn && detailRow) detailBtn.onclick=()=>viewAdm({code:String(detailRow.code),name:detailRow.name});

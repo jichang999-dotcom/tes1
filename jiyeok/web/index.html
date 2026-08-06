@@ -664,7 +664,7 @@ function applyMapSelection(focus=false){
     const level=state.selectionContext && state.selectionContext.level;
     const maxZoom=level==="sido"?8:level==="sgg"?11:13;
     map.invalidateSize({pan:false});
-    map.fitBounds(selectedBounds,{padding:[32,32],maxZoom});
+    map.fitBounds(selectedBounds,{padding:[32,32],maxZoom,animate:false});
   }
 }
 
@@ -702,7 +702,7 @@ function drawChoropleth(geo, metrics, onClick, filterFn){
       });
     }
   }).addTo(map);
-  if(feats.length) map.fitBounds(layer.getBounds(), {padding:[16,16]});
+  if(feats.length) map.fitBounds(layer.getBounds(), {padding:[16,16],animate:false});
   drawLegend();
 }
 function drawLegend(){
@@ -739,6 +739,9 @@ function drawLegend(){
 let lastRank = null;
 let selectionRenderFrame = 0;
 let poiSelectionToken = 0;
+let admViewToken = 0;
+let poiRenderVersion = 0;
+const poiMarkerCache = new Map();
 
 function setRankFilterOpen(open){
   const panel=document.getElementById("rankFilterPanel");
@@ -763,6 +766,19 @@ function syncHierarchySelection(rows){
   }
   drawRegionFilterSteps();
 }
+function updateRankSelectionDisplay(){
+  const rows=lastRank?lastRank.rows:[];
+  const count=document.getElementById("rankFilterCount");
+  if(count) count.textContent=state.selectedCodes.size
+    ? `${state.selectedCodes.size}개 선택` : `${rows.length}개 지역`;
+  document.querySelectorAll("#rank .row").forEach(row=>{
+    const selected=state.selectedCodes.has(String(row.dataset.code));
+    row.classList.toggle("selected",selected);
+    const checkbox=row.querySelector(".pick");
+    if(checkbox) checkbox.checked=selected;
+  });
+  drawRegionFilterSteps();
+}
 function toggleMapRegionSelection(code){
   const ctx=state.selectionContext;
   code=String(code);
@@ -770,7 +786,7 @@ function toggleMapRegionSelection(code){
   if(state.selectedCodes.has(code)) state.selectedCodes.delete(code);
   else state.selectedCodes.add(code);
   syncHierarchySelection(ctx.rows);
-  if(lastRank) drawRank(lastRank.title,lastRank.rows,lastRank.onClick);
+  updateRankSelectionDisplay();
   renderCurrentSummary();
   applyMapSelection(true);
 }
@@ -871,14 +887,7 @@ function drawRank(title, rows, onClick){
     </div>`).join("");
   const updateSelectionUI=()=>{
     syncHierarchySelection(rows);
-    document.getElementById("rankFilterCount").textContent = state.selectedCodes.size
-      ? `${state.selectedCodes.size}개 선택` : `${rows.length}개 지역`;
-    el.querySelectorAll(".row").forEach(row=>{
-      const selected=state.selectedCodes.has(String(row.dataset.code));
-      row.classList.toggle("selected",selected);
-      const checkbox=row.querySelector(".pick");
-      if(checkbox) checkbox.checked=selected;
-    });
+    updateRankSelectionDisplay();
     if(selectionRenderFrame) cancelAnimationFrame(selectionRenderFrame);
     selectionRenderFrame=requestAnimationFrame(()=>{
       selectionRenderFrame=0;
@@ -1234,12 +1243,12 @@ function renderCurrentSummary(){
 }
 
 async function viewAdm(adm){
+  const viewToken=++admViewToken;
   poiSelectionToken++;
   state.level="adm"; state.adm=adm; state.adms=[regionRef(adm)];
   showStage("detail"); drawBC(); hideNotice();
   state.selectedCodes=new Set([String(adm.code)]);
-  if(lastRank && state.selectionContext && state.selectionContext.level==="adm")
-    drawRank(lastRank.title,lastRank.rows,lastRank.onClick);
+  updateRankSelectionDisplay();
   const sgg = state.sgg;
   const [detailData, aptS, poi, sggData, kapt] = await Promise.all([
     loadLevelData("adm"),
@@ -1249,6 +1258,7 @@ async function viewAdm(adm){
     /* 아파트 세대수(K-apt). 아직 없으면 조용히 '–' 로 둔다 — load() 가 null 을 준다 */
     load("proc","kapt.json"),
   ]);
+  if(viewToken!==admViewToken) return;
   const met=detailData.met, pop=detailData.pop, metS=sggData.met;
   state.kapt = kapt;
   const m  = met  && met.data  ? met.data[adm.code]  : null;
@@ -1513,6 +1523,7 @@ function spreadCoincidentRows(rows){
 }
 
 async function viewSelectedAdmsPoi(admCodes){
+  admViewToken++;
   const token=++poiSelectionToken;
   const codes=[...new Set(admCodes.map(String))];
   const sggCodes=[...new Set(codes.map(code=>code.slice(0,5)))];
@@ -1533,6 +1544,28 @@ async function viewSelectedAdmsPoi(admCodes){
   const geo={type:"FeatureCollection",features:loaded.filter(x=>x.geo)
     .flatMap(x=>x.geo.features||[])};
   drawPoi(combined,codes,geo);
+}
+
+function cachedPoiMarker(kind,st,r){
+  const lat=r._displayLat??r.lat, lng=r._displayLng??r.lng;
+  const key=[kind,r.adm_cd||"",lat,lng,r.name||"",r.brand||"",r.addr||""].join("|");
+  if(poiMarkerCache.has(key)) return poiMarkerCache.get(key);
+  if(poiMarkerCache.size>25000) poiMarkerCache.clear();
+  const marker=L.circleMarker([lat,lng],{
+    radius:POI_MARKER_RADIUS,stroke:true,
+    color:kind==="competitor"?"#f59e0b":"#111827",
+    weight:1.5,opacity:1,fillColor:st.color,fillOpacity:1
+  }).bindPopup(
+    `<b style="font-size:15px">${r.name||"(무명)"}</b><br>`+
+    (r.brand?`<b style="color:${st.color}">${r.brand}</b> · ${st.label}`:st.label)+
+    (r.type?` · ${r.type}`:"")+(r.course?` · ${r.course}`:"")+
+    (r.addr?`<br><span style="color:#666">${r.addr}</span>`:"")+
+    (r.first_seen?`<br><span style="color:#666">최초 확인 ${r.first_seen}</span>`:"")+
+    (r.students?`<br>재학생 ${fmt(r.students)}명`:"")+
+    (r.households?`<br>${fmt(r.households)}세대${r.built?` · ${r.built}년 준공`:""}`:"")
+  );
+  poiMarkerCache.set(key,marker);
+  return marker;
 }
 
 function drawPoi(poi, admCode, admGeoOverride=null){
@@ -1596,7 +1629,7 @@ function drawPoi(poi, admCode, admGeoOverride=null){
     poiLayers.__adm = bl.addTo(map2);
     const selectedFeatures=admGeo.features.filter(f=>admSet.has(String(f.properties.code)));
     if(selectedFeatures.length) map2.fitBounds(L.geoJSON({type:"FeatureCollection",features:selectedFeatures}).getBounds(),
-      {padding:[28,28],maxZoom:14});
+      {padding:[28,28],maxZoom:14,animate:false});
   }
 
   const counts = {}, used = {};
@@ -1613,21 +1646,7 @@ function drawPoi(poi, admCode, admGeoOverride=null){
     if(rows.length === 0 && all.length > 0 && !hasAdm){ rows = all; unmatched = true; }
     rows=spreadCoincidentRows(rows);
     counts[kind] = rows.length; used[kind] = rows;
-    const g = L.layerGroup(rows.map(r =>
-      L.circleMarker([r._displayLat??r.lat, r._displayLng??r.lng], {
-        radius: POI_MARKER_RADIUS, stroke:true,
-        color:kind === "competitor" ? "#f59e0b" : "#111827",
-        weight:1.5, opacity:1, fillColor:st.color, fillOpacity:1
-      }).bindPopup(
-        `<b style="font-size:15px">${r.name||"(무명)"}</b><br>` +
-        (r.brand ? `<b style="color:${st.color}">${r.brand}</b> · ${st.label}`
-                 : st.label) +
-        (r.type?` · ${r.type}`:"") + (r.course?` · ${r.course}`:"") +
-        (r.addr?`<br><span style="color:#666">${r.addr}</span>`:"") +
-        (r.first_seen?`<br><span style="color:#666">최초 확인 ${r.first_seen}</span>`:"") +
-        (r.students?`<br>재학생 ${fmt(r.students)}명`:"") +
-        (r.households?`<br>${fmt(r.households)}세대${r.built?` · ${r.built}년 준공`:""}`:"")
-      )));
+    const g=L.layerGroup(rows.map(r=>cachedPoiMarker(kind,st,r)));
     poiLayers[kind] = g.addTo(map2);
   });
   // ⚠️ 자사·경쟁사 마커는 **반드시 맨 위로 올린다.**
@@ -1659,6 +1678,7 @@ function drawPoi(poi, admCode, admGeoOverride=null){
   set("kSchool", `${counts.school}<span class="u">개</span>`);
   set("kApt",    `${counts.apartment}<span class="u">개 단지</span>`);
   set("kStu",    `${fmt(sc.reduce((s,r)=>s+(r.students||0),0))}<span class="u">명</span>`);
+  poiRenderVersion++;
   setTimeout(()=>map2.invalidateSize(), 60);
 }
 

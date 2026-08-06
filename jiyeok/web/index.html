@@ -415,9 +415,8 @@ const POI_STYLE = {
 const state = { level:"nation", sido:null, sgg:null, adm:null, usedMock:false, missing:[],
                 /* competitor.json 의 meta.own_brands 로 덮어쓴다 (mock 에는 없어서 기본값을 둔다) */
                 ownBrands:["와이키즈","와이즈만"],
-                /* POI 지도 배경. 마지막 선택을 기억한다 (기본은 일반 지도) */
-                basemap:(()=>{ try{ return localStorage.getItem("jiyeok.basemap") || "plain"; }
-                               catch(e){ return "plain"; } })(),
+                /* 새로 열 때는 항상 일반 지도에서 시작한다. */
+                basemap:"plain",
                 vworldKey:null, ageMin:3, ageMax:16,
                 selectedCodes:new Set(), selectionContext:null };
 const cache = new Map();
@@ -613,6 +612,36 @@ function pyPriceText(a, suffix=""){
 }
 
 let lastDraw = null;   // 지표를 바꿀 때 같은 화면을 다시 그리기 위한 상태
+let skipNextMapFit = false;
+let preservedMapView = null;
+
+function selectedRegionStyle(code, metrics){
+  const base=styleFor(code,metrics);
+  const hasSelection=state.selectedCodes.size>0;
+  if(!hasSelection) return base;
+  if(state.selectedCodes.has(String(code)))
+    return {...base,color:"#ffffff",weight:4,opacity:1,fillOpacity:currentBase().dark ? .68 : .92};
+  return {...base,color:"#ffffff",weight:1,opacity:.7,fillOpacity:.12};
+}
+function applyMapSelection(focus=false){
+  if(!layer || !map) return;
+  let selectedBounds=null;
+  layer.eachLayer(lyr=>{
+    const code=lyr.feature && lyr.feature.properties ? String(lyr.feature.properties.code) : "";
+    const selected=state.selectedCodes.has(code);
+    lyr.setStyle(selectedRegionStyle(code,lastDraw&&lastDraw.metrics));
+    if(selected){
+      selectedBounds=selectedBounds ? selectedBounds.extend(lyr.getBounds()) : lyr.getBounds();
+      try{lyr.bringToFront();}catch(e){}
+    }
+  });
+  if(focus && selectedBounds && selectedBounds.isValid()){
+    const level=state.selectionContext && state.selectionContext.level;
+    const maxZoom=level==="sido"?8:level==="sgg"?11:13;
+    map.invalidateSize({pan:false});
+    map.fitBounds(selectedBounds,{padding:[32,32],maxZoom});
+  }
+}
 
 function drawChoropleth(geo, metrics, onClick, filterFn){
   lastDraw = {geo, metrics, onClick, filterFn};
@@ -625,7 +654,7 @@ function drawChoropleth(geo, metrics, onClick, filterFn){
     return metricVal(m);
   }));
   layer = L.geoJSON({type:"FeatureCollection", features:feats}, {
-    style: f => styleFor(f.properties.code, metrics),
+    style: f => selectedRegionStyle(f.properties.code, metrics),
     onEachFeature: (f, lyr) => {
       const p = f.properties;
       const m = metrics && metrics.data ? metrics.data[p.code] : null;
@@ -638,11 +667,15 @@ function drawChoropleth(geo, metrics, onClick, filterFn){
            : "지표 준비중"),
         {sticky:true, direction:"top"});
       lyr.on("mouseover", () => lyr.setStyle({weight:4, color:"#0b0b0b"}));
-      lyr.on("mouseout",  () => lyr.setStyle({weight:1.6, color:"#ffffff"}));
+      lyr.on("mouseout",  () => lyr.setStyle(selectedRegionStyle(p.code,metrics)));
       lyr.on("click", () => onClick(p));
     }
   }).addTo(map);
-  if(feats.length) map.fitBounds(layer.getBounds(), {padding:[16,16]});
+  const shouldFit=!skipNextMapFit;
+  skipNextMapFit=false;
+  if(feats.length && shouldFit) map.fitBounds(layer.getBounds(), {padding:[16,16]});
+  else if(preservedMapView) map.setView(preservedMapView.center,preservedMapView.zoom,{animate:false});
+  preservedMapView=null;
   drawLegend();
 }
 function drawLegend(){
@@ -787,6 +820,7 @@ function drawRank(title, rows, onClick){
     selectionRenderFrame=requestAnimationFrame(()=>{
       selectionRenderFrame=0;
       renderCurrentSummary();
+      applyMapSelection(true);
     });
   };
   if(allBtn) allBtn.onclick = () => {
@@ -807,6 +841,10 @@ function drawRank(title, rows, onClick){
     };
     d.onclick = () => {
       setRankFilterOpen(false);
+      if(!state.selectionContext || state.selectionContext.level!=="adm"){
+        skipNextMapFit=true;
+        if(map) preservedMapView={center:map.getCenter(),zoom:map.getZoom()};
+      }
       onClick(d.dataset.code);
     };
   });
@@ -1065,6 +1103,7 @@ function renderRegionSummary(name, codes, data, selected=false){
 function setSelectionContext(level, rows, data, parent=null){
   state.selectedCodes=new Set();
   state.selectionContext={level,rows,data,parent};
+  applyMapSelection(false);
 }
 function renderCurrentSummary(){
   const ctx=state.selectionContext;
@@ -1280,7 +1319,7 @@ function applyMainBasemap(){
     l.addTo(map);
   });
   if(layer){
-    layer.setStyle(f => styleFor(f.properties.code, lastDraw && lastDraw.metrics));
+    layer.setStyle(f => selectedRegionStyle(f.properties.code, lastDraw && lastDraw.metrics));
     try{ layer.bringToFront(); }catch(e){}
   }
 }
@@ -1322,7 +1361,6 @@ function drawBasemapButtons(){
     }).join("");
     el.querySelectorAll("button").forEach(btn => btn.onclick = () => {
       state.basemap = btn.dataset.b;
-      try{ localStorage.setItem("jiyeok.basemap", state.basemap); }catch(e){}
       drawBasemapButtons();
       applyMainBasemap();
       applyBasemap();
@@ -1387,13 +1425,13 @@ function drawPoi(poi, admCode){
   const admGeo = cache.get("geo/adm_"+state.sgg.code+".geojson");
   if(admGeo){
     const bl = L.geoJSON(admGeo, {style:f=>({
-      color: f.properties.code===admCode ? "#0d366b" : "#c3c2b7",
+      color:"#ffffff",opacity:1,
       weight: f.properties.code===admCode ? 3 : 1,
       fill: f.properties.code===admCode, fillColor:"#cde2fb", fillOpacity:.25
     })});
     poiLayers.__adm = bl.addTo(map2);
     const sel = admGeo.features.find(f=>f.properties.code===admCode);
-    if(sel) map2.fitBounds(L.geoJSON(sel).getBounds(), {padding:[20,20]});
+    if(sel) map2.fitBounds(L.geoJSON(sel).getBounds(), {padding:[28,28],maxZoom:14});
   }
 
   const counts = {}, used = {};
@@ -1465,8 +1503,8 @@ function drawPoi(poi, admCode){
 // 창 크기가 바뀌면 Leaflet 이 리사이즈를 못 따라가 회색으로 비는 문제 방지
 // (인쇄 대응 리스너 beforeprint · matchMedia("print") 는 2026-08-05 인쇄 폐지로 삭제)
 function refreshMaps(){
-  try{ if(map) map.invalidateSize(); }catch(e){}
-  try{ if(map2) map2.invalidateSize(); }catch(e){}
+  try{ if(map) map.invalidateSize({pan:false}); }catch(e){}
+  try{ if(map2) map2.invalidateSize({pan:false}); }catch(e){}
 }
 window.addEventListener("resize", refreshMaps);
 

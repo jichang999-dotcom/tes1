@@ -41,23 +41,33 @@ header .sub{font-size:12px; opacity:.8}
   border-radius:999px; background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.3);
 }
 .badge-src.mock{background:var(--warn); color:#2a2000; border-color:transparent}
-.agebar{
-  background:#fff; border-bottom:1px solid var(--grid); padding:6px 16px;
-  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+.filterbar{
+  position:relative;z-index:600;min-height:42px;padding:5px 16px;
+  display:flex;align-items:center;gap:12px;background:#fff;border-bottom:1px solid var(--grid)
 }
-.agebar b{margin-right:4px;font-size:14px}
-.agebar button,.agebar select{
-  border:1px solid var(--line); background:#fff; border-radius:7px; padding:4px 8px;
-  color:var(--ink-2); font-size:13px; font-weight:700;
+.age-filter{position:relative;flex:0 0 auto;display:flex;align-items:center;gap:5px}
+.age-filter-label{font-size:11px;color:var(--muted);font-weight:700}
+.age-filter-trigger{
+  border:1px solid var(--s350);background:var(--s100);color:var(--brand);border-radius:999px;
+  padding:4px 11px;font-size:12px;font-weight:800;white-space:nowrap
 }
-.agebar button[aria-pressed="true"]{background:var(--brand); color:#fff; border-color:var(--brand)}
-.agebar label{font-size:12px; color:var(--ink-2)}
-.agebar .age-status{font-size:11px; color:var(--muted); margin-left:4px}
+.age-filter-panel{
+  position:absolute;top:calc(100% + 6px);left:0;width:430px;padding:9px;
+  background:var(--surface-1);border:1px solid var(--border);border-radius:10px;
+  box-shadow:0 8px 22px rgba(0,0,0,.16)
+}
+.age-presets{display:flex;gap:5px;padding-bottom:8px;border-bottom:1px solid var(--grid)}
+.age-presets button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:5px 9px;color:var(--ink-2);font-size:11px;font-weight:700}
+.age-presets button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+.age-checks{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:8px}
+.age-checks label{display:flex;align-items:center;gap:4px;padding:5px 6px;border:1px solid var(--grid);border-radius:6px;font-size:11px;font-weight:700;background:#fff}
+.age-checks input{width:13px;height:13px;margin:0;accent-color:var(--brand)}
+.age-status{font-size:10px;color:var(--muted);white-space:nowrap}
 
 /* ---------- 지역 필터 ---------- */
 .region-filterbar{
-  position:relative;z-index:600;min-height:36px;padding:5px 16px;
-  display:flex;align-items:center;gap:6px;background:#fff;border-bottom:1px solid var(--grid)
+  position:relative;min-width:0;flex:1;min-height:32px;
+  display:flex;align-items:center;gap:6px;background:#fff
 }
 .region-filter-label{font-size:11px;color:var(--muted);font-weight:700}
 .region-filter-steps{display:flex;align-items:center;gap:5px;min-width:0;overflow-x:auto;scrollbar-width:none}
@@ -76,7 +86,7 @@ header .sub{font-size:12px; opacity:.8}
 .region-filter-hint{min-width:0;font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .region-boundary{filter:drop-shadow(0 0 1.2px rgba(0,0,0,.95));stroke-linejoin:round;vector-effect:non-scaling-stroke}
 .rank-filter-panel{
-  position:absolute;top:calc(100% - 3px);left:16px;width:min(720px,calc(100vw - 32px));
+  position:absolute;top:calc(100% + 5px);left:0;width:min(720px,calc(100vw - 32px));
   background:var(--surface-1);border:1px solid var(--border);border-radius:0 0 10px 10px;
   box-shadow:0 8px 22px rgba(0,0,0,.16);overflow:hidden
 }
@@ -84,6 +94,9 @@ header .sub{font-size:12px; opacity:.8}
 .rank-filter-panel .rank{max-height:430px;overflow-y:auto;scrollbar-width:thin}
 .rank-filter-panel .rank-actions{padding:6px 8px 4px;border-bottom:1px solid var(--grid)}
 @media (max-width:700px){
+  .filterbar{gap:7px;padding-left:8px;padding-right:8px}
+  .age-filter-panel{width:min(430px,calc(100vw - 16px))}
+  .age-checks{grid-template-columns:repeat(4,1fr)}
   .region-filter-hint{display:none}
   .rank-filter-panel .rank{grid-template-columns:1fr;max-height:60vh}
 }
@@ -119,9 +132,9 @@ main{padding:10px 16px 0; max-width:1920px; margin:0 auto}
 .main-basemaps{position:absolute;top:6px;right:6px;z-index:490;padding:2px 3px;background:rgba(255,255,255,.9);border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.18)}
 .stage.adm-inline>.card{height:calc(100vh - 163px);min-height:500px}
 .inline-poi{height:100%;min-height:0;display:flex;flex-direction:column}
-.inline-poi>h2{padding:8px 10px 0;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.inline-poi>.hint{padding:2px 10px 0;color:var(--ink-2);font-size:10px}
-#map2{flex:1;min-height:0;border-radius:0 0 var(--r) var(--r);overflow:hidden}
+.poi-map-shell{position:relative;flex:1;min-height:0}
+#map2{height:100%;min-height:0;border-radius:0 0 var(--r) var(--r);overflow:hidden}
+.poi-basemaps{position:absolute;top:6px;right:6px;z-index:490;padding:2px 3px;background:rgba(255,255,255,.9);border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.18)}
 .region-detail{min-width:0;overflow:hidden}
 @media (max-width:1180px){
   .stage.adm-inline>.card{height:auto;min-height:0}
@@ -284,30 +297,34 @@ footer{display:none}
   <div class="badge-src" id="srcBadge">데이터 확인 중…</div>
 </header>
 
-<section class="agebar" aria-label="학령인구 연령 필터">
-  <b>학령인구</b>
-  <button data-age-preset="3-16" aria-pressed="true">전체 3~16세</button>
-  <button data-age-preset="3-7" aria-pressed="false">와이키즈 3~7세</button>
-  <button data-age-preset="8-16" aria-pressed="false">와이즈만 8~16세</button>
-  <label>직접 선택
-    <select id="ageMin" aria-label="시작 나이"></select>세 ~
-    <select id="ageMax" aria-label="종료 나이"></select>세
-  </label>
-  <span class="age-status" id="ageStatus">3~16세 기준</span>
-</section>
-
-<section class="region-filterbar" id="regionFilterbar" aria-label="지역 순위 필터">
-  <span class="region-filter-label">지역</span>
-  <div class="region-filter-steps" id="regionFilterSteps"></div>
-  <span class="region-filter-hint" id="rankHint">클릭하면 하위 단계로 이동합니다</span>
-  <div class="rank-filter-panel hidden" id="rankFilterPanel">
-    <div class="rank-filter-heading">
-      <strong id="rankTitle">지역 순위</strong>
-      <span class="region-filter-count" id="rankFilterCount"></span>
+<section class="filterbar" id="filterbar">
+  <div class="age-filter" id="ageFilter" aria-label="학령인구 연령 필터">
+    <span class="age-filter-label">학령인구</span>
+    <button type="button" class="age-filter-trigger" id="ageFilterTrigger" aria-expanded="false">3~16세 v</button>
+    <span class="age-status" id="ageStatus">3~16세 기준</span>
+    <div class="age-filter-panel hidden" id="ageFilterPanel">
+      <div class="age-presets">
+        <button type="button" data-age-preset="3-16" aria-pressed="true">전체 3~16세</button>
+        <button type="button" data-age-preset="3-7" aria-pressed="false">와이키즈 3~7세</button>
+        <button type="button" data-age-preset="8-16" aria-pressed="false">와이즈만 8~16세</button>
+      </div>
+      <div class="age-checks" id="ageChecks"></div>
     </div>
-    <div class="rank-actions" id="rankActions"></div>
-    <div class="rank" id="rank"></div>
   </div>
+
+  <section class="region-filterbar" id="regionFilterbar" aria-label="지역 순위 필터">
+    <span class="region-filter-label">지역</span>
+    <div class="region-filter-steps" id="regionFilterSteps"></div>
+    <span class="region-filter-hint" id="rankHint">클릭하면 하위 단계로 이동합니다</span>
+    <div class="rank-filter-panel hidden" id="rankFilterPanel">
+      <div class="rank-filter-heading">
+        <strong id="rankTitle">지역 순위</strong>
+        <span class="region-filter-count" id="rankFilterCount"></span>
+      </div>
+      <div class="rank-actions" id="rankActions"></div>
+      <div class="rank" id="rank"></div>
+    </div>
+  </section>
 </section>
 
 <nav class="bc" id="bc"></nav>
@@ -324,11 +341,12 @@ footer{display:none}
         <div class="legend" id="legend"></div>
       </div>
       <div class="inline-poi hidden" id="inlinePoiView">
-        <h2>POI 지도 — 와이키즈 · 와이즈만 · 경쟁사 · 시너지세권 · 학교 · 입시·보습 학원 · 아파트</h2>
-        <div class="hint" id="poiHint">레이어 버튼으로 켜고 끌 수 있습니다</div>
-        <div class="basemaps" id="basemaps"></div>
+        <div class="hidden" id="poiHint" aria-live="polite"></div>
         <div class="toggles" id="toggles"></div>
-        <div id="map2"></div>
+        <div class="poi-map-shell">
+          <div id="map2"></div>
+          <div class="basemaps poi-basemaps" id="basemaps"></div>
+        </div>
       </div>
     </div>
     <section class="card region-summary hidden" id="regionSummary"></section>
@@ -419,6 +437,7 @@ const state = { level:"nation", sido:null, sgg:null, adm:null, sidos:[], sggs:[]
                 /* 새로 열 때는 항상 일반 지도에서 시작한다. */
                 basemap:"plain",
                 vworldKey:null, ageMin:3, ageMax:16,
+                selectedAges:new Set(Array.from({length:14},(_,i)=>i+3)),
                 selectedCodes:new Set(), selectionContext:null };
 const cache = new Map();
 
@@ -479,20 +498,28 @@ async function mergeCompetitor(metFile, compFile){
 }
 function isOwnBrand(name){ return (state.ownBrands || []).includes(name); }
 
-function ageRangeLabel(){ return `${state.ageMin}~${state.ageMax}세`; }
-function ageRangeTotal(p, min=state.ageMin, max=state.ageMax){
+function selectedAgeList(){ return [...state.selectedAges].sort((a,b)=>a-b); }
+function ageRangeLabel(){
+  const ages=selectedAgeList();
+  if(!ages.length) return "선택 없음";
+  const continuous=ages.every((age,i)=>i===0||age===ages[i-1]+1);
+  return continuous ? `${ages[0]}~${ages[ages.length-1]}세` : `${ages.join("·")}세`;
+}
+function ageRangeTotal(p, min=null, max=null){
   if(!p) return null;
+  const ages=(min!==null&&max!==null)
+    ? Array.from({length:max-min+1},(_,i)=>min+i) : selectedAgeList();
   if(p.age_year){
     let total = 0;
-    for(let age=min; age<=max; age++) total += Number(p.age_year[String(age)] || 0);
+    for(const age of ages) total += Number(p.age_year[String(age)] || 0);
     return total;
   }
   /* 구버전 mock 폴백. 실데이터는 age_year 1세 단위를 사용한다. */
   const spans = [["0_5",0,5],["6_11",6,11],["12_14",12,14],["15_17",15,17]];
   let total = 0;
   for(const [key,lo,hi] of spans){
-    const overlap = Math.max(0, Math.min(max,hi)-Math.max(min,lo)+1);
-    if(overlap) total += Math.round(Number((p.age||{})[key]||0) * overlap/(hi-lo+1));
+    const overlap=ages.filter(age=>age>=lo&&age<=hi).length;
+    if(overlap) total += Math.round(Number((p.age||{})[key]||0)*overlap/(hi-lo+1));
   }
   return total;
 }
@@ -666,7 +693,13 @@ function drawChoropleth(geo, metrics, onClick, filterFn){
         {sticky:true, direction:"top"});
       lyr.on("mouseover", () => lyr.setStyle({weight:4, color:"#0b0b0b"}));
       lyr.on("mouseout",  () => lyr.setStyle(selectedRegionStyle(p.code,metrics)));
-      lyr.on("click", () => onClick(p));
+      lyr.on("click", e => {
+        const original=e.originalEvent||{};
+        if(original.ctrlKey||original.metaKey){
+          if(original.preventDefault) original.preventDefault();
+          toggleMapRegionSelection(p.code);
+        }else onClick(p);
+      });
     }
   }).addTo(map);
   if(feats.length) map.fitBounds(layer.getBounds(), {padding:[16,16]});
@@ -730,7 +763,19 @@ function syncHierarchySelection(rows){
   }
   drawRegionFilterSteps();
 }
+function toggleMapRegionSelection(code){
+  const ctx=state.selectionContext;
+  code=String(code);
+  if(!ctx || !ctx.rows.some(r=>String(r.code)===code)) return;
+  if(state.selectedCodes.has(code)) state.selectedCodes.delete(code);
+  else state.selectedCodes.add(code);
+  syncHierarchySelection(ctx.rows);
+  if(lastRank) drawRank(lastRank.title,lastRank.rows,lastRank.onClick);
+  renderCurrentSummary();
+  applyMapSelection(true);
+}
 async function openRegionFilterLevel(level){
+  setAgeFilterOpen(false);
   const panel=document.getElementById("rankFilterPanel");
   const opener=document.querySelector(`.region-step[data-filter-level="${level}"]`);
   const closing=!!(panel && !panel.classList.contains("hidden") &&
@@ -781,6 +826,8 @@ function drawRegionFilterSteps(){
 document.addEventListener("click",e=>{
   const bar=document.getElementById("regionFilterbar");
   if(bar && !bar.contains(e.target)) setRankFilterOpen(false);
+  const age=document.getElementById("ageFilter");
+  if(age && !age.contains(e.target)) setAgeFilterOpen(false);
 });
 document.addEventListener("keydown",e=>{ if(e.key==="Escape") setRankFilterOpen(false); });
 
@@ -788,7 +835,7 @@ function drawRank(title, rows, onClick){
   lastRank = {title, rows, onClick};
   document.getElementById("rankTitle").textContent = title;
   document.getElementById("rankHint").textContent =
-    `${curMetric.label} 기준 정렬 (단위 ${curMetric.unit}) · 체크하면 여러 지역을 합산합니다`;
+    `${curMetric.label} 기준 정렬 · 체크 또는 Ctrl+지도 클릭으로 여러 지역을 합산합니다`;
   document.getElementById("rankFilterCount").textContent = state.selectedCodes.size
     ? `${state.selectedCodes.size}개 선택` : `${rows.length}개 지역`;
   drawRegionFilterSteps();
@@ -1603,37 +1650,60 @@ window.addEventListener("resize", refreshMaps);
 
 async function redrawForAgeFilter(){
   METRICS[0].label=`학령인구(${ageRangeLabel()})`;
-  document.getElementById("ageStatus").textContent=`${ageRangeLabel()} 기준 · 주민등록 1세 단위`; 
-  const adm=state.adm, sgg=state.sgg, sido=state.sido, level=state.level;
-  if(level==="adm" && adm) await viewAdm(adm);
-  else if(level==="sgg" && sgg) await viewSgg(sgg);
-  else if(level==="sido" && sido) await viewSido(sido);
-  else await viewNation();
+  document.getElementById("ageStatus").textContent=`${selectedAgeList().length}개 연령`;
+  const selected=[...state.selectedCodes];
+  const ctx=state.selectionContext;
+  if(state.level==="adm" && state.adm) await viewAdm(state.adm);
+  else if(ctx && ctx.level==="adm" && state.sggs.length) await viewSggSelection(state.sggs,selected);
+  else if(ctx && ctx.level==="sgg" && state.sidos.length) await viewSidoSelection(state.sidos,selected);
+  else await viewNation(ctx&&ctx.level==="sido"?selected:[]);
+}
+function setAgeFilterOpen(open){
+  const panel=document.getElementById("ageFilterPanel");
+  const trigger=document.getElementById("ageFilterTrigger");
+  if(!panel||!trigger) return;
+  panel.classList.toggle("hidden",!open);
+  trigger.setAttribute("aria-expanded",String(open));
 }
 function initAgeFilter(){
-  const minSel=document.getElementById("ageMin"), maxSel=document.getElementById("ageMax");
-  const options=Array.from({length:14},(_,i)=>i+3)
-    .map(a=>`<option value="${a}">${a}</option>`).join("");
-  minSel.innerHTML=options; maxSel.innerHTML=options;
-  minSel.value=String(state.ageMin); maxSel.value=String(state.ageMax);
-  const syncButtons=()=>{
-    document.querySelectorAll("[data-age-preset]").forEach(b=>
-      b.setAttribute("aria-pressed",String(b.dataset.agePreset===`${state.ageMin}-${state.ageMax}`)));
+  const checks=document.getElementById("ageChecks");
+  const trigger=document.getElementById("ageFilterTrigger");
+  checks.innerHTML=Array.from({length:14},(_,i)=>i+3).map(age=>
+    `<label><input type="checkbox" value="${age}" checked>${age}세</label>`).join("");
+  let redrawTimer=0;
+  const syncUI=()=>{
+    const ages=selectedAgeList();
+    state.ageMin=ages[0]; state.ageMax=ages[ages.length-1];
+    checks.querySelectorAll("input").forEach(input=>input.checked=state.selectedAges.has(Number(input.value)));
+    trigger.textContent=`${ageRangeLabel()} v`;
+    document.getElementById("ageStatus").textContent=`${ages.length}개 연령`;
+    document.querySelectorAll("[data-age-preset]").forEach(b=>{
+      const [lo,hi]=b.dataset.agePreset.split("-").map(Number);
+      const preset=Array.from({length:hi-lo+1},(_,i)=>lo+i);
+      b.setAttribute("aria-pressed",String(ages.length===preset.length&&preset.every(a=>state.selectedAges.has(a))));
+    });
   };
-  document.querySelectorAll("[data-age-preset]").forEach(b=>b.onclick=async()=>{
-    [state.ageMin,state.ageMax]=b.dataset.agePreset.split("-").map(Number);
-    minSel.value=String(state.ageMin); maxSel.value=String(state.ageMax);
-    syncButtons(); await redrawForAgeFilter();
+  const scheduleRedraw=()=>{
+    clearTimeout(redrawTimer);
+    redrawTimer=setTimeout(()=>redrawForAgeFilter(),100);
+  };
+  trigger.onclick=e=>{
+    e.stopPropagation();
+    const open=document.getElementById("ageFilterPanel").classList.contains("hidden");
+    setRankFilterOpen(false); setAgeFilterOpen(open);
+  };
+  document.querySelectorAll("[data-age-preset]").forEach(b=>b.onclick=()=>{
+    const [lo,hi]=b.dataset.agePreset.split("-").map(Number);
+    state.selectedAges=new Set(Array.from({length:hi-lo+1},(_,i)=>lo+i));
+    syncUI(); scheduleRedraw();
   });
-  const custom=async changed=>{
-    let lo=Number(minSel.value), hi=Number(maxSel.value);
-    if(lo>hi){ if(changed==="min") hi=lo; else lo=hi; }
-    state.ageMin=lo; state.ageMax=hi;
-    minSel.value=String(lo); maxSel.value=String(hi);
-    syncButtons(); await redrawForAgeFilter();
-  };
-  minSel.onchange=()=>custom("min"); maxSel.onchange=()=>custom("max");
-  syncButtons();
+  checks.querySelectorAll("input").forEach(input=>input.onchange=()=>{
+    const age=Number(input.value);
+    if(input.checked) state.selectedAges.add(age); else state.selectedAges.delete(age);
+    if(!state.selectedAges.size){ state.selectedAges.add(age); input.checked=true; }
+    syncUI(); scheduleRedraw();
+  });
+  syncUI();
 }
 
 (async function main(){

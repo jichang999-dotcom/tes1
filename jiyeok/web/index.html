@@ -63,6 +63,11 @@ header .sub{font-size:12px; opacity:.8}
   background:#fff;color:var(--ink-2);font-size:12px;font-weight:800;line-height:22px
 }
 .filter-close:hover{background:var(--plane);border-color:var(--s350)}
+.filter-clear{
+  margin-left:auto;border:1px solid var(--line);background:#fff;border-radius:6px;
+  padding:3px 7px;color:var(--brand);font-size:10px;font-weight:700
+}
+.filter-clear + .filter-close{margin-left:0}
 .age-presets{display:flex;gap:5px;padding-bottom:8px;border-bottom:1px solid var(--grid)}
 .age-presets button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:5px 9px;color:var(--ink-2);font-size:11px;font-weight:700}
 .age-presets button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
@@ -331,6 +336,7 @@ footer{display:none}
     <div class="age-filter-panel hidden" id="ageFilterPanel">
       <div class="filter-panel-heading">
         <strong>학령인구 선택</strong>
+        <button type="button" class="filter-clear" id="ageFilterClear">체크 해제</button>
         <button type="button" class="filter-close" id="ageFilterClose" aria-label="학령인구 필터 닫기" title="닫기">X</button>
       </div>
       <div class="age-presets">
@@ -922,7 +928,7 @@ function drawRank(title, rows, onClick){
     ? `${state.selectedCodes.size}개 선택` : `${rows.length}개 지역`;
   drawRegionFilterSteps();
   const actions = document.getElementById("rankActions");
-  actions.innerHTML = rows.length ? `<button data-act="all">전체 선택</button><button data-act="clear">선택 해제</button>` : "";
+  actions.innerHTML = rows.length ? `<button data-act="all">전체 선택</button><button data-act="clear">체크 해제</button>` : "";
   const allBtn = actions.querySelector('[data-act="all"]');
   const clearBtn = actions.querySelector('[data-act="clear"]');
   const el = document.getElementById("rank");
@@ -1241,13 +1247,11 @@ function renderRegionSummary(name, codes, data, selected=false){
   const selectionNames = selected && state.selectionContext
     ? state.selectionContext.rows.filter(r=>state.selectedCodes.has(String(r.code))).map(r=>r.name)
     : [];
-  const detailRow = selected && !multi && state.selectionContext && state.selectionContext.level==="adm"
-    ? state.selectionContext.rows.find(r=>String(r.code)===String(codes[0])) : null;
   const schoolAgeValues=SCHOOL_AGE_GROUPS.map(group=>filteredSchoolStudents(m,group));
   el.classList.remove("hidden");
   el.innerHTML=`
     ${selected
-      ? `<div class="selection-note selection-note-large"><span class="selection-text">${multi?`선택 ${codes.length}개 지역 합산`:"선택 지역"} · ${selectionNames.join(" · ")}</span>${detailRow?`<button data-open-adm="${detailRow.code}">POI 상세</button>`:""}</div>`
+      ? `<div class="selection-note selection-note-large"><span class="selection-text">${multi?`선택 ${codes.length}개 지역 합산`:"선택 지역"} · ${selectionNames.join(" · ")}</span></div>`
       : `<div class="hero">
       <div class="nm">${name}</div>
       <div class="loc">지역 전체 · 학령인구 ${ageRangeLabel()} 기준</div>
@@ -1281,8 +1285,6 @@ function renderRegionSummary(name, codes, data, selected=false){
         <div class="kpi"><div class="v">${fmt(m.housing_asset)}<span class="u">억원</span></div><div class="l">주거자산 총액</div></div>
       </div></div></div>
     </div>`;
-  const detailBtn=el.querySelector("[data-open-adm]");
-  if(detailBtn && detailRow) detailBtn.onclick=()=>viewAdm({code:String(detailRow.code),name:detailRow.name});
 }
 
 function setSelectionContext(level, rows, data, parent=null, selectedCodes=[]){
@@ -1793,7 +1795,8 @@ function initAgeFilter(){
   let redrawTimer=0;
   const syncUI=()=>{
     const ages=selectedAgeList();
-    state.ageMin=ages[0]; state.ageMax=ages[ages.length-1];
+    state.ageMin=ages.length?ages[0]:null;
+    state.ageMax=ages.length?ages[ages.length-1]:null;
     checks.querySelectorAll("input").forEach(input=>input.checked=state.selectedAges.has(Number(input.value)));
     trigger.textContent=`${ageRangeLabel()} v`;
     document.getElementById("ageStatus").textContent=`${ages.length}개 연령`;
@@ -1812,6 +1815,11 @@ function initAgeFilter(){
     const open=document.getElementById("ageFilterPanel").classList.contains("hidden");
     setRankFilterOpen(false); setAgeFilterOpen(open);
   };
+  document.getElementById("ageFilterClear").onclick=e=>{
+    e.stopPropagation();
+    state.selectedAges.clear();
+    syncUI(); scheduleRedraw();
+  };
   document.querySelectorAll("[data-age-preset]").forEach(b=>b.onclick=()=>{
     const [lo,hi]=b.dataset.agePreset.split("-").map(Number);
     state.selectedAges=new Set(Array.from({length:hi-lo+1},(_,i)=>lo+i));
@@ -1820,7 +1828,6 @@ function initAgeFilter(){
   checks.querySelectorAll("input").forEach(input=>input.onchange=()=>{
     const age=Number(input.value);
     if(input.checked) state.selectedAges.add(age); else state.selectedAges.delete(age);
-    if(!state.selectedAges.size){ state.selectedAges.add(age); input.checked=true; }
     syncUI(); scheduleRedraw();
   });
   syncUI();

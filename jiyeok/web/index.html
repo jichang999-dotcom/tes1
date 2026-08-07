@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="build-version" content="2026-08-07-unified-cards-explicit-poi-filters-v5">
+<meta name="build-version" content="2026-08-07-brand-filters-map-reset-v6">
 <title>지역분석 대시보드 — 가맹 상담용</title>
 <link rel="stylesheet" href="vendor/leaflet.css">
 <style>
@@ -76,6 +76,25 @@ header .sub{font-size:12px; opacity:.8}
 .age-checks label{display:flex;align-items:center;gap:4px;padding:5px 6px;border:1px solid var(--grid);border-radius:6px;font-size:11px;font-weight:700;background:#fff}
 .age-checks input{width:13px;height:13px;margin:0;accent-color:var(--brand)}
 .age-status{font-size:10px;color:var(--muted);white-space:nowrap}
+.poi-brand-filter{position:relative;flex:0 0 auto;display:flex;align-items:center;gap:5px}
+.poi-brand-filter-label{font-size:11px;color:var(--muted);font-weight:700}
+.poi-brand-filter-trigger{
+  border:1px solid var(--s350);background:#fff;color:var(--brand);border-radius:999px;
+  padding:4px 10px;font-size:11px;font-weight:800;white-space:nowrap
+}
+.poi-brand-filter-trigger[aria-expanded="true"]{background:var(--s100)}
+.poi-brand-filter-panel{
+  position:absolute;top:calc(100% + 6px);left:0;width:270px;padding:9px;
+  background:var(--surface-1);border:1px solid var(--border);border-radius:10px;
+  box-shadow:0 8px 22px rgba(0,0,0,.16)
+}
+.poi-brand-filter[data-category="english_kinder"] .poi-brand-filter-panel{left:auto;right:0}
+.poi-brand-filter-panel .filter-panel-heading{padding:0 0 7px}
+.poi-brand-actions{display:flex;gap:4px;margin-left:auto}
+.poi-brand-actions button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:3px 6px;color:var(--brand);font-size:9px;font-weight:700}
+.poi-brand-checks{display:grid;gap:5px}
+.poi-brand-checks label{display:flex;align-items:center;gap:6px;padding:6px 7px;border:1px solid var(--grid);border-radius:7px;background:#fff;font-size:11px;font-weight:700}
+.poi-brand-checks input{width:14px;height:14px;margin:0;accent-color:var(--brand)}
 
 /* ---------- 지역 필터 ---------- */
 .region-filterbar{
@@ -142,6 +161,8 @@ main{padding:10px 16px 0; max-width:1920px; margin:0 auto}
 #map{height:calc(100vh - 250px); min-height:500px; border-radius:var(--r); overflow:hidden}
 #map.detail{height:60vh; min-height:420px}
 .map-shell{position:relative}
+.map-reset-button{position:absolute;top:6px;left:6px;z-index:490;border:1px solid var(--line);border-radius:7px;background:rgba(255,255,255,.94);color:var(--brand);padding:5px 9px;font-size:10px;font-weight:800;box-shadow:0 1px 4px rgba(0,0,0,.18)}
+.map-reset-button:hover{background:var(--s100);border-color:var(--s350)}
 .main-basemaps{position:absolute;top:6px;right:6px;z-index:490;padding:2px 3px;background:rgba(255,255,255,.9);border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.18)}
 .stage.adm-inline>.card{height:calc(100vh - 163px);min-height:500px}
 .inline-poi{height:100%;min-height:0;display:flex;flex-direction:column}
@@ -364,6 +385,38 @@ footer{display:none}
       <div class="rank" id="rank"></div>
     </div>
   </section>
+
+  <div class="poi-brand-filter" id="competitorBrandFilter" data-category="competitor" aria-label="경쟁사 브랜드 필터">
+    <span class="poi-brand-filter-label">경쟁사</span>
+    <button type="button" class="poi-brand-filter-trigger" aria-expanded="false">전체 4개 v</button>
+    <div class="poi-brand-filter-panel hidden">
+      <div class="filter-panel-heading">
+        <strong>경쟁사 목록</strong>
+        <div class="poi-brand-actions">
+          <button type="button" data-brand-action="all">전체 선택</button>
+          <button type="button" data-brand-action="clear">체크 해제</button>
+        </div>
+        <button type="button" class="filter-close" data-brand-action="close" aria-label="경쟁사 필터 닫기" title="닫기">X</button>
+      </div>
+      <div class="poi-brand-checks"></div>
+    </div>
+  </div>
+
+  <div class="poi-brand-filter" id="synergyBrandFilter" data-category="english_kinder" aria-label="시너지세권 브랜드 필터">
+    <span class="poi-brand-filter-label">시너지세권</span>
+    <button type="button" class="poi-brand-filter-trigger" aria-expanded="false">전체 2개 v</button>
+    <div class="poi-brand-filter-panel hidden">
+      <div class="filter-panel-heading">
+        <strong>시너지세권 목록</strong>
+        <div class="poi-brand-actions">
+          <button type="button" data-brand-action="all">전체 선택</button>
+          <button type="button" data-brand-action="clear">체크 해제</button>
+        </div>
+        <button type="button" class="filter-close" data-brand-action="close" aria-label="시너지세권 필터 닫기" title="닫기">X</button>
+      </div>
+      <div class="poi-brand-checks"></div>
+    </div>
+  </div>
 </section>
 
 <nav class="bc" id="bc"></nav>
@@ -375,6 +428,7 @@ footer{display:none}
       <div id="overviewMapView">
         <div class="map-shell">
           <div id="map"></div>
+          <button type="button" class="map-reset-button" data-dashboard-reset>새로고침</button>
           <div class="basemaps main-basemaps" id="mainBasemaps"></div>
         </div>
         <div class="legend" id="legend"></div>
@@ -384,6 +438,7 @@ footer{display:none}
         <div class="toggles" id="toggles"></div>
         <div class="poi-map-shell">
           <div id="map2"></div>
+          <button type="button" class="map-reset-button" data-dashboard-reset>새로고침</button>
           <div class="basemaps poi-basemaps" id="basemaps"></div>
         </div>
       </div>
@@ -473,6 +528,11 @@ const POI_STYLE = {
   academy:        {label:"입시·보습 학원", color:"#eb6834"},
   apartment:      {label:"아파트",      color:"#4a3aa7"},
 };
+/* 브랜드 분류 SSOT: scripts/brands.py 의 category 값을 따른다. */
+const POI_BRAND_FILTERS = {
+  competitor:["소마","아담리즈","필즈더클래식","생각하는황소"],
+  english_kinder:["폴리어학원","라이즈어학원"],
+};
 const state = { level:"nation", sido:null, sgg:null, adm:null, sidos:[], sggs:[], adms:[], usedMock:false, missing:[],
                 /* competitor.json 의 meta.own_brands 로 덮어쓴다 (mock 에는 없어서 기본값을 둔다) */
                 ownBrands:["와이키즈","와이즈만"],
@@ -480,6 +540,8 @@ const state = { level:"nation", sido:null, sgg:null, adm:null, sidos:[], sggs:[]
                 basemap:"plain",
                 vworldKey:null, ageMin:3, ageMax:16,
                 selectedAges:new Set(Array.from({length:14},(_,i)=>i+3)),
+                selectedPoiBrands:Object.fromEntries(Object.entries(POI_BRAND_FILTERS)
+                  .map(([category,brands])=>[category,new Set(brands)])),
                 selectedCodes:new Set(), selectionContext:null };
 const cache = new Map();
 
@@ -522,9 +584,21 @@ async function loadOptional(kind, file){
    ⚠️ 경쟁사가 0인 지역은 competitor_*.json 에 **키 자체가 없다.**
       undefined 로 두면 코로플레스에서 결측(회색)이 되어 "경쟁사 없음"이
       "데이터 없음"으로 읽힌다 — 0 으로 채운다 (B-8 과 같은 취지). */
+function filteredPoiBrandCount(byBrand,category){
+  const selected=state.selectedPoiBrands[category]||new Set();
+  return [...selected].reduce((sum,brand)=>sum+Number((byBrand&&byBrand[brand])||0),0);
+}
+function applyPoiBrandFilters(met){
+  if(!met||!met.data) return met;
+  Object.values(met.data).forEach(m=>{
+    m.competitor_cnt=filteredPoiBrandCount(m.comp_brands,"competitor");
+    m.english_kinder_cnt=filteredPoiBrandCount(m.comp_brands,"english_kinder");
+  });
+  return met;
+}
 function mergeCompetitorData(met,comp){
   if(!met || !met.data) return met;
-  if(met.__comp) return met;
+  if(met.__comp) return applyPoiBrandFilters(met);
   const cd = (comp && comp.data) || null;
   for(const [code, m] of Object.entries(met.data)){
     const c = cd ? cd[code] : null;
@@ -547,7 +621,7 @@ function mergeCompetitorData(met,comp){
   /* 아직 자료를 못 받은 축(brands.py PENDING). 화면에 "0개"로 보이는 것이
      실측 0인지 미수령인지 구분할 근거가 없으면 상담에서 잘못 읽힌다. */
   if(comp && comp.meta && comp.meta.pending) state.pendingAxes = comp.meta.pending;
-  return met;
+  return applyPoiBrandFilters(met);
 }
 async function mergeCompetitor(metFile, compFile){
   const [met, comp] = await Promise.all([load("proc", metFile), load("proc", compFile)]);
@@ -913,6 +987,7 @@ function toggleMapRegionSelection(code){
 }
 async function openRegionFilterLevel(level){
   setAgeFilterOpen(false);
+  setPoiBrandFilterOpen(null,false);
   const panel=document.getElementById("rankFilterPanel");
   const opener=document.querySelector(`.region-step[data-filter-level="${level}"]`);
   const closing=!!(panel && !panel.classList.contains("hidden") &&
@@ -960,11 +1035,76 @@ function drawRegionFilterSteps(){
     openRegionFilterLevel(b.dataset.filterLevel);
   });
 }
+let poiBrandRedrawTimer=0;
+function setPoiBrandFilterOpen(category,open){
+  document.querySelectorAll(".poi-brand-filter").forEach(filter=>{
+    const active=filter.dataset.category===category&&open;
+    filter.querySelector(".poi-brand-filter-panel").classList.toggle("hidden",!active);
+    filter.querySelector(".poi-brand-filter-trigger").setAttribute("aria-expanded",String(active));
+  });
+}
+function syncPoiBrandFilterUI(category){
+  const filter=document.querySelector(`.poi-brand-filter[data-category="${category}"]`);
+  if(!filter) return;
+  const brands=POI_BRAND_FILTERS[category]||[];
+  const selected=state.selectedPoiBrands[category]||new Set();
+  filter.querySelectorAll('.poi-brand-checks input[type="checkbox"]').forEach(input=>{
+    input.checked=selected.has(input.value);
+  });
+  const trigger=filter.querySelector(".poi-brand-filter-trigger");
+  trigger.textContent=selected.size===brands.length
+    ? `전체 ${brands.length}개 v`
+    : selected.size ? `${selected.size}/${brands.length}개 v` : "선택 없음 v";
+}
+async function redrawForPoiBrandFilter(){
+  const selected=[...state.selectedCodes];
+  const ctx=state.selectionContext;
+  if(ctx&&ctx.data) applyPoiBrandFilters(ctx.data.met);
+  if(ctx&&ctx.parent&&ctx.parent.data) applyPoiBrandFilters(ctx.parent.data.met);
+  if(state.level==="adm"&&state.adm) await viewAdm(state.adm);
+  else if(ctx&&ctx.level==="adm"&&state.sggs.length) await viewSggSelection(state.sggs,selected);
+  else if(ctx&&ctx.level==="sgg"&&state.sidos.length) await viewSidoSelection(state.sidos,selected);
+  else await viewNation(ctx&&ctx.level==="sido"?selected:[]);
+}
+function initPoiBrandFilters(){
+  document.querySelectorAll(".poi-brand-filter").forEach(filter=>{
+    const category=filter.dataset.category;
+    const brands=POI_BRAND_FILTERS[category]||[];
+    const checks=filter.querySelector(".poi-brand-checks");
+    checks.innerHTML=brands.map(brand=>
+      `<label><input type="checkbox" value="${brand}" checked><span>${brand}</span></label>`).join("");
+    const scheduleRedraw=()=>{
+      clearTimeout(poiBrandRedrawTimer);
+      poiBrandRedrawTimer=setTimeout(()=>redrawForPoiBrandFilter(),100);
+    };
+    filter.querySelector(".poi-brand-filter-trigger").onclick=e=>{
+      e.stopPropagation();
+      const open=filter.querySelector(".poi-brand-filter-panel").classList.contains("hidden");
+      setRankFilterOpen(false); setAgeFilterOpen(false); setPoiBrandFilterOpen(category,open);
+    };
+    filter.querySelector('[data-brand-action="all"]').onclick=()=>{
+      state.selectedPoiBrands[category]=new Set(brands);
+      syncPoiBrandFilterUI(category); scheduleRedraw();
+    };
+    filter.querySelector('[data-brand-action="clear"]').onclick=()=>{
+      state.selectedPoiBrands[category]=new Set();
+      syncPoiBrandFilterUI(category); scheduleRedraw();
+    };
+    filter.querySelector('[data-brand-action="close"]').onclick=()=>setPoiBrandFilterOpen(null,false);
+    checks.querySelectorAll('input[type="checkbox"]').forEach(input=>input.onchange=()=>{
+      const selected=state.selectedPoiBrands[category];
+      if(input.checked) selected.add(input.value); else selected.delete(input.value);
+      syncPoiBrandFilterUI(category); scheduleRedraw();
+    });
+    syncPoiBrandFilterUI(category);
+  });
+}
 document.addEventListener("pointerdown",e=>{
   const bar=document.getElementById("regionFilterbar");
   if(bar && !bar.contains(e.target)) setRankFilterOpen(false);
   const age=document.getElementById("ageFilter");
   if(age && !age.contains(e.target)) setAgeFilterOpen(false);
+  if(!e.target.closest(".poi-brand-filter")) setPoiBrandFilterOpen(null,false);
 },true);
 document.getElementById("rankFilterClose").onclick=e=>{
   e.stopPropagation();
@@ -978,6 +1118,7 @@ document.addEventListener("keydown",e=>{
   if(e.key!=="Escape") return;
   setRankFilterOpen(false);
   setAgeFilterOpen(false);
+  setPoiBrandFilterOpen(null,false);
 });
 
 function drawRank(title, rows, onClick){
@@ -1778,8 +1919,12 @@ function drawPoi(poi, admCode, admGeoOverride=null){
   let unmatched = false;
   Object.keys(POI_STYLE).forEach(kind => {
     const st = POI_STYLE[kind];
-    const all = (poi[st.source||kind] || []).filter(r=>(!st.brand || r.brand===st.brand) &&
+    let all = (poi[st.source||kind] || []).filter(r=>(!st.brand || r.brand===st.brand) &&
       (!st.type || r.type===st.type));
+    if(POI_BRAND_FILTERS[kind]){
+      const selected=state.selectedPoiBrands[kind]||new Set();
+      all=all.filter(r=>selected.has(r.brand));
+    }
     let rows = all.filter(r => !r.adm_cd || admSet.has(String(r.adm_cd)));
     // 행정동 매칭(adm_cd)이 **아예 없는** 데이터일 때만 시군구 전체로 폴백한다.
     // ⚠️ B-8: adm_cd 가 붙어 있는데도 폴백하면, 학교가 정말 0개인 동에서
@@ -1859,25 +2004,27 @@ function setAgeFilterOpen(open){
   panel.classList.toggle("hidden",!open);
   trigger.setAttribute("aria-expanded",String(open));
 }
+function syncAgeFilterUI(){
+  const checks=document.getElementById("ageChecks");
+  const trigger=document.getElementById("ageFilterTrigger");
+  const ages=selectedAgeList();
+  state.ageMin=ages.length?ages[0]:null;
+  state.ageMax=ages.length?ages[ages.length-1]:null;
+  checks.querySelectorAll("input").forEach(input=>input.checked=state.selectedAges.has(Number(input.value)));
+  trigger.textContent=`${ageRangeLabel()} v`;
+  document.getElementById("ageStatus").textContent=`${ages.length}개 연령`;
+  document.querySelectorAll("[data-age-preset]").forEach(b=>{
+    const [lo,hi]=b.dataset.agePreset.split("-").map(Number);
+    const preset=Array.from({length:hi-lo+1},(_,i)=>lo+i);
+    b.setAttribute("aria-pressed",String(ages.length===preset.length&&preset.every(a=>state.selectedAges.has(a))));
+  });
+}
 function initAgeFilter(){
   const checks=document.getElementById("ageChecks");
   const trigger=document.getElementById("ageFilterTrigger");
   checks.innerHTML=Array.from({length:14},(_,i)=>i+3).map(age=>
     `<label><input type="checkbox" value="${age}" checked>${age}세</label>`).join("");
   let redrawTimer=0;
-  const syncUI=()=>{
-    const ages=selectedAgeList();
-    state.ageMin=ages.length?ages[0]:null;
-    state.ageMax=ages.length?ages[ages.length-1]:null;
-    checks.querySelectorAll("input").forEach(input=>input.checked=state.selectedAges.has(Number(input.value)));
-    trigger.textContent=`${ageRangeLabel()} v`;
-    document.getElementById("ageStatus").textContent=`${ages.length}개 연령`;
-    document.querySelectorAll("[data-age-preset]").forEach(b=>{
-      const [lo,hi]=b.dataset.agePreset.split("-").map(Number);
-      const preset=Array.from({length:hi-lo+1},(_,i)=>lo+i);
-      b.setAttribute("aria-pressed",String(ages.length===preset.length&&preset.every(a=>state.selectedAges.has(a))));
-    });
-  };
   const scheduleRedraw=()=>{
     clearTimeout(redrawTimer);
     redrawTimer=setTimeout(()=>redrawForAgeFilter(),100);
@@ -1885,28 +2032,64 @@ function initAgeFilter(){
   trigger.onclick=e=>{
     e.stopPropagation();
     const open=document.getElementById("ageFilterPanel").classList.contains("hidden");
-    setRankFilterOpen(false); setAgeFilterOpen(open);
+    setRankFilterOpen(false); setPoiBrandFilterOpen(null,false); setAgeFilterOpen(open);
   };
   document.getElementById("ageFilterClear").onclick=e=>{
     e.stopPropagation();
     state.selectedAges.clear();
-    syncUI(); scheduleRedraw();
+    syncAgeFilterUI(); scheduleRedraw();
   };
   document.querySelectorAll("[data-age-preset]").forEach(b=>b.onclick=()=>{
     const [lo,hi]=b.dataset.agePreset.split("-").map(Number);
     state.selectedAges=new Set(Array.from({length:hi-lo+1},(_,i)=>lo+i));
-    syncUI(); scheduleRedraw();
+    syncAgeFilterUI(); scheduleRedraw();
   });
   checks.querySelectorAll("input").forEach(input=>input.onchange=()=>{
     const age=Number(input.value);
     if(input.checked) state.selectedAges.add(age); else state.selectedAges.delete(age);
-    syncUI(); scheduleRedraw();
+    syncAgeFilterUI(); scheduleRedraw();
   });
-  syncUI();
+  syncAgeFilterUI();
+}
+
+let dashboardResetBusy=false;
+async function resetDashboardInitialState(){
+  if(dashboardResetBusy) return;
+  dashboardResetBusy=true;
+  document.querySelectorAll("[data-dashboard-reset]").forEach(button=>button.disabled=true);
+  try{
+    clearTimeout(poiBrandRedrawTimer);
+    state.selectedAges=new Set(Array.from({length:14},(_,i)=>i+3));
+    state.selectedPoiBrands=Object.fromEntries(Object.entries(POI_BRAND_FILTERS)
+      .map(([category,brands])=>[category,new Set(brands)]));
+    state.selectedCodes.clear();
+    state.selectionContext=null;
+    state.basemap="plain";
+    curMetric=METRICS[0];
+    METRICS[0].label="학령인구(3~16세)";
+    setRankFilterOpen(false);
+    setAgeFilterOpen(false);
+    setPoiBrandFilterOpen(null,false);
+    syncAgeFilterUI();
+    Object.keys(POI_BRAND_FILTERS).forEach(syncPoiBrandFilterUI);
+    try{ if(map) map.closePopup(); }catch(e){}
+    try{ if(map2) map2.closePopup(); }catch(e){}
+    applyMainBasemap();
+    applyBasemap();
+    drawBasemapButtons();
+    await viewNation();
+  }finally{
+    dashboardResetBusy=false;
+    document.querySelectorAll("[data-dashboard-reset]").forEach(button=>button.disabled=false);
+  }
 }
 
 (async function main(){
   initAgeFilter();
+  initPoiBrandFilters();
+  document.querySelectorAll("[data-dashboard-reset]").forEach(button=>{
+    button.onclick=e=>{ e.stopPropagation(); resetDashboardInitialState(); };
+  });
   document.getElementById("foot").textContent =
     "지역분석 대시보드 · 정적 HTML + Leaflet(local) · " + new Date().toLocaleDateString("ko-KR");
   if(location.protocol === "file:"){

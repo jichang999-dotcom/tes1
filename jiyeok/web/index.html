@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="build-version" content="2026-08-06-cards-filters-v2">
+<meta name="build-version" content="2026-08-07-school-cards-poi-filters-v3">
 <title>지역분석 대시보드 — 가맹 상담용</title>
 <link rel="stylesheet" href="vendor/leaflet.css">
 <style>
@@ -206,11 +206,11 @@ main{padding:10px 16px 0; max-width:1920px; margin:0 auto}
 .region-summary .dashboard-blk.education .kpi{border-top:2px solid rgba(22,163,125,.28)}
 .region-summary .dashboard-blk.housing .kpi{border-top:2px solid rgba(156,23,79,.24)}
 .region-summary .kpis.competition-row{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
-.region-summary .student-table{width:100%;margin-top:5px;border-collapse:separate;border-spacing:4px 0;table-layout:fixed}
-.region-summary .student-table th,.region-summary .student-table td{text-align:center;padding:2px 4px}
-.region-summary .student-table th{font-size:8px;color:var(--ink-2);font-weight:700}
-.region-summary .student-table td{font-size:14px;font-weight:850;font-variant-numeric:tabular-nums;background:var(--plane);border-radius:5px}
-.region-summary .student-table .u{font-size:8px;color:var(--ink-2);margin-left:2px}
+.region-summary .student-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-top:5px}
+.region-summary .student-kpi{min-width:0;display:grid;grid-template-rows:minmax(14px,auto) 28px;gap:2px;text-align:center}
+.region-summary .student-label{align-self:end;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:8px;color:var(--ink-2);font-weight:700}
+.region-summary .student-value{display:flex;align-items:center;justify-content:center;min-width:0;padding:2px 4px;font-size:14px;font-weight:850;font-variant-numeric:tabular-nums;background:var(--plane);border-radius:5px}
+.region-summary .student-value .u{font-size:8px;color:var(--ink-2);margin-left:2px}
 .region-summary .hero{padding:9px 10px 8px}
 .region-summary .hero .nm{font-size:20px}
 .region-summary .hero .loc{font-size:10px}
@@ -458,14 +458,17 @@ function binOf(x){
   while(i < bins.length && x >= bins[i]) i++;
   return i;
 }
-const POI_MARKER_RADIUS = 5;
+const POI_MARKER_RADIUS = 4;
 const POI_STYLE = {
   own_waikids:    {label:"자사 와이키즈", color:"#e11d48", source:"own", brand:"와이키즈"},
   own_wiseman:    {label:"자사 와이즈만", color:"#c026d3", source:"own", brand:"와이즈만"},
   competitor:     {label:"경쟁사",      color:"#111827"},
+  /* 학교 필터는 학교명이 아니라 NEIS 학교급(type: 초/중/고) 기준이다. */
+  school_elem:    {label:"초등학교",    color:"#2a78d6", source:"school", type:"초"},
+  school_mid:     {label:"중학교",      color:"#155eae", source:"school", type:"중"},
+  school_high:    {label:"고등학교",    color:"#163f8c", source:"school", type:"고"},
   /* 초록 = 경쟁사(검정)와 색으로도 구분한다. **시너지세권**은 붙으면 유리한 자리다 — COMPETITOR.md §1 */
   english_kinder: {label:"시너지세권(영어유치원)", color:"#0e9f6e"},
-  school:         {label:"학교",        color:"#2a78d6"},
   academy:        {label:"입시·보습 학원", color:"#eb6834"},
   apartment:      {label:"아파트",      color:"#4a3aa7"},
 };
@@ -1273,8 +1276,9 @@ function renderRegionSummary(name, codes, data, selected=false){
         <div class="kpi"><div class="v">${fmt(m.competitor_cnt)}<span class="u">개</span></div><div class="l">경쟁사</div></div>
         <div class="kpi"><div class="v" style="color:#0e9f6e">${fmt(m.english_kinder_cnt)}<span class="u">개</span></div><div class="l">시너지세권</div></div>
         </div>
-        <table class="student-table" aria-label="학령인구 필터 적용 학교급별 학생수"><thead><tr>${SCHOOL_AGE_GROUPS.map(group=>`<th>${group.label}</th>`).join("")}</tr></thead>
-          <tbody><tr>${schoolAgeValues.map(value=>`<td>${fmt(value)}<span class="u">명</span></td>`).join("")}</tr></tbody></table>
+        <div class="student-kpis" aria-label="학령인구 필터 적용 학교급별 학생수">
+          ${SCHOOL_AGE_GROUPS.map((group,index)=>`<div class="student-kpi"><div class="student-label">${group.label}</div><div class="student-value">${fmt(schoolAgeValues[index])}<span class="u">명</span></div></div>`).join("")}
+        </div>
       </div></div>
       <div class="blk dashboard-blk housing"><div class="section-rail">구매력<br>주거</div><div class="section-body">
         <h3>구매력·주거</h3><div class="kpis">
@@ -1636,7 +1640,7 @@ function cachedPoiMarker(kind,st,r){
   }).bindPopup(
     `<b style="font-size:15px">${r.name||"(무명)"}</b><br>`+
     (r.brand?`<b style="color:${st.color}">${r.brand}</b> · ${st.label}`:st.label)+
-    (r.type?` · ${r.type}`:"")+(r.course?` · ${r.course}`:"")+
+    (r.type&&!st.type?` · ${r.type}`:"")+(r.course?` · ${r.course}`:"")+
     (r.addr?`<br><span style="color:#666">${r.addr}</span>`:"")+
     (r.first_seen?`<br><span style="color:#666">최초 확인 ${r.first_seen}</span>`:"")+
     (r.students?`<br>재학생 ${fmt(r.students)}명`:"")+
@@ -1714,7 +1718,8 @@ function drawPoi(poi, admCode, admGeoOverride=null){
   let unmatched = false;
   Object.keys(POI_STYLE).forEach(kind => {
     const st = POI_STYLE[kind];
-    const all = (poi[st.source||kind] || []).filter(r=>!st.brand || r.brand===st.brand);
+    const all = (poi[st.source||kind] || []).filter(r=>(!st.brand || r.brand===st.brand) &&
+      (!st.type || r.type===st.type));
     let rows = all.filter(r => !r.adm_cd || admSet.has(String(r.adm_cd)));
     // 행정동 매칭(adm_cd)이 **아예 없는** 데이터일 때만 시군구 전체로 폴백한다.
     // ⚠️ B-8: adm_cd 가 붙어 있는데도 폴백하면, 학교가 정말 0개인 동에서
@@ -1752,8 +1757,10 @@ function drawPoi(poi, admCode, admGeoOverride=null){
 
   // ④ 접근성 KPI 채우기
   const set = (id,v)=>{ const e=document.getElementById(id); if(e) e.innerHTML=v; };
-  const sc = used.school || [];
-  set("kSchool", `${counts.school}<span class="u">개</span>`);
+  const schoolKinds=["school_elem","school_mid","school_high"];
+  const sc=schoolKinds.flatMap(k=>used[k]||[]);
+  const schoolCount=schoolKinds.reduce((sum,k)=>sum+(counts[k]||0),0);
+  set("kSchool", `${schoolCount}<span class="u">개</span>`);
   set("kApt",    `${counts.apartment}<span class="u">개 단지</span>`);
   set("kStu",    `${fmt(sc.reduce((s,r)=>s+(r.students||0),0))}<span class="u">명</span>`);
   poiRenderVersion++;

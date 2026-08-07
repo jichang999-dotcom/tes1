@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="build-version" content="2026-08-07-school-cards-poi-filters-performance-v4">
+<meta name="build-version" content="2026-08-07-unified-cards-explicit-poi-filters-v5">
 <title>지역분석 대시보드 — 가맹 상담용</title>
 <link rel="stylesheet" href="vendor/leaflet.css">
 <style>
@@ -202,9 +202,9 @@ main{padding:10px 16px 0; max-width:1920px; margin:0 auto}
 .region-summary .dashboard-blk.market .section-rail{background:#1687c9}
 .region-summary .dashboard-blk.education .section-rail{background:#16a37d}
 .region-summary .dashboard-blk.housing .section-rail{background:#9c174f}
-.region-summary .dashboard-blk.market .kpi{border-top:2px solid rgba(22,135,201,.28)}
-.region-summary .dashboard-blk.education .kpi{border-top:2px solid rgba(22,163,125,.28)}
-.region-summary .dashboard-blk.housing .kpi{border-top:2px solid rgba(156,23,79,.24)}
+.region-summary .dashboard-blk.market .kpi .v{border-top:2px solid rgba(22,135,201,.28)}
+.region-summary .dashboard-blk.education .kpi .v{border-top:2px solid rgba(22,163,125,.28)}
+.region-summary .dashboard-blk.housing .kpi .v{border-top:2px solid rgba(156,23,79,.24)}
 .region-summary .kpis.competition-row{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
 .region-summary .student-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-top:5px}
 .region-summary .student-kpi{min-width:0;display:grid;grid-template-rows:minmax(14px,auto) 28px;gap:2px;text-align:center}
@@ -223,10 +223,11 @@ main{padding:10px 16px 0; max-width:1920px; margin:0 auto}
 .region-summary .blk h3{font-size:11px;margin-bottom:4px}
 .region-summary .blk h3 .tag{font-size:9px;padding:1px 5px}
 .region-summary .kpis{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 7px}
-.region-summary .kpi{min-width:0;background:var(--plane);border-radius:6px;padding:5px 6px}
-.region-summary .kpi .v{font-size:17px}
+.region-summary .dashboard-blk.market .kpis{grid-template-columns:repeat(4,minmax(0,1fr))}
+.region-summary .kpi{min-width:0;display:grid;grid-template-rows:minmax(14px,auto) 34px;gap:2px;padding:0;background:transparent;text-align:center}
+.region-summary .kpi .v{order:2;display:flex;align-items:center;justify-content:center;min-width:0;padding:4px 6px;background:var(--plane);border-radius:6px;font-size:17px}
 .region-summary .kpi .v .u{font-size:9px}
-.region-summary .kpi .l{font-size:9px;line-height:1.15}
+.region-summary .kpi .l{order:1;align-self:end;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:9px;line-height:1.15;text-align:center}
 .region-detail .hero{padding:7px 8px 6px}
 .region-detail .hero .nm{font-size:17px}
 .region-detail .hero .loc{font-size:9px}
@@ -284,13 +285,13 @@ svg text.val{fill:var(--ink); font-weight:800; font-size:11px}
   border:1px solid var(--line); background:#fff; color:var(--ink-2); font-weight:700}
 .basemaps button[aria-pressed="true"]{background:var(--brand); border-color:var(--brand); color:#fff}
 .basemaps button[disabled]{opacity:.4; cursor:not-allowed}
-.toggles{display:flex; gap:5px; padding:7px 12px; flex-wrap:wrap}
-.toggles button{
-  border:1px solid var(--line); background:#fff; border-radius:999px; padding:5px 9px;
-  font-weight:700; display:flex; align-items:center; gap:5px; font-size:12px;
-}
-.toggles button[aria-pressed="true"]{background:var(--s100); border-color:var(--s350)}
-.toggles button[aria-pressed="false"]{opacity:.45}
+.toggles{display:flex;gap:6px;padding:7px 12px;flex-wrap:wrap;align-items:center}
+.toggle-group{display:flex;gap:5px;align-items:center;flex-wrap:wrap;padding:3px 6px;border:1px solid var(--grid);border-radius:9px;background:#fff}
+.toggle-group.primary{border-color:var(--s350);background:#f4f8fe}
+.toggle-group-label{font-size:10px;color:var(--brand);font-weight:850;white-space:nowrap}
+.poi-filter-chip{border:1px solid var(--s350);background:var(--s100);border-radius:999px;padding:4px 8px;font-weight:700;display:flex;align-items:center;gap:4px;font-size:11px;cursor:pointer;white-space:nowrap}
+.poi-filter-chip input{width:13px;height:13px;margin:0;accent-color:var(--brand)}
+.poi-filter-chip.off{opacity:.45;background:#fff;border-color:var(--line)}
 .dot{width:12px; height:12px; border-radius:50%; display:inline-block; border:2px solid #fff;
      box-shadow:0 0 0 1px rgba(0,0,0,.25)}
 .cnt{font-variant-numeric:tabular-nums; color:var(--ink-2)}
@@ -1802,16 +1803,20 @@ function drawPoi(poi, admCode, admGeoOverride=null){
     hint.textContent = "일부 POI에 행정동 매칭 정보가 없어 시군구 전체 POI를 표시합니다"
                      + " (경계 파일이 들어오면 동 단위로 좁혀집니다)";
   }
+  const primaryFilterKeys=["competitor","school_elem","school_mid","school_high","english_kinder"];
+  const secondaryFilterKeys=Object.keys(POI_STYLE).filter(k=>!primaryFilterKeys.includes(k));
+  const filterChip=k=>`<label class="poi-filter-chip" data-filter-key="${k}">
+    <input type="checkbox" data-k="${k}" checked aria-label="${POI_STYLE[k].label} 지도 표시">
+    <span class="dot" style="background:${POI_STYLE[k].color}"></span>
+    <span>${POI_STYLE[k].label}</span> <span class="cnt">${counts[k]}</span></label>`;
   document.getElementById("toggles").innerHTML =
-    Object.keys(POI_STYLE).map(k =>
-      `<button data-k="${k}" aria-pressed="true">
-        <span class="dot" style="background:${POI_STYLE[k].color}"></span>
-        ${POI_STYLE[k].label} <span class="cnt">${counts[k]}</span></button>`).join("");
-  document.querySelectorAll("#toggles button").forEach(b => b.onclick = () => {
-    const k = b.dataset.k, on = b.getAttribute("aria-pressed")==="true";
-    b.setAttribute("aria-pressed", String(!on));
-    if(on) map2.removeLayer(poiLayers[k]);
-    else { poiLayers[k].addTo(map2); raiseKeyLayers(); }
+    `<div class="toggle-group primary" aria-label="요청 지도 필터"><span class="toggle-group-label">지도 필터</span>${primaryFilterKeys.map(filterChip).join("")}</div>`+
+    `<div class="toggle-group secondary" aria-label="기타 지도 표시"><span class="toggle-group-label">기타 표시</span>${secondaryFilterKeys.map(filterChip).join("")}</div>`;
+  document.querySelectorAll("#toggles input[data-k]").forEach(input => input.onchange = () => {
+    const k=input.dataset.k;
+    input.closest(".poi-filter-chip").classList.toggle("off",!input.checked);
+    if(input.checked){ poiLayers[k].addTo(map2); raiseKeyLayers(); }
+    else map2.removeLayer(poiLayers[k]);
   });
 
   // ④ 접근성 KPI 채우기

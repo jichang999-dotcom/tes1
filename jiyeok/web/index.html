@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="build-version" content="2026-08-07-school-cards-poi-filters-v3">
+<meta name="build-version" content="2026-08-07-school-cards-poi-filters-performance-v4">
 <title>지역분석 대시보드 — 가맹 상담용</title>
 <link rel="stylesheet" href="vendor/leaflet.css">
 <style>
@@ -487,7 +487,9 @@ const cache = new Map();
    ===================================================================== */
 async function tryFetch(url){
   try{
-    const r = await fetch(url, {cache:"no-store"});
+    /* GitHub Pages 는 정적 데이터에 max-age=600 을 준다. no-store 로 이를 무효화하면
+       같은 방문에서도 전국 경계와 지표를 매번 다시 내려받아 화면이 수 초 비었다. */
+    const r = await fetch(url);
     if(!r.ok) return null;
     return await r.json();
   }catch(e){ return null; }
@@ -505,12 +507,21 @@ async function load(kind, file){          // kind: "geo" | "proc"
   updateBadge();
   return d;
 }
+async function loadOptional(kind, file){
+  const key=kind+"/"+file;
+  if(cache.has(key)) return await cache.get(key);
+  const pending=tryFetch(REAL[kind]+file);
+  cache.set(key,pending);
+  const data=await pending;
+  cache.set(key,data);
+  updateBadge();
+  return data;
+}
 /* 경쟁사 집계를 metrics 에 얹어 "선택 가능한 지표"로 만든다.
    ⚠️ 경쟁사가 0인 지역은 competitor_*.json 에 **키 자체가 없다.**
       undefined 로 두면 코로플레스에서 결측(회색)이 되어 "경쟁사 없음"이
       "데이터 없음"으로 읽힌다 — 0 으로 채운다 (B-8 과 같은 취지). */
-async function mergeCompetitor(metFile, compFile){
-  const [met, comp] = await Promise.all([load("proc", metFile), load("proc", compFile)]);
+function mergeCompetitorData(met,comp){
   if(!met || !met.data) return met;
   if(met.__comp) return met;
   const cd = (comp && comp.data) || null;
@@ -536,6 +547,10 @@ async function mergeCompetitor(metFile, compFile){
      실측 0인지 미수령인지 구분할 근거가 없으면 상담에서 잘못 읽힌다. */
   if(comp && comp.meta && comp.meta.pending) state.pendingAxes = comp.meta.pending;
   return met;
+}
+async function mergeCompetitor(metFile, compFile){
+  const [met, comp] = await Promise.all([load("proc", metFile), load("proc", compFile)]);
+  return mergeCompetitorData(met,comp);
 }
 function isOwnBrand(name){ return (state.ownBrands || []).includes(name); }
 
@@ -598,6 +613,47 @@ async function loadLevelData(level){
   ]);
   applyAgeRange(met,pop);
   return {level, met, pop};
+}
+function combineWebBundles(bundles){
+  const valid=bundles.filter(Boolean);
+  if(!valid.length) return null;
+  const mergeSection=key=>({
+    meta:valid[0][key]&&valid[0][key].meta||{},
+    data:Object.assign({},...valid.map(bundle=>bundle[key]&&bundle[key].data||{}))
+  });
+  return {
+    geo:{type:"FeatureCollection",features:valid.flatMap(bundle=>bundle.geo&&bundle.geo.features||[])},
+    metrics:mergeSection("metrics"),
+    population:mergeSection("population"),
+    competitor:mergeSection("competitor")
+  };
+}
+function levelDataFromBundle(level,bundle){
+  const met=bundle&&bundle.metrics;
+  const pop=bundle&&bundle.population;
+  mergeCompetitorData(met,bundle&&bundle.competitor);
+  applyAgeRange(met,pop);
+  return {level,met,pop};
+}
+async function loadNationViewData(){
+  const bundle=await loadOptional("proc","web_sido.json");
+  if(bundle&&bundle.geo) return {geo:bundle.geo,data:levelDataFromBundle("sido",bundle)};
+  const [geo,data]=await Promise.all([load("geo","sido.geojson"),loadLevelData("sido")]);
+  return {geo,data};
+}
+async function loadSggViewData(sidoCodes){
+  const bundles=await Promise.all(sidoCodes.map(code=>loadOptional("proc",`web_sgg_${code}.json`)));
+  if(bundles.every(Boolean)){
+    const bundle=combineWebBundles(bundles);
+    return {geo:bundle.geo,data:levelDataFromBundle("sgg",bundle)};
+  }
+  const [geo,data]=await Promise.all([load("geo","sgg.geojson"),loadLevelData("sgg")]);
+  return {geo,data};
+}
+async function loadAdmViewData(sggCodes){
+  const bundles=await Promise.all(sggCodes.map(code=>loadOptional("proc",`web_adm_${code}.json`)));
+  if(bundles.every(Boolean)) return levelDataFromBundle("adm",combineWebBundles(bundles));
+  return loadLevelData("adm");
 }
 
 function updateBadge(){
@@ -1054,9 +1110,7 @@ async function viewNation(preselectedCodes=null){
   }
   state.level="nation";
   showStage("map"); drawBC(); initMap();
-  const [geo, data] = await Promise.all([
-    load("geo","sido.geojson"),
-    loadLevelData("sido")]);
+  const {geo,data}=await loadNationViewData();
   const met=data.met;
   if(!geo){ showStage("none");
     showNotice("데이터 준비중",
@@ -1091,9 +1145,9 @@ async function viewSidoSelection(sidos,preselectedCodes=null){
   state.level="sido"; state.sidos=parents; state.sido=parents.length===1?parents[0]:null;
   if(!preserve){ state.sggs=[]; state.sgg=null; state.adms=[]; state.adm=null; }
   showStage("map"); drawBC(); initMap();
-  const [geo, data, parentData] = await Promise.all([
-    load("geo","sgg.geojson"),
-    loadLevelData("sgg"), loadLevelData("sido")]);
+  const {geo,data}=await loadSggViewData(parents.map(parent=>String(parent.code)));
+  const parentData=state.selectionContext&&state.selectionContext.level==="sido"
+    ? state.selectionContext.data : await loadLevelData("sido");
   const met=data.met;
   if(!geo){ showNotice("데이터 준비중", "시군구 경계 파일이 없습니다."); return; }
   hideNotice();
@@ -1133,9 +1187,14 @@ async function viewSggSelection(sggs,preselectedCodes=null){
   if(!preserve){ state.adms=[]; state.adm=null; }
   showStage("map"); drawBC(); initMap();
   // 선택한 시군구의 행정동 경계만 병렬 지연 로딩한다.
-  const [geos, data, parentData] = await Promise.all([
+  const previousContext=state.selectionContext;
+  const [geos,data] = await Promise.all([
     Promise.all(parents.map(s=>load("geo",`adm_${s.code}.geojson`))),
-    loadLevelData("adm"), loadLevelData("sgg")]);
+    loadAdmViewData(parents.map(parent=>String(parent.code)))
+  ]);
+  const parentData=previousContext&&previousContext.level==="sgg" ? previousContext.data
+    : previousContext&&previousContext.level==="adm"&&previousContext.parent ? previousContext.parent.data
+    : await loadLevelData("sgg");
   const met=data.met;
   const features=geos.filter(Boolean).flatMap(g=>g.features||[]);
   const geo={type:"FeatureCollection",features};

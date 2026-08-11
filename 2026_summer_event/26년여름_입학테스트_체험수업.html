@@ -1168,11 +1168,20 @@ function segTable(tab) {
    그래서 **그 부서의 등록 과목 체계에 존재하는 값만** 비교에 쓴다(= `gk`). 하드코딩 대신 데이터로 거른다.
    ⚠️ `tst`(응시 여부)는 이 필터와 무관하게 **전체 응시 행**으로 판정한다 — 공개수업만 참여한 사람도
    '시험은 봤다'는 참이다. 과목을 못 가리는 것과 응시를 안 한 것은 다르다. */
+/* ⚠️ **'대조 불가'를 '같은 과목'에 섞지 않는다** (2026-08-11, L4 시각검증 지적).
+   위 «과목 비교 축» 필터의 부작용: 응시 과목이 **전부** 비교축 밖이면(키즈 공개수업만 응시)
+   `tsub` 에 그 사람이 아예 없어 `isCross=false` → **'같은 과목' 칸**에 앉았다. 실측으로
+   26년여름 키즈 5건(공개 응시 → 통합 4·과학 1) · 25년여름 키즈 19건이 **거짓 라벨**이었다.
+   과목을 **못 가리는 것**과 **같은 과목인 것**은 다르다 → 제3의 칸으로 분리한다.
+   등록 과목 미상(`G.k<0`)도 같은 이유로 여기 온다(현재 0건).
+   ⚠️ 합계는 불변 — 소속만 바뀐다. §8 검사 4번은 REG_KINDS 배열을 그대로 읽으므로 자동으로 따라온다. */
 const REG_KINDS = [
   { key:'rgCross',      nm:'신청 O · 응시 O(다른 과목) · 등록 O', sub:'시험은 봤지만 다른 과목으로 등록' },
   { key:'rgNoTest',     nm:'신청 O · 응시 X · 등록 O', sub:'신청했지만 시험은 안 보고 등록' },
+  { key:'rgAppUncmp',   nm:'신청 O · 응시 O · 등록 O (응시경유 미판정)', sub:'시험은 봤는데 원천이 응시경유로 연결하지 않은 건 — 응시 과목이 등록 과목 체계 밖(공개수업 등)이라 대조 불가하거나 동일 과목' },
   { key:'rgNoAppCross', nm:'신청 X · 응시 O(다른 과목) · 등록 O', sub:'신청 없이 시험만 보고 다른 과목으로 등록' },
   { key:'rgNoAppTest',  nm:'신청 X · 응시 O(같은 과목) · 등록 O', sub:'신청 없이 시험만 보고 등록' },
+  { key:'rgNoAppUncmp', nm:'신청 X · 응시 O(과목 대조 불가) · 등록 O', sub:'신청 없이 공개수업 등만 응시 — 등록 과목과 대조 불가' },
   { key:'rgNoAppNoT',   nm:'신청 X · 응시 X · 등록 O', sub:'신청·시험 없이 바로 등록' },
 ];
 function regTypeBlock(tab, fin, e) {
@@ -1237,9 +1246,10 @@ function regTypeBlock(tab, fin, e) {
 /* §6 '기타' = 신청에 연결되지 않는 응시·등록. 등록은 3분류로 분해해 원인을 보이게 한다. */
 function etc(role, tab) {
   const ev = DATA.events[role];
-  let ts=0, rgVia=0, rgViaCross=0, rgCross=0, rgNoTest=0, rgNoAppCross=0, rgNoAppTest=0, rgNoAppNoT=0;
-  const S = { ts:new Set(), via:new Set(), viaX:new Set(), cross:new Set(), noT:new Set(),
-              noAX:new Set(), noAT:new Set(), noANT:new Set() };
+  let ts=0, rgVia=0, rgViaCross=0, rgCross=0, rgNoTest=0, rgAppUncmp=0,
+      rgNoAppCross=0, rgNoAppTest=0, rgNoAppUncmp=0, rgNoAppNoT=0;
+  const S = { ts:new Set(), via:new Set(), viaX:new Set(), cross:new Set(), noT:new Set(), aU:new Set(),
+              noAX:new Set(), noAT:new Set(), noAU:new Set(), noANT:new Set() };
   for (const org of orgsOf(tab)) {
     const FA = ev.facts[org]; if (!FA) continue;
     const T = FA['응시'];
@@ -1267,6 +1277,9 @@ function etc(role, tab) {
       const ks = tsub.get(G.p[i]);
       return !!ks && G.k[i] >= 0 && !ks.has(G.k[i]);
     };
+    // 과목을 **대조할 수 있나** — 응시 과목이 전부 비교축 밖(공개수업만)이거나 등록 과목이 미상이면 불가.
+    // isCross 가 false 인 이유가 '같아서'인지 '못 가려서'인지를 이걸로 가른다(2026-08-11).
+    const canCmp = i => tsub.has(G.p[i]) && G.k[i] >= 0;
     if (G) { const m = mask(G);
       for (let i=0;i<G.p.length;i++) {
         if (!m[i]) continue;
@@ -1277,26 +1290,32 @@ function etc(role, tab) {
         // (표에는 '기타 합계 제외' 참고 행으로 낸다). 전년 실측 17건 = 전부 키즈.
         if (G.v[i]) { rgVia++; S.via.add(pid); if (cross) { rgViaCross++; S.viaX.add(pid); } }
         // '응시 X'라고 쓰기 전에 응시 팩트를 대조한다 — 예전 비대칭의 반대쪽 분기.
+        // 2026-08-11: 이 분기가 `cross` 만 보고 갈라 **시험을 본 사람이 '응시 X' 칸**에 앉을 수 있었다
+        // (공개수업만 응시 → 과목 대조 불가 → cross=false). tst 를 먼저 물어 라벨을 참으로 만든다.
         else if (G.m[i]) {
           if (cross) { rgCross++; S.cross.add(pid); }
-          else { rgNoTest++; S.noT.add(pid); }
+          else if (tst.has(G.p[i])) { rgAppUncmp++; S.aU.add(pid); }    // 응시는 했으나 과목 대조 불가
+          else { rgNoTest++; S.noT.add(pid); }                          // 진짜 응시 X
         }
         else if (tst.has(G.p[i])) {                                     // 신청X·응시O
           if (cross) { rgNoAppCross++; S.noAX.add(pid); }
+          else if (!canCmp(i)) { rgNoAppUncmp++; S.noAU.add(pid); }     // 못 가림 ≠ 같은 과목
           else { rgNoAppTest++; S.noAT.add(pid); }
         }
         else { rgNoAppNoT++; S.noANT.add(pid); }                        // 신청X·응시X
       } }
   }
-  const rgNoApp = rgNoAppCross + rgNoAppTest + rgNoAppNoT;
+  const rgNoApp = rgNoAppCross + rgNoAppTest + rgNoAppUncmp + rgNoAppNoT;
   if (state.unit === 'dis')
-    return { ts:S.ts.size, rg:S.cross.size+S.noT.size+S.noAX.size+S.noAT.size+S.noANT.size,
+    return { ts:S.ts.size,
+             rg:S.cross.size+S.noT.size+S.aU.size+S.noAX.size+S.noAT.size+S.noAU.size+S.noANT.size,
              rgVia:S.via.size, rgViaCross:S.viaX.size,
-             rgCross:S.cross.size, rgNoTest:S.noT.size,
-             rgNoApp:S.noAX.size+S.noAT.size+S.noANT.size,
-             rgNoAppCross:S.noAX.size, rgNoAppTest:S.noAT.size, rgNoAppNoT:S.noANT.size };
-  return { ts, rg: rgCross+rgNoTest+rgNoApp, rgVia, rgViaCross, rgCross, rgNoTest, rgNoApp,
-           rgNoAppCross, rgNoAppTest, rgNoAppNoT };
+             rgCross:S.cross.size, rgNoTest:S.noT.size, rgAppUncmp:S.aU.size,
+             rgNoApp:S.noAX.size+S.noAT.size+S.noAU.size+S.noANT.size,
+             rgNoAppCross:S.noAX.size, rgNoAppTest:S.noAT.size,
+             rgNoAppUncmp:S.noAU.size, rgNoAppNoT:S.noANT.size };
+  return { ts, rg: rgCross+rgNoTest+rgAppUncmp+rgNoApp, rgVia, rgViaCross, rgCross, rgNoTest,
+           rgAppUncmp, rgNoApp, rgNoAppCross, rgNoAppTest, rgNoAppUncmp, rgNoAppNoT };
 }
 
 /* ── 기타의 세그먼트 분해 (2026-07-24) ────────────────────────────────

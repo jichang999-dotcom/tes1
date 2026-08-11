@@ -292,6 +292,18 @@ main{padding:10px 16px 0; max-width:1920px; margin:0 auto}
 .kpi .d{font-size:14px; font-weight:700}
 .d.up{color:#006300}.d.dn{color:var(--critical)}
 
+/* 지표 설명 말풍선 — 카드 위에 올리면 "이 숫자가 무엇인지"를 띄운다.
+   ⚠️ CSS ::after 로 만들지 않았다. 카드가 좁은 그리드라 부모 밖으로 나가면 잘리고,
+   맨 아래·맨 오른쪽 카드에서 특히 안 보인다. body 에 붙은 하나짜리 상자를
+   JS 로 옮겨 쓰면 어디에 있는 카드든 화면 안에 들어온다. */
+.kpi[data-tip]{cursor:help}
+#kpiTip{position:fixed; z-index:9999; max-width:290px; padding:9px 11px;
+  background:#111827; color:#f9fafb; border-radius:8px; font-size:12px; line-height:1.5;
+  box-shadow:0 6px 20px rgba(0,0,0,.28); pointer-events:none; opacity:0; transition:opacity .12s}
+#kpiTip.on{opacity:1}
+#kpiTip b{color:#fff}
+#kpiTip .warn{color:#fca5a5; font-weight:700}
+
 .chart{margin-top:7px}
 .chart .cap{font-size:10px; color:var(--muted); margin-bottom:3px}
 svg .grid{stroke:var(--grid); stroke-width:1}
@@ -851,6 +863,24 @@ function applyMapSelection(focus=false){
   }
 }
 
+/* 지도 마우스오버 말풍선. 전국·시도·시군구 코로플레스와 **행정동 상세 지도**가
+   같은 함수를 쓴다 — 같은 지역을 어느 화면에서 짚어도 같은 문구가 나와야 한다.
+   ⚠️ 값 접근은 반드시 metricVal() 로 한다. 표본 부족(low_sample)·확인 필요
+   (apt_ratio_suspect)를 숫자로 보여 주면 안 되기 때문이다(§4 표본 부족 표시). */
+function regionTipHtml(name, m){
+  if(!m) return `<b style="font-size:15px">${name}</b><br>지표 준비중`;
+  const v = metricVal(m);
+  const shown = v===null && PRICE_KEYS.has(curMetric.k) && m.low_sample ? "표본 부족"
+              : v===null && curMetric.k==="apt_ratio" && m.apt_ratio_suspect ? "확인 필요"
+              : v===null ? "–"
+              : fmt(v*mScale(), curMetric.d)+curMetric.unit;
+  return `<b style="font-size:15px">${name}</b><br>` +
+    `<b>${curMetric.label}</b> ${shown}<br>` +
+    `학령인구 ${fmt(m.school_age)}명 · 입시·보습 학원 ${fmt(m.academy_cnt)}개 · 학교 ${fmt(m.school_cnt)}개<br>` +
+    `자사 ${fmt((m.own_waikids_cnt||0)+(m.own_wiseman_cnt||0))}개 · 경쟁사 ${fmt(m.competitor_cnt)}개 · ` +
+    `<span style="color:#0e9f6e">시너지세권 ${fmt(m.english_kinder_cnt)}개</span>`;
+}
+
 function drawChoropleth(geo, metrics, onClick, filterFn){
   lastDraw = {geo, metrics, onClick, filterFn};
   map.stop();
@@ -868,14 +898,7 @@ function drawChoropleth(geo, metrics, onClick, filterFn){
     onEachFeature: (f, lyr) => {
       const p = f.properties;
       const m = metrics && metrics.data ? metrics.data[p.code] : null;
-      lyr.bindTooltip(
-        `<b style="font-size:15px">${p.name}</b><br>` +
-        (m ? `<b>${curMetric.label}</b> ${metricVal(m)===null && PRICE_KEYS.has(curMetric.k) && m.low_sample
-                ? "표본 부족" : (metricVal(m)===null && curMetric.k==="apt_ratio" && m.apt_ratio_suspect
-                ? "확인 필요" : fmt(metricVal(m)*mScale(), curMetric.d)+curMetric.unit)}<br>
-              학령인구 ${fmt(m.school_age)}명 · 입시·보습 학원 ${fmt(m.academy_cnt)}개 · 학교 ${fmt(m.school_cnt)}개`
-           : "지표 준비중"),
-        {sticky:true, direction:"top"});
+      lyr.bindTooltip(regionTipHtml(p.name, m), {sticky:true, direction:"top"});
       lyr.on("mouseover", () => lyr.setStyle({weight:4, color:"#0b0b0b"}));
       lyr.on("mouseout",  () => lyr.setStyle(selectedRegionStyle(p.code,metrics)));
       lyr.on("click", e => {
@@ -1465,30 +1488,30 @@ function renderRegionSummary(name, codes, data, selected=false){
       <div class="blk dashboard-blk market"><div class="section-rail">시장<br>규모</div><div class="section-body">
         <h3>학령인구·수요<span class="tag">학령인구 필터 적용</span></h3>
         <div class="kpis">
-          <div class="kpi"><div class="v">${fmt(m.school_age)}<span class="u">명</span></div><div class="l">${ageRangeLabel()} 학령인구</div></div>
-          <div class="kpi"><div class="v">${fmt(p.households)}<span class="u">세대</span></div><div class="l">주민등록 세대수 (가구 수)</div></div>
-          <div class="kpi"><div class="v">${p.trend_pct==null?"–":(p.trend_pct>=0?"+":"")+fmt(p.trend_pct,1)}<span class="u">%</span></div><div class="l">최근 12개월 인구 증감</div></div>
-          <div class="kpi"><div class="v">${m.pupils_per_academy==null?"–":fmt(m.pupils_per_academy,1)}<span class="u">명</span></div><div class="l">${ageRangeLabel()} 인구 ÷ 입시·보습 학원 수</div></div>
+          <div class="kpi" data-tip='주민등록 인구 중 <b>상단 필터에서 고른 나이</b>만 더한 값.<br>원천 = 행안부 주민등록(2026-06) · 독립 원천 교차검증 통과'><div class="v">${fmt(m.school_age)}<span class="u">명</span></div><div class="l">${ageRangeLabel()} 학령인구</div></div>
+          <div class="kpi" data-tip='주민등록상 <b>가구 수</b>.<br><span class="warn">아파트 세대수와 다르다</span> — 아파트 거주 비율은 이 둘을 나눈 값이라 섞으면 반드시 틀린다'><div class="v">${fmt(p.households)}<span class="u">세대</span></div><div class="l">주민등록 세대수 (가구 수)</div></div>
+          <div class="kpi" data-tip='최근 12개월 <b>총인구</b> 증감률. 학령인구가 아니라 전체 인구 기준'><div class="v">${p.trend_pct==null?"–":(p.trend_pct>=0?"+":"")+fmt(p.trend_pct,1)}<span class="u">%</span></div><div class="l">최근 12개월 인구 증감</div></div>
+          <div class="kpi" data-tip='학원 하나가 상대하는 학령인구.<br>학원 = <b>입시·검정 및 보습만</b>(예체능·어학원·독서실 제외)<br>학원이 0개인 동은 나눌 수 없어 <b>–</b> 로 둔다'><div class="v">${m.pupils_per_academy==null?"–":fmt(m.pupils_per_academy,1)}<span class="u">명</span></div><div class="l">${ageRangeLabel()} 인구 ÷ 입시·보습 학원 수</div></div>
         </div></div></div>
       <div class="blk dashboard-blk education"><div class="section-rail">교육<br>경쟁</div><div class="section-body">
         <h3>교육·경쟁 환경<span class="tag">${ageRangeLabel()} 필터 적용</span></h3><div class="kpis competition-row">
-        <div class="kpi"><div class="v">${fmt(m.own_waikids_cnt)}<span class="u">개</span></div><div class="l">자사 와이키즈</div></div>
-        <div class="kpi"><div class="v" style="color:#c026d3">${fmt(m.own_wiseman_cnt)}<span class="u">개</span></div><div class="l">자사 와이즈만</div></div>
-        <div class="kpi"><div class="v">${fmt(m.competitor_cnt)}<span class="u">개</span></div><div class="l">경쟁사</div></div>
-        <div class="kpi"><div class="v" style="color:#0e9f6e">${fmt(m.english_kinder_cnt)}<span class="u">개</span></div><div class="l">시너지세권</div></div>
+        <div class="kpi" data-tip='자사 브랜드 <b>와이키즈</b> 지점 수.<br>자사는 두 브랜드(와이키즈·와이즈만)이고 둘을 합한 값이 「자사 센터 수」다'><div class="v">${fmt(m.own_waikids_cnt)}<span class="u">개</span></div><div class="l">자사 와이키즈</div></div>
+        <div class="kpi" data-tip='자사 브랜드 <b>와이즈만</b> 지점 수.<br>명부는 관리자 제공 xlsx 기준(크롤 불가)'><div class="v" style="color:#c026d3">${fmt(m.own_wiseman_cnt)}<span class="u">개</span></div><div class="l">자사 와이즈만</div></div>
+        <div class="kpi" data-tip='경쟁 브랜드 지점 수(소마·아담리즈·필즈더클래식·생각하는황소).<br>공식 홈페이지를 <b>월 1회</b> 크롤 · 0개는 결측이 아니라 <b>실측</b>'><div class="v">${fmt(m.competitor_cnt)}<span class="u">개</span></div><div class="l">경쟁사</div></div>
+        <div class="kpi" data-tip='영어유치원(폴리·라이즈).<br><span class="warn">경쟁사가 아니다</span> — 유아 사교육 수요가 모이는 자리라 <b>근처 입점이 유리</b>하다.<br>그래서 경쟁사 수와 합산하지 않는다'><div class="v" style="color:#0e9f6e">${fmt(m.english_kinder_cnt)}<span class="u">개</span></div><div class="l">시너지세권</div></div>
         </div>
         <div class="student-kpis" aria-label="학령인구 필터 적용 학교급별 학생수">
-          ${SCHOOL_AGE_GROUPS.map((group,index)=>`<div class="student-kpi"><div class="student-label">${group.label}</div><div class="student-value">${fmt(schoolAgeValues[index])}<span class="u">명</span></div></div>`).join("")}
+          ${SCHOOL_AGE_GROUPS.map((group,index)=>`<div class="student-kpi" data-tip='학교알리미 공시(2026년) <b>학년별</b> 학생수를 상단 학령인구 필터에 맞춰 환산한 값.<br>학교가 없는 동은 0으로 나온다 — 결측이 아니라 실측이다'><div class="student-label">${group.label}</div><div class="student-value">${fmt(schoolAgeValues[index])}<span class="u">명</span></div></div>`).join("")}
         </div>
       </div></div>
       <div class="blk dashboard-blk housing"><div class="section-rail">구매력<br>주거</div><div class="section-body">
         <h3>구매력·주거</h3><div class="kpis">
-        <div class="kpi"><div class="v">${price==null||m.low_sample?"–":fmt(price)}<span class="u">만원</span></div><div class="l">${priceLabel}</div></div>
-        <div class="kpi"><div class="v">${m.avg_price==null?"–":만원(m.avg_price)}</div><div class="l">평균 매매가${multi?"(거래가중)":""}</div></div>
-        <div class="kpi"><div class="v">${fmt(m.apt_households)}<span class="u">세대</span></div><div class="l">아파트 세대수</div></div>
-        <div class="kpi"><div class="v">${m.apt_ratio==null?"–":fmt(m.apt_ratio*100,1)}<span class="u">%</span></div><div class="l">아파트 거주 비율</div></div>
-        <div class="kpi"><div class="v">${m.new_ratio==null?"–":fmt(m.new_ratio*100,1)}<span class="u">%</span></div><div class="l">신축(10년 이내) 비중</div></div>
-        <div class="kpi"><div class="v">${fmt(m.housing_asset)}<span class="u">억원</span></div><div class="l">주거자산 총액</div></div>
+        <div class="kpi" data-tip='최근 24개월 아파트 매매 실거래의 3.3㎡당 <b>중앙값</b>.<br>평균은 초고가 한 건에 끌려가서 중앙값을 쓴다(차이 최대 1,344만원/평).<br>거래 10건 미만이면 대표성이 없어 <b>표본 부족</b>으로 뜬다'><div class="v">${price==null||m.low_sample?"–":fmt(price)}<span class="u">만원</span></div><div class="l">${priceLabel}</div></div>
+        <div class="kpi" data-tip='최근 24개월 아파트 매매 <b>평균 거래가</b>.<br>여러 지역을 함께 고르면 거래 건수로 가중평균한다'><div class="v">${m.avg_price==null?"–":만원(m.avg_price)}</div><div class="l">평균 매매가${multi?"(거래가중)":""}</div></div>
+        <div class="kpi" data-tip='공동주택관리정보시스템(K-apt)의 <b>공식 세대수</b> · 전국 22,257단지 전수.<br><span class="warn">주민등록 세대수와 다르다</span> — 이쪽은 아파트에 있는 세대만 센다'><div class="v">${fmt(m.apt_households)}<span class="u">세대</span></div><div class="l">아파트 세대수</div></div>
+        <div class="kpi" data-tip='아파트 세대수 ÷ 주민등록 세대수.<br>100%를 넘는 동이 55곳 있는데 대부분 <b>신축 미입주</b>다(K-apt는 전 세대를 세고 주민등록은 입주해야 잡힌다). 그런 동은 색·순위에서 뺀다'><div class="v">${m.apt_ratio==null?"–":fmt(m.apt_ratio*100,1)}<span class="u">%</span></div><div class="l">아파트 거주 비율</div></div>
+        <div class="kpi" data-tip='준공 10년 이내 아파트가 차지하는 비중.<br><b>세대 기준</b>이다(거래 기준이 아니다)'><div class="v">${m.new_ratio==null?"–":fmt(m.new_ratio*100,1)}<span class="u">%</span></div><div class="l">신축(10년 이내) 비중</div></div>
+        <div class="kpi" data-tip='아파트 세대수 × 평균 매매가.<br>그 동에 잠겨 있는 주거자산의 <b>총량</b> — 단가가 아니라 규모를 본다'><div class="v">${fmt(m.housing_asset)}<span class="u">억원</span></div><div class="l">주거자산 총액</div></div>
       </div></div></div>
     </div>`;
 }
@@ -1878,15 +1901,29 @@ function drawPoi(poi, admCode, admGeoOverride=null){
   // 경계 표시 (선택한 모든 동을 강조)
   const admGeo = admGeoOverride || (state.sgg && cache.get("geo/adm_"+state.sgg.code+".geojson"));
   if(admGeo){
+    // 상세 지도의 동에도 코로플레스와 **같은 말풍선**을 붙인다. 여기서 옆 동을
+    // 훑어보는 일이 실제 상담 동선이라, 클릭해서 들어가 보지 않고도 비교돼야 한다.
+    const admMet = state.selectionContext && state.selectionContext.data
+      ? state.selectionContext.data.met : null;
+    const admStyle = f => ({
+      color:"#ffffff",opacity:1,
+      weight: admSet.has(String(f.properties.code)) ? 4 : 2,
+      fill:true, fillColor:"#cde2fb",
+      fillOpacity:admSet.has(String(f.properties.code)) ? .25 : .01,
+      className:"region-boundary"
+    });
     const bl = L.geoJSON(admGeo, {
-      style:f=>({
-        color:"#ffffff",opacity:1,
-        weight: admSet.has(String(f.properties.code)) ? 4 : 2,
-        fill:true, fillColor:"#cde2fb",
-        fillOpacity:admSet.has(String(f.properties.code)) ? .25 : .01,
-        className:"region-boundary"
-      }),
-      onEachFeature:(f,lyr)=>lyr.on("click",e=>{
+      style:admStyle,
+      onEachFeature:(f,lyr)=>{
+      const met = admMet && admMet.data ? admMet.data[String(f.properties.code)] : null;
+      lyr.bindTooltip(regionTipHtml(f.properties.name, met), {sticky:true, direction:"top"});
+      // 🚫 hover 로 **weight 를 바꾸지 말 것.** 이 지도에서 선/굵기는 "선택됨"을
+      //    나타내는 축이라(선택 4 · 비선택 2), hover 가 건드리면 마우스가 올라가
+      //    있다는 이유만으로 선택된 것처럼 보이고 선택 개수를 세는 쪽도 틀린다.
+      //    강조는 **채움 진하기로만** 한다.
+      lyr.on("mouseover", () => lyr.setStyle({fillOpacity: admSet.has(String(f.properties.code)) ? .40 : .28}));
+      lyr.on("mouseout",  () => lyr.setStyle(admStyle(f)));
+      lyr.on("click",e=>{
         const original=e.originalEvent||{};
         if(original.preventDefault) original.preventDefault();
         if(original.stopPropagation) original.stopPropagation();
@@ -1907,7 +1944,8 @@ function drawPoi(poi, admCode, admGeoOverride=null){
           if(sidoParent){ state.sidos=[sidoParent]; state.sido=sidoParent; }
         }
         viewAdm({code,name:row.name});
-      })
+      });
+      }
     });
     poiLayers.__adm = bl.addTo(map2);
     const selectedFeatures=admGeo.features.filter(f=>admSet.has(String(f.properties.code)));
@@ -2112,6 +2150,44 @@ async function resetDashboardInitialState(){
     showNotice("데이터 준비중", "다음 파일을 찾지 못했습니다: <code>" +
       [...new Set(state.missing)].join("</code>, <code>") + "</code>");
   }
+})();
+
+/* 지표 설명 말풍선.
+   카드는 회차마다 innerHTML 로 다시 그려지므로 **위임**으로 붙인다 —
+   카드마다 리스너를 달면 다시 그릴 때 조용히 사라진다. */
+(function initKpiTip(){
+  const tip = document.createElement("div");
+  tip.id = "kpiTip";
+  document.body.appendChild(tip);
+  let cur = null;
+
+  function place(e){
+    const pad = 12, w = tip.offsetWidth, h = tip.offsetHeight;
+    // 커서 오른쪽 아래가 기본. 화면 밖으로 나가면 반대편으로 접는다.
+    let x = e.clientX + pad, y = e.clientY + pad;
+    if(x + w > innerWidth  - 8) x = e.clientX - w - pad;
+    if(y + h > innerHeight - 8) y = e.clientY - h - pad;
+    tip.style.left = Math.max(8, x) + "px";
+    tip.style.top  = Math.max(8, y) + "px";
+  }
+  document.addEventListener("mouseover", e => {
+    const el = e.target.closest ? e.target.closest("[data-tip]") : null;
+    if(!el || el === cur) return;
+    cur = el;
+    tip.innerHTML = el.getAttribute("data-tip");
+    tip.classList.add("on");
+    place(e);
+  });
+  document.addEventListener("mousemove", e => { if(cur) place(e); });
+  document.addEventListener("mouseout", e => {
+    if(!cur) return;
+    const to = e.relatedTarget;
+    if(to && to.closest && to.closest("[data-tip]") === cur) return;
+    cur = null;
+    tip.classList.remove("on");
+  });
+  // 스크롤·드릴다운으로 카드가 사라져도 말풍선이 남지 않게 한다.
+  addEventListener("scroll", () => { cur = null; tip.classList.remove("on"); }, true);
 })();
 </script>
 </body>

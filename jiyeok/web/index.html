@@ -72,6 +72,8 @@ header .sub{font-size:12px; opacity:.8}
 .age-presets{display:flex;gap:5px;padding-bottom:8px;border-bottom:1px solid var(--grid)}
 .age-presets button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:5px 9px;color:var(--ink-2);font-size:11px;font-weight:700}
 .age-presets button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+.age-axis-note{padding:7px 0 0;color:var(--ink-2);font-size:11px;line-height:1.5}
+.age-axis-note b{color:var(--ink)}
 .age-checks{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:8px}
 .age-checks label{display:flex;align-items:center;gap:4px;padding:5px 6px;border:1px solid var(--grid);border-radius:6px;font-size:11px;font-weight:700;background:#fff}
 .age-checks input{width:13px;height:13px;margin:0;accent-color:var(--brand)}
@@ -381,10 +383,10 @@ footer{display:none}
   <div class="age-filter" id="ageFilter" aria-label="학령인구 연령 필터">
     <span class="age-filter-label">학령인구</span>
     <button type="button" class="age-filter-trigger" id="ageFilterTrigger" aria-expanded="false">3~16세 v</button>
-    <span class="age-status" id="ageStatus">3~16세 기준</span>
+    <span class="age-status" id="ageStatus">한국나이 · 14개 연령</span>
     <div class="age-filter-panel hidden" id="ageFilterPanel">
       <div class="filter-panel-heading">
-        <strong>학령인구 선택</strong>
+        <strong>학령인구 선택 (한국나이)</strong>
         <button type="button" class="filter-clear" id="ageFilterClear">체크 해제</button>
         <button type="button" class="filter-close" id="ageFilterClose" aria-label="학령인구 필터 닫기" title="닫기">X</button>
       </div>
@@ -394,6 +396,10 @@ footer{display:none}
         <button type="button" data-age-preset="8-16" aria-pressed="false">와이즈만 8~16세</button>
       </div>
       <div class="age-checks" id="ageChecks"></div>
+      <div class="age-axis-note">
+        모든 나이는 <b>한국나이(세는나이)</b> 입니다 — <b>8세 = 초1</b> · 13세 = 초6 · 16세 = 중3 · 17~18세 = 고1~고2.<br>
+        인구는 만 나이로 집계된 주민등록(2026-06)을 한국나이로 환산해 씁니다. 3~4세는 인구만 있고 어린이집 원아 수는 없습니다.
+      </div>
     </div>
   </div>
 
@@ -655,6 +661,16 @@ async function mergeCompetitor(metFile, compFile){
 }
 function isOwnBrand(name){ return (state.ownBrands || []).includes(name); }
 
+/* ── 나이 축 ──────────────────────────────────────────────────────────────
+   화면·필터·프리셋은 전부 **한국나이(세는나이)** 다. 8세 = 초1.
+   반면 데이터는 전부 **만 나이** 축이다 — 주민등록 age_year 도, 학교
+   students_age_N 도. 그래서 데이터를 꺼내기 직전에만 toManAge() 로 환산한다.
+   state.selectedAges 에 담긴 값은 언제나 한국나이다.
+   여기서 축이 섞이면 초1 학생수가 유치원 칸에 들어간다. */
+const KOR_AGE_OFFSET = 2;                  // 한국나이 − 만나이
+const KOR_AGE_MIN = 3, KOR_AGE_MAX = 18;   // 체크박스 범위 = 만 1~16세
+const toManAge = kor => kor - KOR_AGE_OFFSET;
+
 function selectedAgeList(){ return [...state.selectedAges].sort((a,b)=>a-b); }
 function ageRangeLabel(){
   const ages=selectedAgeList();
@@ -664,8 +680,9 @@ function ageRangeLabel(){
 }
 function ageRangeTotal(p, min=null, max=null){
   if(!p) return null;
-  const ages=(min!==null&&max!==null)
-    ? Array.from({length:max-min+1},(_,i)=>min+i) : selectedAgeList();
+  /* 인자도 한국나이로 받는다. 만나이 환산은 이 함수 안에서만 한다. */
+  const ages=((min!==null&&max!==null)
+    ? Array.from({length:max-min+1},(_,i)=>min+i) : selectedAgeList()).map(toManAge);
   if(p.age_year){
     let total = 0;
     for(const age of ages) total += Number(p.age_year[String(age)] || 0);
@@ -680,16 +697,17 @@ function ageRangeTotal(p, min=null, max=null){
   }
   return total;
 }
+/* ages 는 한국나이. 만나이로는 유치원 3~5 · 초 6~11 · 중 12~14 · 고 15~17 이다. */
 const SCHOOL_AGE_GROUPS = [
-  {key:"kinder", label:"유치원 원아", ages:[3,4,5]},
-  {key:"elem", label:"초등학교 재학생", ages:[6,7,8,9,10,11]},
-  {key:"mid", label:"중학교 재학생", ages:[12,13,14]},
-  {key:"high", label:"고등학교 재학생", ages:[15,16,17]},
+  {key:"kinder", label:"유치원 원아", ages:[5,6,7]},
+  {key:"elem", label:"초등학교 재학생", ages:[8,9,10,11,12,13]},
+  {key:"mid", label:"중학교 재학생", ages:[14,15,16]},
+  {key:"high", label:"고등학교 재학생", ages:[17,18,19]},
 ];
 function filteredSchoolStudents(m, group){
   const selected=state.selectedAges;
   return group.ages.reduce((sum,age)=>
-    sum+(selected.has(age)?Number(m[`students_age_${age}`]||0):0),0);
+    sum+(selected.has(age)?Number(m[`students_age_${toManAge(age)}`]||0):0),0);
 }
 function applyAgeRange(met, pop){
   if(!met || !met.data || !pop || !pop.data) return met;
@@ -1528,7 +1546,7 @@ function renderRegionSummary(name, codes, data, selected=false){
       <div class="blk dashboard-blk market"><div class="section-rail">시장<br>규모</div><div class="section-body">
         <h3>학령인구·수요<span class="tag">학령인구 필터 적용</span></h3>
         <div class="kpis">
-          <div class="kpi" data-tip='주민등록 인구 중 <b>상단 필터에서 고른 나이</b>만 더한 값.<br>원천 = 행안부 주민등록(2026-06) · 독립 원천 교차검증 통과'><div class="v">${fmt(m.school_age)}<span class="u">명</span></div><div class="l">${ageRangeLabel()} 학령인구</div></div>
+          <div class="kpi" data-tip='주민등록 인구 중 <b>상단 필터에서 고른 나이</b>만 더한 값.<br>나이는 <b>한국나이(세는나이)</b> — 8세 = 초1.<br>원천 = 행안부 주민등록(2026-06, 만 나이) 을 한국나이로 환산 · 독립 원천 교차검증 통과'><div class="v">${fmt(m.school_age)}<span class="u">명</span></div><div class="l">${ageRangeLabel()} 학령인구</div></div>
           <div class="kpi" data-tip='주민등록상 <b>가구 수</b>.<br><span class="warn">아파트 세대수와 다르다</span> — 아파트 거주 비율은 이 둘을 나눈 값이라 섞으면 반드시 틀린다'><div class="v">${fmt(p.households)}<span class="u">세대</span></div><div class="l">주민등록 세대수 (가구 수)</div></div>
           <div class="kpi" data-tip='최근 12개월 <b>총인구</b> 증감률. 학령인구가 아니라 전체 인구 기준'><div class="v">${p.trend_pct==null?"–":(p.trend_pct>=0?"+":"")+fmt(p.trend_pct,1)}<span class="u">%</span></div><div class="l">최근 12개월 인구 증감</div></div>
           <div class="kpi" data-tip='학원 하나가 상대하는 학령인구.<br>학원 = <b>입시·검정 및 보습만</b>(예체능·어학원·독서실 제외)<br>학원이 0개인 동은 나눌 수 없어 <b>–</b> 로 둔다'><div class="v">${m.pupils_per_academy==null?"–":fmt(m.pupils_per_academy,1)}<span class="u">명</span></div><div class="l">${ageRangeLabel()} 인구 ÷ 입시·보습 학원 수</div></div>
@@ -1541,7 +1559,7 @@ function renderRegionSummary(name, codes, data, selected=false){
         <div class="kpi" data-tip='영어유치원(폴리·라이즈).<br><span class="warn">경쟁사가 아니다</span> — 유아 사교육 수요가 모이는 자리라 <b>근처 입점이 유리</b>하다.<br>그래서 경쟁사 수와 합산하지 않는다'><div class="v" style="color:#0e9f6e">${fmt(m.english_kinder_cnt)}<span class="u">개</span></div><div class="l">시너지세권</div></div>
         </div>
         <div class="student-kpis" aria-label="학령인구 필터 적용 학교급별 학생수">
-          ${SCHOOL_AGE_GROUPS.map((group,index)=>`<div class="student-kpi" data-tip='학교알리미 공시(2026년) <b>학년별</b> 학생수를 상단 학령인구 필터에 맞춰 환산한 값.<br>학교가 없는 동은 0으로 나온다 — 결측이 아니라 실측이다'><div class="student-label">${group.label}</div><div class="student-value">${fmt(schoolAgeValues[index])}<span class="u">명</span></div></div>`).join("")}
+          ${SCHOOL_AGE_GROUPS.map((group,index)=>`<div class="student-kpi" data-tip='학교알리미 공시(2026년) <b>학년별</b> 학생수를 상단 학령인구 필터에 맞춰 환산한 값.<br>한국나이 8세=초1 · 13세=초6 · 16세=중3 · 17~18세=고1~고2.<br>학교가 없는 동은 0으로 나온다 — 결측이 아니라 실측이다.<br>학교 <b>소재지</b> 기준이라 통학 유입이 있으면 그 동 인구보다 클 수 있다'><div class="student-label">${group.label}</div><div class="student-value">${fmt(schoolAgeValues[index])}<span class="u">명</span></div></div>`).join("")}
         </div>
       </div></div>
       <div class="blk dashboard-blk housing"><div class="section-rail">구매력<br>주거</div><div class="section-body">
@@ -2095,7 +2113,7 @@ window.addEventListener("resize", refreshMaps);
 
 async function redrawForAgeFilter(){
   METRICS[0].label=`학령인구(${ageRangeLabel()})`;
-  document.getElementById("ageStatus").textContent=`${selectedAgeList().length}개 연령`;
+  document.getElementById("ageStatus").textContent=`한국나이 · ${selectedAgeList().length}개 연령`;
   const selected=[...state.selectedCodes];
   const ctx=state.selectionContext;
   if(state.level==="adm" && state.adm) await viewAdm(state.adm);
@@ -2118,7 +2136,7 @@ function syncAgeFilterUI(){
   state.ageMax=ages.length?ages[ages.length-1]:null;
   checks.querySelectorAll("input").forEach(input=>input.checked=state.selectedAges.has(Number(input.value)));
   trigger.textContent=`${ageRangeLabel()} v`;
-  document.getElementById("ageStatus").textContent=`${ages.length}개 연령`;
+  document.getElementById("ageStatus").textContent=`한국나이 · ${ages.length}개 연령`;
   document.querySelectorAll("[data-age-preset]").forEach(b=>{
     const [lo,hi]=b.dataset.agePreset.split("-").map(Number);
     const preset=Array.from({length:hi-lo+1},(_,i)=>lo+i);
@@ -2128,8 +2146,8 @@ function syncAgeFilterUI(){
 function initAgeFilter(){
   const checks=document.getElementById("ageChecks");
   const trigger=document.getElementById("ageFilterTrigger");
-  checks.innerHTML=Array.from({length:14},(_,i)=>i+3).map(age=>
-    `<label><input type="checkbox" value="${age}" checked>${age}세</label>`).join("");
+  checks.innerHTML=Array.from({length:KOR_AGE_MAX-KOR_AGE_MIN+1},(_,i)=>i+KOR_AGE_MIN).map(age=>
+    `<label><input type="checkbox" value="${age}"${age<=16?" checked":""}>${age}세</label>`).join("");
   let redrawTimer=0;
   const scheduleRedraw=()=>{
     clearTimeout(redrawTimer);

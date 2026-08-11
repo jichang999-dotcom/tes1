@@ -304,6 +304,20 @@ main{padding:10px 16px 0; max-width:1920px; margin:0 auto}
 #kpiTip b{color:#fff}
 #kpiTip .warn{color:#fca5a5; font-weight:700}
 
+/* 지도 안내 — 위성 타일이 안 와서 일반 지도로 되돌렸을 때 뜬다.
+   말없이 바뀌면 "왜 위성이 안 나오지" 하고 버튼만 다시 누르게 된다. */
+#mapNotice{position:fixed; left:50%; bottom:28px; transform:translateX(-50%) translateY(8px);
+  z-index:9998; max-width:min(560px,92vw); padding:11px 16px; background:#1f2937; color:#f9fafb;
+  border-radius:9px; font-size:13px; line-height:1.5; box-shadow:0 8px 24px rgba(0,0,0,.3);
+  opacity:0; pointer-events:none; transition:opacity .18s, transform .18s}
+#mapNotice.on{opacity:1; transform:translateX(-50%) translateY(0)}
+
+/* B-10 — 회색인 이유. 지도 말풍선 안에서 값 자리에 들어간다.
+   값처럼 커 보이면 안 되므로 작고 흐리게 쓴다 — 이건 값이 아니라 '값이 없는 이유'다. */
+.leaflet-tooltip .tip-why{margin:2px 0 4px; padding:3px 6px; background:rgba(0,0,0,.06);
+  border-left:2px solid #9ca3af; border-radius:3px; font-size:11px; line-height:1.4;
+  color:#4b5563; font-weight:400; white-space:normal; max-width:260px}
+
 .chart{margin-top:7px}
 .chart .cap{font-size:10px; color:var(--muted); margin-bottom:3px}
 svg .grid{stroke:var(--grid); stroke-width:1}
@@ -863,6 +877,30 @@ function applyMapSelection(focus=false){
   }
 }
 
+/* B-10 — **회색인 이유는 지표마다 다르다.**
+   지도에서 회색은 전부 똑같아 보이지만 뜻이 제각각이다. 서울 도심의 회색은
+   "학교가 없는 오피스가"고 경북 산골의 회색은 "아파트 거래가 없는 시골"인데,
+   상담 자리에서 이 둘은 완전히 다른 이야기다. 그래서 사유를 말로 적는다.
+   ⚠️ 0 은 결측이 아니라 실측이다 — "경쟁사 0개"는 없다는 뜻이지 모른다는 뜻이 아니다. */
+function grayReason(m){
+  const k = curMetric.k;
+  if(PRICE_KEYS.has(k) && m.low_sample)
+    return `24개월 매매가 ${fmt(m.deal_count)}건뿐이라 대표성이 없다 — 색·순위에서 뺐다`;
+  if(k === "apt_ratio" && m.apt_ratio_suspect)
+    return "아파트 세대수가 주민등록 세대수를 넘는다(신축 미입주 등) — 색·순위에서 뺐다";
+  if(PRICE_KEYS.has(k) || k === "housing_asset")
+    return "최근 24개월 아파트 매매 거래가 없다 — 값이 없는 게 아니라 거래 자체가 없다";
+  if(k === "apt_households" || k === "apt_ratio")
+    return "이 동에 아파트 단지가 없다";
+  // ⚠️ "상업·업무지구라서" 같은 이유를 붙이지 말 것. 학교 없는 동 140곳은
+  //    서울 도심(19)과 농촌 면지역에 **양쪽 다** 있어서, 한쪽으로 단정하면 절반이 틀린다.
+  if(k === "school_students")
+    return "이 동에 초·중학교가 없다";
+  if(k === "pupils_per_academy")
+    return "입시·보습 학원이 0개라 나눌 수 없다";
+  return "이 지표의 값이 없다";
+}
+
 /* 지도 마우스오버 말풍선. 전국·시도·시군구 코로플레스와 **행정동 상세 지도**가
    같은 함수를 쓴다 — 같은 지역을 어느 화면에서 짚어도 같은 문구가 나와야 한다.
    ⚠️ 값 접근은 반드시 metricVal() 로 한다. 표본 부족(low_sample)·확인 필요
@@ -874,8 +912,10 @@ function regionTipHtml(name, m){
               : v===null && curMetric.k==="apt_ratio" && m.apt_ratio_suspect ? "확인 필요"
               : v===null ? "–"
               : fmt(v*mScale(), curMetric.d)+curMetric.unit;
+  // 값이 있으면 그냥 줄만 바꾸고, 없으면 그 자리에 **왜 없는지**를 넣는다.
+  const why = v===null ? `<div class="tip-why">${grayReason(m)}</div>` : "<br>";
   return `<b style="font-size:15px">${name}</b><br>` +
-    `<b>${curMetric.label}</b> ${shown}<br>` +
+    `<b>${curMetric.label}</b> ${shown}${why}` +
     `학령인구 ${fmt(m.school_age)}명 · 입시·보습 학원 ${fmt(m.academy_cnt)}개 · 학교 ${fmt(m.school_cnt)}개<br>` +
     `자사 ${fmt((m.own_waikids_cnt||0)+(m.own_wiseman_cnt||0))}개 · 경쟁사 ${fmt(m.competitor_cnt)}개 · ` +
     `<span style="color:#0e9f6e">시너지세권 ${fmt(m.english_kinder_cnt)}개</span>`;
@@ -1737,6 +1777,34 @@ let baseLayers = [];
 function currentBase(){
   return BASEMAPS.find(b => b.k === state.basemap) || BASEMAPS[0];
 }
+/* 위성 타일이 안 오면 **일반 지도로 되돌린다.**
+   예전에는 실패한 레이어를 걷어내기만 했는데, 그러면 배경이 하얗게 비고 마커만
+   공중에 뜬다 — 상담 중에 그 화면이 나오면 아무 데도 못 짚는다.
+   ⚠️ VWorld 는 **실제로 죽은 적이 있다**(2026-08-11, 키 없이 호출해도 503 =
+   서버 장애). 우리 키·코드 문제가 아니어서 우리가 할 수 있는 건 폴백뿐이다.
+   ⚠️ 영구 차단하지 않는다 — 장애는 몇 시간이면 복구되므로, 사용자가 위성 버튼을
+   다시 누르면 다시 시도한다. */
+function tileFallback(targetMap, l){
+  const b = currentBase();
+  if(!b.needKey) return;                  // 일반 지도(OSM)면 되돌릴 곳이 없다
+  try{ targetMap.removeLayer(l); }catch(e){}
+  if(state.basemap === "plain") return;   // 이미 되돌렸다
+  state.basemap = "plain";
+  showMapNotice("위성 지도를 불러오지 못해 일반 지도로 전환했습니다 · 배경 버튼으로 다시 시도할 수 있습니다");
+  applyMainBasemap(); applyBasemap(); drawBasemapButtons();
+}
+function showMapNotice(msg){
+  let el = document.getElementById("mapNotice");
+  if(!el){
+    el = document.createElement("div");
+    el.id = "mapNotice";
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.classList.add("on");
+  clearTimeout(showMapNotice._t);
+  showMapNotice._t = setTimeout(() => el.classList.remove("on"), 6000);
+}
 function applyMainBasemap(){
   if(!map) return;
   mainBaseLayers.forEach(l => { try{ map.removeLayer(l); }catch(e){} });
@@ -1744,7 +1812,7 @@ function applyMainBasemap(){
   mainBaseLayers = b.build(state.vworldKey || "");
   mainBaseLayers.forEach(l => {
     let bad = 0;
-    l.on("tileerror", () => { if(++bad > 6){ try{ map.removeLayer(l); }catch(e){} } });
+    l.on("tileerror", () => { if(++bad > 6) tileFallback(map, l); });
     l.addTo(map);
   });
   if(layer){
@@ -1758,9 +1826,9 @@ function applyBasemap(){
   const b = currentBase();
   baseLayers = b.build(state.vworldKey || "");
   baseLayers.forEach(l => {
-    // 타일이 안 오면 스스로 걷어낸다 (오프라인·키 오류에도 화면은 살아 있어야 한다)
+    // 타일이 안 오면 일반 지도로 되돌린다 (오프라인·서버 장애에도 배경은 남아야 한다)
     let bad = 0;
-    l.on("tileerror", () => { if(++bad > 6){ try{ map2.removeLayer(l); }catch(e){} } });
+    l.on("tileerror", () => { if(++bad > 6) tileFallback(map2, l); });
     l.addTo(map2);
   });
   restyleMarkers();

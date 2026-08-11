@@ -1013,6 +1013,9 @@ function trendBlock(tab, vert) {
 }
 
 /* 퍼널 — 참조: 퍼널디자인.png */
+/* 유입경로 '나머지 N개 보기'로 펼쳐두는 상위 행 수. 정렬(sortBy)이 접힘 대상을 다시 계산할 때도
+   같은 값을 써야 해서 모듈 상수로 뺐다(2026-08-11). */
+const UTM_TOP = 5;
 /* 유입경로 상세 표 */
 function utmTable(tab) {
   const R = roles();
@@ -1021,7 +1024,7 @@ function utmTable(tab) {
   // 률의 기준점 = 신청(유입 열을 뺐으므로). 없는 열을 분모로 쓰면 읽는 사람이 검산할 수 없다.
   const rate = v => [pf(v[2],v[1]), pf(v[3],v[2]), pf(v[3],v[1])];   // 신청→응시 / 응시→등록 / 신청→등록
   // 상위 5개만 펼쳐두고 나머지는 접는다 — 경로가 60종 넘어 다 펴면 표가 화면을 삼킨다.
-  const TOP = 5;
+  const TOP = UTM_TOP;
   const line = (r, hidden) => {
     const pv = prev[r.utm];
     const rc = rate(r.v);
@@ -2126,11 +2129,25 @@ function render() {
    · '과목별 학년'은 펼침/접힘 아코디언(.kg-head)이라 정렬 대상에서 제외한다.
    · 정렬은 화면 표시에만 적용 — 필터 등으로 render() 가 다시 그리면 초기화된다. */
 const SORT_PIN = /^(합계|총\s*합계|소계|최종합계|미지정|기타)$/;
+/* 정렬 기준 문자열 — 셀 통째 textContent를 쓰면 안 되는 셀이 둘 있다(2026-08-11 버그).
+   · 전년비 미터 셀(yoyMeter) = 값 / 전년비 / '전년 N' 3층 → textContent 가 이어붙어
+     "14" + "0.0%" + "전년 14" = "140.0전년14" → parseFloat 이 **140** 을 읽었다.
+     전년비에 부호가 붙는 동안(-73.0%)은 우연히 맞았지만 **진행일 필터를 켜면 전년비가
+     0.0% 로 떨어지는 행이 쏟아져** 정렬이 통째로 무너졌다. → 맨 위 값(.ach-top)만 본다.
+   · 나머지 셀은 그대로 textContent. */
+function _cellText(td) {
+  if (!td) return '';
+  const top = td.querySelector('.ach-top');
+  return (top || td).textContent;
+}
+/* 숫자화 — 화살표(▲▼)·엔대시(–, = 값 없음)·천단위 쉼표·% 를 털고 **맨 앞 수치**만 읽는다.
+   parseFloat 직접 호출은 "▼-8.3" 을 NaN 으로 떨궈 전년비 열이 통째로 문자열 정렬로
+   빠지게 만들었다(내림차순인데 -100% 가 -8.3% 보다 위로 오던 원인). */
 function _numify(s) {
-  const t = (s || '').replace(/[,\s%]/g, '').replace(/[–—]/g, '').replace(/^\+/, '');
+  const t = (s || '').replace(/[▲▼△▽]/g, '').replace(/[–—]/g, '').replace(/[,\s%]/g, '');
   if (t === '' || /^new$/i.test(t)) return null;
-  const n = parseFloat(t);
-  return isNaN(n) ? null : n;
+  const m = t.match(/^[+-]?\d+(?:\.\d+)?/);
+  return m ? parseFloat(m[0]) : null;
 }
 function bindSort() {
   document.querySelectorAll('#pages table.tbl').forEach(tbl => {
@@ -2180,15 +2197,19 @@ function sortBy(tbl, ci, th) {
     (tr.classList.contains('grp') || tr.classList.contains('sort-pin') || SORT_PIN.test(first))
       ? pinned.push(tr) : data.push(tr);
   }
-  const numCnt = data.filter(tr => _numify(tr.cells[ci] && tr.cells[ci].textContent) !== null).length;
-  const numeric = numCnt >= data.length * 0.6;
+  // 숫자 열 판정 — 분모는 '전체 행'이 아니라 **숫자가 들어 있는 행**. 전년비처럼 전년이 없어
+  // '–' 인 행이 절반을 넘는 열이 흔한데, 전체 행을 분모로 쓰면 그 열이 문자열 정렬로 빠진다.
+  const cellTxt = data.map(tr => _cellText(tr.cells[ci]));
+  const withDigit = cellTxt.filter(v => /\d/.test(v)).length;
+  const numCnt = cellTxt.filter(v => _numify(v) !== null).length;
+  const numeric = withDigit > 0 && numCnt >= withDigit * 0.6;
   const same = tbl.dataset.sortCol === String(ci);
   const dir = same ? (tbl.dataset.sortDir === 'asc' ? 'desc' : 'asc')
                    : (numeric ? 'desc' : 'asc');
   const sgn = dir === 'asc' ? 1 : -1;
   data.sort((a, b) => {
-    const av = a.cells[ci] ? a.cells[ci].textContent : '';
-    const bv = b.cells[ci] ? b.cells[ci].textContent : '';
+    const av = _cellText(a.cells[ci]);
+    const bv = _cellText(b.cells[ci]);
     if (numeric) {
       const na = _numify(av), nb = _numify(bv);
       if (na === null && nb === null) return 0;
@@ -2200,6 +2221,16 @@ function sortBy(tbl, ci, th) {
   });
   data.forEach(tr => tbody.appendChild(tr));
   pinned.forEach(tr => tbody.appendChild(tr));               // 합계류는 항상 맨 아래
+  // 유입경로 표는 상위 UTM_TOP개만 펴두는데, 접힘 대상이 **그릴 때의 신청 순위**로 박제돼 있었다.
+  // 다른 열로 정렬하면 화면에 남는 5행이 그 열의 상위 5개가 아니어서 "정렬이 안 먹는" 것처럼
+  // 보였다 → 정렬 후 현재 순서 기준으로 접힘을 다시 매긴다(2026-08-11).
+  if (tbody.querySelector('tr.utm-toggle')) {
+    data.forEach((tr, i) => {
+      const more = i >= UTM_TOP;
+      tr.classList.toggle('utm-more', more);
+      tr.hidden = more && !state.utmAll;
+    });
+  }
   tbl.dataset.sortCol = String(ci); tbl.dataset.sortDir = dir;
   [...th.parentElement.cells].forEach(x => {
     const s = x.querySelector('.sort-ind'); if (s) s.remove();

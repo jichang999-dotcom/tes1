@@ -305,6 +305,13 @@ main{padding:10px 16px 0; max-width:1920px; margin:0 auto}
 #kpiTip.on{opacity:1}
 #kpiTip b{color:#fff}
 #kpiTip .warn{color:#fca5a5; font-weight:700}
+/* 내역 목록 — 학년별 학생수 · 브랜드별 지점수 */
+#kpiTip .g{display:flex; justify-content:space-between; gap:14px; padding:1px 0}
+#kpiTip .dim{color:#9ca3af; font-weight:400}
+#kpiTip .pend{color:#fcd34d}
+#kpiTip .sum{display:flex; justify-content:space-between; gap:14px;
+  margin-top:4px; padding-top:4px; border-top:1px solid #374151}
+#kpiTip .note{display:block; margin-top:5px; color:#9ca3af; font-size:11px; line-height:1.45}
 
 /* 지도 안내 — 위성 타일이 안 와서 일반 지도로 되돌렸을 때 뜬다.
    말없이 바뀌면 "왜 위성이 안 나오지" 하고 버튼만 다시 누르게 된다. */
@@ -697,17 +704,65 @@ function ageRangeTotal(p, min=null, max=null){
   }
   return total;
 }
-/* ages 는 한국나이. 만나이로는 유치원 3~5 · 초 6~11 · 중 12~14 · 고 15~17 이다. */
+/* ages 는 한국나이. 만나이로는 유치원 3~5 · 초 6~11 · 중 12~14 · 고 15~17 이다.
+   grade = 말풍선에 띄울 학년 이름. pending = 원천이 아직 없어 못 채우는 나이. */
 const SCHOOL_AGE_GROUPS = [
-  {key:"kinder", label:"유치원 원아", ages:[5,6,7]},
-  {key:"elem", label:"초등학교 재학생", ages:[8,9,10,11,12,13]},
-  {key:"mid", label:"중학교 재학생", ages:[14,15,16]},
-  {key:"high", label:"고등학교 재학생", ages:[17,18,19]},
+  {key:"kinder", label:"유치원 원아", ages:[5,6,7],
+   grade:{5:"유치원 5세반", 6:"유치원 6세반", 7:"유치원 7세반"},
+   /* 한국나이 3~4세 = 만1~2세. 유치원은 만3세부터라 원천에 아예 없다.
+      어린이집 운영키가 나오면 CHILD_CNT_01/02 로 채워진다 (docs/STATUS.md). */
+   pending:{3:"어린이집·가정보육", 4:"어린이집·가정보육"}},
+  {key:"elem", label:"초등학교 재학생", ages:[8,9,10,11,12,13],
+   grade:{8:"초1", 9:"초2", 10:"초3", 11:"초4", 12:"초5", 13:"초6"}},
+  {key:"mid", label:"중학교 재학생", ages:[14,15,16],
+   grade:{14:"중1", 15:"중2", 16:"중3"}},
+  {key:"high", label:"고등학교 재학생", ages:[17,18,19],
+   grade:{17:"고1", 18:"고2", 19:"고3"}},
 ];
 function filteredSchoolStudents(m, group){
   const selected=state.selectedAges;
   return group.ages.reduce((sum,age)=>
     sum+(selected.has(age)?Number(m[`students_age_${toManAge(age)}`]||0):0),0);
+}
+/* ── 말풍선 내역 ─────────────────────────────────────────────────────────
+   카드 숫자는 **필터에 걸린 것만** 더한 값이다. 그래서 내역에도 전 학년을 다 띄우되
+   필터에서 빠진 줄은 「필터 제외」로 표시한다 — 안 그러면 합이 안 맞아 보인다. */
+function tipRow(label, value){
+  return `<div class="g"><span>${label}</span><span>${value}</span></div>`;
+}
+function gradeTip(m, group){
+  const sel=state.selectedAges;
+  let html=`<b>${group.label}</b> <span class="dim">· 한국나이</span><br>`;
+  for(const [age,label] of Object.entries(group.pending||{})){
+    html+=tipRow(`${age}세 <span class="dim">${label}</span>`,
+                 `<span class="pend">데이터 수집중</span>`);
+  }
+  let total=0;
+  for(const age of group.ages){
+    const v=Number(m[`students_age_${toManAge(age)}`]||0);
+    const on=sel.has(age);
+    if(on) total+=v;
+    html+=tipRow(`${age}세 <span class="dim">${group.grade[age]}</span>`,
+      on?`${fmt(v)}명`:`<span class="dim">${fmt(v)}명 · 필터 제외</span>`);
+  }
+  html+=`<div class="sum"><span>필터 합계</span><span><b>${fmt(total)}명</b></span></div>`;
+  html+=`<span class="note">학교알리미·유치원알리미 공시(2026년) 학년별 인원.`
+      + ` 학교 <b>소재지</b> 기준이라 통학 유입이 있으면 그 동 인구보다 클 수 있다.`
+      + ` 0 은 결측이 아니라 실측이다.</span>`;
+  return html;
+}
+function brandTip(m, category, head, note){
+  const sel=state.selectedPoiBrands[category]||new Set();
+  let html=`<b>${head}</b><br>`, total=0;
+  for(const b of (POI_BRAND_FILTERS[category]||[])){
+    const v=Number((m.comp_brands&&m.comp_brands[b])||0);
+    const on=sel.has(b);
+    if(on) total+=v;
+    html+=tipRow(b, on?`${fmt(v)}개`:`<span class="dim">${fmt(v)}개 · 필터 해제</span>`);
+  }
+  html+=`<div class="sum"><span>합계</span><span><b>${fmt(total)}개</b></span></div>`;
+  if(note) html+=`<span class="note">${note}</span>`;
+  return html;
 }
 function applyAgeRange(met, pop){
   if(!met || !met.data || !pop || !pop.data) return met;
@@ -1472,6 +1527,9 @@ function aggregateRegions(codes, data){
     "kinder_cnt","kinder_kids","students_age_unassigned",
     ...Array.from({length:15},(_,i)=>`students_age_${i+3}`)];
   const m = Object.fromEntries(addFields.map(k=>[k,0]));
+  /* 브랜드별 내역도 합친다. 합계(competitor_cnt)만 더하고 이건 빼먹으면
+     카드 숫자는 1개인데 말풍선 내역은 0개가 되어 서로 어긋난다. */
+  m.comp_brands = {};
   const p = {total:0, households:0, trend12:null, age_year:{}};
   let priceWeight=0, pricePySum=0, priceSum=0, aptWeight=0;
   let newSum=0, rentalSum=0, builtSum=0;
@@ -1480,6 +1538,9 @@ function aggregateRegions(codes, data){
     const oneP = data.pop && data.pop.data ? data.pop.data[code] : null;
     if(oneM){
       addFields.forEach(k => { m[k] += Number(oneM[k]||0); });
+      Object.entries(oneM.comp_brands||{}).forEach(([brand,v])=>{
+        m.comp_brands[brand]=(m.comp_brands[brand]||0)+Number(v||0);
+      });
       const dw = Number(oneM.deal_count||0);
       if(dw){
         priceWeight += dw;
@@ -1555,11 +1616,11 @@ function renderRegionSummary(name, codes, data, selected=false){
         <h3>교육·경쟁 환경<span class="tag">${ageRangeLabel()} 필터 적용</span></h3><div class="kpis competition-row">
         <div class="kpi" data-tip='자사 브랜드 <b>와이키즈</b> 지점 수.<br>자사는 두 브랜드(와이키즈·와이즈만)이고 둘을 합한 값이 「자사 센터 수」다'><div class="v">${fmt(m.own_waikids_cnt)}<span class="u">개</span></div><div class="l">자사 와이키즈</div></div>
         <div class="kpi" data-tip='자사 브랜드 <b>와이즈만</b> 지점 수.<br>명부는 관리자 제공 xlsx 기준(크롤 불가)'><div class="v" style="color:#c026d3">${fmt(m.own_wiseman_cnt)}<span class="u">개</span></div><div class="l">자사 와이즈만</div></div>
-        <div class="kpi" data-tip='경쟁 브랜드 지점 수(소마·아담리즈·필즈더클래식·생각하는황소).<br>공식 홈페이지를 <b>월 1회</b> 크롤 · 0개는 결측이 아니라 <b>실측</b>'><div class="v">${fmt(m.competitor_cnt)}<span class="u">개</span></div><div class="l">경쟁사</div></div>
-        <div class="kpi" data-tip='영어유치원(폴리·라이즈).<br><span class="warn">경쟁사가 아니다</span> — 유아 사교육 수요가 모이는 자리라 <b>근처 입점이 유리</b>하다.<br>그래서 경쟁사 수와 합산하지 않는다'><div class="v" style="color:#0e9f6e">${fmt(m.english_kinder_cnt)}<span class="u">개</span></div><div class="l">시너지세권</div></div>
+        <div class="kpi" data-tip='${brandTip(m,"competitor","경쟁사 브랜드별 지점 수","공식 홈페이지를 <b>월 1회</b> 크롤. 0개는 결측이 아니라 <b>실측</b>이다.")}'><div class="v">${fmt(m.competitor_cnt)}<span class="u">개</span></div><div class="l">경쟁사</div></div>
+        <div class="kpi" data-tip='${brandTip(m,"english_kinder","시너지세권 브랜드별 지점 수",`<span class="warn">경쟁사가 아니다</span> — 유아 사교육 수요가 모이는 자리라 <b>근처 입점이 유리</b>하다. 그래서 경쟁사 수와 합산하지 않는다.`)}'><div class="v" style="color:#0e9f6e">${fmt(m.english_kinder_cnt)}<span class="u">개</span></div><div class="l">시너지세권</div></div>
         </div>
         <div class="student-kpis" aria-label="학령인구 필터 적용 학교급별 학생수">
-          ${SCHOOL_AGE_GROUPS.map((group,index)=>`<div class="student-kpi" data-tip='학교알리미 공시(2026년) <b>학년별</b> 학생수를 상단 학령인구 필터에 맞춰 환산한 값.<br>한국나이 8세=초1 · 13세=초6 · 16세=중3 · 17~18세=고1~고2.<br>학교가 없는 동은 0으로 나온다 — 결측이 아니라 실측이다.<br>학교 <b>소재지</b> 기준이라 통학 유입이 있으면 그 동 인구보다 클 수 있다'><div class="student-label">${group.label}</div><div class="student-value">${fmt(schoolAgeValues[index])}<span class="u">명</span></div></div>`).join("")}
+          ${SCHOOL_AGE_GROUPS.map((group,index)=>`<div class="student-kpi" data-tip='${gradeTip(m,group)}'><div class="student-label">${group.label}</div><div class="student-value">${fmt(schoolAgeValues[index])}<span class="u">명</span></div></div>`).join("")}
         </div>
       </div></div>
       <div class="blk dashboard-blk housing"><div class="section-rail">구매력<br>주거</div><div class="section-body">

@@ -1175,15 +1175,19 @@ function segTable(tab) {
    과목을 **못 가리는 것**과 **같은 과목인 것**은 다르다 → 제3의 칸으로 분리한다.
    등록 과목 미상(`G.k<0`)도 같은 이유로 여기 온다(현재 0건).
    ⚠️ 합계는 불변 — 소속만 바뀐다. §8 검사 4번은 REG_KINDS 배열을 그대로 읽으므로 자동으로 따라온다. */
+/* ⚠️ **배열 순서 = 퍼널을 깊이 통과한 순서**(신청O·응시O → 신청O·응시X → 신청X·응시O → 신청X·응시X).
+   표의 행 순서이자 **dis(학생수) 모드의 소유 우선순위**다 — 아래 «1인 1칸» 주석 참조. 재정렬 주의. */
 const REG_KINDS = [
   { key:'rgCross',      nm:'신청 O · 응시 O(다른 과목) · 등록 O', sub:'시험은 봤지만 다른 과목으로 등록' },
-  { key:'rgNoTest',     nm:'신청 O · 응시 X · 등록 O', sub:'신청했지만 시험은 안 보고 등록' },
   { key:'rgAppUncmp',   nm:'신청 O · 응시 O · 등록 O (응시경유 미판정)', sub:'시험은 봤는데 원천이 응시경유로 연결하지 않은 건 — 응시 과목이 등록 과목 체계 밖(공개수업 등)이라 대조 불가하거나 동일 과목' },
+  { key:'rgNoTest',     nm:'신청 O · 응시 X · 등록 O', sub:'신청했지만 시험은 안 보고 등록' },
   { key:'rgNoAppCross', nm:'신청 X · 응시 O(다른 과목) · 등록 O', sub:'신청 없이 시험만 보고 다른 과목으로 등록' },
   { key:'rgNoAppTest',  nm:'신청 X · 응시 O(같은 과목) · 등록 O', sub:'신청 없이 시험만 보고 등록' },
   { key:'rgNoAppUncmp', nm:'신청 X · 응시 O(과목 대조 불가) · 등록 O', sub:'신청 없이 공개수업 등만 응시 — 등록 과목과 대조 불가' },
   { key:'rgNoAppNoT',   nm:'신청 X · 응시 X · 등록 O', sub:'신청·시험 없이 바로 등록' },
 ];
+/* dis(학생수) 모드 소유 우선순위 — 응시경유(§6 소계)가 최우선, 그 다음 위 배열 순서. */
+const DIS_RANK = ['rgVia', ...REG_KINDS.map(k => k.key)];
 function regTypeBlock(tab, fin, e) {
   const R = roles();
   const pe = R.compare ? etc(R.compare, tab) : null;
@@ -1248,8 +1252,23 @@ function etc(role, tab) {
   const ev = DATA.events[role];
   let ts=0, rgVia=0, rgViaCross=0, rgCross=0, rgNoTest=0, rgAppUncmp=0,
       rgNoAppCross=0, rgNoAppTest=0, rgNoAppUncmp=0, rgNoAppNoT=0;
-  const S = { ts:new Set(), via:new Set(), viaX:new Set(), cross:new Set(), noT:new Set(), aU:new Set(),
-              noAX:new Set(), noAT:new Set(), noAU:new Set(), noANT:new Set() };
+  const S = { ts:new Set() };
+  /* ── dis(학생수) 모드 = **1인 1칸** (2026-08-11 ③) ─────────────────────────
+     종전엔 칸마다 사람 Set을 따로 들었다. 한 학생이 같은 센터에서 **두 과목을 등록**하면
+     (수학=응시경유 + 과학=과목교차) 행 단위 유형이 갈려 **두 칸이 각각 1명씩** 세었고,
+     그래서 합이 전체 distinct를 넘었다 — 26여름 종합 409명인데 표 합 413(FC 227 vs 231),
+     초과분 4명이 정확히 그 케이스였다. §8은 cnt 모드만 돌아 이걸 못 잡았다.
+     · cnt(건수)는 **행을 세는 게 맞다** — 손대지 않는다. 두 과목 등록은 실제로 2건이다.
+     · dis는 사람을 세므로 **한 사람이 한 칸만 차지**해야 합이 닫힌다.
+     · 소유 규칙 = `DIS_RANK` = 퍼널을 더 깊이 통과한 칸이 이긴다(경유 > 표 위→아래).
+       그 학생을 대표하는 등록 경로는 '가장 정상적으로 연결된' 경로로 본다.
+     `best`: pid → 그 사람이 차지한 칸의 rank(작을수록 우선). `viaX`: 참고 행(경유 안의 과목교차)용. */
+  const best = new Map(), viaXp = new Set();
+  const claim = (pid, key) => {
+    const r = DIS_RANK.indexOf(key);
+    const cur = best.get(pid);
+    if (cur === undefined || r < cur) best.set(pid, r);
+  };
   for (const org of orgsOf(tab)) {
     const FA = ev.facts[org]; if (!FA) continue;
     const T = FA['응시'];
@@ -1288,32 +1307,39 @@ function etc(role, tab) {
         // 응시경유(v=1)는 §6 소계 — 원천이 `test_type='응시등록'`으로 **연결했다고 판정한** 건이라
         // 여기서 빼내면 화면이 쿼리·집계 SSOT와 어긋난다. 그래서 **소계는 그대로 두고 내역만 센다**
         // (표에는 '기타 합계 제외' 참고 행으로 낸다). 전년 실측 17건 = 전부 키즈.
-        if (G.v[i]) { rgVia++; S.via.add(pid); if (cross) { rgViaCross++; S.viaX.add(pid); } }
+        if (G.v[i]) { rgVia++; claim(pid,'rgVia'); if (cross) { rgViaCross++; viaXp.add(pid); } }
         // '응시 X'라고 쓰기 전에 응시 팩트를 대조한다 — 예전 비대칭의 반대쪽 분기.
         // 2026-08-11: 이 분기가 `cross` 만 보고 갈라 **시험을 본 사람이 '응시 X' 칸**에 앉을 수 있었다
         // (공개수업만 응시 → 과목 대조 불가 → cross=false). tst 를 먼저 물어 라벨을 참으로 만든다.
         else if (G.m[i]) {
-          if (cross) { rgCross++; S.cross.add(pid); }
-          else if (tst.has(G.p[i])) { rgAppUncmp++; S.aU.add(pid); }    // 응시는 했으나 과목 대조 불가
-          else { rgNoTest++; S.noT.add(pid); }                          // 진짜 응시 X
+          if (cross) { rgCross++; claim(pid,'rgCross'); }
+          else if (tst.has(G.p[i])) { rgAppUncmp++; claim(pid,'rgAppUncmp'); }   // 응시는 했으나 대조 불가
+          else { rgNoTest++; claim(pid,'rgNoTest'); }                            // 진짜 응시 X
         }
         else if (tst.has(G.p[i])) {                                     // 신청X·응시O
-          if (cross) { rgNoAppCross++; S.noAX.add(pid); }
-          else if (!canCmp(i)) { rgNoAppUncmp++; S.noAU.add(pid); }     // 못 가림 ≠ 같은 과목
-          else { rgNoAppTest++; S.noAT.add(pid); }
+          if (cross) { rgNoAppCross++; claim(pid,'rgNoAppCross'); }
+          else if (!canCmp(i)) { rgNoAppUncmp++; claim(pid,'rgNoAppUncmp'); }    // 못 가림 ≠ 같은 과목
+          else { rgNoAppTest++; claim(pid,'rgNoAppTest'); }
         }
-        else { rgNoAppNoT++; S.noANT.add(pid); }                        // 신청X·응시X
+        else { rgNoAppNoT++; claim(pid,'rgNoAppNoT'); }                 // 신청X·응시X
       } }
   }
   const rgNoApp = rgNoAppCross + rgNoAppTest + rgNoAppUncmp + rgNoAppNoT;
-  if (state.unit === 'dis')
+  if (state.unit === 'dis') {
+    // best(pid → 이긴 칸의 rank)를 칸별 인원수로 환산 — 사람마다 정확히 한 칸만 올라간다.
+    const n = {}; DIS_RANK.forEach(k => n[k] = 0);
+    for (const r of best.values()) n[DIS_RANK[r]]++;
+    const noApp = n.rgNoAppCross + n.rgNoAppTest + n.rgNoAppUncmp + n.rgNoAppNoT;
     return { ts:S.ts.size,
-             rg:S.cross.size+S.noT.size+S.aU.size+S.noAX.size+S.noAT.size+S.noAU.size+S.noANT.size,
-             rgVia:S.via.size, rgViaCross:S.viaX.size,
-             rgCross:S.cross.size, rgNoTest:S.noT.size, rgAppUncmp:S.aU.size,
-             rgNoApp:S.noAX.size+S.noAT.size+S.noAU.size+S.noANT.size,
-             rgNoAppCross:S.noAX.size, rgNoAppTest:S.noAT.size,
-             rgNoAppUncmp:S.noAU.size, rgNoAppNoT:S.noANT.size };
+             rg: n.rgCross + n.rgAppUncmp + n.rgNoTest + noApp,
+             rgVia:n.rgVia,
+             // 참고 행 = 경유 안의 과목교차 → **경유 칸을 차지한 사람만** 센다(부분집합 유지).
+             rgViaCross:[...viaXp].filter(p => DIS_RANK[best.get(p)] === 'rgVia').length,
+             rgCross:n.rgCross, rgAppUncmp:n.rgAppUncmp, rgNoTest:n.rgNoTest,
+             rgNoApp:noApp,
+             rgNoAppCross:n.rgNoAppCross, rgNoAppTest:n.rgNoAppTest,
+             rgNoAppUncmp:n.rgNoAppUncmp, rgNoAppNoT:n.rgNoAppNoT };
+  }
   return { ts, rg: rgCross+rgNoTest+rgAppUncmp+rgNoApp, rgVia, rgViaCross, rgCross, rgNoTest,
            rgAppUncmp, rgNoApp, rgNoAppCross, rgNoAppTest, rgNoAppUncmp, rgNoAppNoT };
 }

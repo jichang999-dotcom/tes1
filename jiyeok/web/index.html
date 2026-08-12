@@ -1951,6 +1951,69 @@ function restyleMarkers(){
     }catch(e){} });
   });
 }
+/* ── 상담 지역 위성 미리받기 ────────────────────────────────────────────────
+   위성 타일은 **「지역 × 줌」마다 다른 파일**이다. 그래서 상담 전에 한 번 열어 봤다고
+   다 받아지는 게 아니라, 본 화면 그 줌만 캐시에 남는다. 상담장 와이파이가 좁으면
+   지역을 옮기거나 확대하는 순간 다시 받느라 배경이 비어 보인다.
+
+   이 버튼은 **지금 보이는 범위**를 현재 줌부터 몇 단계 더 깊게 미리 받아 둔다.
+   받은 타일은 브라우저 HTTP 캐시에 들어가므로, 상담 중에는 네트워크가 끊겨도 그 범위는 뜬다.
+
+   ⚠️ 타일 수는 줌 한 단계마다 4배로 는다. 그래서 상한을 두고, 넘으면 깊이를 줄인다 —
+      안 그러면 버튼 한 번에 수천 건을 쏴서 VWorld 한도를 우리가 태운다.
+   ⚠️ 캐시는 브라우저가 관리한다. 시크릿 창·캐시 삭제·다른 기기면 다시 받아야 한다. */
+const PREFETCH_MAX = 400;          // 한 번에 받을 최대 타일 수 (Satellite+Hybrid 합산)
+const PREFETCH_DEPTH = 3;          // 현재 줌부터 몇 단계 더 깊이 받을지
+function tilesInBounds(b, z){
+  const n = Math.pow(2, z), out = [];
+  const lon2x = lon => Math.floor((lon + 180) / 360 * n);
+  const lat2y = lat => {
+    const r = lat * Math.PI / 180;
+    return Math.floor((1 - Math.asinh(Math.tan(r)) / Math.PI) / 2 * n);
+  };
+  const x1 = lon2x(b.getWest()), x2 = lon2x(b.getEast());
+  const y1 = lat2y(b.getNorth()), y2 = lat2y(b.getSouth());
+  for(let x = Math.min(x1,x2); x <= Math.max(x1,x2); x++)
+    for(let y = Math.min(y1,y2); y <= Math.max(y1,y2); y++) out.push([z,x,y]);
+  return out;
+}
+async function prefetchSatellite(targetMap, btn){
+  const key = state.vworldKey;
+  if(!key){ showMapNotice("VWorld 키가 없어 미리받기를 할 수 없습니다"); return; }
+  const b = targetMap.getBounds(), z0 = targetMap.getZoom();
+  let list = [];
+  for(let d = 0; d <= PREFETCH_DEPTH; d++){
+    const z = Math.min(z0 + d, 18);
+    const t = tilesInBounds(b, z);
+    if((list.length + t.length) * 2 > PREFETCH_MAX) break;   // ×2 = 위성+라벨
+    list = list.concat(t);
+  }
+  if(!list.length) list = tilesInBounds(b, z0);
+  const urls = [];
+  for(const [z,x,y] of list){
+    urls.push(`https://api.vworld.kr/req/wmts/1.0.0/${key}/Satellite/${z}/${y}/${x}.jpeg`);
+    urls.push(`https://api.vworld.kr/req/wmts/1.0.0/${key}/Hybrid/${z}/${y}/${x}.png`);
+  }
+  const old = btn.textContent; btn.disabled = true;
+  let done = 0, failed = 0;
+  const next = async () => {
+    while(urls.length){
+      const u = urls.shift();
+      await new Promise(res => {
+        const img = new Image();
+        img.onload = () => { done++; res(); };
+        img.onerror = () => { failed++; done++; res(); };
+        img.src = u;
+      });
+      btn.textContent = `받는 중 ${done}/${done + urls.length}`;
+    }
+  };
+  await Promise.all(Array.from({length: 6}, next));          // 동시 6개
+  btn.disabled = false; btn.textContent = old;
+  showMapNotice(failed
+    ? `미리받기 완료 — ${done - failed}장 저장, ${failed}장 실패(네트워크·한도 확인)`
+    : `미리받기 완료 — 이 범위 ${done}장을 저장했습니다. 상담 중 네트워크가 끊겨도 뜹니다`);
+}
 function drawBasemapButtons(){
   ["mainBasemaps", "basemaps"].forEach(id => {
     const el = document.getElementById(id);
@@ -1960,13 +2023,18 @@ function drawBasemapButtons(){
       return `<button data-b="${b.k}" aria-pressed="${b.k===state.basemap}"
         ${off?`disabled title="VWorld 키 미설정 — scripts/make_web_config.py 로 web/config.json 생성"`:""}
         >${b.label}${off?" 🔒":""}</button>`;
-    }).join("");
-    el.querySelectorAll("button").forEach(btn => btn.onclick = () => {
+    }).join("") + (state.vworldKey
+      ? `<button data-prefetch="1" title="지금 보이는 범위의 위성 타일을 미리 받아 둡니다 · 상담장 네트워크가 느릴 때">미리받기</button>`
+      : "");
+    el.querySelectorAll("button[data-b]").forEach(btn => btn.onclick = () => {
       state.basemap = btn.dataset.b;
       drawBasemapButtons();
       applyMainBasemap();
       applyBasemap();
     });
+    const pf = el.querySelector("button[data-prefetch]");
+    // mainBasemaps 는 전국 지도(map), basemaps 는 동 상세 지도(map2) 를 가리킨다
+    if(pf) pf.onclick = () => prefetchSatellite(id === "mainBasemaps" ? map : (map2 || map), pf);
   });
 }
 

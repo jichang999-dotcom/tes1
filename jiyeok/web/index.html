@@ -707,11 +707,19 @@ function ageRangeTotal(p, min=null, max=null){
 /* ages 는 한국나이. 만나이로는 유치원 3~5 · 초 6~11 · 중 12~14 · 고 15~17 이다.
    grade = 말풍선에 띄울 학년 이름. pending = 원천이 아직 없어 못 채우는 나이. */
 const SCHOOL_AGE_GROUPS = [
+  /* [2026-08-12] 어린이집이 붙으면 한국나이 3~4세(=만1~2세) 칸이 채워진다.
+     유치원(교육부)은 만3세부터라 이 구간이 원천에 아예 없다 — 어린이집 CHILD_CNT_01/02
+     가 유일한 원천이고, 두 원천은 배타적이라 5~7세는 합산이 맞다.
+     ⚠️ 어린이집 축이 **아직 안 붙은 상태로도 발행**된다(수집 미완). 그래서 라벨·나이 범위를
+        고정하지 않고 `metrics.meta.axes.childcare` 를 보고 정한다 — 안 붙었는데 3~4세 칸을
+        열어 두면 **0 이 실측처럼 보인다.** 수집이 끝나면 저절로 열린다. */
   {key:"kinder", label:"유치원 원아", ages:[5,6,7],
    grade:{5:"유치원 5세반", 6:"유치원 6세반", 7:"유치원 7세반"},
-   /* 한국나이 3~4세 = 만1~2세. 유치원은 만3세부터라 원천에 아예 없다.
-      어린이집 운영키가 나오면 CHILD_CNT_01/02 로 채워진다 (docs/STATUS.md). */
-   pending:{3:"어린이집·가정보육", 4:"어린이집·가정보육"}},
+   pending:{3:"어린이집·가정보육", 4:"어린이집·가정보육"},
+   withChildcare:{
+     label:"유치원·어린이집 원아", ages:[3,4,5,6,7], pending:null,
+     grade:{3:"어린이집 만1세", 4:"어린이집 만2세",
+            5:"유치원 5세반·어린이집", 6:"유치원 6세반·어린이집", 7:"유치원 7세반·어린이집"}}},
   {key:"elem", label:"초등학교 재학생", ages:[8,9,10,11,12,13],
    grade:{8:"초1", 9:"초2", 10:"초3", 11:"초4", 12:"초5", 13:"초6"}},
   {key:"mid", label:"중학교 재학생", ages:[14,15,16],
@@ -719,6 +727,17 @@ const SCHOOL_AGE_GROUPS = [
   {key:"high", label:"고등학교 재학생", ages:[17,18,19],
    grade:{17:"고1", 18:"고2", 19:"고3"}},
 ];
+/* 어린이집 축이 붙었는지에 따라 유아 그룹이 달라진다. metrics 가 스스로 알려 준다
+   (`meta.axes.childcare`) — 화면에 상수로 박아 두면 데이터가 먼저 붙어도 칸이 안 열리고,
+   반대로 데이터가 빠졌는데 칸만 열려 **0 이 실측처럼 보이는** 사고가 난다. */
+let HAS_CHILDCARE = false;
+function setAxes(met){
+  HAS_CHILDCARE = !!(met && met.meta && met.meta.axes && met.meta.axes.childcare);
+}
+function ageGroups(){
+  return SCHOOL_AGE_GROUPS.map(g =>
+    (g.withChildcare && HAS_CHILDCARE) ? Object.assign({}, g, g.withChildcare) : g);
+}
 function filteredSchoolStudents(m, group){
   const selected=state.selectedAges;
   return group.ages.reduce((sum,age)=>
@@ -746,7 +765,8 @@ function gradeTip(m, group){
       on?`${fmt(v)}명`:`<span class="dim">${fmt(v)}명 · 필터 제외</span>`);
   }
   html+=`<div class="sum"><span>필터 합계</span><span><b>${fmt(total)}명</b></span></div>`;
-  html+=`<span class="note">학교알리미·유치원알리미 공시(2026년) 학년별 인원.`
+  html+=`<span class="note">학교알리미·유치원알리미 공시(2026년) 학년별 인원`
+      + `${group.key==="kinder"?` · 어린이집은 보육통합정보 공개(정보공개포털) 연령별 현원`:""}.`
       + ` 학교 <b>소재지</b> 기준이라 통학 유입이 있으면 그 동 인구보다 클 수 있다.`
       + ` 0 은 결측이 아니라 실측이다.</span>`;
   return html;
@@ -804,6 +824,7 @@ function combineWebBundles(bundles){
 }
 function levelDataFromBundle(level,bundle){
   const met=bundle&&bundle.metrics;
+  setAxes(met);
   const pop=bundle&&bundle.population;
   mergeCompetitorData(met,bundle&&bundle.competitor);
   applyAgeRange(met,pop);
@@ -1525,7 +1546,11 @@ function aggregateRegions(codes, data){
     "apt_households","apt_complexes","households","housing_asset","deal_count",
     "own_cnt","own_waikids_cnt","own_wiseman_cnt","competitor_cnt","english_kinder_cnt",
     "kinder_cnt","kinder_kids","students_age_unassigned",
-    ...Array.from({length:15},(_,i)=>`students_age_${i+3}`)];
+    /* 어린이집 (2026-08-12). preschool_* = 유치원+어린이집 합계 */
+    "daycare_cnt","daycare_kids","daycare_capacity","daycare_age_unassigned",
+    "preschool_cnt","preschool_kids",
+    /* 만0세부터다 — 3 부터 세면 어린이집이 채운 만0~2세가 상위 합계에서 조용히 빠진다 */
+    ...Array.from({length:18},(_,i)=>`students_age_${i}`)];
   const m = Object.fromEntries(addFields.map(k=>[k,0]));
   /* 브랜드별 내역도 합친다. 합계(competitor_cnt)만 더하고 이건 빼먹으면
      카드 숫자는 1개인데 말풍선 내역은 0개가 되어 서로 어긋난다. */
@@ -1594,7 +1619,8 @@ function renderRegionSummary(name, codes, data, selected=false){
   const selectionNames = selected && state.selectionContext
     ? state.selectionContext.rows.filter(r=>state.selectedCodes.has(String(r.code))).map(r=>r.name)
     : [];
-  const schoolAgeValues=SCHOOL_AGE_GROUPS.map(group=>filteredSchoolStudents(m,group));
+  const AG=ageGroups();
+  const schoolAgeValues=AG.map(group=>filteredSchoolStudents(m,group));
   el.classList.remove("hidden");
   el.innerHTML=`
     ${selected
@@ -1620,7 +1646,7 @@ function renderRegionSummary(name, codes, data, selected=false){
         <div class="kpi" data-tip='${brandTip(m,"english_kinder","시너지세권 브랜드별 지점 수",`<span class="warn">경쟁사가 아니다</span> — 유아 사교육 수요가 모이는 자리라 <b>근처 입점이 유리</b>하다. 그래서 경쟁사 수와 합산하지 않는다.`)}'><div class="v" style="color:#0e9f6e">${fmt(m.english_kinder_cnt)}<span class="u">개</span></div><div class="l">시너지세권</div></div>
         </div>
         <div class="student-kpis" aria-label="학령인구 필터 적용 학교급별 학생수">
-          ${SCHOOL_AGE_GROUPS.map((group,index)=>`<div class="student-kpi" data-tip='${gradeTip(m,group)}'><div class="student-label">${group.label}</div><div class="student-value">${fmt(schoolAgeValues[index])}<span class="u">명</span></div></div>`).join("")}
+          ${AG.map((group,index)=>`<div class="student-kpi" data-tip='${gradeTip(m,group)}'><div class="student-label">${group.label}</div><div class="student-value">${fmt(schoolAgeValues[index])}<span class="u">명</span></div></div>`).join("")}
         </div>
       </div></div>
       <div class="blk dashboard-blk housing"><div class="section-rail">구매력<br>주거</div><div class="section-body">

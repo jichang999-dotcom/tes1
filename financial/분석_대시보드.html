@@ -129,6 +129,9 @@
   table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.88em; }
   th { background: #21262d; color: #f0883e; padding: 10px 8px; text-align: center; border: 1px solid #30363d; white-space: nowrap; }
   td { padding: 9px 8px; border: 1px solid #30363d; text-align: center; }
+  table.portfolio-table th:first-child { width: 13%; }
+  table.portfolio-table th:last-child { width: 31%; }
+  table.portfolio-table td:last-child { text-align: left; }
   tr:nth-child(even) { background: #161b2280; }
   tr:hover { background: #1c2333; }
   .price { color: #58a6ff; font-weight: bold; }
@@ -3303,13 +3306,13 @@
     <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#f0883e;">84,190원 <span class="value-note">(20일선 지지대)</span></div></div>
     <div class="summary-item"><div class="label">손절라인</div><div class="value stop">78,700원 <span class="value-note">(후퇴 금지)</span></div></div>
   </div>
-  <table class="portfolio-table">
-    <thead><tr><th>차수</th><th>매수가</th><th>수량</th><th>평단</th><th>목표가</th></tr></thead>
+      <table class="portfolio-table">
+    <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
     <tbody>
-      <tr><td data-label="차수">1차 ✅ 체결 <span class="hd-note">(08-10 10:15 · 계획가 +2.63%)</span></td><td data-label="매수가">91,750</td><td data-label="수량">1주</td><td data-label="평단">91,750</td><td data-label="목표가">103,000</td></tr>
-      <tr><td data-label="차수">2차 ✅ 체결 <span class="hd-note">(08-12 사용자 통보 · 시각·주문번호·제비용 UNKNOWN)</span></td><td data-label="매수가">90,000</td><td data-label="수량">1주</td><td data-label="평단">90,875</td><td data-label="목표가">103,000</td></tr>
-      <tr><td data-label="차수">3차 ⏳ 대기 <span class="hd-note">(MA20 84,190 지지 양봉 · 전량 35.02만)</span></td><td data-label="매수가">84,200</td><td data-label="수량">2주</td><td data-label="평단">87,538</td><td data-label="목표가">103,000</td></tr>
-      <tr><td data-label="차수">손절 <span class="hd-note">(종가 이탈 · 현재 2주 최대손실 -24,350원 · 전량 -35,350원)</span></td><td data-label="매수가">78,700</td><td data-label="수량">4주</td><td data-label="평단">87,538</td><td data-label="목표가">-</td></tr>
+      <tr><td data-label="스윙 분할 계획">1차 체결</td><td data-label="매수가">91,750</td><td data-label="수량">1주</td><td data-label="누적 평단">91,750</td><td data-label="목표가">103,000</td><td data-label="예상 이익">+11,250원</td><td data-label="손익비">0.86</td><td data-label="조건">08-10 10:15 체결, 계획가 +2.63%</td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 체결</td><td data-label="매수가">90,000</td><td data-label="수량">1주</td><td data-label="누적 평단">90,875</td><td data-label="목표가">103,000</td><td data-label="예상 이익">+24,250원</td><td data-label="손익비">1.00</td><td data-label="조건">08-12 체결, 시각/주문번호/제비용 UNKNOWN</td></tr>
+      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">84,200</td><td data-label="수량">2주</td><td data-label="누적 평단">87,538</td><td data-label="목표가">103,000</td><td data-label="예상 이익">+61,850원</td><td data-label="손익비">1.75</td><td data-label="조건">MA20 84,190 지지 양봉, 전량 35.02만원</td></tr>
+      <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">78,700</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -35,350원</td><td data-label="손익비">-</td><td data-label="조건">종가 이탈 시 전량 손절, 현재 2주 최대 -24,350원</td></tr>
     </tbody>
   </table>
   <!-- 🛡️ AI 추천전략 박스 (자동 생성 · patchAiStrategyBoxes · 수기 편집 금지 — 다음 회차에 덮어씀) -->
@@ -3369,13 +3372,13 @@
     <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#f0883e;">206,500~207,500원 <span class="value-note">(MA20 · 08-10 저가 지지대)</span></div></div>
     <div class="summary-item"><div class="label">손절라인</div><div class="value stop">202,000원 <span class="value-note">(종가 이탈 · 후퇴 금지)</span></div></div>
   </div>
-  <table class="portfolio-table">
-    <thead><tr><th>차수</th><th>매수가</th><th>수량</th><th>평단</th><th>목표가</th></tr></thead>
+      <table class="portfolio-table">
+    <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
     <tbody>
-      <tr><td data-label="차수">1차 ✅ 체결 <span class="hd-note">(08-11 · 시가=종가 214,000 도지 · MA60 +0.03%·MA112 +0.20%)</span></td><td data-label="매수가">214,000</td><td data-label="수량">1주</td><td data-label="평단">214,000</td><td data-label="목표가">234,000</td></tr>
-      <tr><td data-label="차수">2차 ⏳ 대기 <span class="hd-note">(1차 -1.87% · 08-07 종가 210,000 지지 양봉 + 거래량 91.9만~197.0만주)</span></td><td data-label="매수가">210,000</td><td data-label="수량">1주</td><td data-label="평단">212,000</td><td data-label="목표가">234,000</td></tr>
-      <tr><td data-label="차수">3차 ⏳ 대기 <span class="hd-note">(MA20 206,490 · 08-10 저가 206,500 삼중 지지 양봉 · 전량 83.8만)</span></td><td data-label="매수가">207,000</td><td data-label="수량">2주</td><td data-label="평단">209,500</td><td data-label="목표가">234,000</td></tr>
-      <tr><td data-label="차수">손절 <span class="hd-note">(종가 이탈 · 전량 최대손실 -30,000원 · 현재 1주 -12,000원)</span></td><td data-label="매수가">202,000</td><td data-label="수량">4주</td><td data-label="평단">209,500</td><td data-label="목표가">-</td></tr>
+      <tr><td data-label="스윙 분할 계획">1차 체결</td><td data-label="매수가">214,000</td><td data-label="수량">1주</td><td data-label="누적 평단">214,000</td><td data-label="목표가">234,000</td><td data-label="예상 이익">+20,000원</td><td data-label="손익비">1.67</td><td data-label="조건">08-11 체결, MA60/MA112 밀집대</td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">210,000</td><td data-label="수량">1주</td><td data-label="누적 평단">212,000</td><td data-label="목표가">234,000</td><td data-label="예상 이익">+44,000원</td><td data-label="손익비">2.20</td><td data-label="조건">210,000 지지 양봉, 거래량 91.9만~197.0만주</td></tr>
+      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">207,000</td><td data-label="수량">2주</td><td data-label="누적 평단">209,500</td><td data-label="목표가">234,000</td><td data-label="예상 이익">+98,000원</td><td data-label="손익비">3.27</td><td data-label="조건">MA20 206,490과 206,500 저가 지지 양봉</td></tr>
+      <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">202,000</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -30,000원</td><td data-label="손익비">-</td><td data-label="조건">종가 이탈 시 전량 손절, 현재 1주 최대 -12,000원</td></tr>
     </tbody>
   </table>
   <!-- 🛡️ AI 추천전략 박스 (자동 생성 · patchAiStrategyBoxes · 수기 편집 금지 — 다음 회차에 덮어씀) -->
@@ -3417,7 +3420,7 @@
     <div>
       <h3 style="margin:0;">비에이치아이 <span class="hd-note">(083650)</span> 미체결 · 기준봉 돌파 대기 · <strong>발전설비 <span class="hd-note">(HRSG · 보일러 · 원전 보조기기)</span></strong></h3>
       <span class="badge badge-swing">스윙 <span class="chip-note">(활성 · 미체결)</span></span>
-      <span class="badge badge-proximity" style="background:#3a2e0d;color:#d29922;">📍 체결 임박 1/10위 · T2 <span class="chip-note">(1차 58,500원 · 이격 2.22%)</span></span>
+      <span class="badge badge-proximity" style="background:#3a2e0d;color:#d29922;">📍 체결 임박 1/11위 · T2 <span class="chip-note">(1차 58,500원 · 이격 2.22%)</span></span>
     </div>
     <div class="weight-info">
       비중: <span class="weight-chip">1 : 1 : 2</span>
@@ -3436,13 +3439,13 @@
     <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#f0883e;">50,000~55,000원 지지 <span class="value-note">(58,400~62,000원 저항)</span></div></div>
     <div class="summary-item"><div class="label">손절라인</div><div class="value stop">54,000원 <span class="value-note">(종가 이탈 · 3차 체결 후 58,400원으로 상향)</span></div></div>
   </div>
-  <table class="portfolio-table">
-    <thead><tr><th>차수</th><th>매수가</th><th>수량</th><th>평단</th><th>목표가</th></tr></thead>
+      <table class="portfolio-table">
+    <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
     <tbody>
-      <tr><td data-label="차수">1차 대기 <span class="hd-note">(58,400 종가 돌파 + 몸통양봉 + 거래량 917,824주 이상)</span></td><td data-label="매수가">58,500</td><td data-label="수량">4주</td><td data-label="평단">58,500</td><td data-label="목표가">70,000</td></tr>
-      <tr><td data-label="차수">2차 대기 <span class="hd-note">(1차 +1.71% · 58,400 돌파선 종가 지지 후 재상승)</span></td><td data-label="매수가">59,500</td><td data-label="수량">4주</td><td data-label="평단">59,000</td><td data-label="목표가">70,000</td></tr>
-      <tr><td data-label="차수">3차 대기 <span class="hd-note">(MA224 65,790 종가 돌파 + 몸통양봉 + 당일 거래량 2배)</span></td><td data-label="매수가">65,800</td><td data-label="수량">8주</td><td data-label="평단">62,400</td><td data-label="목표가">75,500</td></tr>
-      <tr><td data-label="차수">손절 <span class="hd-note">(종가 이탈 · 정적 최대손실 -134,400원 · 3차 체결 후 58,400으로 상향)</span></td><td data-label="매수가">54,000</td><td data-label="수량">16주</td><td data-label="평단">62,400</td><td data-label="목표가">-</td></tr>
+      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">58,500</td><td data-label="수량">4주</td><td data-label="누적 평단">58,500</td><td data-label="목표가">70,000</td><td data-label="예상 이익">+46,000원</td><td data-label="손익비">2.56</td><td data-label="조건">58,400 종가 돌파, 몸통양봉, 거래량 917,824주 이상</td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">59,500</td><td data-label="수량">4주</td><td data-label="누적 평단">59,000</td><td data-label="목표가">70,000</td><td data-label="예상 이익">+88,000원</td><td data-label="손익비">2.20</td><td data-label="조건">58,400 돌파선 종가 지지 후 재상승</td></tr>
+      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">65,800</td><td data-label="수량">8주</td><td data-label="누적 평단">62,400</td><td data-label="목표가">75,500</td><td data-label="예상 이익">+209,600원</td><td data-label="손익비">1.56</td><td data-label="조건">MA224 65,790 종가 돌파, 몸통양봉, 거래량 2배</td></tr>
+      <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">54,000</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -134,400원</td><td data-label="손익비">-</td><td data-label="조건">종가 이탈 시 전량 손절, 3차 체결 후 58,400으로 상향</td></tr>
     </tbody>
   </table>
   <!-- 🛡️ AI 추천전략 박스 (자동 생성 · patchAiStrategyBoxes · 수기 편집 금지 — 다음 회차에 덮어씀) -->
@@ -3481,7 +3484,7 @@
     <div>
       <h3 style="margin:0;">비츠로셀 <span class="hd-note">(082920)</span> 미체결 · 224선 돌파 후 눌림 대기 · <strong>리튬일차전지 <span class="hd-note">(스마트미터 · 방산 · 고온전지)</span></strong></h3>
       <span class="badge badge-swing">스윙 <span class="chip-note">(활성 · 미체결)</span></span>
-      <span class="badge badge-proximity" style="background:#3a2e0d;color:#d29922;">📍 체결 임박 2/10위 · T2 <span class="chip-note">(1차a 33,700원 · 이격 2.23%)</span></span>
+      <span class="badge badge-proximity" style="background:#3a2e0d;color:#d29922;">📍 체결 임박 2/11위 · T2 <span class="chip-note">(1차a 33,700원 · 이격 2.23%)</span></span>
     </div>
     <div class="weight-info">
       비중: <span class="weight-chip">1 : 1 : 2</span>
@@ -3500,14 +3503,13 @@
     <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#f0883e;">35,000~37,499원 <span class="value-note">(매물 9.8% · 현재가 위)</span></div></div>
     <div class="summary-item"><div class="label">손절라인</div><div class="value stop">32,050원 <span class="value-note">(224선 종가 이탈 · 후퇴 금지)</span></div></div>
   </div>
-  <table class="portfolio-table">
-    <thead><tr><th>차수</th><th>매수가</th><th>수량</th><th>평단</th><th>목표가</th></tr></thead>
+      <table class="portfolio-table">
+    <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
     <tbody>
-      <tr><td data-label="차수">1차a 대기 <span class="hd-note">(224선 32,704 +3.05% · 반등 양봉 + 거래량 0.7~1.5배)</span></td><td data-label="매수가">33,700</td><td data-label="수량">8주</td><td data-label="평단">33,700</td><td data-label="목표가">39,700</td></tr>
-      <tr><td data-label="차수">1차b 대기 <span class="hd-note">(1차a -1.78% · §4.3 ±2% 이내)</span></td><td data-label="매수가">33,100</td><td data-label="수량">7주</td><td data-label="평단">33,420</td><td data-label="목표가">39,700</td></tr>
-      <tr><td data-label="차수">2차 대기 <span class="hd-note">(224선 재테스트 +0.60% · 돌파선 위 마지막 자리)</span></td><td data-label="매수가">32,900</td><td data-label="수량">15주</td><td data-label="평단">33,160</td><td data-label="목표가">39,700</td></tr>
-      <tr><td data-label="차수">3차 <span class="hd-note">(없음 — 224선 아래 차수는 손절선 아래 매수라 §4.4 위반)</span></td><td data-label="매수가">-</td><td data-label="수량">-</td><td data-label="평단">33,160</td><td data-label="목표가">-</td></tr>
-      <tr><td data-label="차수">손절 <span class="hd-note">(종가 이탈 · 전량 최대손실 -33,300원 · 후퇴 금지)</span></td><td data-label="매수가">32,050</td><td data-label="수량">30주</td><td data-label="평단">33,160</td><td data-label="목표가">-</td></tr>
+      <tr><td data-label="스윙 분할 계획">1차a 대기</td><td data-label="매수가">33,700</td><td data-label="수량">8주</td><td data-label="누적 평단">33,700</td><td data-label="목표가">39,700</td><td data-label="예상 이익">+48,000원</td><td data-label="손익비">3.64</td><td data-label="조건">MA224 32,704 위 반등 양봉, 거래량 0.7~1.5배</td></tr>
+      <tr><td data-label="스윙 분할 계획">1차b 대기</td><td data-label="매수가">33,100</td><td data-label="수량">7주</td><td data-label="누적 평단">33,420</td><td data-label="목표가">39,700</td><td data-label="예상 이익">+94,200원</td><td data-label="손익비">4.58</td><td data-label="조건">1차a 대비 -1.78%, MA224 재지지</td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">32,900</td><td data-label="수량">15주</td><td data-label="누적 평단">33,160</td><td data-label="목표가">39,700</td><td data-label="예상 이익">+196,200원</td><td data-label="손익비">5.89</td><td data-label="조건">MA224 재테스트 후 돌파선 위 반등 확인</td></tr>
+      <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">32,050</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -33,300원</td><td data-label="손익비">-</td><td data-label="조건">종가 이탈 시 기계적 전량 손절</td></tr>
     </tbody>
   </table>
   <!-- 🛡️ AI 추천전략 박스 (자동 생성 · patchAiStrategyBoxes · 수기 편집 금지 — 다음 회차에 덮어씀) -->
@@ -3560,7 +3562,7 @@
     <div>
       <h3 style="margin:0;">📶 PS일렉트로닉스 <span class="hd-note">(332570)</span> ⏸ 미체결 · 눌림 대기 · <strong>전자부품 <span class="hd-note">(RF 전력증폭 모듈 → AI 고성능 서버 장비)</span></strong></h3>
       <span class="badge badge-swing">스윙 <span class="chip-note">(활성 · 미체결)</span></span>
-      <span class="badge badge-proximity" style="background:#3a2e0d;color:#d29922;">📍 체결 임박 3/10위 · T2 <span class="chip-note">(1차 8,300원 · 이격 3.49%)</span></span>
+      <span class="badge badge-proximity" style="background:#3a2e0d;color:#d29922;">📍 체결 임박 3/11위 · T2 <span class="chip-note">(1차 8,300원 · 이격 3.49%)</span></span>
       <!-- ⛔ 2026-08-05 영구 삭제 (사용자 확정): 카드 헤더 경고 배지(⚠️/🔴/🧱) 전량 — 경고·리스크 서술은 🛡️ AI 추천전략 박스와 AI단테.md §6이 담당. 🚫 재추가 금지 -->
     </div>
     <div class="weight-info">
@@ -3580,15 +3582,13 @@
     <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#f0883e;">60선 8,244 + 112선 7,303 <span class="value-note">(7,200~7,300 매물대 5.4%)</span></div></div>
     <div class="summary-item"><div class="label">손절라인</div><div class="value stop">7,600원 <span class="value-note">(08-04 양봉 저점 7,680 −1% · 6,500에서 상향)</span></div></div>
   </div>
-  <table class="portfolio-table">
-    <thead><tr><th>차수</th><th>매수가</th><th>수량</th><th>평단</th><th>목표가</th></tr></thead>
+      <table class="portfolio-table">
+    <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
     <tbody>
-      <tr><td data-label="차수">1차 ⏳ 대기 <span class="hd-note">(60선 8,244 직상 되눌림 양봉 + 거래량 282만~605만주)</span></td><td data-label="매수가">8,300</td><td data-label="수량">31주</td><td data-label="평단">8,300</td><td data-label="목표가">9,900</td></tr>
-      <tr><td data-label="차수">2차 ⏳ 대기 <span class="hd-note">(1차 −1.81%)</span></td><td data-label="매수가">8,150</td><td data-label="수량">31주</td><td data-label="평단">8,225</td><td data-label="목표가">9,900</td></tr>
-      <tr><td data-label="차수">3차 ⏳ 대기 <span class="hd-note">(전량 124주 투입 99.0만)</span></td><td data-label="매수가">7,750</td><td data-label="수량">62주</td><td data-label="평단">7,988</td><td data-label="목표가">9,900</td></tr>
-      <tr><td data-label="차수">목표 1차 <span class="hd-note">(9,900~10,000 매물대 6.0% 진입 직전 · 전량 손익비 4.93 ✅ / 1차 단독 2.29 ✅)</span></td><td data-label="매수가">—</td><td data-label="수량">124주</td><td data-label="평단">7,988</td><td data-label="목표가">9,900</td></tr>
-      <tr><td data-label="차수">목표 2차 <span class="hd-note">(11,000~11,100 매물대 6.8%)</span></td><td data-label="매수가">—</td><td data-label="수량">124주</td><td data-label="평단">7,988</td><td data-label="목표가">10,950</td></tr>
-      <tr><td data-label="차수">손절 <span class="hd-note">(08-04 양봉 저점 −1% 종가 이탈 · 상향 재산정 · 124주 전량 −48,112)</span></td><td data-label="매수가">7,600</td><td data-label="수량">—</td><td data-label="평단">—</td><td data-label="목표가">—</td></tr>
+      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">8,300</td><td data-label="수량">31주</td><td data-label="누적 평단">8,300</td><td data-label="목표가">9,900</td><td data-label="예상 이익">+49,600원</td><td data-label="손익비">2.29</td><td data-label="조건">MA60 8,244 위 되눌림 양봉, 거래량 282만~605만주</td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">8,150</td><td data-label="수량">31주</td><td data-label="누적 평단">8,225</td><td data-label="목표가">9,900</td><td data-label="예상 이익">+103,850원</td><td data-label="손익비">2.68</td><td data-label="조건">1차 대비 -1.81%, 지지 재확인</td></tr>
+      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">7,750</td><td data-label="수량">62주</td><td data-label="누적 평단">7,988</td><td data-label="목표가">9,900</td><td data-label="예상 이익">+237,150원</td><td data-label="손익비">4.93</td><td data-label="조건">지지 양봉 확인 후 전량 124주 투입</td></tr>
+      <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">7,600</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -48,050원</td><td data-label="손익비">-</td><td data-label="조건">08-04 양봉 저점 아래 종가 이탈 시 전량 손절</td></tr>
     </tbody>
   </table>
   <!-- 🛡️ AI 추천전략 박스 (자동 생성 · patchAiStrategyBoxes · 수기 편집 금지 — 다음 회차에 덮어씀) -->
@@ -3625,7 +3625,7 @@
     <div>
       <h3 style="margin:0;">🔬 프로텍 <span class="hd-note">(053610)</span> ⏸ 미체결 · 눌림 대기 · <strong>반도체 장비 <span class="hd-note">(후공정 디스펜서 · 레이저 본딩)</span></strong></h3>
       <span class="badge badge-swing">스윙 <span class="chip-note">(활성 · 미체결)</span></span>
-      <span class="badge badge-proximity" style="background:#3a2e0d;color:#d29922;">📍 체결 임박 4/10위 · T2 <span class="chip-note">(1차 61,500원 · 이격 3.74%)</span></span>
+      <span class="badge badge-proximity" style="background:#3a2e0d;color:#d29922;">📍 체결 임박 4/11위 · T2 <span class="chip-note">(1차 61,500원 · 이격 3.74%)</span></span>
       <!-- ⛔ 2026-08-05 영구 삭제 (사용자 확정): 카드 헤더 경고 배지(⚠️/🔴/🧱) 전량 — 경고·리스크 서술은 🛡️ AI 추천전략 박스와 AI단테.md §6이 담당. 🚫 재추가 금지 -->
     </div>
     <div class="weight-info">
@@ -3645,15 +3645,13 @@
     <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#f0883e;">20선 61,278 + 10선 58,775 <span class="value-note">(224선 52,131이 최종 지지)</span></div></div>
     <div class="summary-item"><div class="label">손절라인</div><div class="value stop">55,800원 <span class="value-note">(08-03 저가 56,400 −1% · 51,200에서 상향)</span></div></div>
   </div>
-  <table class="portfolio-table">
-    <thead><tr><th>차수</th><th>매수가</th><th>수량</th><th>평단</th><th>목표가</th></tr></thead>
+      <table class="portfolio-table">
+    <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
     <tbody>
-      <tr><td data-label="차수">1차 ⏳ 대기 <span class="hd-note">(20선 61,278 직상 눌림 양봉 + 거래량 2.6만~5.6만주)</span></td><td data-label="매수가">61,500</td><td data-label="수량">4주</td><td data-label="평단">61,500</td><td data-label="목표가">68,800</td></tr>
-      <tr><td data-label="차수">2차 ⏳ 대기 <span class="hd-note">(1차 −1.79%)</span></td><td data-label="매수가">60,400</td><td data-label="수량">4주</td><td data-label="평단">60,950</td><td data-label="목표가">68,800</td></tr>
-      <tr><td data-label="차수">3차 ⏳ 대기 <span class="hd-note">(전량 16주 투입 95.2만)</span></td><td data-label="매수가">58,000</td><td data-label="수량">8주</td><td data-label="평단">59,475</td><td data-label="목표가">68,800</td></tr>
-      <tr><td data-label="차수">목표 1차 <span class="hd-note">(112선 68,892 저항 직전 · 전량 손익비 2.54 ✅ / 1차 단독 1.28 ❌)</span></td><td data-label="매수가">—</td><td data-label="수량">16주</td><td data-label="평단">59,475</td><td data-label="목표가">68,800</td></tr>
-      <tr><td data-label="차수">목표 2차 <span class="hd-note">(20일 고 71,700)</span></td><td data-label="매수가">—</td><td data-label="수량">16주</td><td data-label="평단">59,475</td><td data-label="목표가">71,700</td></tr>
-      <tr><td data-label="차수">손절 <span class="hd-note">(08-03 저가 −1% 종가 이탈 · 상향 재산정 · 16주 전량 −58,800)</span></td><td data-label="매수가">55,800</td><td data-label="수량">—</td><td data-label="평단">—</td><td data-label="목표가">—</td></tr>
+      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">61,500</td><td data-label="수량">4주</td><td data-label="누적 평단">61,500</td><td data-label="목표가">68,800</td><td data-label="예상 이익">+29,200원</td><td data-label="손익비">1.28</td><td data-label="조건">MA20 61,278 위 눌림 양봉, 거래량 2.6만~5.6만주</td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">60,400</td><td data-label="수량">4주</td><td data-label="누적 평단">60,950</td><td data-label="목표가">68,800</td><td data-label="예상 이익">+62,800원</td><td data-label="손익비">1.52</td><td data-label="조건">1차 대비 -1.79%, 지지 재확인</td></tr>
+      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">58,000</td><td data-label="수량">8주</td><td data-label="누적 평단">59,475</td><td data-label="목표가">68,800</td><td data-label="예상 이익">+149,200원</td><td data-label="손익비">2.54</td><td data-label="조건">58,000 지지 양봉 확인 후 전량 16주 투입</td></tr>
+      <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">55,800</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -58,800원</td><td data-label="손익비">-</td><td data-label="조건">08-03 저가 아래 종가 이탈 시 전량 손절</td></tr>
     </tbody>
   </table>
   <!-- 🛡️ AI 추천전략 박스 (자동 생성 · patchAiStrategyBoxes · 수기 편집 금지 — 다음 회차에 덮어씀) -->
@@ -3692,7 +3690,7 @@
     <div>
       <h3 style="margin:0;">JB금융지주 <span class="hd-note">(175330)</span> 미체결 - 눌림 대기 - <strong>금융지주 <span class="hd-note">(지방은행·캐피탈·자산운용)</span></strong></h3>
       <span class="badge badge-swing">스윙 <span class="chip-note">(활성 · 미체결)</span></span>
-      <span class="badge badge-proximity" style="background:#3a2e0d;color:#d29922;">📍 체결 임박 5/10위 · T2 <span class="chip-note">(1차 27,000원 · 이격 4.44%)</span></span>
+      <span class="badge badge-proximity" style="background:#3a2e0d;color:#d29922;">📍 체결 임박 5/11위 · T2 <span class="chip-note">(1차 27,000원 · 이격 4.44%)</span></span>
       <!-- 2026-08-05 영구 삭제 룰: 카드 헤더 경고 배지 재추가 금지 -->
     </div>
     <div class="weight-info">
@@ -3712,13 +3710,13 @@
     <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#f0883e;">26.2~27.8K 장기이평 밀집 <span class="value-note">(112선·224선)</span></div></div>
     <div class="summary-item"><div class="label">손절라인</div><div class="value stop">24,800원</div></div>
   </div>
-  <table class="portfolio-table">
-    <thead><tr><th>차수</th><th>매수가</th><th>수량</th><th>평단</th><th>목표가</th></tr></thead>
+      <table class="portfolio-table">
+    <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
     <tbody>
-      <tr><td data-label="차수">1차 대기 <span class="hd-note">(27,000 지지 양봉 + 거래량 20평 0.7~1.5배)</span></td><td data-label="매수가">27,000</td><td data-label="수량">9주</td><td data-label="평단">27,000</td><td data-label="목표가">29,000 참고 / 30,500</td></tr>
-      <tr><td data-label="차수">2차 대기 <span class="hd-note">(224선 26,235 지지 확인)</span></td><td data-label="매수가">26,250</td><td data-label="수량">9주</td><td data-label="평단">26,625</td><td data-label="목표가">29,000 참고 / 30,500</td></tr>
-      <tr><td data-label="차수">3차 대기 <span class="hd-note">(쌍바닥 25,700 재지지 양봉)</span></td><td data-label="매수가">25,700</td><td data-label="수량">18주</td><td data-label="평단">26,163</td><td data-label="목표가">29,000 / 30,500</td></tr>
-      <tr><td data-label="차수">손절</td><td data-label="매수가">24,800</td><td data-label="수량">-</td><td data-label="평단">-</td><td data-label="목표가">쌍바닥 하단 25,350 종가 이탈 -2.2% · 후퇴 금지 · 36주 전량</td></tr>
+      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">27,000</td><td data-label="수량">9주</td><td data-label="누적 평단">27,000</td><td data-label="목표가">30,500</td><td data-label="예상 이익">+31,500원</td><td data-label="손익비">1.59</td><td data-label="조건">27,000 지지 양봉, 거래량 20평 0.7~1.5배</td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">26,250</td><td data-label="수량">9주</td><td data-label="누적 평단">26,625</td><td data-label="목표가">30,500</td><td data-label="예상 이익">+69,750원</td><td data-label="손익비">2.12</td><td data-label="조건">MA224 26,235 지지 확인</td></tr>
+      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">25,700</td><td data-label="수량">18주</td><td data-label="누적 평단">26,163</td><td data-label="목표가">30,500</td><td data-label="예상 이익">+156,150원</td><td data-label="손익비">3.18</td><td data-label="조건">쌍바닥 25,700 재지지 양봉, 29,000 1차 저항 참고</td></tr>
+      <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">24,800</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -49,050원</td><td data-label="손익비">-</td><td data-label="조건">쌍바닥 하단 종가 이탈 시 전량 손절</td></tr>
     </tbody>
   </table>
   <!-- 🛡️ AI 추천전략 박스 (자동 생성 · patchAiStrategyBoxes · 수기 편집 금지 — 다음 회차에 덮어씀) -->
@@ -3770,7 +3768,7 @@
     <div>
       <h3 style="margin:0;">🔐 한컴위드 <span class="hd-note">(054920)</span> ⏸ 미체결 · 눌림 대기 · <strong>정보보안 <span class="hd-note">(양자내성암호 PQC · 암호·인증)</span></strong></h3>
       <span class="badge badge-swing">스윙 <span class="chip-note">(활성 · 미체결)</span></span>
-      <span class="badge badge-proximity" style="background:#3a2e0d;color:#d29922;">📍 체결 임박 6/10위 · T2 <span class="chip-note">(1차 3,800원 · 이격 4.74%)</span></span>
+      <span class="badge badge-proximity" style="background:#3a2e0d;color:#d29922;">📍 체결 임박 6/11위 · T2 <span class="chip-note">(1차 3,800원 · 이격 4.74%)</span></span>
       <!-- ⛔ 2026-08-05 영구 삭제 (사용자 확정): 카드 헤더 경고 배지(⚠️/🔴/🧱) 전량 — 경고·리스크 서술은 🛡️ AI 추천전략 박스와 AI단테.md §6이 담당. 🚫 재추가 금지 -->
     </div>
     <div class="weight-info">
@@ -3790,15 +3788,13 @@
     <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#f0883e;">5선 3,567 + 20선 3,194 <span class="value-note">(4,100~4,200 매물대 7.6%가 상단 벽)</span></div></div>
     <div class="summary-item"><div class="label">손절라인</div><div class="value stop">3,380원 <span class="value-note">(07-31 저가 3,420 −1% · 2,935에서 상향)</span></div></div>
   </div>
-  <table class="portfolio-table">
-    <thead><tr><th>차수</th><th>매수가</th><th>수량</th><th>평단</th><th>목표가</th></tr></thead>
+      <table class="portfolio-table">
+    <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
     <tbody>
-      <tr><td data-label="차수">1차 ⏳ 대기 <span class="hd-note">(되눌림 양봉 + 거래량 24.8만~53.2만주)</span></td><td data-label="매수가">3,800</td><td data-label="수량">47주</td><td data-label="평단">3,800</td><td data-label="목표가">4,230</td></tr>
-      <tr><td data-label="차수">2차 ⏳ 대기 <span class="hd-note">(1차 −1.84%)</span></td><td data-label="매수가">3,730</td><td data-label="수량">47주</td><td data-label="평단">3,765</td><td data-label="목표가">4,230</td></tr>
-      <tr><td data-label="차수">3차 ⏳ 대기 <span class="hd-note">(전량 188주 투입 68.9만 · 100만 캡 아닌 손절 55,000 상한이 제약)</span></td><td data-label="매수가">3,570</td><td data-label="수량">94주</td><td data-label="평단">3,668</td><td data-label="목표가">4,230</td></tr>
-      <tr><td data-label="차수">목표 1차 <span class="hd-note">(60선 4,238 저항 직전 · 전량 손익비 1.95 ✅ / 1차 단독 1.02 ❌)</span></td><td data-label="매수가">—</td><td data-label="수량">188주</td><td data-label="평단">3,668</td><td data-label="목표가">4,230</td></tr>
-      <tr><td data-label="차수">목표 2차 <span class="hd-note">(224선 4,610)</span></td><td data-label="매수가">—</td><td data-label="수량">188주</td><td data-label="평단">3,668</td><td data-label="목표가">4,610</td></tr>
-      <tr><td data-label="차수">손절 <span class="hd-note">(07-31 저가 −1% 종가 이탈 · 상향 재산정 · 188주 전량 −54,144 = 상한 55,000 이내)</span></td><td data-label="매수가">3,380</td><td data-label="수량">—</td><td data-label="평단">—</td><td data-label="목표가">—</td></tr>
+      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">3,800</td><td data-label="수량">47주</td><td data-label="누적 평단">3,800</td><td data-label="목표가">4,230</td><td data-label="예상 이익">+20,210원</td><td data-label="손익비">1.02</td><td data-label="조건">되눌림 양봉, 거래량 24.8만~53.2만주</td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">3,730</td><td data-label="수량">47주</td><td data-label="누적 평단">3,765</td><td data-label="목표가">4,230</td><td data-label="예상 이익">+43,710원</td><td data-label="손익비">1.21</td><td data-label="조건">1차 대비 -1.84%, 지지 재확인</td></tr>
+      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">3,570</td><td data-label="수량">94주</td><td data-label="누적 평단">3,668</td><td data-label="목표가">4,230</td><td data-label="예상 이익">+105,750원</td><td data-label="손익비">1.96</td><td data-label="조건">지지 양봉 확인 후 전량 188주 투입</td></tr>
+      <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">3,380</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -54,050원</td><td data-label="손익비">-</td><td data-label="조건">07-31 저가 아래 종가 이탈 시 전량 손절</td></tr>
     </tbody>
   </table>
   <!-- 🛡️ AI 추천전략 박스 (자동 생성 · patchAiStrategyBoxes · 수기 편집 금지 — 다음 회차에 덮어씀) -->
@@ -3912,7 +3908,7 @@
     <div>
       <h3 style="margin:0;">코웨이 <span class="hd-note">(021240)</span> 미체결 · 눌림 대기 · <strong>생활가전 렌탈 <span class="hd-note">(정수기 · 공기청정기 · 비렉스)</span></strong></h3>
       <span class="badge badge-swing">스윙 <span class="chip-note">(활성 · 미체결)</span></span>
-      <span class="badge badge-proximity" style="background:#3a2e0d;color:#d29922;">📍 체결 임박 7/10위 · T2 <span class="chip-note">(1차 92,000원 · 이격 5.11%)</span></span>
+      <span class="badge badge-proximity" style="background:#3a2e0d;color:#d29922;">📍 체결 임박 7/11위 · T2 <span class="chip-note">(1차 92,000원 · 이격 5.11%)</span></span>
     </div>
     <div class="weight-info">
       비중: <span class="weight-chip">1 : 1 : 2</span>
@@ -3931,14 +3927,13 @@
     <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#f0883e;">91,800~93,000원 <span class="value-note">(MA20 93,035 · MA60 91,895)</span></div></div>
     <div class="summary-item"><div class="label">손절라인</div><div class="value stop">84,500원 <span class="value-note">(112선 하단 · 후퇴 금지)</span></div></div>
   </div>
-  <table class="portfolio-table">
-    <thead><tr><th>차수</th><th>매수가</th><th>수량</th><th>평단</th><th>목표가</th></tr></thead>
+      <table class="portfolio-table">
+    <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
     <tbody>
-      <tr><td data-label="차수">1차 대기 <span class="hd-note">(91,800~93,000 지지 + 반전 양봉 + 거래량 0.7~1.5배)</span></td><td data-label="매수가">92,000</td><td data-label="수량">2주</td><td data-label="평단">92,000</td><td data-label="목표가">100,500</td></tr>
-      <tr><td data-label="차수">2차 대기 <span class="hd-note">(1차 -1.63%)</span></td><td data-label="매수가">90,500</td><td data-label="수량">2주</td><td data-label="평단">91,250</td><td data-label="목표가">100,500</td></tr>
-      <tr><td data-label="차수">3차 대기 <span class="hd-note">(224선 87,429·08-10 저가권 재지지)</span></td><td data-label="매수가">87,500</td><td data-label="수량">4주</td><td data-label="평단">89,375</td><td data-label="목표가">100,500</td></tr>
-      <tr><td data-label="차수">목표 2차 <span class="hd-note">(52주 고점 · 전량 손익비 4.33)</span></td><td data-label="매수가">-</td><td data-label="수량">8주</td><td data-label="평단">89,375</td><td data-label="목표가">110,500</td></tr>
-      <tr><td data-label="차수">손절 <span class="hd-note">(종가 이탈 · 전량 최대손실 -39,000원 · 후퇴 금지)</span></td><td data-label="매수가">84,500</td><td data-label="수량">8주</td><td data-label="평단">89,375</td><td data-label="목표가">-</td></tr>
+      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">92,000</td><td data-label="수량">2주</td><td data-label="누적 평단">92,000</td><td data-label="목표가">100,500</td><td data-label="예상 이익">+17,000원</td><td data-label="손익비">1.13</td><td data-label="조건">91,800~93,000 지지, 반전 양봉, 거래량 0.7~1.5배</td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">90,500</td><td data-label="수량">2주</td><td data-label="누적 평단">91,250</td><td data-label="목표가">100,500</td><td data-label="예상 이익">+37,000원</td><td data-label="손익비">1.37</td><td data-label="조건">1차 대비 -1.63%, 지지 재확인</td></tr>
+      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">87,500</td><td data-label="수량">4주</td><td data-label="누적 평단">89,375</td><td data-label="목표가">100,500</td><td data-label="예상 이익">+89,000원</td><td data-label="손익비">2.28</td><td data-label="조건">MA224 87,429과 08-10 저가권 재지지</td></tr>
+      <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">84,500</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -39,000원</td><td data-label="손익비">-</td><td data-label="조건">종가 이탈 시 기계적 전량 손절</td></tr>
     </tbody>
   </table>
   <!-- 🛡️ AI 추천전략 박스 (자동 생성 · patchAiStrategyBoxes · 수기 편집 금지 — 다음 회차에 덮어씀) -->
@@ -4045,6 +4040,54 @@
   </div>
 </div>
 
+<!-- ===== 대원전선 (006340) 스윙 활성 카드 - 2026-08-12 사용자 후보풀 편입, 미체결 ===== -->
+<div class="card" id="card-006340-active" style="border-left:4px solid #d29922;">
+  <div class="card-header">
+    <div>
+      <h3 style="margin:0;">대원전선 <span class="hd-note">(006340)</span> 미체결, 눌림 대기, <strong>전선/케이블 <span class="hd-note">(전력망, 데이터센터, 자동차 전선)</span></strong></h3>
+      <span class="badge badge-swing">스윙 <span class="chip-note">(활성, 미체결)</span></span>
+      <span class="badge badge-proximity" style="background:#3a2e0d;color:#d29922;">📍 체결 임박 8/11위 · T2 <span class="chip-note">(1차 15,200원 · 이격 5.46%)</span></span>
+    </div>
+    <div class="weight-info">
+      비중: <span class="weight-chip">16 : 16 : 37</span>
+      예산: <span class="weight-chip">98.19만 <span class="chip-note">(69주, 100만 한도)</span></span>
+      모드: <span class="weight-chip" style="background:#3a2e0d;color:#d29922;">미체결, 15,200 눌림 양봉 대기 <span class="chip-note">(16,030 추격 금지)</span></span>
+    </div>
+    <div class="phase-strip">
+      <span class="phase-cell"><span class="ph-label"><span class="ph-no">1차</span> 대기 <span class="chip-note">(15,000~15,300 지지 양봉)</span></span><span class="ph-price">15,200</span></span>
+      <span class="phase-cell"><span class="ph-label"><span class="ph-no">2차</span> 대기 <span class="chip-note">(1차 후 1~3일 이내 재지지)</span></span><span class="ph-price">14,950</span></span>
+      <span class="phase-cell"><span class="ph-label"><span class="ph-no">3차</span> 대기 <span class="chip-note">(공구리와 MA20 부근 반등)</span></span><span class="ph-price">13,500</span></span>
+    </div>
+  </div>
+  <div class="summary-grid">
+    <div class="summary-item"><div class="label">현재가 <span class="hd-note">(08-12)</span></div><div class="value profit">16,030원 <span class="value-note">(+10.39%)</span> <span class="value-note">(미체결)</span></div></div>
+    <div class="summary-item"><div class="label">현재 위치 <span class="hd-note">(밥그릇)</span></div><div class="value" style="color:#d29922;">4구간 재상승 시도 <span class="value-note">(16,080~16,450 저항)</span></div></div>
+    <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#f0883e;">13,000~13,500원 <span class="value-note">(거래량 집중대, MA20 인접)</span></div></div>
+    <div class="summary-item"><div class="label">손절라인</div><div class="value stop">13,000원 <span class="value-note">(종가 기준, 후퇴 금지)</span></div></div>
+  </div>
+  <table class="portfolio-table">
+    <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
+    <tbody>
+      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">15,200</td><td data-label="수량">16주</td><td data-label="누적 평단">15,200</td><td data-label="목표가">18,500</td><td data-label="예상 이익">+52,800원</td><td data-label="손익비">1.50</td><td data-label="조건">15,000~15,300 지지 양봉, 거래량 10.93M~23.43M주</td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">14,950</td><td data-label="수량">16주</td><td data-label="누적 평단">15,075</td><td data-label="목표가">18,200</td><td data-label="예상 이익">+100,000원</td><td data-label="손익비">1.51</td><td data-label="조건">1차 후 1~3일 이내 재지지 양봉</td></tr>
+      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">13,500</td><td data-label="수량">37주</td><td data-label="누적 평단">14,230</td><td data-label="목표가">17,000</td><td data-label="예상 이익">+191,100원</td><td data-label="손익비">2.25</td><td data-label="조건">공구리와 20일선 부근 반등 확인</td></tr>
+      <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">13,000</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -84,900원</td><td data-label="손익비">-</td><td data-label="조건">종가 이탈 시 기계적 전량 손절</td></tr>
+    </tbody>
+  </table>
+  <div class="warn-box" style="background:#1a2838;border-left:4px solid #58a6ff;margin-bottom:12px;">
+    <strong>업종 / 테마 / 모멘텀 카드 (2026-08-12)</strong>
+    <table style="margin:8px 0;font-size:0.88em;">
+      <thead><tr><th>구분</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td style="text-align:left;width:160px;"><strong>업종</strong></td><td style="text-align:left;">전선 및 케이블 제조, KOSPI</td></tr>
+        <tr><td style="text-align:left;"><strong>주요 테마</strong></td><td style="text-align:left;">전력망 투자, AI 데이터센터 전력 수요, 구리 가격, 전기차 배선</td></tr>
+        <tr><td style="text-align:left;"><strong>대표 사업/제품</strong></td><td style="text-align:left;">전력 케이블, 절연 전선, 통신 전선, 자동차 전선</td></tr>
+        <tr><td style="text-align:left;"><strong>모멘텀</strong></td><td style="text-align:left;">2026 상반기 연결 매출 4,673.10억원, 영업이익 183.96억원, 순이익 147.24억원. 전년 동기 대비 각각 +54.4%, +34.1%, +26.4%. 다만 2분기 영업이익률은 1.34%로 둔화. <a href="https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260812000613" target="_blank" rel="noopener">DART 반기보고서</a>. 재무 우량주 심사 D등급 3/6.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 <!-- ===== 금호타이어 (073240) 스윙 활성·미체결 카드 — 2026-08-11 사용자 가격계획으로 재설계 =====
      매수 7,000/6,580 · 1:2 · 손절 6,350 · 매도 8,350/10,000. 10,000원은 8,510원 종가 돌파 후 발효. -->
 <div class="card" id="card-073240-active" style="border-left:4px solid #d29922;">
@@ -4052,7 +4095,7 @@
     <div>
       <h3 style="margin:0;">🏎️ 금호타이어 <span class="hd-note">(073240)</span> ⏸ 미체결 · 눌림 대기 · <strong>타이어 <span class="hd-note">(승용차 · 트럭 · 국내 3위)</span></strong></h3>
       <span class="badge badge-swing">스윙 <span class="chip-note">(활성 · 미체결)</span></span>
-      <span class="badge badge-proximity" style="background:#3a2e0d;color:#d29922;">📍 체결 임박 8/10위 · T2 <span class="chip-note">(1차 7,000원 · 이격 5.71%)</span></span>
+      <span class="badge badge-proximity" style="background:#3a2e0d;color:#d29922;">📍 체결 임박 9/11위 · T2 <span class="chip-note">(1차 7,000원 · 이격 5.71%)</span></span>
       <!-- ⛔ 2026-08-05 영구 삭제 (사용자 확정): 카드 헤더 경고 배지(⚠️/🔴/🧱) 전량 — 경고·리스크 서술은 🛡️ AI 추천전략 박스와 AI단테.md §6이 담당. 🚫 재추가 금지 -->
     </div>
     <div class="weight-info">
@@ -4072,14 +4115,12 @@
     <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#f0883e;">6,580원 <span class="value-note">(MA20 약 6,619 · 08-03 저가·07-23 고가)</span></div></div>
     <div class="summary-item"><div class="label">손절라인</div><div class="value stop">6,350원 <span class="value-note">(6,580 지지 실패 -3.5% · 종가 이탈 · 후퇴 금지)</span></div></div>
   </div>
-  <table class="portfolio-table">
-    <thead><tr><th>차수</th><th>매수가</th><th>수량</th><th>평단</th><th>목표가</th></tr></thead>
+      <table class="portfolio-table">
+    <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
     <tbody>
-      <tr><td data-label="차수">1차 ⏳ 대기 <span class="hd-note">(7,000 접촉 후 반전 양봉 · 현재가 선매수 금지)</span></td><td data-label="매수가">7,000</td><td data-label="수량">49주</td><td data-label="평단">7,000</td><td data-label="목표가">8,350</td></tr>
-      <tr><td data-label="차수">2차 ⏳ 대기 <span class="hd-note">(MA20·과거 지지 6,580 종가 방어)</span></td><td data-label="매수가">6,580</td><td data-label="수량">98주</td><td data-label="평단">6,720</td><td data-label="목표가">8,350</td></tr>
-      <tr><td data-label="차수">목표 1차 <span class="hd-note">(직전 고점 8,510 직전 · 74주 절반 익절 · 전량 가격 손익비 4.41)</span></td><td data-label="매수가">—</td><td data-label="수량">74주 매도</td><td data-label="평단">6,720</td><td data-label="목표가">8,350</td></tr>
-      <tr><td data-label="차수">목표 2차 <span class="hd-note">(8,510 종가 돌파 + 거래량 증가 시에만 발효)</span></td><td data-label="매수가">—</td><td data-label="수량">잔여 73주</td><td data-label="평단">6,720</td><td data-label="목표가">10,000</td></tr>
-      <tr><td data-label="차수">손절 <span class="hd-note">(6,350 종가 이탈 · 147주 전량 최대손실 -54,390 · 후퇴 금지)</span></td><td data-label="매수가">6,350</td><td data-label="수량">147주</td><td data-label="평단">6,720</td><td data-label="목표가">—</td></tr>
+      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">7,000</td><td data-label="수량">49주</td><td data-label="누적 평단">7,000</td><td data-label="목표가">8,350</td><td data-label="예상 이익">+66,150원</td><td data-label="손익비">2.08</td><td data-label="조건">7,000 접촉 후 반전 양봉, 현재가 선매수 금지</td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">6,580</td><td data-label="수량">98주</td><td data-label="누적 평단">6,720</td><td data-label="목표가">8,350</td><td data-label="예상 이익">+239,610원</td><td data-label="손익비">4.41</td><td data-label="조건">MA20과 과거 지지 6,580 종가 방어</td></tr>
+      <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">6,350</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -54,390원</td><td data-label="손익비">-</td><td data-label="조건">종가 이탈 시 전량 손절, 8,510 돌파 시 2차 목표 10,000 발효</td></tr>
     </tbody>
   </table>
   <!-- 🛡️ AI 추천전략 박스 (자동 생성 · patchAiStrategyBoxes · 수기 편집 금지 — 다음 회차에 덮어씀) -->
@@ -4118,7 +4159,7 @@
     <div>
       <h3 style="margin:0;">산일전기 <span class="hd-note">(062040)</span> 미체결 재진입 대기 · <strong>전기장비 <span class="hd-note">(몰드·유입 변압기 · 리액터)</span></strong></h3>
       <span class="badge badge-swing">스윙 <span class="chip-note">(활성 · 미체결 · 독립 재진입)</span></span>
-      <span class="badge badge-proximity" style="background:#3a2e0d;color:#d29922;">📍 체결 임박 9/10위 · T2 <span class="chip-note">(1차 169,000원 · 이격 7.16%)</span></span>
+      <span class="badge badge-proximity" style="background:#3a2e0d;color:#d29922;">📍 체결 임박 10/11위 · T2 <span class="chip-note">(1차 169,000원 · 이격 7.16%)</span></span>
       <!-- 카드 헤더 경고 배지 금지: 리스크는 AI 추천전략 박스와 AI단테.md §6에서 관리 -->
     </div>
     <div class="weight-info">
@@ -4138,15 +4179,13 @@
     <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#d29922;">166,000~169,000원 <span class="value-note">(224선·08-05~07 지지대)</span></div></div>
     <div class="summary-item"><div class="label">손절라인</div><div class="value stop">152,000원 <span class="value-note">(08-04 종가 152,900 하회 · 후퇴 금지)</span></div></div>
   </div>
-  <table class="portfolio-table">
-    <thead><tr><th>차수</th><th>매수가</th><th>수량</th><th>평단</th><th>목표가</th></tr></thead>
+      <table class="portfolio-table">
+    <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
     <tbody>
-      <tr><td data-label="차수">1차 대기 <span class="hd-note">(MA224 168,958 재지지 · 양봉 · 거래량 20평 0.7~1.5배)</span></td><td data-label="매수가">169,000</td><td data-label="수량">1주</td><td data-label="평단">169,000</td><td data-label="목표가">196,500</td></tr>
-      <tr><td data-label="차수">2차 대기 <span class="hd-note">(1차 -1.78% · 08-05 종가 167,200 / 08-07 고가 167,900 지지대)</span></td><td data-label="매수가">166,000</td><td data-label="수량">1주</td><td data-label="평단">167,500</td><td data-label="목표가">196,500</td></tr>
-      <tr><td data-label="차수">3차 대기 <span class="hd-note">(MA20 160,155·08-07 종가 157,300 지지 양봉)</span></td><td data-label="매수가">158,000</td><td data-label="수량">2주</td><td data-label="평단">162,750</td><td data-label="목표가">196,500</td></tr>
-      <tr><td data-label="차수">목표 1차 <span class="hd-note">(MA120 196,578 · 전량 손익비 3.14)</span></td><td data-label="매수가">-</td><td data-label="수량">4주</td><td data-label="평단">162,750</td><td data-label="목표가">196,500</td></tr>
-      <tr><td data-label="차수">목표 2차 <span class="hd-note">(MA60 210,223 저항 직전)</span></td><td data-label="매수가">-</td><td data-label="수량">4주</td><td data-label="평단">162,750</td><td data-label="목표가">210,000</td></tr>
-      <tr><td data-label="차수">손절 <span class="hd-note">(종가 이탈 · 전량 최대손실 -43,000원 · 후퇴 금지)</span></td><td data-label="매수가">152,000</td><td data-label="수량">4주</td><td data-label="평단">162,750</td><td data-label="목표가">-</td></tr>
+      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">169,000</td><td data-label="수량">1주</td><td data-label="누적 평단">169,000</td><td data-label="목표가">196,500</td><td data-label="예상 이익">+27,500원</td><td data-label="손익비">1.62</td><td data-label="조건">MA224 168,958 재지지, 양봉, 거래량 0.7~1.5배</td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">166,000</td><td data-label="수량">1주</td><td data-label="누적 평단">167,500</td><td data-label="목표가">196,500</td><td data-label="예상 이익">+58,000원</td><td data-label="손익비">1.87</td><td data-label="조건">08-05 종가와 08-07 고가 지지대 확인</td></tr>
+      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">158,000</td><td data-label="수량">2주</td><td data-label="누적 평단">162,750</td><td data-label="목표가">196,500</td><td data-label="예상 이익">+135,000원</td><td data-label="손익비">3.14</td><td data-label="조건">MA20 160,155와 157,300 지지 양봉</td></tr>
+      <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">152,000</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -43,000원</td><td data-label="손익비">-</td><td data-label="조건">종가 이탈 시 기계적 전량 손절</td></tr>
     </tbody>
   </table>
   <!-- 🛡️ AI 추천전략 박스 (자동 생성 · patchAiStrategyBoxes · 수기 편집 금지 — 다음 회차에 덮어씀) -->
@@ -4177,7 +4216,6 @@
     <p style="font-size:0.8em;color:#8b949e;margin:6px 0 0;">08-10 10:31 토스: 182,100원(+15.76%) · 거래량 851,100주 · 외국인 +64,847 / 프로그램 +32,029 전환. 공매도 고비율 지속으로 숏커버 가능성은 배제하지 않음.</p>
   </div>
 </div>
-
 <!-- ===== 🧬 셀트리온 (068270) 스윙 활성 카드 — 🆕 2026-07-31 재편입 (사용자 "후보풀편입" · 미체결·평단없음) =====
      ※ 07-24 편입 → 07-30 삭제(1차a 174,500 미도달) → 07-31 재편입. 삭제 후 +6.3% 상승해 삭제 판단이 틀렸음을 §6에 자진 기록.
        본 카드는 07-27 계획 복원이 아니라 07-30 신규 오돌이 기준봉 기준 재산정. 07-27 카드 card-068270-old는 §4.2 #9 hidden 보존.
@@ -4187,7 +4225,7 @@
     <div>
       <h3 style="margin:0;">🧬 셀트리온 <span class="hd-note">(068270)</span> ⏸ 미체결 · 눌림 대기 · <strong>바이오시밀러 <span class="hd-note">(항체 바이오의약품 · 짐펜트라)</span></strong></h3>
       <span class="badge badge-swing">스윙 <span class="chip-note">(활성 · 미체결)</span></span>
-      <span class="badge badge-proximity" style="background:#3a2e0d;color:#d29922;">📍 체결 임박 10/10위 · T2 <span class="chip-note">(1차 182,000원 · 이격 10.99%)</span></span>
+      <span class="badge badge-proximity" style="background:#3a2e0d;color:#d29922;">📍 체결 임박 11/11위 · T2 <span class="chip-note">(1차 182,000원 · 이격 10.99%)</span></span>
       <!-- ⛔ 2026-08-05 영구 삭제 (사용자 확정): 카드 헤더 경고 배지(⚠️/🔴/🧱) 전량 — 경고·리스크 서술은 🛡️ AI 추천전략 박스와 AI단테.md §6이 담당. 🚫 재추가 금지 -->
     </div>
     <div class="weight-info">
@@ -4207,14 +4245,13 @@
     <div class="summary-item"><div class="label">공구리</div><div class="value" style="color:#f0883e;">158.5~190K 8주 박스 <span class="value-note">(쌍바닥 · 두꺼운 공구리)</span></div></div>
     <div class="summary-item"><div class="label">손절라인</div><div class="value stop">178,000원 <span class="value-note">(후퇴 금지)</span></div></div>
   </div>
-  <table class="portfolio-table">
-    <thead><tr><th>차수</th><th>매수가</th><th>수량</th><th>평단</th><th>목표가</th></tr></thead>
+      <table class="portfolio-table">
+    <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
     <tbody>
-      <tr><td data-label="차수">1차 ⏳ 대기 <span class="hd-note">(5일선 180,740 위 눌림 양봉)</span></td><td data-label="매수가">182,000</td><td data-label="수량">1주</td><td data-label="평단">182,000</td><td data-label="목표가">190,652</td></tr>
-      <tr><td data-label="차수">2차 ⏳ 대기 <span class="hd-note">(1차 −0.8%)</span></td><td data-label="매수가">180,500</td><td data-label="수량">1주</td><td data-label="평단">181,250</td><td data-label="목표가">190,652</td></tr>
-      <tr><td data-label="차수">3차 ⏳ 대기 <span class="hd-note">(07-30 오돌이 기준봉 저점 179,900 직상)</span></td><td data-label="매수가">180,000</td><td data-label="수량">2주</td><td data-label="평단">180,625</td><td data-label="목표가">190,652</td></tr>
-      <tr><td data-label="차수">목표 2차</td><td data-label="매수가">—</td><td data-label="수량">4주</td><td data-label="평단">180,625</td><td data-label="목표가">193,820</td></tr>
-      <tr><td data-label="차수">손절</td><td data-label="매수가">178,000</td><td data-label="수량">—</td><td data-label="평단">—</td><td data-label="목표가">07-30 기준봉 저점 −1% 종가 이탈 · 후퇴 금지 · 4주 전량</td></tr>
+      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">182,000</td><td data-label="수량">1주</td><td data-label="누적 평단">182,000</td><td data-label="목표가">190,652</td><td data-label="예상 이익">+8,652원</td><td data-label="손익비">2.16</td><td data-label="조건">MA5 180,740 위 눌림 양봉</td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">180,500</td><td data-label="수량">1주</td><td data-label="누적 평단">181,250</td><td data-label="목표가">190,652</td><td data-label="예상 이익">+18,804원</td><td data-label="손익비">2.89</td><td data-label="조건">1차 대비 -0.8%, 지지 재확인</td></tr>
+      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">180,000</td><td data-label="수량">2주</td><td data-label="누적 평단">180,625</td><td data-label="목표가">190,652</td><td data-label="예상 이익">+40,108원</td><td data-label="손익비">3.82</td><td data-label="조건">07-30 오돌이 기준봉 저점 179,900 위 반등</td></tr>
+      <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">178,000</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -10,500원</td><td data-label="손익비">-</td><td data-label="조건">기준봉 저점 아래 종가 이탈 시 전량 손절</td></tr>
     </tbody>
   </table>
   <!-- 🛡️ AI 추천전략 박스 (자동 생성 · patchAiStrategyBoxes · 수기 편집 금지 — 다음 회차에 덮어씀) -->
@@ -4244,6 +4281,7 @@
     </table>
   </div>
 </div>
+
 
 <!-- ===== 🛡️ LIG디펜스앤에어로스페이스 (079550) 스윙 활성 카드 — 🗑️ 2026-08-04 후보 삭제 (사용자 지시 "지엔씨, LIG 삭제로 가자" · 미체결·평단없음 → 실현손익·종결건수 무관 · §4.2 #9 hidden 보존) =====
      ※ 삭제 사유 = 08-04 786,000으로 카드 최종 목표가 775,085를 <strong>+1.4% 초과</strong>(1차 목표 720,750 대비 +9.1%) = 진입 전에 목표가가 소진됨. 1차 655,000 도달 이격률도 20.00%(10.53%→20.00%, 7위→8위)로 벌어져 계획 실행 불가.

@@ -1646,7 +1646,10 @@ function renderRegionSummary(name, codes, data, selected=false){
           <div class="kpi" data-tip='주민등록상 <b>가구 수</b>.<br><span class="warn">아파트 세대수와 다르다</span> — 아파트 거주 비율은 이 둘을 나눈 값이라 섞으면 반드시 틀린다'><div class="v">${fmt(p.households)}<span class="u">세대</span></div><div class="l">주민등록 세대수 (가구 수)</div></div>
           <div class="kpi" data-tip='${m.trend_break
             ? `<b>${m.trend_break}</b> — 행정구역이 개편돼 <b>12개월 전과 비교할 수 없다.</b><br>1년 전에 없던 코드가 섞이면 개편 점프가 「인구 증가」로 읽힌다(검단구 +49%·영종구 +48%가 그랬다).<br>그래서 값을 지우고 <b>–</b> 로 둔다 — 결측이 아니다.`
-            : '최근 12개월 <b>총인구</b> 증감률. 학령인구가 아니라 전체 인구 기준'}'><div class="v">${p.trend_pct==null?"–":(p.trend_pct>=0?"+":"")+fmt(p.trend_pct,1)}<span class="u">%</span></div><div class="l">최근 12개월 인구 증감${m.trend_break?' <span class="d">개편</span>':''}</div></div>
+            : '최근 12개월 <b>총인구</b> 증감률. 학령인구가 아니라 전체 인구 기준'}'><div class="v">${p.trend_pct==null?"–":(p.trend_pct>=0?"+":"")+fmt(p.trend_pct,1)}<span class="u">%</span></div><div class="l">최근 12개월 인구 증감</div></div>
+          ${/* 개편 표시는 **마우스 오버(툴팁)로만** 한다 (2026-08-13 관리자 결정).
+                라벨에 「개편」 배지를 붙였더니 한 줄에 안 들어가 «최근 12개월 인구 증감 개…» 로
+                잘렸다 — 잘린 배지는 설명이 아니라 오타처럼 보인다. */""}
           <div class="kpi" data-tip='학원 하나가 상대하는 학령인구.<br>학원 = <b>입시·검정 및 보습만</b>(예체능·어학원·독서실 제외)<br>학원이 0개인 동은 나눌 수 없어 <b>–</b> 로 둔다'><div class="v">${m.pupils_per_academy==null?"–":fmt(m.pupils_per_academy,1)}<span class="u">명</span></div><div class="l">${ageRangeLabel()} 인구 ÷ 입시·보습 학원 수</div></div>
         </div></div></div>
       <div class="blk dashboard-blk education"><div class="section-rail">교육<br>경쟁</div><div class="section-body">
@@ -1757,11 +1760,14 @@ async function viewAdm(adm){
               <div class="l">유아 (0~5세) · 미래 수요</div></div>
             <div class="kpi"><div class="v">${p?fmt(p.total):"–"}<span class="u">명</span></div>
               <div class="l">총인구</div></div>
-            <div class="kpi"><div class="v">${(!p||p.trend_pct==null||(m&&m.trend_break))?"–":(p.trend_pct>=0?"+":"")+fmt(p.trend_pct,1)}<span class="u">%</span></div>
+            ${/* 개편 구간은 증감 자체가 성립하지 않는다 — 값도 «증가/감소» 꼬리표도 달지 않고,
+                  **이유는 마우스 오버로만** 알린다(라벨에 붙이면 잘린다). */""}
+            <div class="kpi" data-tip='${(m&&m.trend_break)
+              ? `<b>${m.trend_break}</b> — 행정구역이 개편돼 <b>12개월 전과 비교할 수 없다.</b><br>1년 전에 없던 코드라 증감률이 성립하지 않는다.<br>값을 지우고 <b>–</b> 로 둔다 — 결측이 아니다.`
+              : '최근 12개월 <b>총인구</b> 증감률'}'><div class="v">${(!p||p.trend_pct==null||(m&&m.trend_break))?"–":(p.trend_pct>=0?"+":"")+fmt(p.trend_pct,1)}<span class="u">%</span></div>
               <div class="l">최근 12개월 인구 증감
-                ${/* 개편 구간은 증감 자체가 성립하지 않는다 — "감소"로 읽히면 안 된다 */""}
                 <span class="d ${p&&!(m&&m.trend_break)&&p.trend_pct!=null&&p.trend_pct>=0?'up':'dn'}">${
-                  (m&&m.trend_break)?"개편": (p&&p.trend_pct!=null?(p.trend_pct>=0?"증가":"감소"):"")}</span></div></div>
+                  (m&&m.trend_break)?"": (p&&p.trend_pct!=null?(p.trend_pct>=0?"증가":"감소"):"")}</span></div></div>
           </div>
         </div>
 

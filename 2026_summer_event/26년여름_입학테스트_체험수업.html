@@ -887,22 +887,15 @@ const KIND_TONE = { '수학':'#4F6BFF', '과학':'#059669', '통합':'#EA580C', 
    **마지막이 0인 막대/꺾임**이 생긴다. DATA.asof 가 없는 옛 data.json 만 generated 로 떨어진다.
    계산은 위쪽 `ASOF`·`elapsedN(start)` 한 곳뿐 — 「진행일까지만」 한도(`progressDays`)와
    **같은 함수**를 써야 전년·올해가 같은 일차에서 끊긴다. */
-/* alignTo(= 올해 role)를 주면 그 이벤트의 **부서별 경과 일차**로 이 계열을 자른다 — 전년 전용.
-   ⚠️ 부서 단위여야 한다. 탭 전체를 한 숫자(예 D+14)로 자르면, 시작이 하루 늦은 부서(키즈 07-31)는
-   올해가 아직 13일차인데 전년은 14일차까지 세어 **전년만 하루 더** 얹힌다(실측 신청 2,613 → 2,584).
-   올해가 통째로 시작 전(전 부서 0일차)이면 자르지 않는다 — 전년을 다 지우면 '작년 이맘때'를 못 본다. */
-function trendSeries(role, tab, stage, cum, alignTo) {
+/* 전년을 **올해와 같은 일차까지** 자르는 건 「진행일까지만」 필터 하나가 한다(8번 규칙, `F._lim`).
+   ⚠️ 2026-08-13 ④ 에 추이 카드 전용 정렬(`alignTo`)을 따로 넣었다가 ⑤ 에서 **되돌렸다**(사용자 지정) —
+   체크박스와 무관하게 항상 잘리면 필터가 추이엔 안 먹는 것처럼 보이고, 같은 화면의 상단 KPI(전체 기간)와
+   추이(동일차)가 다른 기준으로 갈린다. 기준을 바꾸는 스위치는 **화면에 하나**여야 한다. */
+function trendSeries(role, tab, stage, cum) {
   const ev = DATA.events[role]; if (!ev) return null;
   let maxN = 0;
   const byN = {};
-  let aligns = null;
-  if (alignTo) {
-    aligns = {}; let top = 0;
-    for (const org of orgsOf(tab)) { const a = progressDays(alignTo, org, stage); aligns[org] = a; top = Math.max(top, a); }
-    if (!top) aligns = null;
-  }
   for (const org of orgsOf(tab)) {
-    const al = aligns ? (aligns[org] || 0) : 0;
     const FA = ev.facts[org]; if (!FA) continue;
     const F = FA[stage]; if (!F || !F.n) continue;
     const win = ev.summary[org] && ev.summary[org].stagewin && ev.summary[org].stagewin[stage];
@@ -918,13 +911,11 @@ function trendSeries(role, tab, stage, cum, alignTo) {
     }
     else if (win && win.len) cap = win.len;
     if (lim) cap = cap ? Math.min(cap, lim) : lim;
-    if (al) cap = cap ? Math.min(cap, al) : al;      // 전년 정렬 한도(올해 이 부서의 경과 일차)
     if (cap) maxN = Math.max(maxN, cap);
     const m = mask(F);
     const seen = state.unit === 'dis' ? new Set() : null;
     for (let i=0;i<F.p.length;i++) {
       if (!m[i] || !F.n[i]) continue;
-      if (al && F.n[i] > al) continue;               // 올해가 아직 안 간 일차는 전년도 안 센다
       if (seen) { const pid = org+':'+F.p[i]; if (seen.has(pid)) continue; seen.add(pid); }
       byN[F.n[i]] = (byN[F.n[i]] || 0) + 1;
       if (F.n[i] > maxN) maxN = F.n[i];
@@ -1006,18 +997,22 @@ function bindSpark() {
        속한 부서의 시작일을 전부 싣고, 갈리는 날은 `07-30~07-31` 로 **범위**를 적는다 —
        한 부서 날짜만 대표로 찍으면 나머지 부서엔 하루 틀린 날짜가 된다.
        전년 날짜는 안 적는다 — 전년은 같은 '일차'로 겹쳐 보는 계열이라 날짜가 아예 다른 해다. */
-    const starts = (el.dataset.starts || '').split(',').filter(Boolean);
+    /* `브랜드|시작일` 목록 → D+N 의 실제 날짜. 두 개 이상이면 **부서를 앞에 붙여** 적는다
+       (`와이즈만 07-30 · 와이키즈 07-31`). 종전엔 `07-30~07-31` 이라 **기간으로 오읽혔다**. */
+    const starts = (el.dataset.starts || '').split(',').filter(Boolean)
+      .map(s => { const j = s.indexOf('|'); return { nm: s.slice(0, j), t: Date.parse(s.slice(j+1) + 'T00:00:00Z') }; })
+      .filter(x => !isNaN(x.t));
     const iso = ms => new Date(ms).toISOString().slice(0, 10);
     const dayLabel = i => {
-      let ds = [...new Set(starts.map(s => Date.parse(s + 'T00:00:00Z'))
-        .filter(t => !isNaN(t)).map(t => iso(t + i * 86400000)))].sort();
+      let ds = starts.map(x => ({ nm: x.nm, d: iso(x.t + i * 86400000) }));
       /* 기준일을 넘는 날짜는 라벨에서 뺀다 — 부서 시작일이 하루 갈리면(키즈 07-31) 마지막
          일차의 키즈 쪽 날짜가 **아직 안 담긴 날**이 된다. 그 날짜를 적으면 "그 날 데이터가
          있다"로 읽힌다. 전부 넘으면(시작 전) 자르지 않고 그대로 — 라벨이 비면 더 헷갈린다. */
-      const inRange = ds.filter(d => !ASOF || d <= ASOF);
+      const inRange = ds.filter(x => !ASOF || x.d <= ASOF);
       if (inRange.length) ds = inRange;
-      const md = d => d.slice(5);
-      return ds.length ? (ds.length === 1 ? md(ds[0]) : `${md(ds[0])}~${md(ds[ds.length-1])}`) : '';
+      if (!ds.length) return '';
+      if (ds.length === 1) return ds[0].nm ? `${ds[0].nm} ${ds[0].d.slice(5)}` : ds[0].d.slice(5);
+      return ds.map(x => `${x.nm} ${x.d.slice(5)}`).join(' · ');
     };
     const yPct = v => (H - PAD - (v / mx) * (H - PAD * 2)) / H * 100;
     const xAt  = i => (PAD + i / (n - 1) * (W - PAD * 2));
@@ -1050,30 +1045,38 @@ function bindSpark() {
 
 /* 유입은 추이에서 제외 — 나머지 3단계만 본다(실적은 KPI 카드·유입경로 표에 그대로 있다). */
 const TREND_STAGES = STAGES.filter(s => s.k !== '유입');
-/* 이 탭·단계의 **올해 시작일들**(부서마다 다를 수 있어 중복 제거·정렬). 툴팁 날짜 환산용. */
+/* 이 탭·단계의 **올해 시작일** 목록 — `브랜드|YYYY-MM-DD` 문자열의 배열(날짜 오름차순).
+   부서마다 시작일이 달라(26년여름 신청 = 직영·FC 07-30 / 키즈 07-31) 툴팁이 날짜를 두 개 적어야 하는데,
+   **어느 쪽이 어느 부서인지** 없으면 기간으로 오읽힌다(2026-08-13 ⑤ 사용자 지적) → 브랜드를 같이 싣는다.
+   같은 날 시작한 부서는 한 덩어리로 묶는다(직영+FC = `와이즈만`). 시작일이 하나뿐이면 라벨 없이 날짜만. */
+const BRAND = { '직영': '와이즈만 직영', 'FC': '와이즈만 FC', '키즈': '와이키즈' };
 function stageStarts(role, tab, stage) {
   const ev = DATA.events[role]; if (!ev) return [];
-  const out = new Set();
+  const byDate = {};
   for (const org of orgsOf(tab)) {
     const w = ev.summary[org] && ev.summary[org].stagewin && ev.summary[org].stagewin[stage];
-    if (w && w.start) out.add(w.start);
+    if (w && w.start) (byDate[w.start] = byDate[w.start] || []).push(org);
   }
-  return [...out].sort();
+  const dates = Object.keys(byDate).sort();
+  if (dates.length < 2) return dates.map(d => '|' + d);      // 라벨 불필요(한 날짜뿐)
+  return dates.map(d => {
+    const os = byDate[d];
+    // 직영·FC 가 같은 날이면 '와이즈만' 한 단어로 (둘의 공통 브랜드). 그 외엔 부서명을 그대로 잇는다.
+    const nm = (os.length === 2 && os.includes('직영') && os.includes('FC'))
+      ? '와이즈만' : os.map(o => BRAND[o] || o).join('·');
+    return nm + '|' + d;
+  });
 }
 function trendBlock(tab, vert) {
   const R = roles();
   const cum = state.cum !== false;
   const charts = TREND_STAGES.map(st => {
     const c = trendSeries(R.primary, tab, st.k, cum) || [];
-    /* ⭐ 전년은 **올해와 같은 일차까지만** 그린다 (2026-08-13 ③ 사용자 지정 — 5번째 인자).
-       올해는 기준일(D-1)까지라 14일치인데 전년은 창 전체 57일치 — 그대로 두면 회색 막대가
-       오른쪽을 다 덮고, YoY 칩이 **14일 vs 57일**을 비교해 −84.2% 같은 거짓 급감을 만든다.
-       자른 뒤 −33.0%(같은 14일)가 된다. 합계·칩·X축 라벨이 전부 이 자른 계열에서 나온다.
-       ⚠️ 이 카드의 '전년 동일차' 는 **상단 KPI 카드의 전년(이벤트 전체 기간)과 다르다** — 의도된 차이.
-          전 화면을 같은 일차로 맞추려면 「진행일까지만」 필터를 쓴다(그건 KPI·표까지 함께 자른다).
-       마지막 slice 는 이중 안전장치 — 부서 구성이 두 해에 다를 때 전년만 더 길어지는 걸 막는다. */
-    let p = R.compare ? (trendSeries(R.compare, tab, st.k, cum, R.primary) || []) : null;
-    if (p && c.length) p = p.slice(0, c.length);
+    /* 전년 범위 = **「진행일까지만」 필터가 정한다**(2026-08-13 ⑤ 사용자 지정).
+       해제(기본) = 전년 창 전체(D+57, 전체 기간 YoY −84.2%) → 상단 KPI 와 같은 기준.
+       체크        = 올해 경과 일차까지(부서별 `F._lim`) → 같은 일차 YoY −30.8%, 역시 KPI 와 같은 기준.
+       ⭐ 어느 쪽이든 **추이와 상단 KPI 의 전년이 항상 같은 기준**이다 — 기준을 바꾸는 스위치는 화면에 하나. */
+    const p = R.compare ? (trendSeries(R.compare, tab, st.k, cum) || []) : null;
     const cT = cum ? (c[c.length-1]||0) : c.reduce((a,b)=>a+b,0);
     const pT = p ? (cum ? (p[p.length-1]||0) : p.reduce((a,b)=>a+b,0)) : null;
     // 아직 시작 전인 단계(경과 일차 0)는 전년 대비 -100% 가 아니라 '시작 전' — 비교할 창 자체가 없다
@@ -1086,7 +1089,7 @@ function trendBlock(tab, vert) {
       </div>
       <div class="flex items-baseline gap-1.5 mb-0.5">
         <span class="text-[15px] font-black tabular-nums">${nf(cT)}</span>
-        ${pT!=null?`<span class="text-[10px] font-bold text-ink-dim" title="전년 같은 일차(D+1~D+${c.length||(p?p.length:0)})까지의 값 — 상단 KPI 카드의 전년(전체 기간)과 다르다">전년 <span class="text-[9px]">동일차</span> ${nf(pT)}</span>`:''}
+        ${pT!=null?`<span class="text-[10px] font-bold text-ink-dim">전년 ${nf(pT)}</span>`:''}
       </div>
       ${sparkline(c, p, st.tone[1], !cum, stageStarts(R.primary, tab, st.k))}
       <div class="flex justify-between text-[9px] font-bold text-ink-dim mt-0.5">
@@ -1094,15 +1097,10 @@ function trendBlock(tab, vert) {
       </div>
     </div>`;
   }).join('');
+  /* 안내문(X축 설명)은 2026-08-13 ⑤ 로 삭제 — 두 줄로 늘어나 카드를 밀어냈다(사용자 지정).
+     설명이 필요하면 툴팁·범례가 대신한다. 스위치는 종전 자리(오른쪽 끝) 유지 → `justify-end`. */
   return card('시작일 기준 추이', 'line-chart',
-    `<div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
-       <p class="text-[10.5px] font-bold text-ink-dim">X축 = <b>각 단계 자기 시작일</b>부터의 일차(D+N) · 부서별 시작일에서 각각 셈
-         ${cum?'':'· 올해 <b>막대</b>=그날 건수'}
-         ${R.compare
-           ? (cum ? `· <span class="text-slate-400">┄┄</span> 전년(${DATA.events[R.compare].key})`
-                  : `· <span style="color:#CBD5E1">▉</span> 회색 = 전년(${DATA.events[R.compare].key})`)
-             + ` <b>같은 일차까지만</b>(전년도 D-1 기준) — 상단 KPI 의 전년은 전체 기간`
-           : '· 전년 데이터 없음'}</p>
+    `<div class="flex flex-wrap items-center justify-end gap-2 mb-2.5">
        <div class="inline-flex bg-slate-100 rounded-[10px] p-0.5" id="cumSw">
          <button class="seg-btn" data-cum="1" aria-pressed="${cum}">누적</button>
          <button class="seg-btn" data-cum="0" aria-pressed="${!cum}">일별</button>

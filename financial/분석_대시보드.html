@@ -131,7 +131,9 @@
   td { padding: 9px 8px; border: 1px solid #30363d; text-align: center; }
   table.portfolio-table th:first-child { width: 13%; }
   table.portfolio-table th:last-child { width: 31%; }
-  table.portfolio-table td:last-child { text-align: left; }
+  table.portfolio-table td:last-child { text-align: left; vertical-align: top; }
+  .condition-list { display: grid; gap: 2px; line-height: 1.45; }
+  .condition-list span { display: block; }
   tr:nth-child(even) { background: #161b2280; }
   tr:hover { background: #1c2333; }
   .price { color: #58a6ff; font-weight: bold; }
@@ -3311,7 +3313,7 @@
     <tbody>
       <tr><td data-label="스윙 분할 계획">1차 체결</td><td data-label="매수가">91,750</td><td data-label="수량">1주</td><td data-label="누적 평단">91,750</td><td data-label="목표가">103,000</td><td data-label="예상 이익">+11,250원</td><td data-label="손익비">0.86</td><td data-label="조건">08-10 10:15 체결, 계획가 +2.63%</td></tr>
       <tr><td data-label="스윙 분할 계획">2차 체결</td><td data-label="매수가">90,000</td><td data-label="수량">1주</td><td data-label="누적 평단">90,875</td><td data-label="목표가">103,000</td><td data-label="예상 이익">+24,250원</td><td data-label="손익비">1.00</td><td data-label="조건">08-12 체결, 시각/주문번호/제비용 UNKNOWN</td></tr>
-      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">84,200</td><td data-label="수량">2주</td><td data-label="누적 평단">87,538</td><td data-label="목표가">103,000</td><td data-label="예상 이익">+61,850원</td><td data-label="손익비">1.75</td><td data-label="조건">MA20 84,190 지지 양봉, 전량 35.02만원</td></tr>
+      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">84,200</td><td data-label="수량">2주</td><td data-label="누적 평단">87,538</td><td data-label="목표가">103,000</td><td data-label="예상 이익">+61,850원</td><td data-label="손익비">1.75</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 종가 84,200원 부근, MA20 84,190원 지지</span><span>3) 거래량: 1,250,000~2,700,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
       <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">78,700</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -35,350원</td><td data-label="손익비">-</td><td data-label="조건">종가 이탈 시 전량 손절, 현재 2주 최대 -24,350원</td></tr>
     </tbody>
   </table>
@@ -3375,8 +3377,8 @@
     <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
     <tbody>
       <tr><td data-label="스윙 분할 계획">1차 체결</td><td data-label="매수가">214,000</td><td data-label="수량">1주</td><td data-label="누적 평단">214,000</td><td data-label="목표가">234,000</td><td data-label="예상 이익">+20,000원</td><td data-label="손익비">1.67</td><td data-label="조건">08-11 체결, MA60/MA112 밀집대</td></tr>
-      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">210,000</td><td data-label="수량">1주</td><td data-label="누적 평단">212,000</td><td data-label="목표가">234,000</td><td data-label="예상 이익">+44,000원</td><td data-label="손익비">2.20</td><td data-label="조건">210,000 지지 양봉, 거래량 91.9만~197.0만주</td></tr>
-      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">207,000</td><td data-label="수량">2주</td><td data-label="누적 평단">209,500</td><td data-label="목표가">234,000</td><td data-label="예상 이익">+98,000원</td><td data-label="손익비">3.27</td><td data-label="조건">MA20 206,490과 206,500 저가 지지 양봉</td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">210,000</td><td data-label="수량">1주</td><td data-label="누적 평단">212,000</td><td data-label="목표가">234,000</td><td data-label="예상 이익">+44,000원</td><td data-label="손익비">2.20</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 종가 210,000원 지지</span><span>3) 거래량: 919,000~1,970,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
+      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">207,000</td><td data-label="수량">2주</td><td data-label="누적 평단">209,500</td><td data-label="목표가">234,000</td><td data-label="예상 이익">+98,000원</td><td data-label="손익비">3.27</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 종가 206,500~207,000원, MA20 지지</span><span>3) 거래량: 919,000~1,970,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
       <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">202,000</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -30,000원</td><td data-label="손익비">-</td><td data-label="조건">종가 이탈 시 전량 손절, 현재 1주 최대 -12,000원</td></tr>
     </tbody>
   </table>
@@ -3438,9 +3440,9 @@
   <table class="portfolio-table">
     <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
     <tbody>
-      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">15,200</td><td data-label="수량">16주</td><td data-label="누적 평단">15,200</td><td data-label="목표가">18,500</td><td data-label="예상 이익">+52,800원</td><td data-label="손익비">1.50</td><td data-label="조건">15,000~15,300 지지 양봉, 거래량 10.93M~23.43M주</td></tr>
-      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">14,950</td><td data-label="수량">16주</td><td data-label="누적 평단">15,075</td><td data-label="목표가">18,200</td><td data-label="예상 이익">+100,000원</td><td data-label="손익비">1.51</td><td data-label="조건">1차 후 1~3일 이내 재지지 양봉</td></tr>
-      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">13,500</td><td data-label="수량">37주</td><td data-label="누적 평단">14,230</td><td data-label="목표가">17,000</td><td data-label="예상 이익">+191,100원</td><td data-label="손익비">2.25</td><td data-label="조건">공구리와 20일선 부근 반등 확인</td></tr>
+      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">15,200</td><td data-label="수량">16주</td><td data-label="누적 평단">15,200</td><td data-label="목표가">18,500</td><td data-label="예상 이익">+52,800원</td><td data-label="손익비">1.50</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 종가 15,000~15,300원 지지</span><span>3) 거래량: 10,930,000~23,430,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">14,950</td><td data-label="수량">16주</td><td data-label="누적 평단">15,075</td><td data-label="목표가">18,200</td><td data-label="예상 이익">+100,000원</td><td data-label="손익비">1.51</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 1차 후 1~3일 이내 종가 14,950원 재지지</span><span>3) 거래량: 10,930,000~23,430,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
+      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">13,500</td><td data-label="수량">37주</td><td data-label="누적 평단">14,230</td><td data-label="목표가">17,000</td><td data-label="예상 이익">+191,100원</td><td data-label="손익비">2.25</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 종가 13,000~13,500원, 공구리·MA20 지지</span><span>3) 거래량: 10,930,000~23,430,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
       <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">13,000</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -84,900원</td><td data-label="손익비">-</td><td data-label="조건">종가 이탈 시 기계적 전량 손절</td></tr>
     </tbody>
   </table>
@@ -3500,9 +3502,9 @@
   <table class="portfolio-table">
     <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
     <tbody>
-      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">44,000</td><td data-label="수량">5주</td><td data-label="누적 평단">44,000</td><td data-label="목표가">51,900</td><td data-label="예상 이익">+39,500원</td><td data-label="손익비">1.88</td><td data-label="조건">43,500~44,500 지지 양봉, 거래량 328K~703K주</td></tr>
-      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">43,200</td><td data-label="수량">5주</td><td data-label="누적 평단">43,600</td><td data-label="목표가">51,900</td><td data-label="예상 이익">+83,000원</td><td data-label="손익비">2.18</td><td data-label="조건">1차 후 1~3일 이내 재지지 양봉</td></tr>
-      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">41,500</td><td data-label="수량">10주</td><td data-label="누적 평단">42,550</td><td data-label="목표가">49,300</td><td data-label="예상 이익">+135,000원</td><td data-label="손익비">2.45</td><td data-label="조건">MA20과 41,500 지지 양봉 확인</td></tr>
+      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">44,000</td><td data-label="수량">5주</td><td data-label="누적 평단">44,000</td><td data-label="목표가">51,900</td><td data-label="예상 이익">+39,500원</td><td data-label="손익비">1.88</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 종가 43,500~44,500원 지지</span><span>3) 거래량: 328,000~703,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">43,200</td><td data-label="수량">5주</td><td data-label="누적 평단">43,600</td><td data-label="목표가">51,900</td><td data-label="예상 이익">+83,000원</td><td data-label="손익비">2.18</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 1차 후 1~3일 이내 종가 43,200원 재지지</span><span>3) 거래량: 328,000~703,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
+      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">41,500</td><td data-label="수량">10주</td><td data-label="누적 평단">42,550</td><td data-label="목표가">49,300</td><td data-label="예상 이익">+135,000원</td><td data-label="손익비">2.45</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 종가 40,790~41,500원, MA20 지지</span><span>3) 거래량: 328,000~703,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
       <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">39,800</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -55,000원</td><td data-label="손익비">-</td><td data-label="조건">종가 이탈 시 기계적 전량 손절</td></tr>
     </tbody>
   </table>
@@ -3563,9 +3565,9 @@
       <table class="portfolio-table">
     <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
     <tbody>
-      <tr><td data-label="스윙 분할 계획">1차a 대기</td><td data-label="매수가">33,700</td><td data-label="수량">8주</td><td data-label="누적 평단">33,700</td><td data-label="목표가">39,700</td><td data-label="예상 이익">+48,000원</td><td data-label="손익비">3.64</td><td data-label="조건">MA224 32,704 위 반등 양봉, 거래량 0.7~1.5배</td></tr>
-      <tr><td data-label="스윙 분할 계획">1차b 대기</td><td data-label="매수가">33,100</td><td data-label="수량">7주</td><td data-label="누적 평단">33,420</td><td data-label="목표가">39,700</td><td data-label="예상 이익">+94,200원</td><td data-label="손익비">4.58</td><td data-label="조건">1차a 대비 -1.78%, MA224 재지지</td></tr>
-      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">32,900</td><td data-label="수량">15주</td><td data-label="누적 평단">33,160</td><td data-label="목표가">39,700</td><td data-label="예상 이익">+196,200원</td><td data-label="손익비">5.89</td><td data-label="조건">MA224 재테스트 후 돌파선 위 반등 확인</td></tr>
+      <tr><td data-label="스윙 분할 계획">1차a 대기</td><td data-label="매수가">33,700</td><td data-label="수량">8주</td><td data-label="누적 평단">33,700</td><td data-label="목표가">39,700</td><td data-label="예상 이익">+48,000원</td><td data-label="손익비">3.64</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 종가 32,704~33,700원, MA224 위 지지</span><span>3) 거래량: 250,000~540,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
+      <tr><td data-label="스윙 분할 계획">1차b 대기</td><td data-label="매수가">33,100</td><td data-label="수량">7주</td><td data-label="누적 평단">33,420</td><td data-label="목표가">39,700</td><td data-label="예상 이익">+94,200원</td><td data-label="손익비">4.58</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 종가 33,100원, MA224 재지지</span><span>3) 거래량: 250,000~540,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">32,900</td><td data-label="수량">15주</td><td data-label="누적 평단">33,160</td><td data-label="목표가">39,700</td><td data-label="예상 이익">+196,200원</td><td data-label="손익비">5.89</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 종가 32,900원, MA224 재테스트 후 돌파선 위 반등</span><span>3) 거래량: 250,000~540,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
       <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">32,050</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -33,300원</td><td data-label="손익비">-</td><td data-label="조건">종가 이탈 시 기계적 전량 손절</td></tr>
     </tbody>
   </table>
@@ -3694,9 +3696,9 @@
       <table class="portfolio-table">
     <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
     <tbody>
-      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">58,500</td><td data-label="수량">4주</td><td data-label="누적 평단">58,500</td><td data-label="목표가">70,000</td><td data-label="예상 이익">+46,000원</td><td data-label="손익비">2.56</td><td data-label="조건">58,400 종가 돌파, 몸통양봉, 거래량 917,824주 이상</td></tr>
-      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">59,500</td><td data-label="수량">4주</td><td data-label="누적 평단">59,000</td><td data-label="목표가">70,000</td><td data-label="예상 이익">+88,000원</td><td data-label="손익비">2.20</td><td data-label="조건">58,400 돌파선 종가 지지 후 재상승</td></tr>
-      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">65,800</td><td data-label="수량">8주</td><td data-label="누적 평단">62,400</td><td data-label="목표가">75,500</td><td data-label="예상 이익">+209,600원</td><td data-label="손익비">1.56</td><td data-label="조건">MA224 65,790 종가 돌파, 몸통양봉, 거래량 2배</td></tr>
+      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">58,500</td><td data-label="수량">4주</td><td data-label="누적 평단">58,500</td><td data-label="목표가">70,000</td><td data-label="예상 이익">+46,000원</td><td data-label="손익비">2.56</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가, 몸통양봉</span><span>2) 가격: 종가 58,400원 이상 돌파</span><span>3) 거래량: 917,824주 이상</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">59,500</td><td data-label="수량">4주</td><td data-label="누적 평단">59,000</td><td data-label="목표가">70,000</td><td data-label="예상 이익">+88,000원</td><td data-label="손익비">2.20</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 58,400원 돌파선 종가 지지 후 재상승</span><span>3) 거래량: 428,000~918,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
+      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">65,800</td><td data-label="수량">8주</td><td data-label="누적 평단">62,400</td><td data-label="목표가">75,500</td><td data-label="예상 이익">+209,600원</td><td data-label="손익비">1.56</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가, 몸통양봉</span><span>2) 가격: MA224 65,790원 종가 돌파</span><span>3) 거래량: 1,224,000주 이상</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
       <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">54,000</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -134,400원</td><td data-label="손익비">-</td><td data-label="조건">종가 이탈 시 전량 손절, 3차 체결 후 58,400으로 상향</td></tr>
     </tbody>
   </table>
@@ -3757,9 +3759,9 @@
       <table class="portfolio-table">
     <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
     <tbody>
-      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">92,000</td><td data-label="수량">2주</td><td data-label="누적 평단">92,000</td><td data-label="목표가">100,500</td><td data-label="예상 이익">+17,000원</td><td data-label="손익비">1.13</td><td data-label="조건">91,800~93,000 지지, 반전 양봉, 거래량 0.7~1.5배</td></tr>
-      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">90,500</td><td data-label="수량">2주</td><td data-label="누적 평단">91,250</td><td data-label="목표가">100,500</td><td data-label="예상 이익">+37,000원</td><td data-label="손익비">1.37</td><td data-label="조건">1차 대비 -1.63%, 지지 재확인</td></tr>
-      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">87,500</td><td data-label="수량">4주</td><td data-label="누적 평단">89,375</td><td data-label="목표가">100,500</td><td data-label="예상 이익">+89,000원</td><td data-label="손익비">2.28</td><td data-label="조건">MA224 87,429과 08-10 저가권 재지지</td></tr>
+      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">92,000</td><td data-label="수량">2주</td><td data-label="누적 평단">92,000</td><td data-label="목표가">100,500</td><td data-label="예상 이익">+17,000원</td><td data-label="손익비">1.13</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가, 반전 양봉</span><span>2) 가격: 종가 91,800~93,000원 지지</span><span>3) 거래량: 120,000~260,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">90,500</td><td data-label="수량">2주</td><td data-label="누적 평단">91,250</td><td data-label="목표가">100,500</td><td data-label="예상 이익">+37,000원</td><td data-label="손익비">1.37</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 종가 90,500원 지지 재확인</span><span>3) 거래량: 120,000~260,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
+      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">87,500</td><td data-label="수량">4주</td><td data-label="누적 평단">89,375</td><td data-label="목표가">100,500</td><td data-label="예상 이익">+89,000원</td><td data-label="손익비">2.28</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 종가 87,429~87,500원, MA224·08-10 저가권 지지</span><span>3) 거래량: 120,000~260,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
       <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">84,500</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -39,000원</td><td data-label="손익비">-</td><td data-label="조건">종가 이탈 시 기계적 전량 손절</td></tr>
     </tbody>
   </table>
@@ -3821,9 +3823,9 @@
       <table class="portfolio-table">
     <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
     <tbody>
-      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">61,500</td><td data-label="수량">4주</td><td data-label="누적 평단">61,500</td><td data-label="목표가">68,800</td><td data-label="예상 이익">+29,200원</td><td data-label="손익비">1.28</td><td data-label="조건">MA20 61,278 위 눌림 양봉, 거래량 2.6만~5.6만주</td></tr>
-      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">60,400</td><td data-label="수량">4주</td><td data-label="누적 평단">60,950</td><td data-label="목표가">68,800</td><td data-label="예상 이익">+62,800원</td><td data-label="손익비">1.52</td><td data-label="조건">1차 대비 -1.79%, 지지 재확인</td></tr>
-      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">58,000</td><td data-label="수량">8주</td><td data-label="누적 평단">59,475</td><td data-label="목표가">68,800</td><td data-label="예상 이익">+149,200원</td><td data-label="손익비">2.54</td><td data-label="조건">58,000 지지 양봉 확인 후 전량 16주 투입</td></tr>
+      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">61,500</td><td data-label="수량">4주</td><td data-label="누적 평단">61,500</td><td data-label="목표가">68,800</td><td data-label="예상 이익">+29,200원</td><td data-label="손익비">1.28</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 종가 61,278~61,500원, MA20 위 지지</span><span>3) 거래량: 26,000~56,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">60,400</td><td data-label="수량">4주</td><td data-label="누적 평단">60,950</td><td data-label="목표가">68,800</td><td data-label="예상 이익">+62,800원</td><td data-label="손익비">1.52</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 종가 60,400원 지지 재확인</span><span>3) 거래량: 26,000~56,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
+      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">58,000</td><td data-label="수량">8주</td><td data-label="누적 평단">59,475</td><td data-label="목표가">68,800</td><td data-label="예상 이익">+149,200원</td><td data-label="손익비">2.54</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 종가 58,000원 지지</span><span>3) 거래량: 26,000~56,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
       <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">55,800</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -58,800원</td><td data-label="손익비">-</td><td data-label="조건">08-03 저가 아래 종가 이탈 시 전량 손절</td></tr>
     </tbody>
   </table>
@@ -3961,9 +3963,9 @@
       <table class="portfolio-table">
     <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
     <tbody>
-      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">169,000</td><td data-label="수량">1주</td><td data-label="누적 평단">169,000</td><td data-label="목표가">196,500</td><td data-label="예상 이익">+27,500원</td><td data-label="손익비">1.62</td><td data-label="조건">MA224 168,958 재지지, 양봉, 거래량 0.7~1.5배</td></tr>
-      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">166,000</td><td data-label="수량">1주</td><td data-label="누적 평단">167,500</td><td data-label="목표가">196,500</td><td data-label="예상 이익">+58,000원</td><td data-label="손익비">1.87</td><td data-label="조건">08-05 종가와 08-07 고가 지지대 확인</td></tr>
-      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">158,000</td><td data-label="수량">2주</td><td data-label="누적 평단">162,750</td><td data-label="목표가">196,500</td><td data-label="예상 이익">+135,000원</td><td data-label="손익비">3.14</td><td data-label="조건">MA20 160,155와 157,300 지지 양봉</td></tr>
+      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">169,000</td><td data-label="수량">1주</td><td data-label="누적 평단">169,000</td><td data-label="목표가">196,500</td><td data-label="예상 이익">+27,500원</td><td data-label="손익비">1.62</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 종가 168,958~169,000원, MA224 재지지</span><span>3) 거래량: 330,000~700,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">166,000</td><td data-label="수량">1주</td><td data-label="누적 평단">167,500</td><td data-label="목표가">196,500</td><td data-label="예상 이익">+58,000원</td><td data-label="손익비">1.87</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 종가 166,000원, 08-05 종가·08-07 고가 지지대 확인</span><span>3) 거래량: 330,000~700,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
+      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">158,000</td><td data-label="수량">2주</td><td data-label="누적 평단">162,750</td><td data-label="목표가">196,500</td><td data-label="예상 이익">+135,000원</td><td data-label="손익비">3.14</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 종가 157,300~160,155원, MA20 지지</span><span>3) 거래량: 330,000~700,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
       <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">152,000</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -43,000원</td><td data-label="손익비">-</td><td data-label="조건">종가 이탈 시 기계적 전량 손절</td></tr>
     </tbody>
   </table>
@@ -4091,9 +4093,9 @@
       <table class="portfolio-table">
     <thead><tr><th>스윙 분할 계획</th><th>매수가</th><th>수량</th><th>누적 평단</th><th>목표가</th><th>예상 이익</th><th>손익비</th><th>조건</th></tr></thead>
     <tbody>
-      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">27,000</td><td data-label="수량">9주</td><td data-label="누적 평단">27,000</td><td data-label="목표가">30,500</td><td data-label="예상 이익">+31,500원</td><td data-label="손익비">1.59</td><td data-label="조건">27,000 지지 양봉, 거래량 20평 0.7~1.5배</td></tr>
-      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">26,250</td><td data-label="수량">9주</td><td data-label="누적 평단">26,625</td><td data-label="목표가">30,500</td><td data-label="예상 이익">+69,750원</td><td data-label="손익비">2.12</td><td data-label="조건">MA224 26,235 지지 확인</td></tr>
-      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">25,700</td><td data-label="수량">18주</td><td data-label="누적 평단">26,163</td><td data-label="목표가">30,500</td><td data-label="예상 이익">+156,150원</td><td data-label="손익비">3.18</td><td data-label="조건">쌍바닥 25,700 재지지 양봉, 29,000 1차 저항 참고</td></tr>
+      <tr><td data-label="스윙 분할 계획">1차 대기</td><td data-label="매수가">27,000</td><td data-label="수량">9주</td><td data-label="누적 평단">27,000</td><td data-label="목표가">30,500</td><td data-label="예상 이익">+31,500원</td><td data-label="손익비">1.59</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 종가 27,000원 지지</span><span>3) 거래량: 225,000~483,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
+      <tr><td data-label="스윙 분할 계획">2차 대기</td><td data-label="매수가">26,250</td><td data-label="수량">9주</td><td data-label="누적 평단">26,625</td><td data-label="목표가">30,500</td><td data-label="예상 이익">+69,750원</td><td data-label="손익비">2.12</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 종가 26,235~26,250원, MA224 지지</span><span>3) 거래량: 225,000~483,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
+      <tr><td data-label="스윙 분할 계획">3차 대기</td><td data-label="매수가">25,700</td><td data-label="수량">18주</td><td data-label="누적 평단">26,163</td><td data-label="목표가">30,500</td><td data-label="예상 이익">+156,150원</td><td data-label="손익비">3.18</td><td data-label="조건"><div class="condition-list"><span>1) 양봉: 종가 &gt; 시가</span><span>2) 가격: 종가 25,700원, 쌍바닥 재지지</span><span>3) 거래량: 225,000~483,000주</span><span>4) 수급: 외국인·프로그램 2거래일 연속 동반 순매도 아님, UNKNOWN이면 보류</span></div></td></tr>
       <tr><td data-label="스윙 분할 계획">손절</td><td data-label="매수가">24,800</td><td data-label="수량">전량</td><td data-label="누적 평단">-</td><td data-label="목표가">-</td><td data-label="예상 이익">최대 -49,050원</td><td data-label="손익비">-</td><td data-label="조건">쌍바닥 하단 종가 이탈 시 전량 손절</td></tr>
     </tbody>
   </table>
@@ -7565,6 +7567,7 @@
 </div>
 
 <div class="footer" id="dashboard-bottom-history" style="display:none;">
+  <strong>2026-08-13 추가 갱신: 활성 10종 매수 조건 열 4요건 표준화</strong> [사용자 지시 · 미체결·추가매수 대기 27개 행에 양봉·가격·거래량·수급 조건 4줄 표시 · 수급 UNKNOWN이면 보류 · 체결 완료·손절 행 제외 · 라인업·매수가·수량·평단·손절·목표·손익비·실현손익 불변]<br>
   <strong>2026-08-13 추가 갱신: 씨에스윈드(112610) 스윙 활성·미체결 재편입</strong> [사용자 "후보풀편입" · 후보 분류 폐지에 따라 활성 미체결로 반영 · 활성 9종 → 10종 · 미체결 7종 → 8종 · 1차 44,000원 5주 / 2차 43,200원 5주 / 3차 41,500원 10주 · 전량 20주 평단 42,550원 · 투입 851,000원 · 손절 39,800원 · 목표 49,300/51,900원 · 현재 46,400원 추격 금지 · 체결 2종·누적 실현 -76,514원·종결 24건·16승 8패 불변]<br>
   <strong>2026-08-13 추가 갱신: 한컴위드(054920) 라인업 삭제</strong> [사용자 지시 · 미체결·평단없음 · 활성 10종 → 9종 · 미체결 8종 → 7종 · 체결 2종·누적 실현 -76,514원·종결 24건·16승 8패 불변 · 기존 카드는 hidden 보존 · 재편입은 신규 분석 절차]<br>
   <strong>2026-08-13 갱신: PS일렉트로닉스·셀트리온·금호타이어 라인업 삭제</strong> [사용자 지시 · 3종 모두 미체결·평단없음 · 활성 13종 → 10종 · 미체결 11종 → 8종 · 체결 2종·누적 실현 -76,514원·종결 24건·16승 8패 불변 · 기존 카드는 hidden 보존 · 재편입은 신규 분석 절차]<br>

@@ -1556,6 +1556,10 @@ function aggregateRegions(codes, data){
      카드 숫자는 1개인데 말풍선 내역은 0개가 되어 서로 어긋난다. */
   m.comp_brands = {};
   const p = {total:0, households:0, trend12:null, age_year:{}};
+  /* 행정구역 개편 구간은 12개월 증감을 내지 않는다 (build_metrics.trend_breaks).
+     선택 지역 중 **하나라도** 개편이면 합계도 못 쓴다 — 1년 전에 없던 코드가 섞이면
+     "인구 49% 증가"(검단구·영종구) 같은 숫자가 나온다. */
+  let trendBreak=null;
   let priceWeight=0, pricePySum=0, priceSum=0, aptWeight=0;
   let newSum=0, rentalSum=0, builtSum=0;
   for(const code of codes){
@@ -1580,9 +1584,12 @@ function aggregateRegions(codes, data){
         builtSum += Number(oneM.built_age||0)*aw;
       }
     }
+    if(oneM && oneM.trend_break) trendBreak = trendBreak || oneM.trend_break;
     if(oneP){
       p.total += Number(oneP.total||0);
       p.households += Number(oneP.households||0);
+      /* 데이터에 플래그가 없던 시절 산출물로도 안전하게 — 0 이 섞인 시계열은 그 자체가 신호다 */
+      if((oneP.trend12||[]).some(x => x===0)) trendBreak = trendBreak || "코드 신설";
       p.trend12 = sumSeries(p.trend12, oneP.trend12);
       Object.entries(oneP.age_year||{}).forEach(([age,v])=>{
         p.age_year[age]=(p.age_year[age]||0)+Number(v||0);
@@ -1604,8 +1611,10 @@ function aggregateRegions(codes, data){
   m.built_age = aptWeight ? builtSum/aptWeight : null;
   m.apt_ratio = m.households ? m.apt_households/m.households : null;
   const t=p.trend12||[];
-  p.trend_pct=t.length>1&&t[0]?Math.round((t[t.length-1]-t[0])/t[0]*1000)/10:null;
+  p.trend_pct=(!trendBreak && t.length>1 && t[0])
+    ? Math.round((t[t.length-1]-t[0])/t[0]*1000)/10 : null;
   m.trend_pct=p.trend_pct;
+  m.trend_break=trendBreak;
   return {m,p};
 }
 
@@ -1635,7 +1644,9 @@ function renderRegionSummary(name, codes, data, selected=false){
         <div class="kpis">
           <div class="kpi" data-tip='주민등록 인구 중 <b>상단 필터에서 고른 나이</b>만 더한 값.<br>나이는 <b>한국나이(세는나이)</b> — 8세 = 초1.<br>원천 = 행안부 주민등록(2026-06, 만 나이) 을 한국나이로 환산 · 독립 원천 교차검증 통과'><div class="v">${fmt(m.school_age)}<span class="u">명</span></div><div class="l">${ageRangeLabel()} 학령인구</div></div>
           <div class="kpi" data-tip='주민등록상 <b>가구 수</b>.<br><span class="warn">아파트 세대수와 다르다</span> — 아파트 거주 비율은 이 둘을 나눈 값이라 섞으면 반드시 틀린다'><div class="v">${fmt(p.households)}<span class="u">세대</span></div><div class="l">주민등록 세대수 (가구 수)</div></div>
-          <div class="kpi" data-tip='최근 12개월 <b>총인구</b> 증감률. 학령인구가 아니라 전체 인구 기준'><div class="v">${p.trend_pct==null?"–":(p.trend_pct>=0?"+":"")+fmt(p.trend_pct,1)}<span class="u">%</span></div><div class="l">최근 12개월 인구 증감</div></div>
+          <div class="kpi" data-tip='${m.trend_break
+            ? `<b>${m.trend_break}</b> — 행정구역이 개편돼 <b>12개월 전과 비교할 수 없다.</b><br>1년 전에 없던 코드가 섞이면 개편 점프가 「인구 증가」로 읽힌다(검단구 +49%·영종구 +48%가 그랬다).<br>그래서 값을 지우고 <b>–</b> 로 둔다 — 결측이 아니다.`
+            : '최근 12개월 <b>총인구</b> 증감률. 학령인구가 아니라 전체 인구 기준'}'><div class="v">${p.trend_pct==null?"–":(p.trend_pct>=0?"+":"")+fmt(p.trend_pct,1)}<span class="u">%</span></div><div class="l">최근 12개월 인구 증감${m.trend_break?' <span class="d">개편</span>':''}</div></div>
           <div class="kpi" data-tip='학원 하나가 상대하는 학령인구.<br>학원 = <b>입시·검정 및 보습만</b>(예체능·어학원·독서실 제외)<br>학원이 0개인 동은 나눌 수 없어 <b>–</b> 로 둔다'><div class="v">${m.pupils_per_academy==null?"–":fmt(m.pupils_per_academy,1)}<span class="u">명</span></div><div class="l">${ageRangeLabel()} 인구 ÷ 입시·보습 학원 수</div></div>
         </div></div></div>
       <div class="blk dashboard-blk education"><div class="section-rail">교육<br>경쟁</div><div class="section-body">
@@ -1746,9 +1757,11 @@ async function viewAdm(adm){
               <div class="l">유아 (0~5세) · 미래 수요</div></div>
             <div class="kpi"><div class="v">${p?fmt(p.total):"–"}<span class="u">명</span></div>
               <div class="l">총인구</div></div>
-            <div class="kpi"><div class="v ${p&&p.trend_pct>=0?'':''}">${p?(p.trend_pct>=0?"+":"")+fmt(p.trend_pct,1):"–"}<span class="u">%</span></div>
+            <div class="kpi"><div class="v">${(!p||p.trend_pct==null||(m&&m.trend_break))?"–":(p.trend_pct>=0?"+":"")+fmt(p.trend_pct,1)}<span class="u">%</span></div>
               <div class="l">최근 12개월 인구 증감
-                <span class="d ${p&&p.trend_pct>=0?'up':'dn'}">${p?(p.trend_pct>=0?"증가":"감소"):""}</span></div></div>
+                ${/* 개편 구간은 증감 자체가 성립하지 않는다 — "감소"로 읽히면 안 된다 */""}
+                <span class="d ${p&&!(m&&m.trend_break)&&p.trend_pct!=null&&p.trend_pct>=0?'up':'dn'}">${
+                  (m&&m.trend_break)?"개편": (p&&p.trend_pct!=null?(p.trend_pct>=0?"증가":"감소"):"")}</span></div></div>
           </div>
         </div>
 

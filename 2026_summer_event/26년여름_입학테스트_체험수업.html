@@ -2395,7 +2395,7 @@ function renderHeader() {
   // 데이터 기준일(D-1)과 빌드 시각은 다른 날이다 — 기준일을 앞에 두고 생성 시각은 괄호로 붙인다.
   // 종전엔 빌드 시각만 '기준'으로 찍어, 당일 데이터가 든 것처럼 읽혔다(2026-08-13).
   document.getElementById('hGen').textContent =
-    (DATA.asof ? `${DATA.asof} 기준 (${DATA.generated} 생성)` : DATA.generated + ' 기준');
+    (DATA.asof ? `데이터: ${DATA.asof} 기준 (${DATA.generated} 생성)` : `데이터: ${DATA.generated} 기준`);
 
   // 기간·진행일차는 **사업부별로 나열**한다 — 부서마다 유입 시작일·창 길이가 달라
   // (26년여름 직영·FC 43일 / 키즈 40일) 대표 한 곳만 쓰면 나머지 부서엔 틀린 날짜가 된다.

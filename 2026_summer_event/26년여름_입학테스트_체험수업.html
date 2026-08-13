@@ -929,20 +929,41 @@ function trendSeries(role, tab, stage, cum) {
 
 const SP = { W:300, H:64, PAD:3 };
 const PREV_GRAY = '#CBD5E1';
+/* ── 「일부 부서가 아직 도달 못 한 일차」 ─────────────────────────────────────
+   종합 탭의 D+N = **각 부서의 자기 N일차 합**이다. 부서마다 시작일이 다르면(26년여름 신청 =
+   와이즈만 07-30 / 와이키즈 07-31) **마지막 일차엔 늦게 시작한 부서가 아직 없다.**
+   실측 2026-08-13: D+14 = 직영 39 + FC 143 + **와이키즈 0(미도달)** = 182. 앞 이틀이 155·190 이라
+   **"어제 급감"으로 오읽힌다** — 실제로는 와이키즈 38~39건이 내일 채워질 자리다.
+   ⚠️ 캘린더 날짜로 정렬해 해결할 수는 없다 — 전년(25년여름)은 부서 시작일이 직영 07-12 ·
+      FC 07-21 · 와이키즈 08-01 로 **20일** 벌어져 있어, 날짜로 겹치면 전년 초반이 직영 단독
+      구간이 된다. 그래서 **값은 그대로 두고 「아직 안 찬 날」임을 표시**한다(2026-08-13 ⑦ 사용자 지정).
+   판정 = 그 부서의 그 일차 날짜가 **데이터 기준일(ASOF)을 넘는가**. 이 한 줄이
+   '미도달'과 '창 종료'를 자동으로 가른다 — 창이 끝난 부서(전년 키즈 37일)는 날짜가 과거라 안 걸린다. */
+function dayOf(startISO, i) {   // 시작일 + i일 → 'YYYY-MM-DD'
+  return new Date(Date.parse(startISO + 'T00:00:00Z') + i * 86400000).toISOString().slice(0, 10);
+}
+function missingAt(starts, i) {  // i(0-based 일차)에 아직 도달 못 한 부서들
+  return (starts || []).filter(s => ASOF && dayOf(s.d, i) > ASOF);
+}
 /* 계열의 모양 — 누적=꺾은선(전년 점선), **일별=막대**(2026-08-13 사용자 지정).
    일별은 하루하루가 독립된 값이라 점을 이으면 없는 연속성이 생긴다(특히 0인 날이 골짜기로 보인다).
    ⭐ 일별에선 **전년도 회색 막대**로 같이 세운다(2026-08-13 ②) — 같은 일차를 나란히 놓아야
    "그날 얼마나 못 미치나"가 한눈에 읽힌다. 막대 vs 점선은 눈이 두 모양을 다른 축으로 읽는다.
    누적은 종전대로 선(올해 실선·전년 점선) — 누적 막대는 서로 가려 비교가 더 어렵다.
    x 좌표는 모든 모양이 **같은 식**(xAt)을 쓴다. 어긋나면 hover 십자선이 막대를 빗나간다.
-   `starts` = 올해 각 부서의 단계 시작일(정렬) — 툴팁이 D+N 을 실제 날짜로 환산하는 데 쓴다. */
+   `starts` = 올해 각 부서의 단계 시작일 `{nm, d}` — 툴팁 날짜 환산 + 미도달 일차 판정에 쓴다.
+   **미도달 일차의 올해 계열은 흐리게**(막대 opacity·누적선 꼬리) 그린다 — 값은 살리고 착시만 막는다. */
 function sparkline(cur, prev, color, bars, starts) {
   const { W, H, PAD } = SP;
   const all = [...cur, ...(prev||[])];
   const mx = Math.max(...all, 1);
   const n = Math.max(cur.length, prev?prev.length:0, 2);
   const xAt = (i) => PAD + i/(n-1)*(W-PAD*2);
-  const pt = (arr) => arr.map((v,i) => `${xAt(i)},${H-PAD - (v/mx)*(H-PAD*2)}`).join(' ');
+  const pt = (arr, off) => arr.map((v,i) => `${xAt(i+(off||0))},${H-PAD - (v/mx)*(H-PAD*2)}`).join(' ');
+  // 미도달이 시작되는 인덱스(0-based). 없으면 -1.
+  let dim = -1;
+  for (let i=0;i<cur.length;i++) if (missingAt(starts, i).length) { dim = i; break; }
+  const DIMOP = 0.42;
   /* 막대 폭 — 한 벌이면 밴드의 62%, 두 벌(전년+올해)이면 각 32%에 사이 틈.
      preserveAspectRatio="none" 이라 rx(둥근 모서리)는 가로로 늘어나 찌그러지므로 쓰지 않는다.
      양끝 막대는 도형이 잘리지 않게 안쪽으로 물린다. */
@@ -952,17 +973,30 @@ function sparkline(cur, prev, color, bars, starts) {
                   : Math.max(1.2, Math.min(bandW*0.62, 16));
   const gap = twin ? Math.min(bw*0.2, 0.8) : 0;
   //  전년(회색) 왼쪽 · 올해(컬러) 오른쪽 — 왼→오른쪽이 과거→현재로 읽힌다.
-  const rects = (arr, fill, side) => arr.map((v,i) => {
+  const rects = (arr, fill, side, fade) => arr.map((v,i) => {
     const h = Math.max((v/mx)*(H-PAD*2), 0);
     if (!h) return '';                                   // 0인 날 = 막대 없음(0을 그리지 않는다)
     const x0 = twin ? (side < 0 ? xAt(i)-gap/2-bw : xAt(i)+gap/2) : xAt(i)-bw/2;
     const x = Math.min(Math.max(x0, 0), W-bw);
+    const op = (fade && dim >= 0 && i >= dim) ? ` opacity="${DIMOP}"` : '';
     return `<rect x="${x.toFixed(2)}" y="${(H-PAD-h).toFixed(2)}" width="${bw.toFixed(2)}"
-        height="${h.toFixed(2)}" fill="${fill}"/>`;
+        height="${h.toFixed(2)}" fill="${fill}"${op}/>`;
   }).join('');
+  /* 누적선은 한 줄이라 구간만 흐리게 못 한다 → **꼬리를 별도 polyline** 으로 겹쳐 그린다.
+     꼬리는 마지막 온전한 점(dim-1)에서 시작해야 선이 끊겨 보이지 않는다. */
+  const curLine = () => {
+    if (dim < 0) return `<polyline points="${pt(cur)}" fill="none" stroke="${color}" stroke-width="2"
+        vector-effect="non-scaling-stroke" stroke-linejoin="round"/>`;
+    const headEnd = Math.max(dim, 1);                    // dim=0 이면 머리 없음
+    const head = dim > 0 ? `<polyline points="${pt(cur.slice(0, headEnd))}" fill="none" stroke="${color}"
+        stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>` : '';
+    const from = Math.max(dim-1, 0);
+    return head + `<polyline points="${pt(cur.slice(from), from)}" fill="none" stroke="${color}"
+        stroke-width="2" opacity="${DIMOP}" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>`;
+  };
   // 데이터는 DOM에 실어둔다 — render()가 innerHTML을 갈아끼우므로 클로저로 들고 있으면 날아간다.
   return `<div class="spark relative" data-cur="${cur.join(',')}" data-prev="${(prev||[]).join(',')}"
-       data-mx="${mx}" data-color="${color}" data-starts="${(starts||[]).join(',')}">
+       data-mx="${mx}" data-color="${color}" data-starts="${(starts||[]).map(x=>x.nm+'|'+x.d).join(',')}">
     <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" class="w-full h-16">
       <line class="sp-cross" y1="0" y2="${H}" stroke="#94A3B8" stroke-width="1"
         vector-effect="non-scaling-stroke" style="display:none"/>
@@ -970,10 +1004,10 @@ function sparkline(cur, prev, color, bars, starts) {
         ? rects(prev, PREV_GRAY, -1)
         : `<polyline points="${pt(prev)}" fill="none" stroke="${PREV_GRAY}" stroke-width="1.6"
           stroke-dasharray="4 3" vector-effect="non-scaling-stroke"/>`)}
-      ${bars ? rects(cur, color, 1) : `<polyline points="${pt(cur)}" fill="none" stroke="${color}" stroke-width="2"
-        vector-effect="non-scaling-stroke" stroke-linejoin="round"/>`}
+      ${bars ? rects(cur, color, 1, true) : curLine()}
     </svg>
     ${(!bars && cur.length === 1) ? `<span class="sp-mark" style="background:${color};left:${PAD/W*100}%;
+       opacity:${dim === 0 ? DIMOP : 1};
        top:${(H-PAD-(cur[0]/mx)*(H-PAD*2))/H*100}%"></span>` : ''}
     <span class="sp-dot sp-dc" style="background:${color}"></span>
     <span class="sp-dot sp-dp" style="background:#94A3B8"></span>
@@ -1000,19 +1034,19 @@ function bindSpark() {
     /* `브랜드|시작일` 목록 → D+N 의 실제 날짜. 두 개 이상이면 **부서를 앞에 붙여** 적는다
        (`와이즈만 07-30 · 와이키즈 07-31`). 종전엔 `07-30~07-31` 이라 **기간으로 오읽혔다**. */
     const starts = (el.dataset.starts || '').split(',').filter(Boolean)
-      .map(s => { const j = s.indexOf('|'); return { nm: s.slice(0, j), t: Date.parse(s.slice(j+1) + 'T00:00:00Z') }; })
-      .filter(x => !isNaN(x.t));
-    const iso = ms => new Date(ms).toISOString().slice(0, 10);
+      .map(s => { const j = s.indexOf('|'); return { nm: s.slice(0, j), d: s.slice(j+1) }; })
+      .filter(x => /^\d{4}-\d{2}-\d{2}$/.test(x.d));
     const dayLabel = i => {
-      let ds = starts.map(x => ({ nm: x.nm, d: iso(x.t + i * 86400000) }));
-      /* 기준일을 넘는 날짜는 라벨에서 뺀다 — 부서 시작일이 하루 갈리면(키즈 07-31) 마지막
-         일차의 키즈 쪽 날짜가 **아직 안 담긴 날**이 된다. 그 날짜를 적으면 "그 날 데이터가
-         있다"로 읽힌다. 전부 넘으면(시작 전) 자르지 않고 그대로 — 라벨이 비면 더 헷갈린다. */
-      const inRange = ds.filter(x => !ASOF || x.d <= ASOF);
-      if (inRange.length) ds = inRange;
-      if (!ds.length) return '';
-      if (ds.length === 1) return ds[0].nm ? `${ds[0].nm} ${ds[0].d.slice(5)}` : ds[0].d.slice(5);
-      return ds.map(x => `${x.nm} ${x.d.slice(5)}`).join(' · ');
+      /* 기준일을 넘는 부서는 날짜 대신 **`미도달`** 로 적는다 (2026-08-13 ⑦). 종전엔 조용히
+         빼서, 그 일차 값이 왜 낮은지(그 부서가 통째로 빠졌다는 사실이) 툴팁에서 사라졌다. */
+      const reached = starts.filter(x => !ASOF || dayOf(x.d, i) <= ASOF);
+      const missing = missingAt(starts, i);
+      if (!reached.length) {          // 전부 미도달(시작 전) — 종전대로 날짜만
+        return starts.map(x => (x.nm ? x.nm + ' ' : '') + dayOf(x.d, i).slice(5)).join(' · ');
+      }
+      const a = reached.map(x => (x.nm ? x.nm + ' ' : '') + dayOf(x.d, i).slice(5));
+      const b = missing.map(x => `${x.nm || '일부'} 미도달`);
+      return [...a, ...b].join(' · ');
     };
     const yPct = v => (H - PAD - (v / mx) * (H - PAD * 2)) / H * 100;
     const xAt  = i => (PAD + i / (n - 1) * (W - PAD * 2));
@@ -1058,13 +1092,13 @@ function stageStarts(role, tab, stage) {
     if (w && w.start) (byDate[w.start] = byDate[w.start] || []).push(org);
   }
   const dates = Object.keys(byDate).sort();
-  if (dates.length < 2) return dates.map(d => '|' + d);      // 라벨 불필요(한 날짜뿐)
+  if (dates.length < 2) return dates.map(d => ({ nm: '', d }));   // 라벨 불필요(한 날짜뿐)
   return dates.map(d => {
     const os = byDate[d];
     // 직영·FC 가 같은 날이면 '와이즈만' 한 단어로 (둘의 공통 브랜드). 그 외엔 부서명을 그대로 잇는다.
     const nm = (os.length === 2 && os.includes('직영') && os.includes('FC'))
       ? '와이즈만' : os.map(o => BRAND[o] || o).join('·');
-    return nm + '|' + d;
+    return { nm, d };
   });
 }
 function trendBlock(tab, vert) {

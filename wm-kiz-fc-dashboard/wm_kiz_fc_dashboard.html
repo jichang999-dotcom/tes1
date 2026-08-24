@@ -303,8 +303,11 @@ function clamp(id1,id2,moved){
   if($(id1).value <= $(id2).value) return;
   if(moved===id1) $(id2).value = $(id1).value; else $(id1).value = $(id2).value;
 }
-// 증감율 = (A-B)/B x 100 — 일반식(유저 지시 2026-08-24). 기획안 비율(A/B)은 폐기했다.
-function rateOf(a,b){ return b===0 ? (a?Infinity:null) : (a-b)/b*100; }
+// 증감수 = B-A / 증감율 = (B-A)/A x 100.
+function rateOf(a,b){
+  a = Number(a) || 0; b = Number(b) || 0;
+  return a===0 ? (b?Infinity:null) : (b-a)/a*100;
+}
 function rateHtml(a,b){
   const r = rateOf(a,b);
   if(r===null) return '<span class="flat">-</span>';
@@ -385,7 +388,7 @@ function buildCmp(){
     const a=ai.map(k=>v[k]||0), b=bi.map(k=>v[k]||0);
     const sa=a.reduce((x,y)=>x+y,0), sb=b.reduce((x,y)=>x+y,0);
     if(!sa && !sb) return;
-    rows.push({c:c, a:a, b:b, sa:sa, sb:sb, d:sa-sb});
+    rows.push({c:c, a:a, b:b, sa:sa, sb:sb, d:sb-sa});
   });
   applySort(rows);
   const TA=rows.reduce((s,r)=>s+r.sa,0), TB=rows.reduce((s,r)=>s+r.sb,0);
@@ -395,8 +398,8 @@ function buildCmp(){
   $('kpis').innerHTML = [
     ['비교기간 A ('+A[0]+'~'+A[A.length-1]+')', fmt0(TA), unitOf(METRIC)],
     ['기준기간 B ('+B[0]+'~'+B[B.length-1]+')', fmt0(TB), unitOf(METRIC)],
-    ['증감수 (A−B)', (TA-TB>0?'+':'')+fmt0(TA-TB), unitOf(METRIC)],
-    ['증감율', TB===0?(TA?'신규':'-'):((TA>TB?'+':'')+rateOf(TA,TB).toFixed(1)+'%'), ''],
+    ['증감수 (B−A)', (TB-TA>0?'+':'')+fmt0(TB-TA), unitOf(METRIC)],
+    ['증감율 ((B−A)÷A)', TA===0?(TB?'신규':'-'):((TB>TA?'+':'')+rateOf(TA,TB).toFixed(1)+'%'), ''],
     ['대상 센터', fmt0(rows.length), '개'],
   ].map(k=>'<div class="kpi"><div class="k">'+k[0]+'</div><div class="v">'+k[1]
       +(k[2]?'<small>'+k[2]+'</small>':'')+'</div></div>').join('');
@@ -411,14 +414,14 @@ function buildCmp(){
   h += th('sa','A','grp') + th('sb','B') + th('d','증감수','grp') + th('r','증감율')
      + '</tr></thead><tbody>';
 
-  const cellA = v => '<td class="grp'+(v?'':' dim')+'">'+(v===null?'':fmt(v))+'</td>';
-  const cellB = v => '<td class="b'+(v?'':' dim')+'">'+(v===null?'':fmt(v))+'</td>';
-  const pick = (arr,i) => i < arr.length ? arr[i] : null;
+  const cellA = v => '<td class="grp'+(v?'':' dim')+'">'+fmt0(Number(v)||0)+'</td>';
+  const cellB = v => '<td class="b'+(v?'':' dim')+'">'+fmt0(Number(v)||0)+'</td>';
+  const pick = (arr,i) => i < arr.length ? (Number(arr[i])||0) : 0;
 
   h += '<tr class="total"><td class="t sticky">합계 (Total)</td><td class="t sticky2">'+rows.length+'개 센터</td>';
   for(let i=0;i<N;i++) h += cellA(pick(ta,i)) + cellB(pick(tb,i));
   h += '<td class="grp">'+fmt(TA)+'</td><td class="b">'+fmt(TB)+'</td>'
-     + '<td class="grp">'+((TA-TB>0?'+':'')+fmt(TA-TB))+'</td><td>'+rateHtml(TA,TB)+'</td></tr>';
+     + '<td class="grp">'+((TB-TA>0?'+':'')+fmt(TB-TA))+'</td><td>'+rateHtml(TA,TB)+'</td></tr>';
 
   for(const r of rows){
     h += '<tr><td class="t sticky">'+r.c.hy+'</td><td class="t sticky2">'+r.c.nm+'</td>';
@@ -579,14 +582,17 @@ function exportXlsx(){
     const TA=rows.reduce((s,r)=>s+r.sa,0), TB=rows.reduce((s,r)=>s+r.sb,0), RT=rateOf(TA,TB);
     const tot=['합계 (Total)', rows.length+'개 센터', ''];
     for(let i=0;i<N;i++){
-      tot.push(i<A.length ? rows.reduce((s,r)=>s+r.a[i],0) : '');
-      tot.push(i<B.length ? rows.reduce((s,r)=>s+r.b[i],0) : '');
+      tot.push(i<A.length ? rows.reduce((s,r)=>s+(Number(r.a[i])||0),0) : 0);
+      tot.push(i<B.length ? rows.reduce((s,r)=>s+(Number(r.b[i])||0),0) : 0);
     }
-    tot.push(TA, TB, TA-TB, RT===null?'':(RT===Infinity?'신규':+RT.toFixed(1)));
+    tot.push(TA, TB, TB-TA, RT===null?'':(RT===Infinity?'신규':+RT.toFixed(1)));
     aoa.push(tot);
     rows.forEach(r=>{
       const l=[r.c.hy, r.c.nm, r.c.cd];
-      for(let i=0;i<N;i++){ l.push(i<r.a.length?r.a[i]:''); l.push(i<r.b.length?r.b[i]:''); }
+      for(let i=0;i<N;i++){
+        l.push(i<r.a.length?(Number(r.a[i])||0):0);
+        l.push(i<r.b.length?(Number(r.b[i])||0):0);
+      }
       const rt=rateOf(r.sa,r.sb);
       l.push(r.sa, r.sb, r.d, rt===null?'':(rt===Infinity?'신규':+rt.toFixed(1)));
       aoa.push(l);

@@ -332,18 +332,16 @@ function clamp(id1,id2,moved){
 // 증감수 = B-A / 증감율 = (B-A)/A x 100.
 function rateOf(a,b){
   a = Number(a) || 0; b = Number(b) || 0;
-  return a===0 ? (b?Infinity:null) : (b-a)/a*100;
+  return a===0 ? 0 : (b-a)/a*100;
 }
 function rateHtml(a,b){
   const r = rateOf(a,b);
-  if(r===null) return '<span class="flat">-</span>';
-  if(r===Infinity) return '<span class="up">▲ 신규</span>';
-  if(r===0) return '<span class="flat">- (보합)</span>';
+  if(r===0) return '<span class="flat">0.0%</span>';
   return '<span class="'+(r>0?'up':'down')+'">'+(r>0?'▲ +':'▼ ')+r.toFixed(1)+'%</span>';
 }
 function rateTxt(a,b){
   const r = rateOf(a,b);
-  return r===null ? '' : (r===Infinity ? '신규' : r.toFixed(1));
+  return r.toFixed(1);
 }
 const mIdxOf = m => m==='cn' ? 6 : 7;
 const unitOf = m => m==='cn' ? '권' : '원';
@@ -425,7 +423,7 @@ function buildCmp(){
     ['비교기간 A ('+A[0]+'~'+A[A.length-1]+')', fmt0(TA), unitOf(METRIC)],
     ['기준기간 B ('+B[0]+'~'+B[B.length-1]+')', fmt0(TB), unitOf(METRIC)],
     ['증감수 (B−A)', (TB-TA>0?'+':'')+fmt0(TB-TA), unitOf(METRIC)],
-    ['증감율 ((B−A)÷A)', TA===0?(TB?'신규':'-'):((TB>TA?'+':'')+rateOf(TA,TB).toFixed(1)+'%'), ''],
+    ['증감율 ((B−A)÷A)', (rateOf(TA,TB)>0?'+':'')+rateOf(TA,TB).toFixed(1)+'%', ''],
     ['대상 센터', fmt0(rows.length), '개'],
   ].map(k=>'<div class="kpi"><div class="k">'+k[0]+'</div><div class="v">'+k[1]
       +(k[2]?'<small>'+k[2]+'</small>':'')+'</div></div>').join('');
@@ -612,7 +610,7 @@ function exportXlsx(){
       tot.push(i<A.length ? rows.reduce((s,r)=>s+(Number(r.a[i])||0),0) : 0);
       tot.push(i<B.length ? rows.reduce((s,r)=>s+(Number(r.b[i])||0),0) : 0);
     }
-    tot.push(TA, TB, TB-TA, RT===null?'':(RT===Infinity?'신규':+RT.toFixed(1)));
+    tot.push(TA, TB, TB-TA, +RT.toFixed(1));
     aoa.push(tot);
     rows.forEach(r=>{
       const l=[r.c.hy, r.c.nm, r.c.cd];
@@ -621,7 +619,7 @@ function exportXlsx(){
         l.push(i<r.b.length?(Number(r.b[i])||0):0);
       }
       const rt=rateOf(r.sa,r.sb);
-      l.push(r.sa, r.sb, r.d, rt===null?'':(rt===Infinity?'신규':+rt.toFixed(1)));
+      l.push(r.sa, r.sb, r.d, +rt.toFixed(1));
       aoa.push(l);
     });
   } else {

@@ -453,7 +453,7 @@ function buildTrend(){
   const unit = unitOf(METRIC);
 
   $('kpis').innerHTML = [
-    ['조회기간 (비교기간 A)', A[0]+' ~ '+A[A.length-1], ''],
+    ['조회기간', A[0]+' ~ '+A[A.length-1], ''],
     [METRIC==='cn' ? '출고 수' : '출고 금액', fmt0(T), unit],
     ['개월 수', A.length, '개월'],
     ['월평균', fmt0(Math.round(T/A.length)), unit],
@@ -487,6 +487,7 @@ let LAST = null;
 function render(){
   const cmp = PAGE==='cmp';
   $('fB').classList.toggle('hide', !cmp);      // 월별 추이는 비교기간 A 단일 추이다
+  $('fA').querySelector('label').textContent = cmp ? '비교기간 (A)' : '조회기간';
   document.body.classList.toggle('rev', METRIC==='am');
   $('metric').classList.toggle('rev', METRIC==='am');
   // 기간 비교에만 있는 정렬 키가 월별 추이에 남아 있으면 되돌린다.

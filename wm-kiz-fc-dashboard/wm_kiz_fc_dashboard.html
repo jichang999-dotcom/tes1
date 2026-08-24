@@ -54,10 +54,13 @@
            max-height:300px;overflow:auto;background:#fff;border:1px solid var(--line);border-radius:6px;
            box-shadow:0 6px 20px rgba(0,0,0,.12);padding:6px}
   .ms.open .msPanel{display:block}
+  .msSearch{position:sticky;top:-6px;z-index:1;background:#fff;padding:6px 0}
+  .msSearch input{width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:5px;font:inherit}
   .msPanel .all{display:flex;gap:6px;padding:4px 6px 8px;border-bottom:1px solid var(--line);margin-bottom:4px}
   .msPanel .all button{padding:3px 8px;font-size:11px}
   .msPanel label{display:flex;align-items:center;gap:7px;padding:4px 6px;border-radius:4px;cursor:pointer;
                  white-space:nowrap;font-size:12px}
+  .msPanel label[hidden]{display:none}
   .msPanel label:hover{background:var(--chip)}
   .msPanel input{margin:0}
 
@@ -180,10 +183,18 @@ const YMOPT = YMS.map(y=>[y, y.slice(0,4)+'년 '+(+y.slice(4,6))+'월']);
 function MultiSel(host){
   const st = {sel:new Set(), opts:[], onchange:null};
   host.innerHTML = '<button type="button"></button><div class="msPanel">'
+    + '<div class="msSearch hide"><input type="search" placeholder="항목 검색" aria-label="항목 검색"></div>'
     + '<div class="all"><button type="button" data-a="1">전체 선택</button>'
     + '<button type="button" data-a="0">전체 해제</button></div><div class="list"></div></div>';
   const btn = host.querySelector('button'), panel = host.querySelector('.msPanel'),
-        list = host.querySelector('.list');
+        list = host.querySelector('.list'), searchWrap = host.querySelector('.msSearch'),
+        search = searchWrap.querySelector('input');
+  function searchList(){
+    const q=search.value.trim().toLocaleLowerCase('ko-KR');
+    list.querySelectorAll('label').forEach(x=>{
+      x.hidden = !!q && !x.textContent.toLocaleLowerCase('ko-KR').includes(q);
+    });
+  }
   function paint(){
     const n = st.sel.size;
     let txt;
@@ -199,6 +210,9 @@ function MultiSel(host){
     else st.sel.clear();
     list.innerHTML = opts.map(o=>'<label><input type="checkbox" value="'+o[0]+'"'
       + (st.sel.has(o[0])?' checked':'') + '>'+o[1]+'</label>').join('');
+    searchWrap.classList.toggle('hide', opts.length<=20);
+    if(opts.length<=20) search.value='';
+    searchList();
     paint();
     return before !== [...st.sel].sort().join('\u0000');
   };
@@ -219,6 +233,7 @@ function MultiSel(host){
     if(e.target.checked) st.sel.add(e.target.value); else st.sel.delete(e.target.value);
     paint(); if(st.onchange) st.onchange();
   };
+  search.oninput = searchList;
   panel.onclick = e => {
     e.stopPropagation();
     const a = e.target.dataset ? e.target.dataset.a : null;
@@ -278,6 +293,17 @@ const prevSameMonth = prevY+last.slice(4,6);
 const defA1 = prevList.length ? prevList[0] : YMS[0];
 const defA2 = prevList.includes(prevSameMonth) ? prevSameMonth
             : (prevList.length ? prevList[prevList.length-1] : YMS[0]);
+const PERIOD = {
+  cmp:{a1:defA1,a2:defA2,b1:defB1,b2:defB2},
+  trend:{a1:defB1,a2:defB2,b1:defB1,b2:defB2},
+};
+function savePeriod(page){
+  PERIOD[page]={a1:$('a1').value,a2:$('a2').value,b1:$('b1').value,b2:$('b2').value};
+}
+function loadPeriod(page){
+  const p=PERIOD[page];
+  $('a1').value=p.a1; $('a2').value=p.a2; $('b1').value=p.b1; $('b2').value=p.b2;
+}
 
 function initCtl(){
   fill($('a1'), YMOPT, defA1); fill($('a2'), YMOPT, defA2);
@@ -612,14 +638,14 @@ function exportXlsx(){
 
 document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
   document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
-  t.classList.add('on'); PAGE=t.dataset.page; syncFacets(); render();
+  t.classList.add('on'); savePeriod(PAGE); PAGE=t.dataset.page; loadPeriod(PAGE); syncFacets(); render();
 });
 document.querySelectorAll('#metric button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('#metric button').forEach(x=>x.classList.remove('on'));
   b.classList.add('on'); METRIC=b.dataset.m; render();
 });
 [['a1','a2'],['b1','b2']].forEach(pair=>pair.forEach(id=>
-  $(id).onchange=()=>{ clamp(pair[0],pair[1],id); syncFacets(); render(); }));
+  $(id).onchange=()=>{ clamp(pair[0],pair[1],id); savePeriod(PAGE); syncFacets(); render(); }));
 for(const f of FACETS) f.ms.onchange = () => { syncFacets(); render(); };
 $('xls').onclick = exportXlsx;
 render();

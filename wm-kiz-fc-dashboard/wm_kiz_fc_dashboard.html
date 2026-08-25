@@ -472,19 +472,21 @@ function buildCmp(){
   h += th('sa','A','grp') + th('sb','B') + th('d','증감수','grp') + th('r','증감율')
      + '</tr></thead><tbody>';
 
-  const cellA = v => '<td class="grp'+(v?'':' dim')+'">'+fmt0(Number(v)||0)+'</td>';
-  const cellB = v => '<td class="b'+(v?'':' dim')+'">'+fmt0(Number(v)||0)+'</td>';
+  // 강조는 **기준기간 B 쪽**이다(유저 지시 2026-08-25). A(비교기간)는 회색으로 눕힌다 -
+  // 보는 사람이 궁금한 건 A 가 아니라 지금 기간인 B 이기 때문이다.
+  const cellA = v => '<td class="grp b'+(v?'':' dim')+'">'+fmt0(Number(v)||0)+'</td>';
+  const cellB = v => '<td'+(v?'':' class="dim"')+'>'+fmt0(Number(v)||0)+'</td>';
   const pick = (arr,i) => i < arr.length ? (Number(arr[i])||0) : 0;
 
   h += '<tr class="total"><td class="t sticky">합계 (Total)</td><td class="t sticky2">'+rows.length+'개 센터</td>';
   for(let i=0;i<N;i++) h += cellA(pick(ta,i)) + cellB(pick(tb,i));
-  h += '<td class="grp">'+fmt(TA)+'</td><td class="b">'+fmt(TB)+'</td>'
+  h += '<td class="grp b">'+fmt(TA)+'</td><td>'+fmt(TB)+'</td>'
      + '<td class="grp">'+((TB-TA>0?'+':'')+fmt(TB-TA))+'</td><td>'+rateHtml(TA,TB)+'</td></tr>';
 
   for(const r of rows){
     h += '<tr><td class="t sticky">'+r.c.hy+'</td><td class="t sticky2">'+r.c.nm+'</td>';
     for(let i=0;i<N;i++) h += cellA(pick(r.a,i)) + cellB(pick(r.b,i));
-    h += '<td class="grp"><b>'+fmt(r.sa)+'</b></td><td class="b">'+fmt(r.sb)+'</td>'
+    h += '<td class="grp b">'+fmt(r.sa)+'</td><td><b>'+fmt(r.sb)+'</b></td>'
        + '<td class="grp">'+(r.d===0?'<span class="flat">-</span>':(r.d>0?'+':'')+fmt(r.d))+'</td>'
        + '<td>'+rateHtml(r.sa,r.sb)+'</td></tr>';
   }

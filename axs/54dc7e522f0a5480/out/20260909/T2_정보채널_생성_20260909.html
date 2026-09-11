@@ -1,0 +1,29 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>생성 인스타툰 12장</title><style>
+html,body{height:100%;margin:0;background:#E9EAE4;font:14px/1.6 "Pretendard","Malgun Gothic",sans-serif}
+#stage{position:fixed;inset:0 0 62px;display:flex;align-items:center;justify-content:center}
+#deck{position:relative;width:min(92vmin,900px);aspect-ratio:1/1;background:#F7F0DF;
+  box-shadow:0 24px 70px rgba(20,30,35,.28)}
+.slide{position:absolute;inset:0;display:none}.slide.on{display:block}
+.slide img{width:100%;height:100%;object-fit:contain;display:block}
+#bar{position:fixed;left:0;right:0;bottom:0;height:62px;display:flex;align-items:center;
+  justify-content:center;gap:14px;background:#fff;border-top:1px solid #d8d8d2}
+button{font:inherit;border:1px solid #cfcfc8;background:#fff;border-radius:8px;
+  padding:7px 15px;cursor:pointer}
+#no{font-variant-numeric:tabular-nums;color:#666}
+</style></head><body>
+<div id="stage"><div id="deck"><div class="slide on"><img src="T2_정보채널_생성_20260909.jpg" alt="1"></div><div class="slide"><img src="T2_정보채널_생성_20260909_02.jpg" alt="2"></div><div class="slide"><img src="T2_정보채널_생성_20260909_03.jpg" alt="3"></div><div class="slide"><img src="T2_정보채널_생성_20260909_04.jpg" alt="4"></div><div class="slide"><img src="T2_정보채널_생성_20260909_05.jpg" alt="5"></div><div class="slide"><img src="T2_정보채널_생성_20260909_06.jpg" alt="6"></div><div class="slide"><img src="T2_정보채널_생성_20260909_07.jpg" alt="7"></div><div class="slide"><img src="T2_정보채널_생성_20260909_08.jpg" alt="8"></div><div class="slide"><img src="T2_정보채널_생성_20260909_09.jpg" alt="9"></div><div class="slide"><img src="T2_정보채널_생성_20260909_10.jpg" alt="10"></div><div class="slide"><img src="T2_정보채널_생성_20260909_11.jpg" alt="11"></div><div class="slide"><img src="T2_정보채널_생성_20260909_12.jpg" alt="12"></div></div></div>
+<div id="bar"><button id="p">← 이전</button><span id="no"></span><button id="n">다음 →</button></div>
+<script>
+var i=0,S=document.querySelectorAll('.slide');
+function go(k){i=(k+S.length)%S.length;S.forEach(function(s,j){s.classList.toggle('on',j===i);});
+  document.getElementById('no').textContent=(i+1)+' / '+S.length;}
+document.getElementById('n').onclick=function(){go(i+1)};
+document.getElementById('p').onclick=function(){go(i-1)};
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight')go(i+1); if(e.key==='ArrowLeft')go(i-1);});
+document.getElementById('deck').onclick=function(){go(i+1)};
+go(0);
+</script></body></html>
